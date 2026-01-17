@@ -35,7 +35,7 @@ const BlogHub: React.FC<Props> = ({ onNavigate }) => {
   const posts = [
     {
       title: "How to Choose the Right Fabric Swatch Format for Your Export Business",
-      excerpt: "Exporters often struggle with sample presentation. Compare traditional swatch books vs waterfall cards and see which captures more repeat orders for 2025.",
+      excerpt: "Exporters often struggle with sample presentation. Compare traditional swatch books vs waterfall cards and see which captures more repeat orders.",
       tag: "Strategy",
       date: "Jan 22, 2025",
       author: "SwatchCraft Editorial",
@@ -75,15 +75,15 @@ const BlogHub: React.FC<Props> = ({ onNavigate }) => {
     <div className="bg-white min-h-screen pb-24">
       <section className="bg-gray-50 pt-32 pb-16 px-4 border-b border-gray-100">
         <div className="max-w-7xl mx-auto text-center">
-          <span className="text-gold font-black uppercase tracking-[0.3em] text-[10px] mb-4 inline-block bg-white px-4 py-2 rounded-full shadow-sm">B2B Knowledge Base</span>
+          <span className="text-gold font-black uppercase tracking-[0.3em] text-[10px] mb-4 inline-block bg-white px-4 py-2 rounded-full shadow-sm">Industry Intelligence Hub</span>
           <h1 className="text-4xl md:text-6xl font-black text-navy mb-8 tracking-tighter">Fabric Presentation Guides</h1>
           <p className="text-gray-500 max-w-2xl mx-auto text-lg leading-relaxed mb-12 font-medium">
-            Expert strategies for textile exporters, interior designers, and wholesale brands to optimize their sampling operations and capture global accounts.
+            Expert strategies for textile exporters, interior designers, and wholesale buyers to optimize their sampling operations and capture global accounts.
           </p>
 
           <div className="max-w-4xl mx-auto bg-navy text-white rounded-3xl p-6 overflow-hidden relative border border-white/10 shadow-2xl">
              <div className="flex items-center space-x-6">
-                <span className="bg-gold text-navy text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shrink-0 animate-pulse">Live 2025 Industry Trends</span>
+                <span className="bg-gold text-navy text-[10px] font-black px-3 py-1.5 rounded-lg uppercase shrink-0 animate-pulse">Live 2025 Trends</span>
                 <div className="flex-grow text-sm font-bold text-gray-300 italic text-left overflow-hidden">
                    <div className="whitespace-nowrap inline-block">
                       {loadingTrends ? "Retrieving latest fabric industry news..." : trends.join("  |  ")}
