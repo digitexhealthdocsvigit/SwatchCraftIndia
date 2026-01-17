@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -17,6 +16,9 @@ import ProductsOverview from './components/ProductsOverview';
 import ManufacturingProcessPage from './components/ManufacturingProcessPage';
 import ProductUpholstery from './components/ProductUpholstery';
 import ProductCurtain from './components/ProductCurtain';
+import ProductHanger from './components/ProductHanger';
+import ProductRingSwatch from './components/ProductRingSwatch';
+import ProductSampleCards from './components/ProductSampleCards';
 import ExportMarketsPage from './components/ExportMarketsPage';
 
 export type ViewState = 
@@ -27,6 +29,9 @@ export type ViewState =
   | 'contact-page' 
   | 'product-upholstery' 
   | 'product-curtain'
+  | 'product-hanger'
+  | 'product-ring'
+  | 'product-cards'
   | 'export-markets-page';
 
 const App: React.FC = () => {
@@ -49,6 +54,12 @@ const App: React.FC = () => {
         return <ProductUpholstery onNavigate={navigateTo} />;
       case 'product-curtain':
         return <ProductCurtain onNavigate={navigateTo} />;
+      case 'product-hanger':
+        return <ProductHanger onNavigate={navigateTo} />;
+      case 'product-ring':
+        return <ProductRingSwatch onNavigate={navigateTo} />;
+      case 'product-cards':
+        return <ProductSampleCards onNavigate={navigateTo} />;
       case 'export-markets-page':
         return <ExportMarketsPage onNavigate={navigateTo} />;
       case 'contact-page':
@@ -61,7 +72,7 @@ const App: React.FC = () => {
       default:
         return (
           <>
-            <Hero />
+            <Hero onNavigate={navigateTo} />
             <TrustBar />
             <div id="process">
                 <ValueProps />
@@ -92,12 +103,12 @@ const App: React.FC = () => {
                   Get a detailed quote customized for your swatch book requirements and target market.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-6">
-                  <a 
-                    href="mailto:info@swatchcraftindia.com?subject=RFQ for Fabric Swatch Books" 
+                  <button 
+                    onClick={() => navigateTo('contact-page')}
                     className="bg-white text-[#0d7377] font-bold py-4 px-12 rounded-xl transition-all shadow-lg flex items-center justify-center hover:bg-gray-100"
                   >
                     <span className="mr-2">📧</span> Email Your RFQ
-                  </a>
+                  </button>
                   <a 
                     href="https://wa.me/910000000000" 
                     className="bg-[#25D366] hover:bg-opacity-90 text-white font-bold py-4 px-12 rounded-xl transition-all shadow-lg flex items-center justify-center"

@@ -1,6 +1,11 @@
 import React from 'react';
+import { ViewState } from '../App';
 
-const Hero: React.FC = () => {
+interface Props {
+  onNavigate: (view: ViewState) => void;
+}
+
+const Hero: React.FC<Props> = ({ onNavigate }) => {
   return (
     <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white">
       <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-[1.5fr_1fr] gap-12 items-center">
@@ -12,10 +17,16 @@ const Hero: React.FC = () => {
             Indian manufacturer of export-ready fabric sample albums with premium presentation, reliable delivery timelines, and white-label branding options.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <button className="bg-[#0d7377] hover:bg-opacity-90 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition-all transform hover:-translate-y-1">
+            <button 
+              onClick={() => onNavigate('contact-page')}
+              className="bg-[#0d7377] hover:bg-opacity-90 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition-all transform hover:-translate-y-1"
+            >
               Request Export Quote
             </button>
-            <button className="border-2 border-[#1e3a5f] text-[#1e3a5f] hover:bg-[#1e3a5f] hover:text-white font-bold py-4 px-8 rounded-lg transition-all">
+            <button 
+              onClick={() => onNavigate('products-overview')}
+              className="border-2 border-[#1e3a5f] text-[#1e3a5f] hover:bg-[#1e3a5f] hover:text-white font-bold py-4 px-8 rounded-lg transition-all"
+            >
               View Our Products
             </button>
           </div>

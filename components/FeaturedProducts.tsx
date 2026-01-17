@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ViewState } from '../App';
 
@@ -36,7 +35,7 @@ const products = [
     moq: "100 Hangers",
     leadTime: "18-25 days",
     placeholder: "Fabric Hangers",
-    target: 'products-overview'
+    target: 'product-hanger'
   },
   {
     id: 'ring',
@@ -46,7 +45,7 @@ const products = [
     moq: "75 Sets",
     leadTime: "15-20 days",
     placeholder: "Ring Swatch Sets",
-    target: 'products-overview'
+    target: 'product-ring'
   },
   {
     id: 'cards',
@@ -56,7 +55,7 @@ const products = [
     moq: "200 Cards",
     leadTime: "12-18 days",
     placeholder: "Sample Cards",
-    target: 'products-overview'
+    target: 'product-cards'
   },
   {
     id: 'custom',
