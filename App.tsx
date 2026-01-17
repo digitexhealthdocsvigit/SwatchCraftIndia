@@ -102,9 +102,9 @@ const SEO_CONFIG: Record<ViewState, { title: string; description: string; h1: st
     h1: "Sample Cards & Fabric Storyboards - Collection Marketing Materials"
   },
   'product-waterfall': {
-    title: "Waterfall Swatch Cards | Waterfall Sample Format | SwatchCraft",
-    description: "Premium waterfall swatch cards for fabric exporters. Show 40% more samples in the same footprint. MOQ 200 cards. High conversion format.",
-    h1: "Waterfall Swatch Cards - High Impact Presentation"
+    title: "Waterfall Swatch Cards | High Conversion Format | SwatchCraft",
+    description: "Premium waterfall swatch cards showing 40% more fabric in less space. The preferred format for international fabric exporters. Fast 15-day delivery.",
+    h1: "Waterfall Swatch Cards - The Modern Standard"
   },
   'export-markets-page': {
     title: "Export Fabric Swatch Books | India to EU/USA/UAE | SwatchCraft",
@@ -112,29 +112,29 @@ const SEO_CONFIG: Record<ViewState, { title: string; description: string; h1: st
     h1: "Exporting Quality Fabric Presentations Since 2005"
   },
   'blog-hub': {
-    title: "Blog & Resources | Fabric Swatch Guides | SwatchCraft",
-    description: "Expert guides on fabric swatch books, upholstery sampling, and international textile presentation standards. Tips for furniture brands and designers.",
-    h1: "Fabric Presentation Guides & Resources"
+    title: "B2B Blog & Resources | Fabric Swatch Strategy | SwatchCraft",
+    description: "Expert guides on fabric swatch books, export documentation, and global textile pricing for furniture brands and textile exporters.",
+    h1: "Fabric Presentation Intelligence Hub"
   },
   'blog-post-1': {
-    title: "Choosing Fabric Swatch Formats for Export | SwatchCraft India",
-    description: "Learn how to choose between swatch books and waterfall cards for your export business. Compare costs, production times, and portability.",
+    title: "Choosing Fabric Swatch Formats for Export | SwatchCraft Guide",
+    description: "Learn how to choose between swatch books and waterfall cards for international shipping. Includes cost-benefit analysis and case studies.",
     h1: "How to Choose the Right Fabric Swatch Format for Your Export Business"
   },
   'blog-post-2': {
     title: "MOQ Pricing Guide: India vs China vs USA (2025) | SwatchCraft",
-    description: "A comprehensive guide to fabric sample MOQ pricing in 2025. See how Indian manufacturing offers China-level costs with USA-level quality.",
-    h1: "MOQ Pricing Breakdown: How India Compete with China & USA in 2025"
+    description: "Complete breakdown of fabric sample MOQ pricing. Compare manufacturing costs between India, China, and the USA for 2025 collections.",
+    h1: "MOQ Pricing Breakdown: How India Competes with China & USA in 2025"
   },
   'blog-post-3': {
-    title: "Waterfall Swatch Cards vs Traditional Books | SwatchCraft",
-    description: "Discover why top exporters are switching to waterfall swatch cards. 40% more samples and higher conversion rates for trade shows.",
+    title: "Why Waterfall Swatch Cards Beat Traditional Books | SwatchCraft",
+    description: "Discover why top exporters are switching to waterfall cards. 40% more visibility and higher conversion rates at international trade shows.",
     h1: "Why Waterfall Swatch Cards are Winning Over Traditional Sample Books"
   },
   'blog-post-4': {
     title: "Fabric Swatch Export Checklist: EU & USA | SwatchCraft",
-    description: "The complete checklist for exporting fabric swatches: packaging, documentation, and international shipping standards for 2025.",
-    h1: "Complete Fabric Swatch Export Checklist: Documentation, Packaging & Shipping"
+    description: "The ultimate roadmap for exporting fabric samples. Documentation, packaging standards, and compliance checklist for Europe and USA.",
+    h1: "Complete Fabric Swatch Export Checklist: Documentation & Logistics"
   },
   'portfolio': {
     title: "Portfolio & Gallery | Past Projects | SwatchCraft India",
