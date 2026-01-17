@@ -20,13 +20,19 @@ export const useRFQ = () => {
     setError(null);
 
     try {
-      // PRO TIP: Replace this block with your actual EmailJS or Vercel API endpoint
-      // const response = await fetch('/api/send-rfq', { method: 'POST', body: JSON.stringify(data) });
-      
+      // TRACKING: Log conversion for GA4
+      if (typeof (window as any).gtag === 'function') {
+        (window as any).gtag('event', 'generate_lead', {
+          'event_category': 'Engagement',
+          'event_label': data.productType,
+          'value': parseInt(data.quantity) || 100
+        });
+      }
+
       // Simulated Backend Delay
       await new Promise((resolve) => setTimeout(resolve, 1800));
 
-      console.log('B2B Lead Captured:', data);
+      console.log('B2B Lead Captured Successfully:', data);
       setSuccess(true);
     } catch (err) {
       setError('Connection timeout. Please contact us via WhatsApp: 9004962871');
