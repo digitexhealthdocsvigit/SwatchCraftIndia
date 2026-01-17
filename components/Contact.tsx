@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 const Contact: React.FC = () => {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
 
   const faqs = [
     {
@@ -26,13 +27,40 @@ const Contact: React.FC = () => {
     }
   ];
 
-  const toggleFaq = (index: number) => {
-    setActiveFaq(activeFaq === index ? null : index);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormStatus('submitting');
+    // Simulate API call
+    setTimeout(() => {
+      setFormStatus('success');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 1500);
   };
+
+  if (formStatus === 'success') {
+    return (
+      <div className="pt-32 pb-24 px-4 min-h-screen bg-white">
+        <div className="max-w-3xl mx-auto text-center bg-gray-50 rounded-[3rem] p-12 md:p-20 border border-gray-100 shadow-xl animate-fadeIn">
+          <div className="w-24 h-24 bg-teal/10 text-teal rounded-full flex items-center justify-center mx-auto mb-8">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h2 className="text-3xl md:text-5xl font-black text-navy mb-6">RFQ Received Successfully!</h2>
+          <p className="text-gray-600 text-lg mb-10 leading-relaxed">
+            Thank you for reaching out to SwatchCraft India. Our technical team is reviewing your requirements. You will receive a detailed PDF quote via email and a WhatsApp follow-up within 24 business hours.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <button onClick={() => setFormStatus('idle')} className="bg-navy text-white font-bold py-4 px-10 rounded-xl hover:bg-teal transition-all">Send Another Inquiry</button>
+            <button className="border-2 border-navy text-navy font-bold py-4 px-10 rounded-xl hover:bg-navy hover:text-white transition-all">Download Product Catalog</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white">
-      {/* Hero Section */}
       <section className="bg-gradient-to-b from-gray-50 to-white py-16 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-extrabold text-[#1a2849] mb-4">
@@ -44,16 +72,12 @@ const Contact: React.FC = () => {
         </div>
       </section>
 
-      {/* Main Content */}
       <section className="py-12 px-4 max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-[1.5fr_1fr] gap-12">
-          
-          {/* LEFT COLUMN: RFQ Form */}
           <div className="bg-white rounded-3xl border border-gray-100 shadow-2xl p-8 md:p-10">
             <h2 className="text-2xl font-bold text-[#1a2849] mb-8">Request a Detailed Quote</h2>
             
-            <form className="space-y-10" onSubmit={(e) => e.preventDefault()}>
-              {/* Section 1: Contact Information */}
+            <form className="space-y-10" onSubmit={handleSubmit}>
               <div className="space-y-6">
                 <h3 className="text-xs font-bold text-[#d4a574] uppercase tracking-widest flex items-center">
                    <span className="w-6 h-6 rounded-full bg-[#d4a574]/10 flex items-center justify-center mr-2 text-[10px]">1</span>
@@ -81,28 +105,13 @@ const Contact: React.FC = () => {
                         <option>+39 (IT)</option>
                         <option>+33 (FR)</option>
                         <option>+971 (UAE)</option>
-                        <option>Other</option>
                       </select>
                       <input type="tel" required placeholder="98765 43210" className="w-full bg-gray-50 border border-gray-200 border-l-0 rounded-r-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0d7377]/20 focus:border-[#0d7377] transition-all" />
                     </div>
                   </div>
-                  <div className="md:col-span-2 space-y-1">
-                    <label className="text-sm font-semibold text-gray-700">Country*</label>
-                    <select required className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0d7377]/20 focus:border-[#0d7377] transition-all">
-                      <option value="">Select Country</option>
-                      <option>India</option>
-                      <option>USA</option>
-                      <option>Italy</option>
-                      <option>France</option>
-                      <option>Turkey</option>
-                      <option>UAE</option>
-                      <option>Other</option>
-                    </select>
-                  </div>
                 </div>
               </div>
 
-              {/* Section 2: Product Requirements */}
               <div className="space-y-6">
                 <h3 className="text-xs font-bold text-[#d4a574] uppercase tracking-widest flex items-center">
                    <span className="w-6 h-6 rounded-full bg-[#d4a574]/10 flex items-center justify-center mr-2 text-[10px]">2</span>
@@ -111,102 +120,44 @@ const Contact: React.FC = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-1">
                     <label className="text-sm font-semibold text-gray-700">Product Type*</label>
-                    <select multiple className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0d7377]/20 focus:border-[#0d7377] transition-all min-h-[160px]">
+                    <select required className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0d7377]/20 focus:border-[#0d7377] transition-all">
+                      <option value="">Select Product</option>
                       <option>Upholstery Swatch Books</option>
                       <option>Curtain Fabric Albums</option>
                       <option>Fabric Hanger Swatches</option>
                       <option>Ring Swatch Sets</option>
                       <option>Sample Cards & Storyboards</option>
-                      <option>Custom Solution</option>
-                    </select>
-                    <p className="text-[10px] text-gray-400 mt-1">Hold Ctrl (Windows) or Cmd (Mac) to select multiple</p>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="space-y-1">
-                      <label className="text-sm font-semibold text-gray-700">Estimated Quantity*</label>
-                      <select required className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0d7377]/20 focus:border-[#0d7377] transition-all">
-                        <option value="">Select Quantity Range</option>
-                        <option>1-10 pieces (Sample order)</option>
-                        <option>10-50 pieces</option>
-                        <option>50-100 pieces (Standard MOQ)</option>
-                        <option>100-500 pieces</option>
-                        <option>500-1000 pieces (Bulk Export)</option>
-                        <option>1000+ pieces (Volume wholesale)</option>
-                      </select>
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-sm font-semibold text-gray-700">Number of Fabric Swatches per Book</label>
-                      <input type="number" placeholder="e.g. 40" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0d7377]/20 focus:border-[#0d7377] transition-all" />
-                    </div>
-                  </div>
-                  <div className="md:col-span-2 space-y-3">
-                    <label className="text-sm font-semibold text-gray-700 block">Customization Required</label>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                      {[
-                        "Custom logo/branding",
-                        "Specific binding type",
-                        "Special labeling",
-                        "Custom dimensions",
-                        "Other (specify below)"
-                      ].map((item) => (
-                        <label key={item} className="flex items-center space-x-2 cursor-pointer group">
-                          <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-[#0d7377] focus:ring-[#0d7377]" />
-                          <span className="text-xs text-gray-600 group-hover:text-[#1a2849] transition-colors">{item}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Section 3: Timeline & Additional Details */}
-              <div className="space-y-6">
-                <h3 className="text-xs font-bold text-[#d4a574] uppercase tracking-widest flex items-center">
-                   <span className="w-6 h-6 rounded-full bg-[#d4a574]/10 flex items-center justify-center mr-2 text-[10px]">3</span>
-                   Timeline & Additional Details
-                </h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-1">
-                    <label className="text-sm font-semibold text-gray-700">Target Delivery Date</label>
-                    <input type="date" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0d7377]/20 focus:border-[#0d7377] transition-all" />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-sm font-semibold text-gray-700">How did you hear about us?</label>
-                    <select className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0d7377]/20 focus:border-[#0d7377] transition-all">
-                      <option>Google Search</option>
-                      <option>IndiaMART</option>
-                      <option>LinkedIn</option>
-                      <option>Referral</option>
-                      <option>Trade Show</option>
-                      <option>Other</option>
                     </select>
                   </div>
-                  <div className="md:col-span-2 space-y-1">
-                    <label className="text-sm font-semibold text-gray-700">Additional Requirements</label>
-                    <textarea rows={4} placeholder="Describe your specific requirements, fabric types, or other technical specifications..." className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0d7377]/20 focus:border-[#0d7377] transition-all"></textarea>
+                  <div className="space-y-1">
+                    <label className="text-sm font-semibold text-gray-700">Estimated Quantity*</label>
+                    <select required className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0d7377]/20 focus:border-[#0d7377] transition-all">
+                      <option value="">Select Quantity</option>
+                      <option>1-10 pieces (Samples)</option>
+                      <option>50-100 pieces (Standard)</option>
+                      <option>100-500 pieces</option>
+                      <option>500+ (Export Order)</option>
+                    </select>
                   </div>
                 </div>
               </div>
 
               <div className="pt-4 border-t border-gray-50">
-                <p className="text-[11px] text-gray-400 mb-6 italic">
-                  "We respect your privacy. Your information will only be used to provide you with a quote and will never be shared with third parties."
-                </p>
-                <button type="submit" className="w-full bg-[#0d7377] text-white font-extrabold py-5 rounded-2xl shadow-xl hover:bg-[#0d7377]/90 transition-all transform hover:-translate-y-1 text-lg tracking-wide">
-                  Get My Custom Quote
+                <button 
+                  type="submit" 
+                  disabled={formStatus === 'submitting'}
+                  className={`w-full text-white font-extrabold py-5 rounded-2xl shadow-xl transition-all transform hover:-translate-y-1 text-lg tracking-wide ${formStatus === 'submitting' ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#0d7377] hover:bg-[#0d7377]/90'}`}
+                >
+                  {formStatus === 'submitting' ? 'Processing RFQ...' : 'Get My Custom Quote'}
                 </button>
               </div>
             </form>
           </div>
 
-          {/* RIGHT COLUMN: Contact Information */}
           <div className="space-y-8">
-            {/* Reach Us Directly Card */}
             <div className="bg-white rounded-3xl border border-gray-100 shadow-xl p-8">
               <h2 className="text-xl font-bold text-[#1a2849] mb-8">Reach Us Directly</h2>
-              
               <div className="space-y-8">
-                {/* WhatsApp */}
                 <div className="flex items-start">
                   <div className="w-12 h-12 bg-[#25D366]/10 rounded-2xl flex items-center justify-center shrink-0 mr-4">
                     <svg className="w-6 h-6 text-[#25D366]" fill="currentColor" viewBox="0 0 24 24">
@@ -221,8 +172,6 @@ const Contact: React.FC = () => {
                     </a>
                   </div>
                 </div>
-
-                {/* Email */}
                 <div className="flex items-start">
                   <div className="w-12 h-12 bg-[#1a2849]/5 rounded-2xl flex items-center justify-center shrink-0 mr-4">
                     <svg className="w-5 h-5 text-[#1a2849]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -234,101 +183,12 @@ const Contact: React.FC = () => {
                     <p className="text-gray-400 text-[10px] mt-0.5 italic">Export inquiries: export@swatchcraftindia.com</p>
                   </div>
                 </div>
-
-                {/* Phone */}
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-[#d4a574]/10 rounded-2xl flex items-center justify-center shrink-0 mr-4">
-                    <svg className="w-5 h-5 text-[#d4a574]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-[#1a2849] font-bold text-base">+91 22 2345 6789</p>
-                    <p className="text-gray-500 text-[10px] font-medium uppercase tracking-wider">Mon-Sat, 9 AM - 6 PM IST</p>
-                  </div>
-                </div>
               </div>
-            </div>
-
-            {/* Office Address Card */}
-            <div className="bg-white rounded-3xl border border-gray-100 shadow-xl p-8">
-              <h2 className="text-xl font-bold text-[#1a2849] mb-6">Visit Our Facility</h2>
-              <div className="space-y-4 mb-8">
-                <div>
-                  <p className="text-[#1a2849] font-bold text-sm mb-1 uppercase tracking-wider">Factory & Studio</p>
-                  <p className="text-gray-500 text-sm leading-relaxed">
-                    SwatchCraft India<br />
-                    Unit 4A, Textile Hub, Sector 12<br />
-                    Andheri East, Mumbai 400069<br />
-                    Maharashtra, India
-                  </p>
-                </div>
-                {/* Map Placeholder */}
-                <div className="w-full h-40 bg-gray-100 rounded-2xl border border-gray-100 flex items-center justify-center relative overflow-hidden group">
-                  <div className="text-center text-gray-300">
-                    <svg className="w-10 h-10 mx-auto mb-2 opacity-30" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-[10px] font-bold uppercase tracking-widest block">Google Maps Placeholder</span>
-                  </div>
-                </div>
-                <button className="w-full border-2 border-[#1a2849] text-[#1a2849] font-extrabold py-3 rounded-xl hover:bg-[#1a2849] hover:text-white transition-all text-xs uppercase tracking-widest shadow-sm">
-                  Get Directions
-                </button>
-              </div>
-            </div>
-
-            {/* Response Time Card */}
-            <div className="bg-[#1a2849] rounded-3xl shadow-xl p-8 text-white relative overflow-hidden">
-              <div className="flex items-center mb-6 relative z-10">
-                <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center mr-3">
-                    <svg className="w-5 h-5 text-[#d4a574]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <h2 className="text-xl font-bold">Our Response Promise</h2>
-              </div>
-              <ul className="space-y-4 text-sm text-gray-300 relative z-10">
-                <li className="flex items-start">
-                  <span className="text-[#d4a574] font-bold mr-3">•</span>
-                  Email RFQs: Within 24 business hours
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#d4a574] font-bold mr-3">•</span>
-                  WhatsApp messages: Within 2-4 hours
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#d4a574] font-bold mr-3">•</span>
-                  Sample requests: 48-hour dispatch
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#d4a574] font-bold mr-3">•</span>
-                  Export quotes: Full docs within 48h
-                </li>
-              </ul>
-              {/* Abstract decorative shape */}
-              <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-white/5 rounded-full pointer-events-none"></div>
-            </div>
-
-            {/* Trust Badges */}
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { label: "500+", sub: "Collections Made" },
-                { label: "15+", sub: "Countries Served" },
-                { label: "98%", sub: "On-Time Delivery" },
-                { label: "ISO", sub: "9001:2015 Certified" }
-              ].map((badge) => (
-                <div key={badge.sub} className="bg-white border border-gray-100 rounded-2xl p-4 shadow-md text-center group hover:-translate-y-1 transition-transform">
-                  <p className="text-[#d4a574] font-black text-xl leading-none mb-1">{badge.label}</p>
-                  <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest leading-tight">{badge.sub}</p>
-                </div>
-              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
       <section className="py-24 px-4 bg-gray-50 border-t border-gray-100">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-extrabold text-[#1a2849] text-center mb-12">Frequently Asked Questions</h2>
@@ -358,6 +218,10 @@ const Contact: React.FC = () => {
       </section>
     </div>
   );
+
+  function toggleFaq(index: number) {
+    setActiveFaq(activeFaq === index ? null : index);
+  }
 };
 
 export default Contact;

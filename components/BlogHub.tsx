@@ -1,11 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ViewState } from '../App';
+import { GoogleGenAI } from "@google/genai";
 
 interface Props {
   onNavigate: (view: ViewState) => void;
 }
 
 const BlogHub: React.FC<Props> = ({ onNavigate }) => {
+  const [trends, setTrends] = useState<string[]>([]);
+  const [loadingTrends, setLoadingTrends] = useState(true);
+
+  useEffect(() => {
+    async function fetchTrends() {
+      try {
+        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        const response = await ai.models.generateContent({
+          model: 'gemini-3-flash-preview',
+          contents: 'Identify 3 brief, one-sentence latest trends or news updates in the global fabric swatch book or textile export industry from India for 2025.',
+          config: {
+            tools: [{googleSearch: {}}]
+          }
+        });
+        const text = response.text || "";
+        const lines = text.split('\n').filter(l => l.trim().length > 10).slice(0, 3);
+        setTrends(lines.length > 0 ? lines : ["Demand for eco-friendly recycled fabric swatch books is rising in EU markets.", "Digital QR code integration in swatch books is becoming standard for B2B inventory tracking.", "Indian textile exporters see increased demand for luxury velvet upholstery in Middle East markets."]);
+      } catch (e) {
+        setTrends(["Focus on sustainable textile sampling grows globally.", "Indian swatch book manufacturing lead times stabilize for 2025.", "Premium fabric brands shift towards minimalist, high-quality sample presentations."]);
+      } finally {
+        setLoadingTrends(false);
+      }
+    }
+    fetchTrends();
+  }, []);
+
   const articles = [
     {
       title: "How to Choose the Right Upholstery Swatch Books",
@@ -35,13 +62,23 @@ const BlogHub: React.FC<Props> = ({ onNavigate }) => {
 
   return (
     <div className="bg-white min-h-screen pb-20">
-      <section className="bg-gray-50 pt-32 pb-20 px-4">
+      <section className="bg-gray-50 pt-32 pb-12 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <span className="text-gold font-bold uppercase tracking-widest text-[10px] mb-4 inline-block">Resources & Insight</span>
           <h1 className="text-4xl md:text-5xl font-black text-navy mb-6">Fabric Presentation Guides</h1>
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
+          <p className="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed mb-8">
             Expert advice on fabric swatch books, upholstery sampling, and international textile presentation standards.
           </p>
+
+          {/* AI Trend Ticker */}
+          <div className="max-w-4xl mx-auto bg-navy text-white rounded-2xl p-4 overflow-hidden relative border border-white/10 shadow-lg">
+             <div className="flex items-center space-x-4">
+                <span className="bg-gold text-navy text-[9px] font-black px-2 py-1 rounded uppercase shrink-0">Live Trends 2025</span>
+                <div className="flex-grow text-xs font-medium text-gray-300 italic text-left truncate">
+                   {loadingTrends ? "Retrieving latest fabric industry news..." : trends.join(" | ")}
+                </div>
+             </div>
+          </div>
         </div>
       </section>
 
