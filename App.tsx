@@ -19,6 +19,7 @@ import ProductCurtain from './components/ProductCurtain';
 import ProductHanger from './components/ProductHanger';
 import ProductRingSwatch from './components/ProductRingSwatch';
 import ProductSampleCards from './components/ProductSampleCards';
+import ProductWaterfall from './components/ProductWaterfall';
 import ExportMarketsPage from './components/ExportMarketsPage';
 import BlogHub from './components/BlogHub';
 import BlogPost from './components/BlogPost';
@@ -33,13 +34,17 @@ export type ViewState =
   | 'process-detail' 
   | 'contact-page' 
   | 'product-upholstery' 
-  | 'product-curtain'
-  | 'product-hanger'
-  | 'product-ring'
+  | 'product-curtain' 
+  | 'product-hanger' 
+  | 'product-ring' 
   | 'product-cards'
+  | 'product-waterfall'
   | 'export-markets-page'
   | 'blog-hub'
-  | 'blog-post'
+  | 'blog-post-1'
+  | 'blog-post-2'
+  | 'blog-post-3'
+  | 'blog-post-4'
   | 'portfolio'
   | 'privacy'
   | 'terms'
@@ -96,6 +101,11 @@ const SEO_CONFIG: Record<ViewState, { title: string; description: string; h1: st
     description: "Marketing fabric sample cards with 3-8 swatches. Color stories, storyboards, lookbooks. Perfect for mailings, trade shows, buyer presentations.",
     h1: "Sample Cards & Fabric Storyboards - Collection Marketing Materials"
   },
+  'product-waterfall': {
+    title: "Waterfall Swatch Cards | Waterfall Sample Format | SwatchCraft",
+    description: "Premium waterfall swatch cards for fabric exporters. Show 40% more samples in the same footprint. MOQ 200 cards. High conversion format.",
+    h1: "Waterfall Swatch Cards - High Impact Presentation"
+  },
   'export-markets-page': {
     title: "Export Fabric Swatch Books | India to EU/USA/UAE | SwatchCraft",
     description: "Export fabric swatch books from India to Europe, USA, UAE. Complete documentation. 15-35 day delivery. FOB/CIF terms. Serving 15+ countries.",
@@ -103,13 +113,28 @@ const SEO_CONFIG: Record<ViewState, { title: string; description: string; h1: st
   },
   'blog-hub': {
     title: "Blog & Resources | Fabric Swatch Guides | SwatchCraft",
-    description: "Expert guides on fabric swatch books, upholstery sampling, curtain presentations. Tips for furniture brands, textile exporters, interior designers.",
+    description: "Expert guides on fabric swatch books, upholstery sampling, and international textile presentation standards. Tips for furniture brands and designers.",
     h1: "Fabric Presentation Guides & Resources"
   },
-  'blog-post': {
-    title: "How to Choose Upholstery Swatch Books | Complete Guide 2025",
-    description: "Complete guide to choosing upholstery swatch books: binding types, capacity, customization, MOQ. For furniture manufacturers & textile brands. Expert tips.",
-    h1: "How to Choose the Right Upholstery Swatch Books"
+  'blog-post-1': {
+    title: "Choosing Fabric Swatch Formats for Export | SwatchCraft India",
+    description: "Learn how to choose between swatch books and waterfall cards for your export business. Compare costs, production times, and portability.",
+    h1: "How to Choose the Right Fabric Swatch Format for Your Export Business"
+  },
+  'blog-post-2': {
+    title: "MOQ Pricing Guide: India vs China vs USA (2025) | SwatchCraft",
+    description: "A comprehensive guide to fabric sample MOQ pricing in 2025. See how Indian manufacturing offers China-level costs with USA-level quality.",
+    h1: "MOQ Pricing Breakdown: How India Compete with China & USA in 2025"
+  },
+  'blog-post-3': {
+    title: "Waterfall Swatch Cards vs Traditional Books | SwatchCraft",
+    description: "Discover why top exporters are switching to waterfall swatch cards. 40% more samples and higher conversion rates for trade shows.",
+    h1: "Why Waterfall Swatch Cards are Winning Over Traditional Sample Books"
+  },
+  'blog-post-4': {
+    title: "Fabric Swatch Export Checklist: EU & USA | SwatchCraft",
+    description: "The complete checklist for exporting fabric swatches: packaging, documentation, and international shipping standards for 2025.",
+    h1: "Complete Fabric Swatch Export Checklist: Documentation, Packaging & Shipping"
   },
   'portfolio': {
     title: "Portfolio & Gallery | Past Projects | SwatchCraft India",
@@ -151,7 +176,7 @@ const App: React.FC = () => {
 
     const schemas: any[] = [];
 
-    // 1. Organization & Local Business (Universal trust)
+    // 1. Organization & Local Business
     schemas.push({
       "@context": "https://schema.org",
       "@type": "Manufacturer",
@@ -166,62 +191,16 @@ const App: React.FC = () => {
       }
     });
 
-    // 2. Page-Specific Schemas
-    if (currentView === 'home') {
-      schemas.push({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What is the MOQ for fabric swatch books?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Our standard MOQ is 50 pieces for upholstery swatch books and 40 pieces for curtain albums." }
-          },
-          {
-            "@type": "Question",
-            "name": "Do you export to Europe and USA?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Yes, we ship to 15+ countries including USA, UK, Italy, and UAE with complete export documentation." }
-          }
-        ]
-      });
-    }
-
-    if (currentView.startsWith('product-')) {
-      const productName = currentView.split('-')[1].charAt(0).toUpperCase() + currentView.split('-')[1].slice(1);
-      schemas.push({
-        "@context": "https://schema.org",
-        "@type": "Product",
-        "name": `Premium ${productName} Fabric Presentation`,
-        "brand": "SwatchCraft India",
-        "manufacturer": "SwatchCraft India",
-        "offers": {
-          "@type": "AggregateOffer",
-          "priceCurrency": "INR",
-          "lowPrice": currentView === 'product-upholstery' ? "70" : "18",
-          "availability": "https://schema.org/InStock"
-        }
-      });
-    }
-
-    if (currentView === 'blog-post') {
+    if (currentView.startsWith('blog-post-')) {
+      const postConfig = SEO_CONFIG[currentView];
       schemas.push({
         "@context": "https://schema.org",
         "@type": "Article",
-        "headline": "How to Choose Upholstery Swatch Books",
-        "author": { "@type": "Organization", "name": "SwatchCraft India" },
+        "headline": postConfig.h1,
+        "author": { "@type": "Organization", "name": "SwatchCraft India Editorial" },
         "datePublished": "2025-01-20"
       });
     }
-
-    // 3. Breadcrumb Schema (Site hierarchy)
-    schemas.push({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://swatchcraftindia.com" },
-        { "@type": "ListItem", "position": 2, "name": currentView.split('-').join(' '), "item": `https://swatchcraftindia.com/${currentView}` }
-      ]
-    });
 
     schemas.forEach(s => {
       const script = document.createElement('script');
@@ -248,9 +227,13 @@ const App: React.FC = () => {
       case 'product-hanger': return <ProductHanger onNavigate={navigateTo} />;
       case 'product-ring': return <ProductRingSwatch onNavigate={navigateTo} />;
       case 'product-cards': return <ProductSampleCards onNavigate={navigateTo} />;
+      case 'product-waterfall': return <ProductWaterfall onNavigate={navigateTo} />;
       case 'export-markets-page': return <ExportMarketsPage onNavigate={navigateTo} />;
       case 'blog-hub': return <BlogHub onNavigate={navigateTo} />;
-      case 'blog-post': return <BlogPost onNavigate={navigateTo} />;
+      case 'blog-post-1': return <BlogPost postId={1} onNavigate={navigateTo} />;
+      case 'blog-post-2': return <BlogPost postId={2} onNavigate={navigateTo} />;
+      case 'blog-post-3': return <BlogPost postId={3} onNavigate={navigateTo} />;
+      case 'blog-post-4': return <BlogPost postId={4} onNavigate={navigateTo} />;
       case 'portfolio': return <PortfolioPage onNavigate={navigateTo} />;
       case 'privacy': return <LegalPage type="privacy" onNavigate={navigateTo} />;
       case 'terms': return <LegalPage type="terms" onNavigate={navigateTo} />;
@@ -267,15 +250,6 @@ const App: React.FC = () => {
           <div id="gallery" onClick={() => navigateTo('portfolio')} className="cursor-pointer"><Gallery /></div>
           <Testimonials />
           <div id="contact"><Contact /></div>
-          <section className="bg-navy py-20 px-4">
-            <div className="max-w-7xl mx-auto text-center">
-              <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 uppercase tracking-tighter">Ready to Create Premium Fabric Presentations?</h2>
-              <div className="flex flex-col sm:flex-row justify-center gap-6">
-                <button onClick={() => navigateTo('contact-page')} className="bg-white text-teal font-black py-4 px-12 rounded-xl hover:bg-gray-100 transition-all shadow-lg">📧 Email Your RFQ</button>
-                <a href="https://wa.me/910000000000" className="bg-[#25D366] text-white font-black py-4 px-12 rounded-xl hover:bg-opacity-90 transition-all shadow-lg flex items-center justify-center">💬 WhatsApp Us Now</a>
-              </div>
-            </div>
-          </section>
         </>
       );
     }
