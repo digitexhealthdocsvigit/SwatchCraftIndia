@@ -1,42 +1,41 @@
 import React from 'react';
 
 const galleryItems = [
-  { title: "Manufacturing Floor", category: "Facility", placeholder: "6000 sq ft fabric swatch book manufacturing facility Mumbai" },
-  { title: "Premium Upholstery Set", category: "Product", placeholder: "Custom hardbound upholstery swatch book with embossed logo" },
-  { title: "Precision Labeling", category: "Process", placeholder: "5-step fabric swatch book manufacturing process timeline" },
-  { title: "Export Packaging", category: "Shipping", placeholder: "Export-grade packaging of fabric swatch books for international shipping" },
-  { title: "Curtain Hanger Line", category: "Product", placeholder: "Professional chrome fabric hanger swatches for showroom wall" },
-  { title: "Sample Testing Lab", category: "Quality", placeholder: "ISO 9001:2015 certification for swatch book manufacturing quality" }
+  { title: "Upholstery Precision", category: "Upholstery", src: "https://images.unsplash.com/photo-1520183802803-06f731a2059f?auto=format&fit=crop&w=600&q=80" },
+  { title: "Curtain Excellence", category: "Curtains", src: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80" },
+  { title: "Waterfall Palette", category: "Waterfall", src: "https://images.unsplash.com/photo-1534944209481-ffccd2b13b91?auto=format&fit=crop&w=600&q=80" },
+  { title: "Retail Displays", category: "Hangers", src: "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=600&q=80" },
+  { title: "Marketing Kits", category: "Sample Cards", src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80" },
+  { title: "Luxury Binding", category: "Custom", src: "https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=600&q=80" }
 ];
 
 const Gallery: React.FC = () => {
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-24 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-4 uppercase tracking-tighter">Production Excellence</h2>
-          <div className="w-24 h-1 bg-gold mx-auto mb-6"></div>
-          <p className="text-gray-600 max-w-2xl mx-auto font-medium">
-            A glimpse into our state-of-the-art manufacturing facility in Mumbai where precision meets craft. Serving 15+ countries since 2005.
+        <div className="text-center mb-20">
+          <span className="text-gold font-black uppercase tracking-[0.4em] text-[10px] mb-4 inline-block">Visual Standards</span>
+          <h2 className="text-4xl md:text-5xl font-black text-navy mb-4 uppercase tracking-tighter leading-none">Production Excellence</h2>
+          <div className="w-16 h-1 bg-gold mx-auto mb-8"></div>
+          <p className="text-gray-500 max-w-2xl mx-auto font-medium text-lg">
+            A glimpse into our 6,000 sq ft manufacturing facility in Mumbai where precision meets world-class textile presentation.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {galleryItems.map((item, idx) => (
-            <div key={idx} className="group relative overflow-hidden rounded-3xl aspect-square bg-gray-100 border border-gray-100 transition-all hover:shadow-2xl cursor-pointer">
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-300 group-hover:text-gold transition-colors p-10 text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mb-4 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span className="text-[10px] uppercase font-black tracking-[0.2em] block mb-2">{item.category}</span>
-                <span className="text-xs font-bold text-gray-400 uppercase tracking-tight leading-relaxed">{item.placeholder}</span>
-              </div>
-              
-              <div className="absolute inset-0 bg-navy/90 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center text-center p-8 translate-y-4 group-hover:translate-y-0">
-                <h4 className="text-white text-2xl font-black mb-4 uppercase tracking-tighter leading-tight">{item.title}</h4>
-                <div className="w-12 h-1 bg-gold mb-6"></div>
-                <button className="text-gold text-[10px] font-black uppercase tracking-[0.2em] border-2 border-gold px-6 py-3 rounded-xl hover:bg-gold hover:text-navy transition-all">
-                  View Case Study
+            <div key={idx} className="group relative overflow-hidden rounded-[2.5rem] aspect-square bg-gray-100 transition-all hover:shadow-2xl cursor-pointer">
+              <img 
+                src={item.src} 
+                alt={item.title} 
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-navy/80 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center text-center p-8 translate-y-4 group-hover:translate-y-0 backdrop-blur-sm">
+                <span className="text-gold text-[10px] font-black uppercase tracking-[0.3em] mb-4">{item.category}</span>
+                <h4 className="text-white text-2xl font-black mb-6 uppercase tracking-tighter leading-tight">{item.title}</h4>
+                <div className="w-10 h-0.5 bg-white/20 mb-8"></div>
+                <button className="text-white text-[9px] font-black uppercase tracking-[0.2em] border border-white/30 px-8 py-3 rounded-full hover:bg-white hover:text-navy transition-all">
+                  Request Case Study
                 </button>
               </div>
             </div>

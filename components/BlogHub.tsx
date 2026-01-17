@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ViewState } from '../App';
+import { ViewState } from '../App.tsx';
 import { GoogleGenAI } from "@google/genai";
-import BlogCard from './BlogCard';
+import BlogCard from './BlogCard.tsx';
 
 interface Props {
   onNavigate: (view: ViewState) => void;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ViewState } from '../App';
+import { ViewState } from '../App.tsx';
 
 interface Props {
   onNavigate: (view: ViewState) => void;
@@ -32,7 +32,6 @@ const Hero: React.FC<Props> = ({ onNavigate }) => {
           </div>
         </div>
 
-        {/* Hero Image Placeholder */}
         <div className="relative group">
           <div className="w-full aspect-[4/3] bg-[#e9ecef] rounded-2xl flex items-center justify-center border border-[#dee2e6] relative overflow-hidden shadow-2xl">
             <div className="flex flex-col items-center text-gray-400 group-hover:text-[#c9a86a] transition-colors">
@@ -49,7 +48,6 @@ const Hero: React.FC<Props> = ({ onNavigate }) => {
         </div>
       </div>
       
-      {/* Background Decor */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-[#f8f9fa] -z-10 transform skew-x-[-15deg] translate-x-1/2"></div>
     </section>
   );

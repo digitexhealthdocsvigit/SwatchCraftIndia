@@ -1,38 +1,37 @@
-
 import React, { useState, useEffect } from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import TrustBar from './components/TrustBar';
-import ValueProps from './components/ValueProps';
-import FeaturedProducts from './components/FeaturedProducts';
-import ProcessTimeline from './components/ProcessTimeline';
-import ExportMarkets from './components/ExportMarkets';
-import Gallery from './components/Gallery';
-import Testimonials from './components/Testimonials';
-import QualityCertifications from './components/QualityCertifications';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
-import AboutPage from './components/AboutPage';
-import ProductsOverview from './components/ProductsOverview';
-import ManufacturingProcessPage from './components/ManufacturingProcessPage';
-import ProductUpholstery from './components/ProductUpholstery';
-import ProductCurtain from './components/ProductCurtain';
-import ProductHanger from './components/ProductHanger';
-import ProductRingSwatch from './components/ProductRingSwatch';
-import ProductSampleCards from './components/ProductSampleCards';
-import ProductWaterfall from './components/ProductWaterfall';
-import ExportMarketsPage from './components/ExportMarketsPage';
-import BlogHub from './components/BlogHub';
-import BlogPost from './components/BlogPost';
-import PortfolioPage from './components/PortfolioPage';
-import LegalPage from './components/LegalPage';
-import PricingPage from './components/PricingPage';
-import GoogleBusinessProfile from './components/GoogleBusinessProfile';
-import OutreachTemplates from './components/OutreachTemplates';
-import LeadCaptureModal from './components/LeadCaptureModal';
-import NotFound from './components/NotFound';
-import AdminLogin from './components/AdminLogin';
-import AdminDashboard from './components/AdminDashboard';
+import Header from './components/Header.tsx';
+import Hero from './components/Hero.tsx';
+import TrustBar from './components/TrustBar.tsx';
+import ValueProps from './components/ValueProps.tsx';
+import FeaturedProducts from './components/FeaturedProducts.tsx';
+import ProcessTimeline from './components/ProcessTimeline.tsx';
+import ExportMarkets from './components/ExportMarkets.tsx';
+import Gallery from './components/Gallery.tsx';
+import Testimonials from './components/Testimonials.tsx';
+import QualityCertifications from './components/QualityCertifications.tsx';
+import Contact from './components/Contact.tsx';
+import Footer from './components/Footer.tsx';
+import AboutPage from './components/AboutPage.tsx';
+import ProductsOverview from './components/ProductsOverview.tsx';
+import ManufacturingProcessPage from './components/ManufacturingProcessPage.tsx';
+import ProductUpholstery from './components/ProductUpholstery.tsx';
+import ProductCurtain from './components/ProductCurtain.tsx';
+import ProductHanger from './components/ProductHanger.tsx';
+import ProductRingSwatch from './components/ProductRingSwatch.tsx';
+import ProductSampleCards from './components/ProductSampleCards.tsx';
+import ProductWaterfall from './components/ProductWaterfall.tsx';
+import ExportMarketsPage from './components/ExportMarketsPage.tsx';
+import BlogHub from './components/BlogHub.tsx';
+import BlogPost from './components/BlogPost.tsx';
+import PortfolioPage from './components/PortfolioPage.tsx';
+import LegalPage from './components/LegalPage.tsx';
+import PricingPage from './components/PricingPage.tsx';
+import GoogleBusinessProfile from './components/GoogleBusinessProfile.tsx';
+import OutreachTemplates from './components/OutreachTemplates.tsx';
+import LeadCaptureModal from './components/LeadCaptureModal.tsx';
+import NotFound from './components/NotFound.tsx';
+import AdminLogin from './components/AdminLogin.tsx';
+import AdminDashboard from './components/AdminDashboard.tsx';
 
 export type ViewState = 
   | 'home' 
@@ -75,7 +74,6 @@ const App: React.FC = () => {
   }, [currentView]);
 
   const navigateTo = (view: ViewState) => {
-    // Protected route logic
     if (view === 'admin-dashboard' && !isAuthenticated) {
       setCurrentView('admin-login');
     } else {

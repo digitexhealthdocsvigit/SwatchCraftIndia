@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ViewState } from '../App';
-import AdminLaunchCenter from './AdminLaunchCenter';
+import { ViewState } from '../App.tsx';
+import AdminLaunchCenter from './AdminLaunchCenter.tsx';
 
 interface Props {
   onLogout: () => void;
@@ -26,7 +26,6 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar */}
       <div className="w-72 bg-navy text-white flex flex-col fixed inset-y-0">
         <div className="p-8 border-b border-white/10">
           <span className="text-xl font-black uppercase tracking-tighter">SwatchCraft <span className="text-gold">Ops</span></span>
@@ -61,7 +60,6 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="flex-grow ml-72 p-12 overflow-y-auto">
         <header className="flex justify-between items-center mb-12">
           <div>
@@ -138,8 +136,6 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
             </div>
           </div>
         )}
-
-        {/* ... Other tabs ... */}
       </div>
     </div>
   );

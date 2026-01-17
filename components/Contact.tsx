@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useRFQ } from '../hooks/useRFQ';
+import { useRFQ } from '../hooks/useRFQ.ts';
 
 const Contact: React.FC = () => {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);

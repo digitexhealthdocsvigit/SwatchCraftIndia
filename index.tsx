@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
-import { GlobalSettingsProvider } from './components/GlobalSettingsContext';
+import App from './App.tsx';
+import { GlobalSettingsProvider } from './components/GlobalSettingsContext.tsx';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {

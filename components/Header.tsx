@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ViewState } from '../App';
-import { useGlobalSettings, Currency, Language } from './GlobalSettingsContext';
+import { ViewState } from '../App.tsx';
+import { useGlobalSettings, Currency, Language } from './GlobalSettingsContext.tsx';
 
 interface HeaderProps {
   onNavigate: (view: ViewState) => void;
@@ -53,7 +53,6 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
         </nav>
 
         <div className="flex items-center space-x-4">
-          {/* Global Settings Hub */}
           <div className="hidden md:flex items-center bg-gray-100/50 p-1 rounded-lg border border-gray-200">
             <select 
               value={currency} 
