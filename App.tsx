@@ -12,8 +12,11 @@ import QualityCertifications from './components/QualityCertifications';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AboutPage from './components/AboutPage';
+import ProductsOverview from './components/ProductsOverview';
+import ManufacturingProcessPage from './components/ManufacturingProcessPage';
+import ProductUpholstery from './components/ProductUpholstery';
 
-type ViewState = 'home' | 'about';
+export type ViewState = 'home' | 'about' | 'products-overview' | 'process-detail' | 'contact-page' | 'product-upholstery';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>('home');
@@ -23,12 +26,25 @@ const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  return (
-    <div className="min-h-screen flex flex-col bg-[#f5f5f5]">
-      <Header onNavigate={navigateTo} currentView={currentView} />
-      
-      <main className="flex-grow">
-        {currentView === 'home' ? (
+  const renderContent = () => {
+    switch (currentView) {
+      case 'about':
+        return <AboutPage onNavigate={navigateTo} />;
+      case 'products-overview':
+        return <ProductsOverview onNavigate={navigateTo} />;
+      case 'process-detail':
+        return <ManufacturingProcessPage onNavigate={navigateTo} />;
+      case 'product-upholstery':
+        return <ProductUpholstery onNavigate={navigateTo} />;
+      case 'contact-page':
+        return (
+          <div className="pt-20">
+            <Contact />
+          </div>
+        );
+      case 'home':
+      default:
+        return (
           <>
             <Hero />
             <TrustBar />
@@ -37,7 +53,7 @@ const App: React.FC = () => {
                 <ProcessTimeline />
             </div>
             <div id="products">
-                <FeaturedProducts />
+                <FeaturedProducts onNavigate={navigateTo} />
             </div>
             <QualityCertifications />
             <div id="export-markets">
@@ -80,9 +96,16 @@ const App: React.FC = () => {
               </div>
             </section>
           </>
-        ) : (
-          <AboutPage />
-        )}
+        );
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col bg-[#f5f5f5]">
+      <Header onNavigate={navigateTo} currentView={currentView} />
+      
+      <main className="flex-grow">
+        {renderContent()}
       </main>
       
       <Footer onNavigate={navigateTo} />

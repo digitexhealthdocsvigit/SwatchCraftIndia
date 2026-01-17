@@ -1,6 +1,11 @@
 import React from 'react';
+import { ViewState } from '../App';
 
-const AboutPage: React.FC = () => {
+interface Props {
+  onNavigate: (view: ViewState) => void;
+}
+
+const AboutPage: React.FC<Props> = ({ onNavigate }) => {
   return (
     <div className="pt-20">
       {/* Hero Section */}
@@ -13,7 +18,6 @@ const AboutPage: React.FC = () => {
             From a small Mumbai workshop to India's leading export-quality swatch book manufacturer serving global textile brands.
           </p>
         </div>
-        {/* Decorative background element */}
         <div className="absolute top-0 right-0 w-full h-full opacity-5 pointer-events-none flex items-center justify-center">
           <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
             <path d="M0 0 L100 0 L100 100 L0 100 Z" fill="url(#grid)" />
@@ -31,7 +35,7 @@ const AboutPage: React.FC = () => {
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <h2 className="text-3xl font-extrabold text-[#1e3a5f] mb-8">Our Journey</h2>
-            <div className="space-y-6 text-gray-600 leading-relaxed">
+            <div className="space-y-6 text-gray-600 leading-relaxed text-lg">
               <p>
                 Founded in 1994, SwatchCraft India began as a family-owned sampling workshop in Mumbai. Over three decades, we've evolved into India's premier manufacturer of premium upholstery and curtain fabric swatch books, serving furniture brands, textile mills, and interior designers across India, Europe, USA, and UAE.
               </p>
@@ -103,31 +107,6 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Certifications Section */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-extrabold text-[#1e3a5f] text-center mb-12">Our Certifications & Memberships</h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              "ISO 9001:2015",
-              "GST Registered Exporter",
-              "Export Excellence Award",
-              "Textile Trade Member"
-            ].map((cert, idx) => (
-              <div key={idx} className="flex flex-col items-center">
-                <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4 border border-gray-200">
-                  <svg className="w-12 h-12 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                    <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h.01a1 1 0 100-2H10zm3 0a1 1 0 000 2h.01a1 1 0 100-2H13zM7 13a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h.01a1 1 0 100-2H10zm3 0a1 1 0 000 2h.01a1 1 0 100-2H13z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <span className="text-sm font-bold text-gray-600 text-center">{cert}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Our Values Section */}
       <section className="py-20 px-4 bg-[#1e3a5f] text-white">
         <div className="max-w-7xl mx-auto">
@@ -162,10 +141,16 @@ const AboutPage: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-extrabold text-[#1e3a5f] mb-8">Ready to Work with India's Leading Manufacturer?</h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-[#0d7377] text-white px-10 py-4 rounded-xl font-bold shadow-lg hover:bg-opacity-90 transition-all">
+            <button 
+              onClick={() => onNavigate('contact-page')}
+              className="bg-[#0d7377] text-white px-10 py-4 rounded-xl font-bold shadow-lg hover:bg-opacity-90 transition-all"
+            >
               Request Factory Visit
             </button>
-            <button className="border-2 border-[#1e3a5f] text-[#1e3a5f] px-10 py-4 rounded-xl font-bold hover:bg-[#1e3a5f] hover:text-white transition-all">
+            <button 
+              onClick={() => onNavigate('contact-page')}
+              className="border-2 border-[#1e3a5f] text-[#1e3a5f] px-10 py-4 rounded-xl font-bold hover:bg-[#1e3a5f] hover:text-white transition-all"
+            >
               Get Export Quote
             </button>
           </div>
