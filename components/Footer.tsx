@@ -64,9 +64,10 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
       <div className="max-w-7xl mx-auto px-4 pt-12 flex flex-col md:flex-row justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em] text-gray-600">
         <p>© 2025 SwatchCraft India. All rights reserved.</p>
-        <div className="flex space-x-8 mt-6 md:mt-0">
+        <div className="flex space-x-8 mt-6 md:mt-0 items-center">
           <button onClick={() => onNavigate('privacy')} className="hover:text-white transition-colors">Privacy Policy</button>
           <button onClick={() => onNavigate('terms')} className="hover:text-white transition-colors">Terms of Service</button>
+          <button onClick={() => onNavigate('admin-login')} className="w-2 h-2 bg-white/5 rounded-full hover:bg-gold transition-colors ml-4" title="System Login"></button>
         </div>
       </div>
     </footer>
