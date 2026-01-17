@@ -1,5 +1,5 @@
 import React from 'react';
-import { ViewState } from '../App';
+import { ViewState } from '../App.tsx';
 
 const products = [
   {

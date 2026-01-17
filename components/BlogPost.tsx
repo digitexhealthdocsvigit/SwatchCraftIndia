@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ViewState } from '../App';
+import { ViewState } from '../App.tsx';
 
 interface Props {
   postId: number;

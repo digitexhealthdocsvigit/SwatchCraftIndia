@@ -1,6 +1,6 @@
 import React from 'react';
-import { ViewState } from '../App';
-import { useGlobalSettings } from './GlobalSettingsContext';
+import { ViewState } from '../App.tsx';
+import { useGlobalSettings } from './GlobalSettingsContext.tsx';
 
 interface Props {
   onNavigate: (view: ViewState) => void;

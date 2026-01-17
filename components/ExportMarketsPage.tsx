@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ViewState } from '../App';
+import { ViewState } from '../App.tsx';
 
 interface Props {
   onNavigate: (view: ViewState) => void;
@@ -244,7 +244,7 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
       {/* Middle East Section */}
       <section className="py-24 px-4 bg-gray-50 border-t border-gray-100">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap items-center gap-4 mb-12">
+          <div className="flex items-center gap-4 mb-12">
             <h2 className="text-3xl font-black text-navy">Fast Delivery to GCC Countries</h2>
             <div className="flex gap-2 text-2xl">
               <span>🇦🇪</span><span>🇸🇦</span><span>🇶🇦</span><span>🇴🇲</span>
@@ -370,7 +370,7 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Pricing Comparison Table */}
+      {/* Pricing Comparison Table Section */}
       <section className="py-24 px-4 bg-gray-50 border-y border-gray-100 overflow-x-auto">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-black text-navy text-center mb-12">Export Pricing Comparison</h2>

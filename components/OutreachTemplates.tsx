@@ -1,5 +1,5 @@
 import React from 'react';
-import { ViewState } from '../App';
+import { ViewState } from '../App.tsx';
 
 interface Props {
   onNavigate: (view: ViewState) => void;
@@ -92,7 +92,7 @@ THE ANGLE:
 - This format shows 40% more samples in the same space as traditional books
 - Faster production (2-3 weeks vs 3-4 weeks for traditional formats)
 - Same price point, but perceived as premium by buyers
-- Result: Customers see 50-60% repeat order rates vs industry average 30-40%
+- Result: Customers see 50-60% repeat order rate vs industry average 30-40%
 
 WHY IT'S NEWSWORTHY:
 Indian manufacturers are often positioned as "budget alternatives" to USA/China. This story flips that narrative—it's innovation, speed, and efficiency that rivals premium global suppliers.
@@ -248,7 +248,7 @@ digitex.studio@gmail.com | +91 9004962871`
               <div className="space-y-8">
                 <div>
                   <div className="flex justify-between items-center mb-3">
-                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Email Subject</label>
+                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Email Subject</label>
                     <button onClick={() => copyToClipboard(tpl.subject)} className="text-gold text-[9px] font-black uppercase tracking-widest hover:underline">Copy Subject</button>
                   </div>
                   <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100 text-navy font-bold text-sm">
@@ -257,7 +257,7 @@ digitex.studio@gmail.com | +91 9004962871`
                 </div>
                 <div>
                   <div className="flex justify-between items-center mb-3">
-                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Email Body</label>
+                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Email Body</label>
                     <button onClick={() => copyToClipboard(tpl.body)} className="text-gold text-[9px] font-black uppercase tracking-widest hover:underline">Copy Body</button>
                   </div>
                   <div className="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 text-gray-600 text-sm leading-relaxed font-medium whitespace-pre-wrap">
