@@ -30,7 +30,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <li><button onClick={() => onNavigate('blog-hub')} className="hover:text-white transition-colors">Resources & Blog</button></li>
             <li><button onClick={() => onNavigate('export-markets-page')} className="hover:text-white transition-colors">Export Markets</button></li>
             <li><button onClick={() => onNavigate('pricing')} className="hover:text-white transition-colors">Pricing Guide</button></li>
-            <li><button onClick={() => onNavigate('gbp-strategy')} className="text-[9px] opacity-30 hover:opacity-100 transition-opacity">Google Business Strategy</button></li>
+            <li><button onClick={() => onNavigate('gbp-strategy')} className="text-[9px] opacity-20 hover:opacity-100 transition-opacity">Google Business Strategy</button></li>
           </ul>
         </div>
 
@@ -48,7 +48,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div>
           <h4 className="text-[#c9a86a] font-bold uppercase tracking-widest text-[10px] mb-8">Contact Info</h4>
           <div className="space-y-6 text-sm text-gray-400">
-            <div className="flex items-start"><span className="mr-3">📧</span><span className="font-bold text-white">info@swatchcraftindia.com<br/><span className="text-[10px] text-gray-500 uppercase font-medium">export@swatchcraftindia.com</span></span></div>
+            <div className="flex items-start"><span className="mr-3">📧</span><span className="font-bold text-white">info@swatchcraftindia.com</span></div>
             <div className="flex items-start"><span className="mr-3">📱</span><span className="font-bold text-white">WhatsApp: +91 98765 43210</span></div>
             <div className="flex items-start"><span className="mr-3">📍</span><span>Mumbai, Maharashtra, India</span></div>
             <button onClick={() => onNavigate('contact-page')} className="bg-teal text-white w-full py-4 rounded-xl font-black text-xs uppercase tracking-widest mt-4 shadow-xl hover:bg-gold transition-all">Email RFQ Now</button>

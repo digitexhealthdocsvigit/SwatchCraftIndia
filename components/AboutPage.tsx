@@ -16,7 +16,7 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
             Heritage Meets <br/> Fabric Innovation
           </h1>
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto font-medium">
-            From a sampling workshop to India’s premier export-quality manufacturer, we redefine how the world touches fabric.
+            From a precision workshop in Mumbai to India’s leading export-quality manufacturer, we redefine fabric presentation.
           </p>
         </div>
         <div className="absolute top-0 right-0 w-full h-full opacity-5 pointer-events-none flex items-center justify-center">
@@ -31,66 +31,42 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Narrative Section (The 500-Word Narrative Update) */}
+      {/* Full Narrative Section */}
       <section className="py-24 px-4 bg-white">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_400px] gap-20">
-          <div className="space-y-10">
-            <div className="prose prose-lg text-gray-600 leading-relaxed font-medium">
-              <h2 className="text-3xl font-black text-navy uppercase tracking-widest text-sm border-l-4 border-gold pl-6 mb-8">Our B2B Heritage & Innovation</h2>
-              <p>
-                SwatchCraft India stands at the intersection of traditional craftsmanship and modern manufacturing logistics. Founded in 1994, our journey began with a single vision: to elevate the physical presentation of India’s rich textile heritage for a global audience. Today, we are recognized as a premium fabric swatch manufacturer based in Mumbai, serving a sophisticated clientele of B2B exporters, luxury interior designers, and wholesale textile brands across Europe, the USA, and Asia.
-              </p>
-              <p>
-                We realized early on that in the high-stakes world of international textile trade, the sample is often the only physical advocate for your brand. Our innovation story is rooted in solving the "Export Dilemma"—how to show more fabric without increasing shipping weight. This led us to become the first and leading manufacturer of the <strong>Waterfall Swatch Card</strong> in India. This high-impact format displays 40% more samples than traditional books in a compact, air-freight friendly cascade that has revolutionized how Indian exporters present their collections at trade shows like Heimtextil and Maison&Objet.
-              </p>
-              <p>
-                Our competitive advantage is built on the triad of <strong>Speed, Quality, and Compliance</strong>. While international buyers often face 45-60 day delays from Chinese suppliers, our localized Mumbai facility leverages high-speed automation and skilled artisans to deliver premium, export-ready albums in just 15-20 days. This rapid turnaround allows our clients to capture seasonal trends before they fade. Every book produced at SwatchCraft undergoes a multi-stage inspection process, ensuring zero-defect labeling and binding that meets the rigorous ISO 9001 standards.
-              </p>
-              <p>
-                As a dedicated export partner, we don't just manufacture books; we manage complexity. We provide comprehensive documentation support—including commercial invoices, packing lists, and Certificates of Origin—ensuring smooth customs clearance in EU and USA ports. Whether you are a boutique design firm in Bangalore or a major furniture manufacturer in Milan, SwatchCraft India is your partner in world-class fabric presentation.
-              </p>
-            </div>
-            <div className="flex gap-4">
-               <button onClick={() => onNavigate('contact-page')} className="bg-teal text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl hover:bg-navy transition-all">Start Collaboration</button>
-               <button onClick={() => onNavigate('portfolio')} className="border-2 border-navy text-navy px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-navy hover:text-white transition-all">View Our Work</button>
-            </div>
+        <div className="max-w-4xl mx-auto">
+          <div className="prose prose-lg text-gray-600 leading-relaxed font-medium space-y-10">
+            <p>
+              SwatchCraft India stands at the intersection of traditional craftsmanship and modern manufacturing logistics. Founded in 1994, our journey began with a single vision: to elevate the physical presentation of India’s rich textile heritage for a global audience. Today, we are recognized as a premium fabric swatch manufacturer based in Mumbai, serving a sophisticated clientele of B2B exporters, luxury interior designers, and wholesale textile brands across Europe, the USA, and Asia.
+            </p>
+            <p>
+              We realized early on that in the high-stakes world of international textile trade, the sample is often the only physical advocate for your brand. Our innovation story is rooted in solving the "Export Dilemma"—how to show more fabric without increasing shipping weight. This led us to become the first and leading manufacturer of the <strong>Waterfall Swatch Card</strong> in India. This high-impact format displays 40% more samples than traditional books in a compact, air-freight friendly cascade that has revolutionized how Indian exporters present their collections at trade shows like Heimtextil and Maison&Objet.
+            </p>
+            <p>
+              Our competitive advantage is built on the triad of <strong>Speed, Quality, and Compliance</strong>. While international buyers often face 45-60 day delays from Chinese suppliers, our localized Mumbai facility leverages high-speed automation and skilled artisans to deliver premium, export-ready albums in just 15-20 days. This rapid turnaround allows our clients to capture seasonal trends before they fade. Every book produced at SwatchCraft undergoes a multi-stage inspection process, ensuring zero-defect labeling and binding that meets the rigorous ISO 9001 standards.
+            </p>
+            <p>
+              As a dedicated export partner, we don't just manufacture books; we manage complexity. We provide comprehensive documentation support—including commercial invoices, packing lists, and Certificates of Origin—ensuring smooth customs clearance in EU and USA ports. Whether you are a boutique design firm in Bangalore or a major furniture manufacturer in Milan, SwatchCraft India is your partner in world-class fabric presentation.
+            </p>
           </div>
-          
-          <div className="space-y-12">
-             <div className="bg-gray-50 p-10 rounded-[3rem] border border-gray-100 text-center relative group">
-                <p className="text-4xl font-black text-navy mb-2 leading-none">3,000+</p>
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em] mb-8">Units Produced Monthly</p>
-                <div className="space-y-4 text-left">
-                   {['Europe (Italy, France, Germany)', 'USA (LA, Miami, NY Ports)', 'Middle East (Dubai, GCC)', 'Domestic Luxury Hubs'].map(m => (
-                     <div key={m} className="flex items-center text-xs font-bold text-navy"><span className="w-1.5 h-1.5 bg-gold rounded-full mr-2"></span> {m}</div>
-                   ))}
-                </div>
-                <div className="absolute inset-0 bg-gold opacity-0 group-hover:opacity-5 transition-opacity rounded-[3rem] pointer-events-none"></div>
-             </div>
-             
-             <div className="bg-navy text-white p-10 rounded-[3rem] shadow-2xl relative overflow-hidden">
-                <h4 className="text-gold font-black uppercase tracking-widest text-xs mb-6">Quality Core</h4>
-                <ul className="space-y-6">
-                   <li className="flex items-start gap-4">
-                      <span className="text-xl">🛡️</span>
-                      <div><p className="font-bold text-sm leading-tight">ISO 9001:2015</p><p className="text-[10px] text-gray-400 uppercase mt-1">Quality Management System</p></div>
-                   </li>
-                   <li className="flex items-start gap-4">
-                      <span className="text-xl">📦</span>
-                      <div><p className="font-bold text-sm leading-tight">Export Compliant</p><p className="text-[10px] text-gray-400 uppercase mt-1">EU/USA Documentation Support</p></div>
-                   </li>
-                   <li className="flex items-start gap-4">
-                      <span className="text-xl">🏭</span>
-                      <div><p className="font-bold text-sm leading-tight">6000 SQ FT Facility</p><p className="text-[10px] text-gray-400 uppercase mt-1">Mumbai Production Hub</p></div>
-                   </li>
-                </ul>
-                <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-white/5 rounded-full"></div>
-             </div>
+
+          <div className="mt-20 grid md:grid-cols-3 gap-8">
+            <div className="bg-gray-50 p-10 rounded-3xl border border-gray-100 text-center">
+              <p className="text-4xl font-black text-navy mb-2">3,000+</p>
+              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Units / Month</p>
+            </div>
+            <div className="bg-navy text-white p-10 rounded-3xl text-center">
+              <p className="text-4xl font-black text-gold mb-2">15-20</p>
+              <p className="text-[10px] text-gray-300 font-bold uppercase tracking-widest">Day Lead Time</p>
+            </div>
+            <div className="bg-gray-50 p-10 rounded-3xl border border-gray-100 text-center">
+              <p className="text-4xl font-black text-navy mb-2">15+</p>
+              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Countries Served</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Milestone Roadmap */}
+      {/* Roadmap Section */}
       <section className="py-24 px-4 bg-gray-50 border-y border-gray-100">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -99,14 +75,14 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
           </div>
           <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-6">
              {[
-               { year: '1994', event: 'Founded in Mumbai workshop' },
-               { year: '2005', event: 'First Export Order (Italy)' },
-               { year: '2010', event: 'ISO Quality Certification' },
-               { year: '2018', event: 'Waterfall Format Launch' },
-               { year: '2023', event: 'Automated Binding Expansion' },
-               { year: '2025', event: 'Global Hub Strategy' }
+               { year: '1994', event: 'Founded in Mumbai' },
+               { year: '2005', event: 'First Export Order' },
+               { year: '2010', event: 'ISO Certification' },
+               { year: '2018', event: 'Waterfall Format' },
+               { year: '2023', event: 'Facility Expansion' },
+               { year: '2025', event: 'Global Distribution' }
              ].map((m, i) => (
-               <div key={i} className="bg-white p-6 rounded-3xl border border-gray-100 text-center hover:border-gold transition-colors shadow-sm">
+               <div key={i} className="bg-white p-6 rounded-3xl border border-gray-100 text-center shadow-sm">
                   <p className="text-gold font-black text-lg mb-1">{m.year}</p>
                   <p className="text-[10px] text-gray-400 font-bold uppercase leading-tight">{m.event}</p>
                </div>
@@ -115,7 +91,7 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Final CTA */}
+      {/* CTA Section */}
       <section className="py-32 px-4 bg-white text-center relative overflow-hidden">
         <div className="max-w-3xl mx-auto relative z-10">
           <h2 className="text-4xl md:text-6xl font-black text-[#1e3a5f] mb-8 tracking-tighter">Ready to Export Quality?</h2>
@@ -135,8 +111,6 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
             </button>
           </div>
         </div>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gray-50 rounded-full translate-x-1/2 -translate-y-1/2 -z-10"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-gray-50 rounded-full -translate-x-1/2 translate-y-1/2 -z-10"></div>
       </section>
     </div>
   );

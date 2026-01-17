@@ -7,11 +7,11 @@ const Contact: React.FC = () => {
   const faqs = [
     {
       q: "What is your minimum order quantity (MOQ)?",
-      a: "Our standard MOQ is 100 units for standard products like upholstery books and waterfall cards. Custom branding and bespoke design projects may have different requirements. Contact our team for specific volume-based flexibility."
+      a: "Our standard MOQ is 100 units for standard products like upholstery books and waterfall cards. Custom projects may have different requirements. For volume orders over 500 units, we offer tiered discounts and free customization options."
     },
     {
       q: "How long does production take?",
-      a: "Waterfall formats typically require 2-3 weeks, while traditional hardbound books take 3-4 weeks. We offer a rush service for seasonal launches with guaranteed 15-20 day delivery—the fastest in the Indian market."
+      a: "Waterfall formats typically require 2-3 weeks, while traditional hardbound books take 3-4 weeks. We offer a rush service for seasonal launches with guaranteed 15-20 day delivery—the fastest in the Indian market compared to China's 45-day standard."
     },
     {
       q: "Do you offer white-label manufacturing?",
@@ -19,19 +19,19 @@ const Contact: React.FC = () => {
     },
     {
       q: "What is your MOQ pricing vs international suppliers?",
-      a: "At 500+ MOQ, our pricing ranges from ₹70-120 per unit ($0.90-$1.50). This makes SwatchCraft the global value leader, matching USA quality standards at a fraction of the cost."
+      a: "At 500+ MOQ, our pricing ranges from ₹70-120 per unit ($0.90-$1.50). This makes SwatchCraft the global value leader, matching USA/EU quality standards at 40-50% lower costs than domestic Western suppliers."
     },
     {
       q: "Can you handle international shipping and export logistics?",
-      a: "Absolutely. We manage the entire export process: documentation (COO, Commercial Invoice, PL), moisture-proof export packaging, and carrier coordination (DHL, FedEx, Sea Freight) to Europe, USA, and Asia."
+      a: "Absolutely. We manage the entire export process: documentation (Certificate of Origin, Commercial Invoice, Packing List), moisture-proof export packaging, and carrier coordination (DHL, FedEx, Sea Freight) to Europe, USA, and Asia."
     },
     {
       q: "What formats do you offer?",
-      a: "We manufacture 6 primary formats: Traditional Hardbound Swatch Books, Curtain Sample Albums, Waterfall Bi-fold Cards, Waterfall Tri-fold Cards, Fabric Hanger Swatches, and fully custom tailored solutions."
+      a: "We manufacture 6 primary formats: Traditional Swatch Books, Curtain Sample Albums, Waterfall Bi-fold Cards, Waterfall Tri-fold Cards, Fabric Hanger Swatches, and fully custom tailored solutions for unique branding needs."
     },
     {
       q: "Are your products export-certified?",
-      a: "Yes, all our products meet EU & USA import compliance standards. We use high-quality, sustainable materials and provide all necessary quality and phytosanitary certificates if required for your destination."
+      a: "Yes, all our products meet EU & USA import compliance standards. We are ISO 9001 certified and use sustainable, durable materials suitable for international transit and professional showroom environments."
     },
     {
       q: "Can I order a sample first?",
@@ -42,7 +42,6 @@ const Contact: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormStatus('submitting');
-    // Simulate API call
     setTimeout(() => {
       setFormStatus('success');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -104,16 +103,6 @@ const Contact: React.FC = () => {
                   <div className="space-y-2">
                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Company Name*</label>
                     <input type="text" required placeholder="Your brand or company" className="w-full bg-gray-50 border-b-2 border-gray-200 px-0 py-3 focus:outline-none focus:border-gold transition-all font-bold text-navy" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Email Address*</label>
-                    <input type="email" required placeholder="email@company.com" className="w-full bg-gray-50 border-b-2 border-gray-200 px-0 py-3 focus:outline-none focus:border-gold transition-all font-bold text-navy" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">WhatsApp Number*</label>
-                    <div className="flex">
-                      <input type="tel" required placeholder="+91 98765 43210" className="w-full bg-gray-50 border-b-2 border-gray-200 px-0 py-3 focus:outline-none focus:border-gold transition-all font-bold text-navy" />
-                    </div>
                   </div>
                 </div>
               </div>
@@ -182,7 +171,6 @@ const Contact: React.FC = () => {
                   <div>
                     <p className="text-gold font-black text-[10px] uppercase tracking-widest mb-1">Email Inquiry</p>
                     <p className="font-bold text-lg leading-tight">info@swatchcraftindia.com</p>
-                    <p className="text-gray-400 text-[9px] uppercase mt-1">export@swatchcraftindia.com</p>
                   </div>
                 </div>
               </div>
