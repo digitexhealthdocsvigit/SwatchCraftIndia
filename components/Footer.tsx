@@ -14,7 +14,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <span className="text-2xl font-bold tracking-tight text-white">SwatchCraft <span className="text-[#c9a86a]">India</span></span>
             <span className="text-[10px] uppercase tracking-[0.2em] font-medium text-gray-500">Premium Sample Manufacturing</span>
           </div>
-          <p className="text-gray-400 text-sm leading-relaxed mb-8">
+          <p className="text-gray-400 text-sm leading-relaxed mb-8 font-medium">
             Established in 1994, SwatchCraft specializes in manufacturing premium fabric swatch books for global brands. ISO 9001 certified, exporting to 15+ countries.
           </p>
           <div className="flex space-x-4">
@@ -25,37 +25,38 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div>
           <h4 className="text-[#c9a86a] font-bold uppercase tracking-widest text-[10px] mb-8">Company</h4>
           <ul className="space-y-4 text-sm text-gray-400 font-medium">
-            <li><button onClick={() => onNavigate('about')} className="hover:text-white transition-colors">About Us</button></li>
+            <li><button onClick={() => onNavigate('about')} className="hover:text-white transition-colors">About Us Heritage</button></li>
             <li><button onClick={() => onNavigate('portfolio')} className="hover:text-white transition-colors">Portfolio & Gallery</button></li>
             <li><button onClick={() => onNavigate('blog-hub')} className="hover:text-white transition-colors">Resources & Blog</button></li>
             <li><button onClick={() => onNavigate('export-markets-page')} className="hover:text-white transition-colors">Export Markets</button></li>
             <li><button onClick={() => onNavigate('pricing')} className="hover:text-white transition-colors">Pricing Guide</button></li>
+            <li><button onClick={() => onNavigate('gbp-strategy')} className="text-[9px] opacity-30 hover:opacity-100 transition-opacity">Google Business Strategy</button></li>
           </ul>
         </div>
 
         <div>
           <h4 className="text-[#c9a86a] font-bold uppercase tracking-widest text-[10px] mb-8">Products</h4>
           <ul className="space-y-4 text-sm text-gray-400 font-medium">
+            <li><button onClick={() => onNavigate('product-waterfall')} className="hover:text-white transition-colors text-left font-black text-teal">Waterfall Swatch Cards</button></li>
             <li><button onClick={() => onNavigate('product-upholstery')} className="hover:text-white transition-colors text-left">Upholstery Swatch Books</button></li>
             <li><button onClick={() => onNavigate('product-curtain')} className="hover:text-white transition-colors text-left">Curtain Fabric Albums</button></li>
             <li><button onClick={() => onNavigate('product-hanger')} className="hover:text-white transition-colors text-left">Fabric Hanger Swatches</button></li>
             <li><button onClick={() => onNavigate('product-ring')} className="hover:text-white transition-colors text-left">Ring Swatch Sets</button></li>
-            <li><button onClick={() => onNavigate('product-cards')} className="hover:text-white transition-colors text-left">Sample Cards & Storyboards</button></li>
           </ul>
         </div>
 
         <div>
           <h4 className="text-[#c9a86a] font-bold uppercase tracking-widest text-[10px] mb-8">Contact Info</h4>
           <div className="space-y-6 text-sm text-gray-400">
-            <div className="flex items-start"><span className="mr-3">📧</span><span>info@swatchcraftindia.com<br/><span className="text-[10px] opacity-50 uppercase">export@swatchcraftindia.com</span></span></div>
-            <div className="flex items-start"><span className="mr-3">📱</span><span>WhatsApp: +91 98765 43210</span></div>
+            <div className="flex items-start"><span className="mr-3">📧</span><span className="font-bold text-white">info@swatchcraftindia.com<br/><span className="text-[10px] text-gray-500 uppercase font-medium">export@swatchcraftindia.com</span></span></div>
+            <div className="flex items-start"><span className="mr-3">📱</span><span className="font-bold text-white">WhatsApp: +91 98765 43210</span></div>
             <div className="flex items-start"><span className="mr-3">📍</span><span>Mumbai, Maharashtra, India</span></div>
-            <button onClick={() => onNavigate('contact-page')} className="bg-teal text-white w-full py-4 rounded-xl font-bold text-xs uppercase tracking-widest mt-4">Email RFQ Now</button>
+            <button onClick={() => onNavigate('contact-page')} className="bg-teal text-white w-full py-4 rounded-xl font-black text-xs uppercase tracking-widest mt-4 shadow-xl hover:bg-gold transition-all">Email RFQ Now</button>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 pt-12 flex flex-col md:row justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em] text-gray-600">
+      <div className="max-w-7xl mx-auto px-4 pt-12 flex flex-col md:flex-row justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em] text-gray-600">
         <p>© 2025 SwatchCraft India. All rights reserved.</p>
         <div className="flex space-x-8 mt-6 md:mt-0">
           <button onClick={() => onNavigate('privacy')} className="hover:text-white transition-colors">Privacy Policy</button>
