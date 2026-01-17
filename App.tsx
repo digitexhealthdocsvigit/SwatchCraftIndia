@@ -27,6 +27,7 @@ import PortfolioPage from './components/PortfolioPage';
 import LegalPage from './components/LegalPage';
 import PricingPage from './components/PricingPage';
 import GoogleBusinessProfile from './components/GoogleBusinessProfile';
+import OutreachTemplates from './components/OutreachTemplates';
 
 export type ViewState = 
   | 'home' 
@@ -50,7 +51,8 @@ export type ViewState =
   | 'privacy'
   | 'terms'
   | 'pricing'
-  | 'gbp-strategy';
+  | 'gbp-strategy'
+  | 'outreach-templates';
 
 const SEO_CONFIG: Record<ViewState, { title: string; description: string; h1: string }> = {
   'home': {
@@ -162,6 +164,11 @@ const SEO_CONFIG: Record<ViewState, { title: string; description: string; h1: st
     title: "Google Business Profile Hub | SwatchCraft India",
     description: "Internal content hub and SEO strategy for SwatchCraft India's local search presence in Mumbai.",
     h1: "Google Business Strategy"
+  },
+  'outreach-templates': {
+    title: "B2B Backlink Outreach Templates | SwatchCraft India",
+    description: "Internal marketing resource for backlink building and B2B outreach strategy.",
+    h1: "Outreach & Link Building Dashboard"
   }
 };
 
@@ -211,6 +218,7 @@ const App: React.FC = () => {
       case 'terms': return <LegalPage type="terms" onNavigate={navigateTo} />;
       case 'pricing': return <PricingPage onNavigate={navigateTo} />;
       case 'gbp-strategy': return <GoogleBusinessProfile onNavigate={navigateTo} />;
+      case 'outreach-templates': return <OutreachTemplates onNavigate={navigateTo} />;
       case 'contact-page': return <div className="pt-20"><Contact /></div>;
       default: return (
         <>

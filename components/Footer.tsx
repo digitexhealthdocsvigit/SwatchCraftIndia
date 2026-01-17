@@ -25,13 +25,19 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div>
           <h4 className="text-[#c9a86a] font-bold uppercase tracking-widest text-[10px] mb-8">Company</h4>
           <ul className="space-y-4 text-sm text-gray-400 font-medium">
-            <li><button onClick={() => onNavigate('about')} className="hover:text-white transition-colors">About Us Heritage</button></li>
-            <li><button onClick={() => onNavigate('portfolio')} className="hover:text-white transition-colors">Portfolio & Gallery</button></li>
-            <li><button onClick={() => onNavigate('blog-hub')} className="hover:text-white transition-colors">Resources & Blog</button></li>
-            <li><button onClick={() => onNavigate('export-markets-page')} className="hover:text-white transition-colors">Export Markets</button></li>
-            <li><button onClick={() => onNavigate('pricing')} className="hover:text-white transition-colors">Pricing Guide</button></li>
-            <li><button onClick={() => onNavigate('gbp-strategy')} className="text-[9px] opacity-30 hover:opacity-100 transition-opacity">Google Business Profile Strategy</button></li>
+            <li><button onClick={() => onNavigate('about')} className="hover:text-white transition-colors text-left">About Us Heritage</button></li>
+            <li><button onClick={() => onNavigate('portfolio')} className="hover:text-white transition-colors text-left">Portfolio & Gallery</button></li>
+            <li><button onClick={() => onNavigate('blog-hub')} className="hover:text-white transition-colors text-left">Resources & Blog</button></li>
+            <li><button onClick={() => onNavigate('export-markets-page')} className="hover:text-white transition-colors text-left">Export Markets</button></li>
+            <li><button onClick={() => onNavigate('pricing')} className="hover:text-white transition-colors text-left">Pricing Guide</button></li>
           </ul>
+          <div className="mt-8 pt-8 border-t border-white/5 space-y-4">
+            <h4 className="text-[#c9a86a] font-bold uppercase tracking-widest text-[10px]">Internal Resources</h4>
+            <ul className="space-y-2">
+              <li><button onClick={() => onNavigate('gbp-strategy')} className="text-[9px] opacity-30 hover:opacity-100 transition-opacity uppercase tracking-widest font-black block">Google Presence Strategy</button></li>
+              <li><button onClick={() => onNavigate('outreach-templates')} className="text-[9px] opacity-30 hover:opacity-100 transition-opacity uppercase tracking-widest font-black block">Backlink Outreach Suite</button></li>
+            </ul>
+          </div>
         </div>
 
         <div>
@@ -48,8 +54,8 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div>
           <h4 className="text-[#c9a86a] font-bold uppercase tracking-widest text-[10px] mb-8">Contact Info</h4>
           <div className="space-y-6 text-sm text-gray-400">
-            <div className="flex items-start"><span className="mr-3">📧</span><span className="font-bold text-white">info@swatchcraftindia.com</span></div>
-            <div className="flex items-start"><span className="mr-3">📱</span><span className="font-bold text-white">WhatsApp: +91 98765 43210</span></div>
+            <div className="flex items-start"><span className="mr-3">📧</span><span className="font-bold text-white">digitex.studio@gmail.com</span></div>
+            <div className="flex items-start"><span className="mr-3">📱</span><span className="font-bold text-white">WhatsApp: +91 90049 62871</span></div>
             <div className="flex items-start"><span className="mr-3">📍</span><span>Mumbai, Maharashtra, India</span></div>
             <button onClick={() => onNavigate('contact-page')} className="bg-teal text-white w-full py-4 rounded-xl font-black text-xs uppercase tracking-widest mt-4 shadow-xl hover:bg-gold transition-all">Email RFQ Now</button>
           </div>

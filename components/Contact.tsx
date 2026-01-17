@@ -160,8 +160,8 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-gold font-black text-[10px] uppercase tracking-widest mb-1">Direct WhatsApp</p>
-                    <p className="font-bold text-xl leading-tight mb-4">+91 98765 43210</p>
-                    <a href="https://wa.me/910000000000" target="_blank" className="bg-[#25D366] text-white text-[10px] font-black px-6 py-2.5 rounded-xl hover:opacity-90 transition-all uppercase tracking-widest inline-block shadow-lg">Chat Now</a>
+                    <p className="font-bold text-xl leading-tight mb-4">+91 90049 62871</p>
+                    <a href="https://wa.me/919004962871" target="_blank" className="bg-[#25D366] text-white text-[10px] font-black px-6 py-2.5 rounded-xl hover:opacity-90 transition-all uppercase tracking-widest inline-block shadow-lg">Chat Now</a>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -170,7 +170,7 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-gold font-black text-[10px] uppercase tracking-widest mb-1">Email Inquiry</p>
-                    <p className="font-bold text-lg leading-tight">info@swatchcraftindia.com</p>
+                    <p className="font-bold text-lg leading-tight">digitex.studio@gmail.com</p>
                   </div>
                 </div>
               </div>
