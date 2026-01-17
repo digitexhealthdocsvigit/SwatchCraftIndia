@@ -35,7 +35,7 @@ const BlogHub: React.FC<Props> = ({ onNavigate }) => {
   const posts = [
     {
       title: "How to Choose the Right Fabric Swatch Format for Your Export Business",
-      excerpt: "Define the problem: exporters often struggle with sample presentation. Compare traditional swatch books vs waterfall cards and see which captures more repeat orders.",
+      excerpt: "Exporters often struggle with sample presentation. Compare traditional swatch books vs waterfall cards and see which captures more repeat orders.",
       tag: "Strategy",
       date: "Jan 22, 2025",
       author: "SwatchCraft Editorial",
