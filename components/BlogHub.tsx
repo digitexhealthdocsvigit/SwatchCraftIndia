@@ -35,7 +35,7 @@ const BlogHub: React.FC<Props> = ({ onNavigate }) => {
   const posts = [
     {
       title: "How to Choose the Right Fabric Swatch Format for Your Export Business",
-      excerpt: "Exporters often struggle with sample presentation. Compare traditional swatch books vs waterfall cards and see which captures more repeat orders.",
+      excerpt: "Exporters often struggle with sample presentation. Compare traditional swatch books vs waterfall cards and see which captures more repeat orders for 2025.",
       tag: "Strategy",
       date: "Jan 22, 2025",
       author: "SwatchCraft Editorial",
@@ -43,8 +43,8 @@ const BlogHub: React.FC<Props> = ({ onNavigate }) => {
       target: 'blog-post-1' as ViewState
     },
     {
-      title: "The Complete Guide to MOQ Pricing: India vs China vs USA (2025)",
-      excerpt: "A deep dive into global sample manufacturing costs. See how India's 'Sweet Spot' positioning offers China-competitive costs with USA-level quality and speed.",
+      title: "MOQ Pricing Breakdown: How India Competes with China & USA in 2025",
+      excerpt: "A deep dive into global sample manufacturing costs. See how India's 'Sweet Spot' positioning offers China-competitive costs with USA-level quality.",
       tag: "Pricing",
       date: "Jan 20, 2025",
       author: "Market Analysis Team",
@@ -52,8 +52,8 @@ const BlogHub: React.FC<Props> = ({ onNavigate }) => {
       target: 'blog-post-2' as ViewState
     },
     {
-      title: "Why Waterfall Swatch Cards are Winning Over Traditional Sample Books (And How to Use Them)",
-      excerpt: "Discover why waterfall cards are winning over traditional formats. Show 40% more samples in the same space with a premium appearance that captures trade show leads.",
+      title: "Waterfall Swatch Cards vs Traditional Books: Why Top Exporters Are Making the Switch",
+      excerpt: "Discover why waterfall cards are winning over traditional formats. Show 40% more samples in the same space with a premium appearance that captures leads.",
       tag: "Innovation",
       date: "Jan 18, 2025",
       author: "Design Team",
