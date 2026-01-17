@@ -4,9 +4,11 @@ import { ViewState } from '../App';
 
 interface Props {
   onNavigate: (view: ViewState) => void;
+  // Added missing onDownload prop
+  onDownload: (asset: string) => void;
 }
 
-const ProductCurtain: React.FC<Props> = ({ onNavigate }) => {
+const ProductCurtain: React.FC<Props> = ({ onNavigate, onDownload }) => {
   const [activeThumb, setActiveThumb] = useState(0);
   const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
@@ -194,7 +196,11 @@ const ProductCurtain: React.FC<Props> = ({ onNavigate }) => {
               >
                 WhatsApp for Quick Questions
               </a>
-              <button className="text-gray-400 text-xs font-bold underline hover:text-navy transition-colors text-center">
+              {/* Added onClick to trigger onDownload */}
+              <button 
+                onClick={() => onDownload('Curtain Spec Sheet')}
+                className="text-gray-400 text-xs font-bold underline hover:text-navy transition-colors text-center"
+              >
                 Download Product Spec Sheet
               </button>
             </div>
@@ -427,7 +433,7 @@ const ProductCurtain: React.FC<Props> = ({ onNavigate }) => {
               <div key={i} className="bg-white p-10 rounded-3xl border border-gray-100 shadow-sm relative group hover:shadow-xl transition-all flex flex-col h-full">
                 <span className="text-6xl text-gold/10 absolute top-4 left-4 font-serif">"</span>
                 <div className="flex text-gold text-xs mb-6">★★★★★</div>
-                <p className="text-gray-600 italic text-sm mb-8 leading-relaxed relative z-10 font-medium">{t.q}</p>
+                <p className="text-gray-600 italic text-sm mb-8 leading-relaxed font-medium relative z-10 font-medium">{t.q}</p>
                 <div className="mt-auto">
                   <h6 className="font-black text-navy text-sm uppercase tracking-wider">{t.n}</h6>
                   <p className="text-[10px] text-gray-400 font-bold uppercase mt-1">{t.c}</p>

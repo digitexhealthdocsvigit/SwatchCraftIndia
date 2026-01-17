@@ -1,11 +1,14 @@
+
 import React from 'react';
 import { ViewState } from '../App';
 
 interface Props {
   onNavigate: (view: ViewState) => void;
+  // Added missing onDownload prop to match interface in App.tsx
+  onDownload: (asset: string) => void;
 }
 
-const ProductWaterfall: React.FC<Props> = ({ onNavigate }) => {
+const ProductWaterfall: React.FC<Props> = ({ onNavigate, onDownload }) => {
   return (
     <div className="bg-white min-h-screen">
       <nav className="pt-24 px-4 pb-6 bg-gray-50 border-b border-gray-100">

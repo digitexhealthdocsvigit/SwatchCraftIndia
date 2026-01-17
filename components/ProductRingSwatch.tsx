@@ -1,11 +1,14 @@
+
 import React, { useState } from 'react';
 import { ViewState } from '../App';
 
 interface Props {
   onNavigate: (view: ViewState) => void;
+  // Added missing onDownload prop
+  onDownload: (asset: string) => void;
 }
 
-const ProductRingSwatch: React.FC<Props> = ({ onNavigate }) => {
+const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
   const [activeThumb, setActiveThumb] = useState(0);
   const [isZoomOpen, setIsZoomOpen] = useState(false);
   const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
@@ -183,7 +186,11 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate }) => {
               <a href="https://wa.me/910000000000" className="border-2 border-[#25D366] text-[#25D366] font-bold py-4 rounded-xl text-center hover:bg-[#25D366] hover:text-white transition-all text-xs uppercase tracking-widest flex items-center justify-center">
                 <span className="mr-2">💬</span> WhatsApp for Quick Quote
               </a>
-              <button className="text-gray-400 text-[10px] font-bold underline uppercase tracking-widest hover:text-navy transition-colors text-center">
+              {/* Added onClick to trigger onDownload */}
+              <button 
+                onClick={() => onDownload('Ring Swatch Spec Sheet')}
+                className="text-gray-400 text-[10px] font-bold underline uppercase tracking-widest hover:text-navy transition-colors text-center"
+              >
                 Download Product Specifications
               </button>
             </div>
@@ -217,7 +224,7 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate }) => {
           <div className="grid md:grid-cols-3 gap-8">
             {formats.map((format, i) => (
               <div key={i} className="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:border-gold transition-all flex flex-col group shadow-sm hover:shadow-xl">
-                <div className="aspect-[4/3] bg-white rounded-2xl mb-8 flex items-center justify-center text-gray-300 font-bold uppercase tracking-widest text-[9px] group-hover:text-gold border border-gray-100 text-center px-4 leading-relaxed transition-colors">
+                <div className="aspect-[4/3] bg-white rounded-2xl mb-8 flex items-center justify-center text-gray-300 font-black uppercase tracking-widest text-[9px] group-hover:text-gold border border-gray-100 text-center px-4 leading-relaxed transition-colors">
                   {format.placeholder}
                 </div>
                 <h4 className="text-xl font-bold text-navy mb-2 leading-tight">{format.title}</h4>
@@ -310,7 +317,7 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate }) => {
               { icon: "🏭", t: "Manufacturer Reps", s: "Meeting with retailers and distributors", b: ["Show full upholstery range", "Updated seasonally", "Manufacturer identity"], roi: "30% increase in order value" },
               { icon: "🌍", t: "Fabric Exporters", s: "International client meetings & shipping", b: ["Lightweight for air ship", "Customs-friendly", "Professional format"], roi: "Win 40% more export contracts" }
             ].map((use, i) => (
-              <div key={i} className="bg-white/5 p-8 rounded-3xl border border-white/10 hover:bg-white/10 transition-colors flex flex-col h-full">
+              <div key={i} className="bg-white/5 p-8 rounded-3xl border border-white/10 hover:bg-white/10 transition-colors flex flex-col h-full group">
                 <div className="text-4xl mb-6">{use.icon}</div>
                 <h5 className="font-bold text-lg mb-2 leading-tight">{use.t}</h5>
                 <p className="text-gray-400 text-[10px] italic mb-4 leading-tight">"{use.s}"</p>

@@ -1,11 +1,14 @@
+
 import React, { useState } from 'react';
 import { ViewState } from '../App';
 
 interface Props {
   onNavigate: (view: ViewState) => void;
+  // Added missing onDownload prop
+  onDownload: (asset: string) => void;
 }
 
-const ProductHanger: React.FC<Props> = ({ onNavigate }) => {
+const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
   const [activeThumb, setActiveThumb] = useState(0);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
@@ -208,7 +211,11 @@ const ProductHanger: React.FC<Props> = ({ onNavigate }) => {
               <a href="https://wa.me/910000000000" className="border-2 border-[#25D366] text-[#25D366] font-bold py-4 rounded-xl text-center hover:bg-[#25D366] hover:text-white transition-all text-xs uppercase tracking-widest flex items-center justify-center">
                 <span className="mr-2">💬</span> WhatsApp for Showroom Setup
               </a>
-              <button className="text-gray-400 text-[10px] font-bold underline uppercase tracking-widest hover:text-navy transition-colors text-center">
+              {/* Added onClick to trigger onDownload */}
+              <button 
+                onClick={() => onDownload('Hanger Display Guide')}
+                className="text-gray-400 text-[10px] font-bold underline uppercase tracking-widest hover:text-navy transition-colors text-center"
+              >
                 Download Display Guide PDF
               </button>
             </div>
