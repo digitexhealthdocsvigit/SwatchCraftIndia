@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ViewState } from '../App';
 
@@ -25,7 +26,7 @@ const products = [
     moq: "40 Albums",
     leadTime: "24-30 days",
     placeholder: "Curtain Fabric Album",
-    target: 'products-overview'
+    target: 'product-curtain'
   },
   {
     id: 'hanger',

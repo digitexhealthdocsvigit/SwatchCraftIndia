@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -15,8 +16,18 @@ import AboutPage from './components/AboutPage';
 import ProductsOverview from './components/ProductsOverview';
 import ManufacturingProcessPage from './components/ManufacturingProcessPage';
 import ProductUpholstery from './components/ProductUpholstery';
+import ProductCurtain from './components/ProductCurtain';
+import ExportMarketsPage from './components/ExportMarketsPage';
 
-export type ViewState = 'home' | 'about' | 'products-overview' | 'process-detail' | 'contact-page' | 'product-upholstery';
+export type ViewState = 
+  | 'home' 
+  | 'about' 
+  | 'products-overview' 
+  | 'process-detail' 
+  | 'contact-page' 
+  | 'product-upholstery' 
+  | 'product-curtain'
+  | 'export-markets-page';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>('home');
@@ -36,6 +47,10 @@ const App: React.FC = () => {
         return <ManufacturingProcessPage onNavigate={navigateTo} />;
       case 'product-upholstery':
         return <ProductUpholstery onNavigate={navigateTo} />;
+      case 'product-curtain':
+        return <ProductCurtain onNavigate={navigateTo} />;
+      case 'export-markets-page':
+        return <ExportMarketsPage onNavigate={navigateTo} />;
       case 'contact-page':
         return (
           <div className="pt-20">
@@ -56,7 +71,7 @@ const App: React.FC = () => {
                 <FeaturedProducts onNavigate={navigateTo} />
             </div>
             <QualityCertifications />
-            <div id="export-markets">
+            <div id="export-markets" onClick={() => navigateTo('export-markets-page')} className="cursor-pointer">
                 <ExportMarkets />
             </div>
             <div id="gallery">

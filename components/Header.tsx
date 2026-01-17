@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { ViewState } from '../App';
 
@@ -49,6 +50,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
     { name: 'About Us', id: 'about', type: 'view' },
     { name: 'Products', id: 'products-overview', type: 'view' },
     { name: 'Manufacturing', id: 'process-detail', type: 'view' },
+    { name: 'Export Markets', id: 'export-markets-page', type: 'view' },
     { name: 'Gallery', id: 'gallery', type: 'section' },
     { name: 'Contact', id: 'contact-page', type: 'view' }
   ];
@@ -65,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
         </div>
 
         {/* Navigation */}
-        <nav className="hidden lg:flex items-center space-x-6">
+        <nav className="hidden xl:flex items-center space-x-6">
           {navItems.map((item) => (
             <button
               key={item.id}
@@ -92,7 +94,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
           </a>
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden text-[#1a2849] p-2 focus:outline-none"
+            className="xl:hidden text-[#1a2849] p-2 focus:outline-none"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={mobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
@@ -103,7 +105,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-100 absolute top-full w-full shadow-xl">
+        <div className="xl:hidden bg-white border-t border-gray-100 absolute top-full w-full shadow-xl">
           <div className="p-4 space-y-4">
             {navItems.map((item) => (
               <button
