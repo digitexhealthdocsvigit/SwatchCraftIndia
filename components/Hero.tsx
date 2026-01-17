@@ -36,11 +36,11 @@ const Hero: React.FC<Props> = ({ onNavigate }) => {
         <div className="relative group">
           <div className="w-full aspect-[4/3] bg-[#e9ecef] rounded-2xl flex items-center justify-center border border-[#dee2e6] relative overflow-hidden shadow-2xl">
             <div className="flex flex-col items-center text-gray-400 group-hover:text-[#c9a86a] transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-16 w-16 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <span className="text-sm font-medium">Professional Swatch Book Product Shot</span>
+              <span className="text-sm font-medium">Premium upholstery fabric swatch book with custom branding by SwatchCraft India</span>
             </div>
             <div className="absolute bottom-0 right-0 bg-[#c9a86a] text-white px-6 py-3 rounded-tl-2xl font-bold shadow-lg">
               Export Quality

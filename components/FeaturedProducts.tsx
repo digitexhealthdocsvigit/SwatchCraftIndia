@@ -14,7 +14,7 @@ const products = [
     specs: ["Formats: Hardbound, Ring-bound", "Capacity: 20-60 samples", "Materials: Velvet, Linen, Jacquard", "White-label branding options"],
     moq: "50 Books",
     leadTime: "21-28 days",
-    placeholder: "Upholstery Swatch Book",
+    placeholder: "Hardbound upholstery swatch book showing 40 fabric samples",
     target: 'product-upholstery'
   },
   {
@@ -24,7 +24,7 @@ const products = [
     specs: ["Size: A3 or custom large format", "Capacity: 30-50 swatches", "Detachable pages included", "Ideal for wholesalers"],
     moq: "40 Albums",
     leadTime: "24-30 days",
-    placeholder: "Curtain Fabric Album",
+    placeholder: "Large format curtain fabric album with detachable pages",
     target: 'product-curtain'
   },
   {
@@ -34,7 +34,7 @@ const products = [
     specs: ["Hangers: Chrome, Wood, Matte Black", "Swatch size: 15x15cm or 20x20cm", "Custom printed header cards", "Retail display ready"],
     moq: "100 Hangers",
     leadTime: "18-25 days",
-    placeholder: "Fabric Hangers",
+    placeholder: "Professional chrome fabric hanger swatches for showroom wall display",
     target: 'product-hanger'
   },
   {
@@ -44,7 +44,7 @@ const products = [
     specs: ["Binding: Heavy-duty metal ring", "Swatch size: 10x10cm or 12x12cm", "Capacity: 20-40 samples", "Labled codes & case option"],
     moq: "75 Sets",
     leadTime: "15-20 days",
-    placeholder: "Ring Swatch Sets",
+    placeholder: "Compact ring-bound fabric swatch set for sales representatives",
     target: 'product-ring'
   },
   {
@@ -54,7 +54,7 @@ const products = [
     specs: ["Card size: A5, A4, or custom", "3-8 fabric swatches per card", "300-400 GSM cardstock", "Matte or UV coating"],
     moq: "200 Cards",
     leadTime: "12-18 days",
-    placeholder: "Sample Cards",
+    placeholder: "Premium A4 fabric storyboard with mood imagery and collection narrative",
     target: 'product-cards'
   },
   {
@@ -64,7 +64,7 @@ const products = [
     specs: ["Custom binding mechanisms", "Special dimensions supported", "Fabric consultation included", "Expert design support"],
     moq: "Custom Quote",
     leadTime: "Varies",
-    placeholder: "Bespoke Consulting",
+    placeholder: "Custom fabric swatch book manufacturer for bespoke projects",
     isCustom: true,
     target: 'contact-page'
   }
@@ -88,10 +88,10 @@ const FeaturedProducts: React.FC<Props> = ({ onNavigate }) => {
                 onClick={() => onNavigate(product.target as ViewState)}
               >
                 <div className="text-center text-gray-400 group-hover:text-gold transition-colors z-10">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-16 w-16 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                   </svg>
-                  <span className="text-xs font-semibold uppercase">{product.placeholder}</span>
+                  <span className="text-[9px] font-semibold uppercase tracking-tighter leading-tight px-4">{product.placeholder}</span>
                 </div>
                 {product.badge && (
                   <div className="absolute top-4 left-4 bg-gold text-white text-[10px] font-bold px-3 py-1 rounded-full z-20 shadow-sm">
