@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -65,13 +66,16 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>('home');
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
   const [activeAsset, setActiveAsset] = useState('Catalogue');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem('swatchcraft_admin_session') === 'true';
+  });
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentView]);
 
   const navigateTo = (view: ViewState) => {
+    // Protected route logic
     if (view === 'admin-dashboard' && !isAuthenticated) {
       setCurrentView('admin-login');
     } else {
@@ -81,11 +85,13 @@ const App: React.FC = () => {
 
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
+    localStorage.setItem('swatchcraft_admin_session', 'true');
     setCurrentView('admin-dashboard');
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
+    localStorage.removeItem('swatchcraft_admin_session');
     setCurrentView('home');
   };
 
@@ -128,15 +134,18 @@ const App: React.FC = () => {
       case 'admin-login': return <AdminLogin onLogin={handleLoginSuccess} onNavigate={navigateTo} />;
       case 'admin-dashboard': return <AdminDashboard onLogout={handleLogout} onNavigate={navigateTo} />;
       case 'contact-page': return <div className="pt-20"><Contact /></div>;
+      case 'not-found': return <NotFound onNavigate={navigateTo} />;
       default: return <NotFound onNavigate={navigateTo} />;
     }
   };
 
+  const isAdminView = ['admin-login', 'admin-dashboard'].includes(currentView);
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      {!['admin-login', 'admin-dashboard'].includes(currentView) && <Header onNavigate={navigateTo} currentView={currentView} />}
+      {!isAdminView && <Header onNavigate={navigateTo} currentView={currentView} />}
       <main className="flex-grow">{renderContent()}</main>
-      {!['admin-login', 'admin-dashboard'].includes(currentView) && <Footer onNavigate={navigateTo} />}
+      {!isAdminView && <Footer onNavigate={navigateTo} />}
       
       <LeadCaptureModal 
         isOpen={isLeadModalOpen} 
