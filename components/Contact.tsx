@@ -7,35 +7,35 @@ const Contact: React.FC = () => {
   const faqs = [
     {
       q: "What is your minimum order quantity (MOQ)?",
-      a: "Our standard MOQ is 100 units for standard products like upholstery books and waterfall cards. Custom projects may have different requirements. For volume orders over 500 units, we offer tiered discounts and free customization options."
+      a: "Our standard MOQ is 100 units for standard products like upholstery books and waterfall cards. Custom branding and bespoke design projects may have different requirements. Contact our technical team for volume flexibility."
     },
     {
       q: "How long does production take?",
-      a: "Waterfall formats typically require 2-3 weeks, while traditional hardbound books take 3-4 weeks. We offer a rush service for seasonal launches with guaranteed 15-20 day delivery—the fastest in the Indian market compared to China's 45-day standard."
+      a: "Standard lead time is 2-3 weeks for waterfall formats and 3-4 weeks for traditional hardbound books. We offer an expedited rush service with a guaranteed 15-20 day delivery for seasonal launches."
     },
     {
       q: "Do you offer white-label manufacturing?",
-      a: "Yes! We specialize in complete white-label manufacturing. This includes your custom logos, branded covers, personalized fabric labels, and export-compliant packaging with no mention of SwatchCraft."
+      a: "Yes! We specialize in complete white-label manufacturing. This includes your custom logos, branded covers, personalized fabric labels, and export-compliant packaging with no SwatchCraft branding."
     },
     {
       q: "What is your MOQ pricing vs international suppliers?",
-      a: "At 500+ MOQ, our pricing ranges from ₹70-120 per unit ($0.90-$1.50). This makes SwatchCraft the global value leader, matching USA/EU quality standards at 40-50% lower costs than domestic Western suppliers."
+      a: "At 500+ units, our pricing ranges from ₹70-120 per unit ($0.90-$1.50). We offer the 'Sweet Spot' of China-competitive pricing with USA-standard quality and European-level documentation."
     },
     {
-      q: "Can you handle international shipping and export logistics?",
-      a: "Absolutely. We manage the entire export process: documentation (Certificate of Origin, Commercial Invoice, Packing List), moisture-proof export packaging, and carrier coordination (DHL, FedEx, Sea Freight) to Europe, USA, and Asia."
+      q: "Can you handle international shipping and logistics?",
+      a: "Absolutely. We manage the entire export process: commercial documentation (COO, Invoice, PL), moisture-proof export packaging, and carrier coordination (DHL, FedEx, Sea Freight) to Europe, USA, and Asia."
     },
     {
-      q: "What formats do you offer?",
-      a: "We manufacture 6 primary formats: Traditional Swatch Books, Curtain Sample Albums, Waterfall Bi-fold Cards, Waterfall Tri-fold Cards, Fabric Hanger Swatches, and fully custom tailored solutions for unique branding needs."
+      q: "What fabric swatch formats do you offer?",
+      a: "We offer 6 primary formats: Traditional Swatch Books, Curtain Sample Albums, Waterfall Bi-fold Cards, Waterfall Tri-fold Cards, Fabric Hanger Swatches, and fully custom tailored solutions."
     },
     {
-      q: "Are your products export-certified?",
-      a: "Yes, all our products meet EU & USA import compliance standards. We are ISO 9001 certified and use sustainable, durable materials suitable for international transit and professional showroom environments."
+      q: "Are your products export-certified for EU/USA?",
+      a: "Yes, all our products meet EU and USA import compliance standards. We are ISO 9001 certified and use sustainable, durable materials that withstand international transit and professional use."
     },
     {
-      q: "Can I order a sample first?",
-      a: "We encourage quality testing! You can order 1-5 sample units at retail pricing before committing to bulk. The sample cost is adjustable against your subsequent bulk order of over 500 units."
+      q: "Can I order a single sample before committing?",
+      a: "We encourage quality testing! You can order 1-5 sample units at retail pricing to evaluate binding and printing quality before proceeding with a bulk export order."
     }
   ];
 
@@ -57,7 +57,7 @@ const Contact: React.FC = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="text-3xl md:text-5xl font-black text-navy mb-6 uppercase tracking-tighter">RFQ Received Successfully!</h2>
+          <h2 className="text-3xl md:text-5xl font-black text-navy mb-6 uppercase tracking-tighter leading-none">RFQ Received <br/> Successfully!</h2>
           <p className="text-gray-600 text-lg mb-10 leading-relaxed font-medium">
             Thank you for reaching out to SwatchCraft India. Our technical team is reviewing your requirements. You will receive a detailed PDF quote via email and a WhatsApp follow-up within 24 business hours.
           </p>
@@ -161,7 +161,7 @@ const Contact: React.FC = () => {
                   <div>
                     <p className="text-gold font-black text-[10px] uppercase tracking-widest mb-1">Direct WhatsApp</p>
                     <p className="font-bold text-xl leading-tight mb-4">+91 98765 43210</p>
-                    <a href="https://wa.me/910000000000" target="_blank" className="bg-[#25D366] text-white text-[10px] font-black px-6 py-2.5 rounded-xl hover:opacity-90 transition-all uppercase tracking-widest inline-block">Chat Now</a>
+                    <a href="https://wa.me/910000000000" target="_blank" className="bg-[#25D366] text-white text-[10px] font-black px-6 py-2.5 rounded-xl hover:opacity-90 transition-all uppercase tracking-widest inline-block shadow-lg">Chat Now</a>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -193,6 +193,7 @@ const Contact: React.FC = () => {
           <div className="text-center mb-16">
              <h2 className="text-3xl font-black text-[#1a2849] uppercase tracking-widest text-sm mb-4">Frequently Asked Questions</h2>
              <div className="w-12 h-1 bg-gold mx-auto"></div>
+             <p className="text-gray-400 mt-4 text-xs font-bold uppercase tracking-widest">Optimized for B2B Export Inquiries</p>
           </div>
           <div className="space-y-4">
             {faqs.map((faq, idx) => (

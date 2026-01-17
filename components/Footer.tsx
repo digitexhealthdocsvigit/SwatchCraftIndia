@@ -30,7 +30,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <li><button onClick={() => onNavigate('blog-hub')} className="hover:text-white transition-colors">Resources & Blog</button></li>
             <li><button onClick={() => onNavigate('export-markets-page')} className="hover:text-white transition-colors">Export Markets</button></li>
             <li><button onClick={() => onNavigate('pricing')} className="hover:text-white transition-colors">Pricing Guide</button></li>
-            <li><button onClick={() => onNavigate('gbp-strategy')} className="text-[9px] opacity-20 hover:opacity-100 transition-opacity">Google Business Strategy</button></li>
+            <li><button onClick={() => onNavigate('gbp-strategy')} className="text-[9px] opacity-30 hover:opacity-100 transition-opacity">Google Business Profile Strategy</button></li>
           </ul>
         </div>
 
