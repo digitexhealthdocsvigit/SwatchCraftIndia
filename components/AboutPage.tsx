@@ -31,7 +31,7 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Narrative Section (The 500-Word Version) */}
+      {/* Narrative Section */}
       <section className="py-24 px-4 bg-white">
         <div className="max-w-4xl mx-auto">
           <div className="prose prose-lg text-gray-600 leading-relaxed font-medium space-y-10">
@@ -40,15 +40,6 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
             </p>
             <p>
               Our heritage spans over 10 years of manufacturing excellence. Founded to address the critical gap in the Indian market for high-quality, export-standard fabric samples, SwatchCraft has grown into a trusted partner for global textile brands. We recognized early on that for a textile exporter, the swatch book is the most vital sales tool—it is the silent ambassador of their brand on a buyer's desk in Milan, Paris, or New York.
-            </p>
-            <p>
-              Innovation is at our core. We are proud to be the <strong>first and only manufacturer in India</strong> to introduce the Waterfall format innovation—a cascading sample layout that allows brands to display 40% more fabrics in a lighter, more compact format. This innovation has been instrumental in helping our clients reduce international shipping costs while simultaneously increasing their collection visibility at global trade shows like Heimtextil and Maison&Objet.
-            </p>
-            <p>
-              Our primary competitive advantage is our localized speed and India-based quality advantage. While international buyers often face 45-day lead times from overseas suppliers, SwatchCraft leverages its Mumbai-based facility to deliver premium, export-ready samples in just 15-20 days. This speed-to-market allows our clients to capitalize on seasonal trends before they fade and respond to RFQs with unprecedented agility.
-            </p>
-            <p>
-              Today, with a production capacity of 3000+ units per month and ISO certifications for quality management, our team of manufacturing, export, and design experts continues to push the boundaries of fabric presentation. From tiered MOQ pricing (₹70-120 per unit) to complete white-label documentation support, SwatchCraft India is your partner in world-class textile marketing. We remain committed to helping global brands present their textures, colors, and patterns with the world-class professionalism they deserve.
             </p>
           </div>
 
@@ -69,8 +60,48 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Roadmap Section */}
+      {/* Infrastructure Section (New High-Fidelity Addition) */}
       <section className="py-24 px-4 bg-gray-50 border-y border-gray-100">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-black text-navy text-center mb-16 uppercase tracking-tighter">Manufacturing Infrastructure</h2>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="bg-white p-10 rounded-[3rem] shadow-sm border border-gray-100">
+               <h3 className="text-xl font-bold text-navy mb-6 uppercase tracking-widest border-b border-gray-100 pb-4">Our Mumbai Facility</h3>
+               <ul className="space-y-6">
+                 {[
+                   { t: "Precision Cutting Suite", d: "Equipped with high-speed automated fabric cutters for 100% fray-free pinking and straight cuts." },
+                   { t: "Climate-Controlled Storage", d: "Ensures fabric integrity and prevents moisture damage for sensitive European silks and velvets." },
+                   { t: "In-House Printing & Embossing", d: "Custom branding executed on-site for immediate quality control and logo accuracy." },
+                   { t: "Triple-Layer QC Station", d: "Every book passes through three stages of manual inspection before export packaging." }
+                 ].map((inf, i) => (
+                   <li key={i} className="flex gap-4">
+                      <span className="w-6 h-6 bg-gold text-navy rounded-full flex items-center justify-center text-[10px] font-black shrink-0 mt-1">{i+1}</span>
+                      <div>
+                        <h4 className="font-bold text-navy text-sm uppercase tracking-tight mb-1">{inf.t}</h4>
+                        <p className="text-xs text-gray-500 leading-relaxed font-medium">{inf.d}</p>
+                      </div>
+                   </li>
+                 ))}
+               </ul>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+               {[
+                 "Facility Exterior - Mumbai Hub",
+                 "Automated Cutting Machine",
+                 "Binding Station (Hardbound)",
+                 "Export Packaging Zone"
+               ].map((label, i) => (
+                 <div key={i} className="aspect-square bg-gray-200 rounded-3xl flex items-center justify-center text-center p-6 border border-gray-300 hover:border-gold transition-colors">
+                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{label}</p>
+                 </div>
+               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Roadmap Section */}
+      <section className="py-24 px-4 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-black text-navy uppercase tracking-widest text-sm mb-2">Our Evolution</h2>
@@ -85,7 +116,7 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
                { year: '2023', event: 'Facility Expansion to 6000 SQ FT' },
                { year: '2025', event: 'Global Hub Strategy Launch' }
              ].map((m, i) => (
-               <div key={i} className="bg-white p-6 rounded-3xl border border-gray-100 text-center shadow-sm hover:scale-105 transition-transform">
+               <div key={i} className="bg-gray-50 p-6 rounded-3xl border border-gray-100 text-center shadow-sm hover:scale-105 transition-transform">
                   <p className="text-gold font-black text-lg mb-1">{m.year}</p>
                   <p className="text-[10px] text-gray-400 font-bold uppercase leading-tight">{m.event}</p>
                </div>
@@ -95,23 +126,13 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-32 px-4 bg-white text-center relative overflow-hidden">
+      <section className="py-32 px-4 bg-gray-50 text-center relative overflow-hidden">
         <div className="max-w-3xl mx-auto relative z-10">
           <h2 className="text-4xl md:text-6xl font-black text-[#1e3a5f] mb-8 tracking-tighter uppercase leading-none">Ready to Export <span className="text-gold">Quality?</span></h2>
           <p className="text-gray-500 text-lg mb-12 font-medium">Join 500+ global brands who trust SwatchCraft India for their premium sample presentations.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
-              onClick={() => onNavigate('contact-page')}
-              className="bg-[#0d7377] text-white px-12 py-5 rounded-2xl font-black uppercase tracking-widest text-xs shadow-2xl hover:scale-105 transition-all"
-            >
-              Request Export Quote
-            </button>
-            <button 
-              onClick={() => onNavigate('pricing')}
-              className="border-2 border-[#1e3a5f] text-[#1e3a5f] px-12 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#1e3a5f] hover:text-white transition-all"
-            >
-              View Volume Pricing
-            </button>
+            <button onClick={() => onNavigate('contact-page')} className="bg-[#0d7377] text-white px-12 py-5 rounded-2xl font-black uppercase tracking-widest text-xs shadow-2xl hover:scale-105 transition-all">Request Export Quote</button>
+            <button onClick={() => onNavigate('pricing')} className="border-2 border-[#1e3a5f] text-[#1e3a5f] px-12 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#1e3a5f] hover:text-white transition-all">View Volume Pricing</button>
           </div>
         </div>
       </section>

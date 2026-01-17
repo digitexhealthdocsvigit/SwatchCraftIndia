@@ -29,6 +29,7 @@ import PricingPage from './components/PricingPage';
 import GoogleBusinessProfile from './components/GoogleBusinessProfile';
 import OutreachTemplates from './components/OutreachTemplates';
 import LeadCaptureModal from './components/LeadCaptureModal';
+import NotFound from './components/NotFound';
 
 export type ViewState = 
   | 'home' 
@@ -53,10 +54,10 @@ export type ViewState =
   | 'terms'
   | 'pricing'
   | 'gbp-strategy'
-  | 'outreach-templates';
+  | 'outreach-templates'
+  | 'not-found';
 
-const SEO_CONFIG: Record<ViewState, { title: string; description: string; h1: string }> = {
-  // ... (SEO_CONFIG remains the same as provided in previous messages)
+const SEO_CONFIG: Record<string, { title: string; description: string; h1: string }> = {
   'home': { title: "Fabric Swatch Book Manufacturer India | SwatchCraft", description: "Indian manufacturer of premium upholstery & curtain fabric swatch books for global textile brands. Export-ready, 21-28 day delivery. MOQ 50 books.", h1: "Custom Upholstery & Curtain Swatch Books for Global Textile Brands" },
   'about': { title: "About SwatchCraft India | Premium Fabric Sample Manufacturing", description: "Mumbai-based manufacturer with 10+ years experience in premium swatch books and innovator of the waterfall format for global textile brands.", h1: "Our Heritage & Innovation in Fabric Sampling" },
   'products-overview': { title: "Fabric Presentation Solutions | Compare Swatch Books | SwatchCraft", description: "Explore our full range of swatch books, hangers, and ring sets. Compare MOQ and lead times for global upholstery and curtain brands.", h1: "Our Complete Product Range" },
@@ -79,7 +80,8 @@ const SEO_CONFIG: Record<ViewState, { title: string; description: string; h1: st
   'terms': { title: "Terms of Service | SwatchCraft India Manufacturing", description: "SwatchCraft India terms of service. MOQ policies, lead times, payment terms, shipping, returns.", h1: "Terms of Service" },
   'pricing': { title: "Pricing Guide | Fabric Swatch Book Costs | SwatchCraft", description: "Transparent pricing for fabric swatch books. Upholstery: ₹70-100/pc. Curtain albums: ₹100-140/pc. Volume discounts.", h1: "Transparent Volume Pricing" },
   'gbp-strategy': { title: "Google Business Profile Hub | SwatchCraft India", description: "Internal content hub and SEO strategy for SwatchCraft India's local search presence in Mumbai.", h1: "Google Business Strategy" },
-  'outreach-templates': { title: "B2B Backlink Outreach Templates | SwatchCraft India", description: "Internal marketing resource for backlink building and B2B outreach strategy.", h1: "Outreach & Link Building Dashboard" }
+  'outreach-templates': { title: "B2B Backlink Outreach Templates | SwatchCraft India", description: "Internal marketing resource for backlink building and B2B outreach strategy.", h1: "Outreach & Link Building Dashboard" },
+  'not-found': { title: "Page Not Found | SwatchCraft India", description: "The requested fabric presentation resource could not be found.", h1: "Missing Specification" }
 };
 
 const App: React.FC = () => {
@@ -93,7 +95,7 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    const config = SEO_CONFIG[currentView];
+    const config = SEO_CONFIG[currentView as string];
     if (config) {
       document.title = config.title;
       const metaDesc = document.querySelector('meta[name="description"]');
@@ -108,6 +110,19 @@ const App: React.FC = () => {
 
   const renderContent = () => {
     switch (currentView) {
+      case 'home': return (
+        <>
+          <Hero onNavigate={navigateTo} />
+          <TrustBar />
+          <div id="process"><ValueProps /><ProcessTimeline /></div>
+          <div id="products"><FeaturedProducts onNavigate={navigateTo} /></div>
+          <QualityCertifications />
+          <div id="export-markets" onClick={() => navigateTo('export-markets-page')} className="cursor-pointer"><ExportMarkets /></div>
+          <div id="gallery" onClick={() => navigateTo('portfolio')} className="cursor-pointer"><Gallery /></div>
+          <Testimonials />
+          <div id="contact"><Contact /></div>
+        </>
+      );
       case 'about': return <AboutPage onNavigate={navigateTo} />;
       case 'products-overview': return <ProductsOverview onNavigate={navigateTo} />;
       case 'process-detail': return <ManufacturingProcessPage onNavigate={navigateTo} />;
@@ -130,19 +145,8 @@ const App: React.FC = () => {
       case 'gbp-strategy': return <GoogleBusinessProfile onNavigate={navigateTo} />;
       case 'outreach-templates': return <OutreachTemplates onNavigate={navigateTo} />;
       case 'contact-page': return <div className="pt-20"><Contact /></div>;
-      default: return (
-        <>
-          <Hero onNavigate={navigateTo} />
-          <TrustBar />
-          <div id="process"><ValueProps /><ProcessTimeline /></div>
-          <div id="products"><FeaturedProducts onNavigate={navigateTo} /></div>
-          <QualityCertifications />
-          <div id="export-markets" onClick={() => navigateTo('export-markets-page')} className="cursor-pointer"><ExportMarkets /></div>
-          <div id="gallery" onClick={() => navigateTo('portfolio')} className="cursor-pointer"><Gallery /></div>
-          <Testimonials />
-          <div id="contact"><Contact /></div>
-        </>
-      );
+      case 'not-found': return <NotFound onNavigate={navigateTo} />;
+      default: return <NotFound onNavigate={navigateTo} />;
     }
   };
 
