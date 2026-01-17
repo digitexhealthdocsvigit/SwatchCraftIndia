@@ -36,6 +36,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <ul className="space-y-2">
               <li><button onClick={() => onNavigate('gbp-strategy')} className="text-[9px] opacity-30 hover:opacity-100 transition-opacity uppercase tracking-widest font-black block">Google Presence Strategy</button></li>
               <li><button onClick={() => onNavigate('outreach-templates')} className="text-[9px] opacity-30 hover:opacity-100 transition-opacity uppercase tracking-widest font-black block">Backlink Outreach Suite</button></li>
+              <li className="pt-2"><button onClick={() => onNavigate('admin-login')} className="text-[9px] text-gold font-black uppercase tracking-widest flex items-center gap-1 hover:underline">🔐 Admin Technical Portal</button></li>
             </ul>
           </div>
         </div>
@@ -67,7 +68,6 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div className="flex space-x-8 mt-6 md:mt-0 items-center">
           <button onClick={() => onNavigate('privacy')} className="hover:text-white transition-colors">Privacy Policy</button>
           <button onClick={() => onNavigate('terms')} className="hover:text-white transition-colors">Terms of Service</button>
-          <button onClick={() => onNavigate('admin-login')} className="w-2 h-2 bg-white/5 rounded-full hover:bg-gold transition-colors ml-4" title="System Login"></button>
         </div>
       </div>
     </footer>
