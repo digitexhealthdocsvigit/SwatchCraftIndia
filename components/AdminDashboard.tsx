@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { ViewState } from '../App.tsx';
 import AdminLaunchCenter from './AdminLaunchCenter.tsx';
+import GoogleBusinessProfile from './GoogleBusinessProfile.tsx';
+import OutreachTemplates from './OutreachTemplates.tsx';
 
 interface Props {
   onLogout: () => void;
   onNavigate: (view: ViewState) => void;
 }
 
+type TabType = 'leads' | 'analytics' | 'launch' | 'strategy' | 'outreach' | 'settings';
+
 const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
-  const [activeTab, setActiveTab] = useState<'leads' | 'analytics' | 'launch' | 'settings'>('leads');
+  const [activeTab, setActiveTab] = useState<TabType>('leads');
 
   const leads = [
     { id: 'RFQ-901', company: 'Milan Velvet Co.', type: 'Waterfall Cards', qty: 500, date: '2 hours ago', status: 'New' },
@@ -24,9 +28,18 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
     { label: 'Monthly Rev', val: '₹4.2M', trend: 'Target Met' }
   ];
 
+  const navItems = [
+    { id: 'leads', label: 'Leads & RFQs' },
+    { id: 'launch', label: 'Launch Control' },
+    { id: 'strategy', label: 'Marketing Strategy' },
+    { id: 'outreach', label: 'Outreach Suite' },
+    { id: 'analytics', label: 'Global Analytics' },
+    { id: 'settings', label: 'System Settings' }
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      <div className="w-72 bg-navy text-white flex flex-col fixed inset-y-0">
+      <div className="w-72 bg-navy text-white flex flex-col fixed inset-y-0 shadow-2xl z-20">
         <div className="p-8 border-b border-white/10">
           <span className="text-xl font-black uppercase tracking-tighter">SwatchCraft <span className="text-gold">Ops</span></span>
           <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Management Console</p>
@@ -46,10 +59,15 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
         </div>
 
         <nav className="p-6 space-y-2 flex-grow overflow-y-auto">
-          <button onClick={() => setActiveTab('leads')} className={`w-full text-left px-6 py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all ${activeTab === 'leads' ? 'bg-gold text-navy shadow-lg' : 'text-gray-400 hover:bg-white/5'}`}>Leads & RFQs</button>
-          <button onClick={() => setActiveTab('launch')} className={`w-full text-left px-6 py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all ${activeTab === 'launch' ? 'bg-gold text-navy shadow-lg' : 'text-gray-400 hover:bg-white/5'}`}>Launch Control</button>
-          <button onClick={() => setActiveTab('analytics')} className={`w-full text-left px-6 py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all ${activeTab === 'analytics' ? 'bg-gold text-navy shadow-lg' : 'text-gray-400 hover:bg-white/5'}`}>Global Analytics</button>
-          <button onClick={() => setActiveTab('settings')} className={`w-full text-left px-6 py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all ${activeTab === 'settings' ? 'bg-gold text-navy shadow-lg' : 'text-gray-400 hover:bg-white/5'}`}>System Settings</button>
+          {navItems.map((item) => (
+            <button 
+              key={item.id}
+              onClick={() => setActiveTab(item.id as TabType)} 
+              className={`w-full text-left px-6 py-4 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all ${activeTab === item.id ? 'bg-gold text-navy shadow-lg' : 'text-gray-400 hover:bg-white/5'}`}
+            >
+              {item.label}
+            </button>
+          ))}
         </nav>
         
         <div className="p-8 border-t border-white/10">
@@ -64,7 +82,7 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
         <header className="flex justify-between items-center mb-12">
           <div>
             <h2 className="text-3xl font-black text-navy uppercase tracking-tighter">
-              {activeTab === 'leads' ? 'Lead Pipeline' : activeTab === 'launch' ? 'Go-To-Market Center' : activeTab === 'analytics' ? 'Performance Metrics' : 'System Configuration'}
+              {navItems.find(n => n.id === activeTab)?.label}
             </h2>
             <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mt-1">
                Operational Hub Status: <span className="text-teal">System Nominal</span>
@@ -86,10 +104,22 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
         </header>
 
         {activeTab === 'launch' && <AdminLaunchCenter />}
+        
+        {activeTab === 'strategy' && (
+          <div className="-mt-32">
+            <GoogleBusinessProfile onNavigate={onNavigate} />
+          </div>
+        )}
+
+        {activeTab === 'outreach' && (
+          <div className="-mt-32">
+            <OutreachTemplates onNavigate={onNavigate} />
+          </div>
+        )}
 
         {activeTab === 'leads' && (
           <div className="space-y-8 animate-fadeIn">
-            <div className="grid grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                {stats.map((s, i) => (
                  <div key={i} className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
                     <p className="text-[10px] font-black text-gray-400 uppercase mb-2">{s.label}</p>
@@ -134,6 +164,12 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
                   </tbody>
                </table>
             </div>
+          </div>
+        )}
+
+        {(activeTab === 'analytics' || activeTab === 'settings') && (
+          <div className="bg-white p-20 rounded-[3rem] border border-dashed border-gray-200 text-center">
+             <p className="text-gray-400 font-bold uppercase tracking-[0.2em]">Module {activeTab} is currently being initialized.</p>
           </div>
         )}
       </div>

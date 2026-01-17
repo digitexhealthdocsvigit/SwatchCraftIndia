@@ -32,10 +32,8 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <li><button onClick={() => onNavigate('pricing')} className="hover:text-white transition-colors text-left">Pricing Guide</button></li>
           </ul>
           <div className="mt-8 pt-8 border-t border-white/5 space-y-4">
-            <h4 className="text-[#c9a86a] font-bold uppercase tracking-widest text-[10px]">Internal Resources</h4>
+            <h4 className="text-[#c9a86a] font-bold uppercase tracking-widest text-[10px]">Technical</h4>
             <ul className="space-y-2">
-              <li><button onClick={() => onNavigate('gbp-strategy')} className="text-[9px] opacity-30 hover:opacity-100 transition-opacity uppercase tracking-widest font-black block">Google Presence Strategy</button></li>
-              <li><button onClick={() => onNavigate('outreach-templates')} className="text-[9px] opacity-30 hover:opacity-100 transition-opacity uppercase tracking-widest font-black block">Backlink Outreach Suite</button></li>
               <li className="pt-2"><button onClick={() => onNavigate('admin-login')} className="text-[9px] text-gold font-black uppercase tracking-widest flex items-center gap-1 hover:underline">🔐 Admin Technical Portal</button></li>
             </ul>
           </div>
