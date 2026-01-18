@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { ViewState } from '../App.tsx';
+// Added missing icon imports to fix compilation errors
 import { 
   Star, CheckCircle2, MessageCircle, Download, Briefcase, 
   Monitor, Layout, Factory, Globe, ShieldCheck, Zap, 
   ChevronRight, ArrowRight, HelpCircle, X, Maximize2, 
-  Layers, Settings, Package, TrendingUp
+  Layers, Settings, Package, TrendingUp, DollarSign, PenTool,
+  Archive, Trash2, Smartphone, Award, History,
+  ClipboardList, Box, Ruler
 } from 'lucide-react';
 import { useGlobalSettings } from './GlobalSettingsContext.tsx';
 
@@ -103,7 +106,7 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
                <span className="text-gray-400 text-[10px] font-black uppercase tracking-widest ml-2">4.8/5 (37 reviews)</span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-navy mb-4 leading-none uppercase tracking-tighter">Ring Swatch Sample Sets</h1>
-            <p className="text-xl text-gray-500 mb-10 leading-relaxed font-medium">Compact, durable sample sets designed for mobile sales teams and trade show presentations.</p>
+            <p className="text-xl text-gray-500 mb-10 leading-relaxed font-medium">Portable fabric presentation kits designed for mobile sales teams and trade show success.</p>
             
             <div className="space-y-4 mb-10">
               {[
@@ -113,7 +116,7 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
                 "Individual swatches can be removed for customer inspection",
                 "Available in landscape or portrait orientation"
               ].map((item, i) => (
-                <div key={i} className="flex items-center text-navy font-bold text-sm">
+                <div key={i} className="flex items-center text-navy font-bold text-sm text-left">
                   <CheckCircle2 className="w-5 h-5 text-teal mr-3 shrink-0" />
                   {item}
                 </div>
@@ -270,14 +273,14 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
           <h2 className="text-3xl md:text-5xl font-black text-navy text-center mb-16 uppercase tracking-tighter">Complete Branding Customization</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {[
-              { t: "Cover Design", d: "Logo (embossed/printed), brand colors, premium materials.", i: "[Custom covers]" },
-              { t: "Swatch Labeling", d: "Fabric codes, composition, care symbols, price tags.", i: "[Labeled swatches]" },
-              { t: "Index/Dividers", d: "Color-coded tabs for collection separators.", i: "[Dividers]" },
-              { t: "Protective Case", d: "Vinyl zippered case with branded logo embossing.", i: "[Zippered case]" },
-              { t: "Insert Cards", d: "Business card pockets and care instruction sheets.", i: "[Insert cards]" }
+              { t: "Cover Design", d: "Logo (embossed/printed), brand colors, premium materials.", icon: <Archive className="w-10 h-10" />, i: "[Custom covers]" },
+              { t: "Swatch Labeling", d: "Fabric codes, composition, care symbols, price tags.", icon: <PenTool className="w-10 h-10" />, i: "[Labeled swatches]" },
+              { t: "Index/Dividers", d: "Color-coded tabs for collection separators.", icon: <Layers className="w-10 h-10" />, i: "[Dividers]" },
+              { t: "Protective Case", d: "Vinyl zippered case with branded logo embossing.", icon: <Smartphone className="w-10 h-10" />, i: "[Zippered case]" },
+              { t: "Insert Cards", d: "Business card pockets and care instruction sheets.", icon: <ClipboardList className="w-10 h-10" />, i: "[Insert cards]" }
             ].map((opt, i) => (
               <div key={i} className="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 flex flex-col h-full hover:shadow-xl transition-all">
-                 <div className="aspect-square bg-white rounded-2xl mb-6 flex items-center justify-center text-[9px] font-black text-gray-300 uppercase px-4 text-center">{opt.i}</div>
+                 <div className="text-teal mb-6 flex justify-center">{opt.icon}</div>
                  <h4 className="font-black text-navy uppercase text-sm mb-3 tracking-tight">{opt.t}</h4>
                  <p className="text-gray-500 text-[11px] leading-relaxed font-medium">{opt.d}</p>
               </div>
@@ -288,22 +291,23 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
 
       {/* Use Cases Section */}
       <section className="py-24 px-4 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-black text-navy text-center mb-16 uppercase tracking-tighter leading-none">Designed For Mobile Professionals</h2>
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-3xl md:text-5xl font-black text-navy mb-16 uppercase tracking-tighter">Designed For Mobile Professionals</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { icon: <Briefcase className="w-10 h-10" />, title: "Sales Representatives", desc: "Ultra-portable kits for furniture stores visits. Reps report 35% faster decision-making.", ord: "20-50 units" },
-              { icon: <Monitor className="w-10 h-10" />, title: "Trade Show Exhibitors", desc: "Compact booth usage. 2x more qualified leads with professional presentation.", ord: "30-60 units" },
-              { icon: <Layers className="w-10 h-10" />, title: "Interior Designers", desc: "Organized by project or style. Close projects 20% faster with organized samples.", ord: "10-25 units" },
-              { icon: <Factory className="w-10 h-10" />, title: "Furniture Manufacturer Reps", desc: "Show full upholstery range compactly. Increase order value by 30% with complete presentation.", ord: "50-100 units" },
-              { icon: <Globe className="w-10 h-10" />, title: "Fabric Exporters", desc: "Lightweight for international shipping. Win 40% more contracts with organized sampling.", ord: "100-200 units" }
+              { icon: <Briefcase className="w-10 h-10" />, title: "Sales Representatives", desc: "Ultra-portable kits for designer visits. Reps report 35% faster decisions.", ord: "20-50 units", roi: "Close projects 20% faster" },
+              { icon: <Monitor className="w-10 h-10" />, title: "Trade Show Exhibitors", desc: "Compact booth usage. Professional brand image that stands out from competitors.", ord: "30-60 units", roi: "Generate 2x more qualified leads" },
+              { icon: <Layers className="w-10 h-10" />, title: "Interior Designers", desc: "Organized by style or project. Clients love the tactile interaction and convenience.", ord: "10-25 units", roi: "Present 30 fabrics in 2 mins" },
+              { icon: <Factory className="w-10 h-10" />, title: "Furniture Manufacturer Reps", desc: "Show full upholstery ranges compactly with manufacturer white-label identity.", ord: "50-100 units", roi: "+30% average order value" },
+              { icon: <Globe className="w-10 h-10" />, title: "Fabric Exporters", desc: "Lightweight for shipping. Customs-friendly format that buyers actually keep.", ord: "100-200 units", roi: "Win 40% more export contracts" }
             ].map((use, i) => (
-              <div key={i} className="p-10 bg-white rounded-[3rem] border border-gray-100 shadow-sm flex flex-col h-full group hover:shadow-2xl transition-all">
+              <div key={i} className="p-10 bg-white rounded-[3rem] border border-gray-100 shadow-sm flex flex-col h-full group hover:shadow-2xl transition-all text-center">
                 <div className="text-teal mb-6 flex justify-center group-hover:scale-110 transition-transform">{use.icon}</div>
-                <h4 className="font-black text-navy mb-4 uppercase text-lg leading-tight text-center">{use.title}</h4>
-                <p className="text-gray-500 text-sm leading-relaxed font-medium mb-8 flex-grow text-center">{use.desc}</p>
-                <div className="pt-6 border-t border-gray-50 text-center">
-                   <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest">Typical Order: {use.ord}</p>
+                <h4 className="font-black text-navy mb-4 uppercase text-lg leading-tight">{use.title}</h4>
+                <p className="text-gray-500 text-sm leading-relaxed font-medium mb-8 flex-grow">{use.desc}</p>
+                <div className="pt-6 border-t border-gray-50 flex flex-col gap-2">
+                   <p className="text-[10px] text-teal font-black uppercase tracking-widest">ROI: {use.roi}</p>
+                   <p className="text-[9px] text-gray-400 font-bold uppercase tracking-[0.2em]">Order: {use.ord}</p>
                 </div>
               </div>
             ))}
@@ -320,23 +324,23 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
               { 
                 t: "Punched Fabric Swatches", 
                 i: "[Swatches with punched holes]", 
-                d: "Direct fabric mounting with reinforced holes. Direct tactile touch.",
+                d: "Direct fabric mounting with reinforced holes. Maximum tactile authenticity.",
                 pros: ["Tactile feel", "Lightweight", "Authentic touch"],
-                best: "Durable fabrics, authentic presentation"
+                best: "Durable fabrics, premium brands"
               },
               { 
                 t: "Plastic Sleeve Protection", 
                 i: "[Fabric in clear sleeves]", 
-                d: "Protected in clear plastic sleeves. Removable for customer inspection.",
-                pros: ["Fabric protection", "Cleaner look", "Reusable"],
+                d: "Swatches protected in clear plastic sleeves. Removable for customer inspection.",
+                pros: ["Fabric protection", "Cleaner look", "Reusable sleeves"],
                 best: "Delicate fabrics, trade shows"
               },
               { 
                 t: "Cardstock Mounted Swatches", 
                 i: "[Fabric glued to cards]", 
-                d: "Adhered to punched cardstock pages. Space for printed info.",
-                pros: ["Neat presentation", "Rigid structure", "Lots of info"],
-                best: "Permanent references, showroom use"
+                d: "Adhered to punched cardstock pages. Rigid structure with printed info space.",
+                pros: ["Neat presentation", "Rigid structure", "Detailed info"],
+                best: "Permanent references, showrooms"
               }
             ].map((method, i) => (
               <div key={i} className="space-y-6">
@@ -450,7 +454,7 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
               { s: "200+ uses", t: "Rugged Durability", d: "Metal rings and reinforced covers handle daily travel and repeated presentations." },
               { s: "70% cheaper", t: "Cost-Effective", d: "Equip your entire national sales team affordably compared to hard-bound books." }
             ].map((feat, i) => (
-              <div key={i} className="bg-gray-50 p-10 rounded-[3rem] border border-gray-100 hover:border-gold transition-all">
+              <div key={i} className="bg-gray-50 p-10 rounded-[3rem] border border-gray-100 hover:border-gold transition-all flex flex-col items-center text-center">
                  <p className="text-gold font-black text-2xl mb-2 tracking-tighter">{feat.s}</p>
                  <h4 className="text-lg font-black text-navy mb-3 uppercase tracking-tight">{feat.t}</h4>
                  <p className="text-gray-500 text-xs font-medium leading-relaxed">{feat.d}</p>
@@ -468,13 +472,13 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
             <thead className="bg-navy text-white text-[10px] font-black uppercase tracking-widest">
               <tr>
                 <th className="p-6">Feature</th>
-                <th className="p-6">Ring Swatch Sets</th>
-                <th className="p-6">Hardbound Books</th>
-                <th className="p-6">Loose Swatches</th>
-                <th className="p-6">Hanger Displays</th>
+                <th className="p-6 text-center">Ring Swatch Sets</th>
+                <th className="p-6 text-center">Hardbound Books</th>
+                <th className="p-6 text-center">Loose Swatches</th>
+                <th className="p-6 text-center">Hanger Displays</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 font-bold text-navy text-xs">
+            <tbody className="divide-y divide-gray-100 font-bold text-navy text-xs text-center">
               {[
                 { f: "Portability", r: "★★★★★", h: "★★★", l: "★★", d: "★" },
                 { f: "Cost", r: "₹20-25", h: "₹85-100", l: "₹5-10", d: "₹22-25" },
@@ -483,7 +487,7 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
                 { f: "Travel-Friendly", r: "★★★★★", h: "★★★", l: "★★", d: "★" }
               ].map((row, i) => (
                 <tr key={i} className="hover:bg-gray-50 transition-colors">
-                  <td className="p-6 bg-gray-50/50 uppercase tracking-widest text-[9px]">{row.f}</td>
+                  <td className="p-6 bg-gray-50/50 uppercase tracking-widest text-[9px] text-left">{row.f}</td>
                   <td className="p-6 text-teal font-black">{row.r}</td>
                   <td className="p-6 text-gray-400">{row.h}</td>
                   <td className="p-6 text-gray-400">{row.l}</td>
@@ -498,8 +502,8 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
 
       {/* Success Stories */}
       <section className="py-24 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-black text-navy text-center mb-16 uppercase tracking-tighter">Customer Success Stories</h2>
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-3xl md:text-5xl font-black text-navy mb-16 uppercase tracking-tighter">Customer Success Stories</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { 
@@ -521,14 +525,15 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
                 n: "Urban Spaces Design"
               }
             ].map((story, i) => (
-              <div key={i} className="bg-gray-50 p-10 rounded-[3rem] border border-gray-100 flex flex-col h-full shadow-sm">
+              <div key={i} className="bg-gray-50 p-10 rounded-[3rem] border border-gray-100 flex flex-col h-full shadow-sm text-left">
                  <div className="flex text-gold mb-6">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-current" />)}</div>
                  <p className="text-gray-600 text-sm italic font-medium leading-relaxed mb-8 flex-grow">"{story.q}"</p>
                  <div className="mb-6 space-y-2">
-                    {story.r.map((r, idx) => <p key={idx} className="text-[10px] font-black text-teal uppercase"><ArrowRight className="inline w-3 h-3 mr-1" /> {r}</p>)}
+                    {story.r.map((r, idx) => <p key={idx} className="text-[10px] font-black text-teal uppercase flex items-center gap-2"><ArrowRight className="w-3 h-3" /> {r}</p>)}
                  </div>
-                 <div className="pt-6 border-t border-gray-200">
-                    <h5 className="font-black text-navy uppercase text-sm">{story.n}</h5>
+                 <div className="pt-6 border-t border-gray-200 flex items-center justify-between">
+                    <h5 className="font-black text-navy uppercase text-[10px]">{story.n}</h5>
+                    <Award className="w-4 h-4 text-gold" />
                  </div>
               </div>
             ))}
@@ -538,19 +543,19 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
 
       {/* Care & Maintenance Guide */}
       <section className="py-24 px-4 bg-gray-50 border-y border-gray-100">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-black text-navy text-center mb-16 uppercase tracking-tighter">Keeping Your Ring Sets in Top Condition</h2>
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-3xl font-black text-navy mb-16 uppercase tracking-tighter">Keeping Your Ring Sets in Top Condition</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { t: "Regular Cleaning", d: "Wipe covers with damp cloth. Clean rings with dry cloth to prevent any rust buildup." },
-              { t: "Fabric Protection", d: "Keep swatches in sleeves for delicate fabrics and avoid prolonged direct sunlight." },
-              { t: "Mechanism Care", d: "Open rings gently and check for alignment quarterly. Don't overload beyond capacity." },
-              { s: "Storage Tips", d: "Store flat or upright. Keep away from moisture and stack no more than 10 sets high." }
+              { t: "Regular Cleaning", d: "Wipe covers with damp cloth. Clean rings with dry cloth to prevent any rust buildup.", i: <History className="w-6 h-6" /> },
+              { t: "Fabric Protection", d: "Keep swatches in sleeves for delicate fabrics and avoid prolonged direct sunlight.", i: <ShieldCheck className="w-6 h-6" /> },
+              { t: "Mechanism Care", d: "Open rings gently and check for alignment quarterly. Don't overload beyond capacity.", i: <Settings className="w-6 h-6" /> },
+              { t: "Secure Storage", d: "Store flat or upright. Keep away from moisture and stack no more than 10 sets high.", i: <Package className="w-6 h-6" /> }
             ].map((tip, i) => (
               <div key={i} className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col h-full group hover:border-gold transition-colors">
-                <div className="w-10 h-10 bg-gold/10 rounded-xl flex items-center justify-center text-gold font-black text-lg mb-4 group-hover:bg-gold group-hover:text-white transition-all">{i+1}</div>
-                <h5 className="font-bold text-navy uppercase text-sm mb-3 tracking-tight">{tip.t || tip.s}</h5>
-                <p className="text-gray-500 text-xs leading-relaxed font-medium">{tip.d}</p>
+                <div className="w-12 h-12 bg-gold/10 rounded-2xl flex items-center justify-center text-gold mb-6 group-hover:bg-gold group-hover:text-white transition-all mx-auto">{tip.i}</div>
+                <h5 className="font-bold text-navy uppercase text-sm mb-3 tracking-tight">{tip.t}</h5>
+                <p className="text-gray-500 text-[11px] leading-relaxed font-medium">{tip.d}</p>
               </div>
             ))}
           </div>
@@ -559,9 +564,9 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
 
       {/* FAQ Section */}
       <section className="py-24 px-4 bg-white">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-black text-navy text-center mb-12 uppercase tracking-tighter">Technical FAQ</h2>
-          <div className="space-y-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl font-black text-navy mb-12 uppercase tracking-tighter">Technical FAQ</h2>
+          <div className="space-y-4 text-left">
             {faqs.map((faq, idx) => (
               <div key={idx} className="bg-gray-50 rounded-3xl border border-gray-100 overflow-hidden shadow-sm">
                 <button 
@@ -584,21 +589,24 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
 
       {/* Related Products */}
       <section className="py-24 px-4 bg-gray-50 border-t border-gray-100">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-black text-navy text-center mb-16 uppercase tracking-tighter leading-none">Complete Your Presentation Kit</h2>
-          <div className="grid md:grid-cols-3 gap-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-3xl font-black text-navy mb-16 uppercase tracking-tighter leading-none">Complete Your Presentation Kit</h2>
+          <div className="grid md:grid-cols-3 gap-8 text-left">
             {[
-              { t: "Upholstery Swatch Books", p: 70, target: 'product-upholstery', d: "For permanent showroom displays" },
-              { t: "Fabric Hanger Swatches", p: 18, target: 'product-hanger', d: "Wall displays for retail" },
-              { t: "Sample Cards & Storyboards", p: 15, target: 'product-cards', d: "Marketing-ready cards" }
+              { t: "Upholstery Swatch Books", p: 70, target: 'product-upholstery', d: "For permanent showroom displays", icon: <Box className="w-5 h-5 text-gold" /> },
+              { t: "Fabric Hanger Swatches", p: 18, target: 'product-hanger', d: "Wall displays for retail stores", icon: <Ruler className="w-5 h-5 text-gold" /> },
+              { t: "Sample Cards & Storyboards", p: 15, target: 'product-cards', d: "High-impact marketing cards", icon: <ClipboardList className="w-5 h-5 text-gold" /> }
             ].map((prod, i) => (
               <div key={i} className="bg-white p-8 rounded-[2.5rem] border border-gray-100 group shadow-sm hover:shadow-xl transition-all h-full flex flex-col">
                 <div className="aspect-video bg-gray-50 rounded-2xl mb-6 flex items-center justify-center text-gray-200 font-black text-[9px] uppercase tracking-widest text-center px-6">Product Visual</div>
-                <h4 className="text-lg font-black text-navy mb-1 uppercase tracking-tight group-hover:text-gold transition-colors">{prod.t}</h4>
+                <div className="flex items-center gap-3 mb-2">
+                   {prod.icon}
+                   <h4 className="text-lg font-black text-navy uppercase tracking-tight group-hover:text-gold transition-colors">{prod.t}</h4>
+                </div>
                 <p className="text-gray-400 text-[10px] font-bold uppercase mb-6 flex-grow">{prod.d}</p>
                 <div className="flex justify-between items-center pt-4 border-t border-gray-200">
                    <span className="text-[10px] font-black text-navy uppercase tracking-widest">From {formatPrice(prod.p)}</span>
-                   <button onClick={() => onNavigate(prod.target as ViewState)} className="text-teal font-black text-[10px] uppercase tracking-widest hover:underline">View Product →</button>
+                   <button onClick={() => onNavigate(prod.target as ViewState)} className="text-teal font-black text-[10px] uppercase tracking-widest hover:underline flex items-center gap-1">View Product <ChevronRight className="w-3 h-3" /></button>
                 </div>
               </div>
             ))}
@@ -617,7 +625,7 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
           <h2 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-tighter leading-tight">Equip Your Sales Team for Success</h2>
           <p className="text-white/80 text-lg mb-12 font-medium">Request a custom quote for branded portable sample kits and start winning more accounts.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-6">
-            <button onClick={() => onNavigate('contact-page')} className="bg-teal text-white px-12 py-5 rounded-2xl font-black shadow-2xl hover:bg-white hover:text-navy transition-all uppercase tracking-widest text-xs">Get Sales Team Quote</button>
+            <button onClick={() => onNavigate('contact-page')} className="bg-[#0d7377] text-white px-12 py-5 rounded-2xl font-black shadow-2xl hover:bg-white hover:text-navy transition-all uppercase tracking-widest text-xs">Get Sales Team Quote</button>
             <button onClick={() => onDownload('Sample Ring Pack')} className="bg-white/10 text-white border border-white/20 px-12 py-5 rounded-2xl font-black hover:bg-white/20 transition-all uppercase tracking-widest text-xs">Order 10 Sample Sets ({formatPrice(800)})</button>
           </div>
           <div className="mt-8 flex justify-center items-center gap-3">
@@ -629,7 +637,7 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
 
       {/* Pricing Modal */}
       {isPricingModalOpen && (
-        <div className="fixed inset-0 bg-navy/95 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-navy/95 backdrop-blur-sm z-[100] flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-white rounded-[3rem] w-full max-w-2xl overflow-hidden shadow-2xl relative">
             <button onClick={() => setIsPricingModalOpen(false)} className="absolute top-8 right-8 text-gray-400 hover:text-navy transition-colors"><X className="w-8 h-8" /></button>
             <div className="p-12">
@@ -656,7 +664,7 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
                     <li className="flex justify-between"><span>Custom Rigid Box</span> <span>+{formatPrice(25)}/set</span></li>
                   </ul>
                </div>
-               <button onClick={() => { setIsPricingModalOpen(false); onNavigate('contact-page'); }} className="w-full bg-navy text-white font-black py-5 rounded-2xl mt-12 uppercase tracking-widest text-xs shadow-xl">Get Team Pricing Now</button>
+               <button onClick={() => { setIsPricingModalOpen(false); onNavigate('contact-page'); }} className="w-full bg-[#1a2849] text-white font-black py-5 rounded-2xl mt-12 uppercase tracking-widest text-xs shadow-xl">Get Team Pricing Now</button>
             </div>
           </div>
         </div>
@@ -664,7 +672,7 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
 
       {/* Mobile Sticky CTA */}
       <div className="lg:hidden fixed bottom-6 left-6 right-6 z-[60]">
-        <button onClick={() => onNavigate('contact-page')} className="w-full bg-teal text-white font-black py-5 rounded-2xl shadow-2xl uppercase tracking-widest text-sm">Request Sales Kit Quote</button>
+        <button onClick={() => onNavigate('contact-page')} className="w-full bg-[#0d7377] text-white font-black py-5 rounded-2xl shadow-2xl uppercase tracking-widest text-sm">Request Sales Kit Quote</button>
       </div>
     </div>
   );
