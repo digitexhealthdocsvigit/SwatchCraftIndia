@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { ViewState } from '../App.tsx';
+
 import { 
   Star, CheckCircle2, MessageCircle, Download, Briefcase, 
   Monitor, Layout, Factory, Globe, ShieldCheck, Zap, 
   ChevronRight, ArrowRight, HelpCircle, X, Maximize2, 
-  Layers, Settings, Package, TrendingUp, Archive, PenTool, Smartphone, Award, ClipboardList, Box, Ruler
+  Layers, Settings, Package, TrendingUp, Archive, PenTool, Smartphone, Award, ClipboardList, Box, Ruler,
+  // Fix: Added missing History icon import from lucide-react
+  History
 } from 'lucide-react';
 import { useGlobalSettings } from './GlobalSettingsContext.tsx';
 
