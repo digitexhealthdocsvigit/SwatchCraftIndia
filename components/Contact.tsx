@@ -42,7 +42,7 @@ const Contact: React.FC = () => {
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-white" id="rfq-form">
       <section className="bg-gradient-to-b from-gray-50 to-white py-20 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <span className="text-[#8B6F47] font-black uppercase tracking-[0.3em] text-[11px] mb-4 inline-block bg-white px-4 py-2 rounded-full shadow-sm">24-Hour B2B Turnaround</span>
@@ -58,23 +58,23 @@ const Contact: React.FC = () => {
               <div className="space-y-8">
                 <div className="grid md:grid-cols-2 gap-8">
                   <div className="space-y-2">
-                    <label htmlFor="fullName" className="text-[11px] font-black text-gray-600 uppercase tracking-widest block">Full Name*</label>
-                    <input id="fullName" name="fullName" type="text" required className="w-full bg-gray-50 border-b-2 border-gray-200 px-0 py-3 focus:border-[#8B6F47] transition-all font-bold text-navy outline-none" />
+                    <label htmlFor="fullName" className="text-[11px] font-black text-gray-600 uppercase tracking-widest block">FULL NAME*</label>
+                    <input id="fullName" name="fullName" type="text" required className="w-full bg-gray-50 border-b-2 border-gray-200 px-0 py-3 focus:border-[#8B6F47] transition-all font-bold text-navy outline-none" placeholder="John Doe" />
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="email" className="text-[11px] font-black text-gray-600 uppercase tracking-widest block">Work Email*</label>
-                    <input id="email" name="email" type="email" required className="w-full bg-gray-50 border-b-2 border-gray-200 px-0 py-3 focus:border-[#8B6F47] transition-all font-bold text-navy outline-none" />
+                    <label htmlFor="email" className="text-[11px] font-black text-gray-600 uppercase tracking-widest block">WORK EMAIL*</label>
+                    <input id="email" name="email" type="email" required className="w-full bg-gray-50 border-b-2 border-gray-200 px-0 py-3 focus:border-[#8B6F47] transition-all font-bold text-navy outline-none" placeholder="john@company.com" />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="companyName" className="text-[11px] font-black text-gray-600 uppercase tracking-widest block">Company Name*</label>
-                  <input id="companyName" name="companyName" type="text" required className="w-full bg-gray-50 border-b-2 border-gray-200 px-0 py-3 focus:border-[#8B6F47] transition-all font-bold text-navy outline-none" />
+                  <label htmlFor="companyName" className="text-[11px] font-black text-gray-600 uppercase tracking-widest block">COMPANY NAME*</label>
+                  <input id="companyName" name="companyName" type="text" required className="w-full bg-gray-50 border-b-2 border-gray-200 px-0 py-3 focus:border-[#8B6F47] transition-all font-bold text-navy outline-none" placeholder="Brand Name" />
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <label htmlFor="productType" className="text-[11px] font-black text-gray-600 uppercase tracking-widest block">Product*</label>
+                  <label htmlFor="productType" className="text-[11px] font-black text-gray-600 uppercase tracking-widest block">PRODUCT*</label>
                   <select id="productType" name="productType" required className="w-full bg-gray-50 border-b-2 border-gray-200 py-3 font-bold text-navy outline-none">
                     <option value="Waterfall Cards">Waterfall Cards</option>
                     <option value="Swatch Books">Swatch Books</option>
@@ -83,7 +83,7 @@ const Contact: React.FC = () => {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="quantity" className="text-[11px] font-black text-gray-600 uppercase tracking-widest block">Quantity*</label>
+                  <label htmlFor="quantity" className="text-[11px] font-black text-gray-600 uppercase tracking-widest block">QUANTITY*</label>
                   <select id="quantity" name="quantity" required className="w-full bg-gray-50 border-b-2 border-gray-200 py-3 font-bold text-navy outline-none">
                     <option value="50-100">50-100 units</option>
                     <option value="100-500">100-500 units</option>

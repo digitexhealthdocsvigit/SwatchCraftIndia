@@ -101,7 +101,7 @@ const App: React.FC = () => {
           <TrustBar />
           <div id="process"><ValueProps /><ProcessTimeline /></div>
           
-          {/* SEO Content Section for Word Count Compliance */}
+          {/* SEO Content Section for Word Count Compliance (300+ Words) */}
           <section className="py-24 px-4 bg-white border-y border-gray-100">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-black text-[#1e3a5f] mb-8 uppercase tracking-tighter">
@@ -116,6 +116,9 @@ const App: React.FC = () => {
                 </p>
                 <p>
                   From large-format curtain albums that showcase the full elegance of a drape to compact waterfall swatch cards optimized for air-freight efficiency, SwatchCraft India offers a diverse range of products. Each is designed to be a durable, professional tool that helps furniture manufacturers and wholesalers close sales faster. Our white-label services allow you to maintain full brand consistency across your entire global distribution network.
+                </p>
+                <p>
+                  Our commitment to zero-defect quality control means every book is manually inspected before dispatch. Whether you need a small batch of 50 luxury hardbound albums for a boutique collection or 5,000 waterfall cards for a national marketing campaign, our Mumbai facility delivers consistent excellence with transparent pricing and real-time tracking for every shipment.
                 </p>
                 <div className="pt-6">
                   <button onClick={() => navigateTo('about')} className="text-[#0d7377] font-black uppercase tracking-widest text-[11px] border-b-2 border-[#0d7377] pb-1 hover:text-[#8B6F47] hover:border-[#8B6F47] transition-all">
