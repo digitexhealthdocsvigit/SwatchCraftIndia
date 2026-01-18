@@ -14,7 +14,7 @@ const ProductWaterfall: React.FC<Props> = ({ onNavigate, onDownload }) => {
     { label: "Main View", src: "https://images.unsplash.com/photo-1558383409-ab7ef8db3e01?auto=format&fit=crop&w=400&q=60" },
     { label: "Bi-Fold", src: "https://images.unsplash.com/photo-1523366952726-2615433d7d74?auto=format&fit=crop&w=400&q=60" },
     { label: "Tri-Fold", src: "https://images.unsplash.com/photo-1505569127510-bde15360d7f6?auto=format&fit=crop&w=400&q=60" },
-    { label: "Pallete", src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=60" }
+    { label: "Palette", src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=60" }
   ];
 
   const waterfallSpecs = [
@@ -35,14 +35,14 @@ const ProductWaterfall: React.FC<Props> = ({ onNavigate, onDownload }) => {
           <span className="mx-3 text-gray-300">/</span>
           <button onClick={() => onNavigate('products-overview')} className="hover:text-[#8B6F47] transition-colors">Products</button>
           <span className="mx-3 text-gray-300">/</span>
-          <span className="text-navy uppercase">Waterfall Swatch Cards</span>
+          <span className="text-navy uppercase font-bold">Waterfall Swatch Cards</span>
         </div>
       </nav>
 
       <section className="py-12 px-4 lg:py-20 max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
         <div className="space-y-6">
           <div className="aspect-[4/3] bg-gray-50 rounded-[3rem] overflow-hidden border border-gray-100 shadow-2xl relative group">
-            <img src={thumbnails[activeThumb].src} alt="Waterfall swatch card product" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" />
+            <img src={thumbnails[activeThumb].src} alt="Waterfall swatch card product presentation" loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" />
             <div className="absolute top-8 left-8 bg-teal text-white text-[11px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg">#1 Exporter Choice</div>
           </div>
           <div className="grid grid-cols-4 gap-4">

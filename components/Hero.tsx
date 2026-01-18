@@ -13,7 +13,7 @@ const Hero: React.FC<Props> = ({ onNavigate }) => {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#1e3a5f] leading-tight mb-6">
             Premium Fabric Swatch Book <span className="text-[#8B6F47]">Manufacturer in Mumbai</span>, India
           </h1>
-          <p className="text-lg md:text-xl text-gray-700 mb-10 max-w-xl mx-auto lg:mx-0">
+          <p className="text-lg md:text-xl text-gray-700 mb-10 max-w-xl mx-auto lg:mx-0 font-medium">
             Indian manufacturer of export-ready fabric sample albums with premium presentation, reliable delivery timelines, and white-label branding options.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
