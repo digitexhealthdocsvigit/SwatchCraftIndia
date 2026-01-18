@@ -1,4 +1,7 @@
 
+// Added missing imports for React, useState, and ViewState
+import React, { useState } from 'react';
+import { ViewState } from '../App.tsx';
 import { 
   Star, CheckCircle2, MessageCircle, Download, Briefcase, 
   Monitor, Layout, Factory, Globe, ShieldCheck, Zap, 

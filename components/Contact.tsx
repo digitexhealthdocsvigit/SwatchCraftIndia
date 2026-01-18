@@ -32,10 +32,10 @@ const Contact: React.FC = () => {
             <svg className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
           </div>
           <h2 className="text-3xl md:text-5xl font-black text-navy mb-6 uppercase tracking-tighter leading-none">RFQ Received!</h2>
-          <p className="text-gray-600 text-lg mb-10 leading-relaxed font-medium">
+          <p className="text-gray-700 text-lg mb-10 leading-relaxed font-medium">
             Thank you for reaching out. Our technical team is reviewing your requirements. You will receive a quote via email within 24 business hours.
           </p>
-          <button onClick={resetStatus} className="bg-navy text-white font-black py-4 px-10 rounded-xl hover:bg-teal transition-all uppercase tracking-widest text-[10px]">Send New RFQ</button>
+          <button onClick={resetStatus} className="bg-navy text-white font-black py-4 px-10 rounded-xl hover:bg-teal transition-all uppercase tracking-widest text-[11px]">Send New RFQ</button>
         </div>
       </div>
     );
@@ -45,9 +45,9 @@ const Contact: React.FC = () => {
     <div className="bg-white">
       <section className="bg-gradient-to-b from-gray-50 to-white py-20 px-4">
         <div className="max-w-7xl mx-auto text-center">
-          <span className="text-gold font-black uppercase tracking-[0.3em] text-[10px] mb-4 inline-block bg-white px-4 py-2 rounded-full shadow-sm">24-Hour B2B Turnaround</span>
+          <span className="text-[#8B6F47] font-black uppercase tracking-[0.3em] text-[11px] mb-4 inline-block bg-white px-4 py-2 rounded-full shadow-sm">24-Hour B2B Turnaround</span>
           <h1 className="text-4xl md:text-6xl font-black text-[#1a2849] mb-4 tracking-tighter uppercase leading-none">Get Your Custom Quote</h1>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto font-medium">Direct from Mumbai facility. ISO certified manufacturing.</p>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto font-medium">Direct from Mumbai facility. ISO certified manufacturing.</p>
         </div>
       </section>
 
@@ -58,24 +58,24 @@ const Contact: React.FC = () => {
               <div className="space-y-8">
                 <div className="grid md:grid-cols-2 gap-8">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Full Name*</label>
-                    <input name="fullName" type="text" required className="w-full bg-gray-50 border-b-2 border-gray-200 px-0 py-3 focus:border-gold transition-all font-bold text-navy outline-none" />
+                    <label htmlFor="fullName" className="text-[11px] font-black text-gray-600 uppercase tracking-widest block">Full Name*</label>
+                    <input id="fullName" name="fullName" type="text" required className="w-full bg-gray-50 border-b-2 border-gray-200 px-0 py-3 focus:border-[#8B6F47] transition-all font-bold text-navy outline-none" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Work Email*</label>
-                    <input name="email" type="email" required className="w-full bg-gray-50 border-b-2 border-gray-200 px-0 py-3 focus:border-gold transition-all font-bold text-navy outline-none" />
+                    <label htmlFor="email" className="text-[11px] font-black text-gray-600 uppercase tracking-widest block">Work Email*</label>
+                    <input id="email" name="email" type="email" required className="w-full bg-gray-50 border-b-2 border-gray-200 px-0 py-3 focus:border-[#8B6F47] transition-all font-bold text-navy outline-none" />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Company Name*</label>
-                  <input name="companyName" type="text" required className="w-full bg-gray-50 border-b-2 border-gray-200 px-0 py-3 focus:border-gold transition-all font-bold text-navy outline-none" />
+                  <label htmlFor="companyName" className="text-[11px] font-black text-gray-600 uppercase tracking-widest block">Company Name*</label>
+                  <input id="companyName" name="companyName" type="text" required className="w-full bg-gray-50 border-b-2 border-gray-200 px-0 py-3 focus:border-[#8B6F47] transition-all font-bold text-navy outline-none" />
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Product*</label>
-                  <select name="productType" required className="w-full bg-gray-50 border-b-2 border-gray-200 py-3 font-bold text-navy outline-none">
+                  <label htmlFor="productType" className="text-[11px] font-black text-gray-600 uppercase tracking-widest block">Product*</label>
+                  <select id="productType" name="productType" required className="w-full bg-gray-50 border-b-2 border-gray-200 py-3 font-bold text-navy outline-none">
                     <option value="Waterfall Cards">Waterfall Cards</option>
                     <option value="Swatch Books">Swatch Books</option>
                     <option value="Curtain Albums">Curtain Albums</option>
@@ -83,8 +83,8 @@ const Contact: React.FC = () => {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Quantity*</label>
-                  <select name="quantity" required className="w-full bg-gray-50 border-b-2 border-gray-200 py-3 font-bold text-navy outline-none">
+                  <label htmlFor="quantity" className="text-[11px] font-black text-gray-600 uppercase tracking-widest block">Quantity*</label>
+                  <select id="quantity" name="quantity" required className="w-full bg-gray-50 border-b-2 border-gray-200 py-3 font-bold text-navy outline-none">
                     <option value="50-100">50-100 units</option>
                     <option value="100-500">100-500 units</option>
                     <option value="500+">500+ (Export Tier)</option>
@@ -95,7 +95,7 @@ const Contact: React.FC = () => {
               <button 
                 type="submit" 
                 disabled={loading}
-                className="w-full bg-navy text-white font-black py-6 rounded-2xl shadow-xl hover:bg-gold transition-all text-lg uppercase tracking-widest disabled:opacity-50"
+                className="w-full bg-navy text-white font-black py-6 rounded-2xl shadow-xl hover:bg-[#8B6F47] transition-all text-lg uppercase tracking-widest disabled:opacity-50"
               >
                 {loading ? 'Sending Request...' : 'Get Technical Quote'}
               </button>
@@ -104,19 +104,19 @@ const Contact: React.FC = () => {
 
           <div className="space-y-8">
             <div className="bg-navy rounded-[3rem] p-10 text-white shadow-xl">
-              <h2 className="text-xl font-black mb-8 uppercase tracking-widest text-gold">Direct Support</h2>
+              <h2 className="text-xl font-black mb-8 uppercase tracking-widest text-[#8B6F47]">Direct Support</h2>
               <div className="space-y-10">
                 <div className="flex items-start">
                   <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mr-4"><span>📱</span></div>
                   <div>
-                    <p className="text-gold font-black text-[10px] uppercase mb-1">WhatsApp</p>
+                    <p className="text-[#8B6F47] font-black text-[11px] uppercase mb-1">WhatsApp</p>
                     <p className="font-bold text-xl">+91 90049 62871</p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mr-4"><span>📧</span></div>
                   <div>
-                    <p className="text-gold font-black text-[10px] uppercase mb-1">Email</p>
+                    <p className="text-[#8B6F47] font-black text-[11px] uppercase mb-1">Email</p>
                     <p className="font-bold text-lg">digitex.studio@gmail.com</p>
                   </div>
                 </div>
@@ -128,14 +128,14 @@ const Contact: React.FC = () => {
 
       <section className="py-24 bg-gray-50 border-t border-gray-100">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-black text-navy text-center mb-12 uppercase tracking-widest">FAQ</h2>
+          <h2 className="text-2xl font-black text-navy text-center mb-12 uppercase tracking-widest">Technical FAQ</h2>
           <div className="space-y-4">
             {faqs.map((faq, idx) => (
               <div key={idx} className="bg-white rounded-3xl border border-gray-100 overflow-hidden">
-                <button onClick={() => setActiveFaq(activeFaq === idx ? null : idx)} className="w-full p-8 text-left font-black text-navy text-sm uppercase flex justify-between items-center">
-                  {faq.q} <span>{activeFaq === idx ? '−' : '+'}</span>
+                <button onClick={() => setActiveFaq(activeFaq === idx ? null : idx)} className="w-full p-8 text-left font-black text-navy text-sm uppercase flex justify-between items-center transition-colors hover:bg-gray-50">
+                  {faq.q} <span aria-hidden="true">{activeFaq === idx ? '−' : '+'}</span>
                 </button>
-                {activeFaq === idx && <div className="px-8 pb-8 text-gray-500 text-sm leading-relaxed">{faq.a}</div>}
+                {activeFaq === idx && <div className="px-8 pb-8 text-gray-600 text-sm leading-relaxed font-medium animate-fadeIn">{faq.a}</div>}
               </div>
             ))}
           </div>
