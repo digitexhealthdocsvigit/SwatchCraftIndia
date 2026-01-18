@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ViewState } from '../App.tsx';
 import { useGlobalSettings, Currency, Language } from './GlobalSettingsContext.tsx';
+import { ChevronDown, Box, Layout, Layers, Ruler, Scissors, ClipboardList } from 'lucide-react';
 
 interface HeaderProps {
   onNavigate: (view: ViewState) => void;
@@ -10,6 +11,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
   const { currency, setCurrency, language, setLanguage } = useGlobalSettings();
 
   useEffect(() => {
@@ -18,10 +20,18 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const productLinks = [
+    { name: 'Waterfall Swatch Cards', id: 'product-waterfall', icon: <Layers className="w-4 h-4" /> },
+    { name: 'Upholstery Swatch Books', id: 'product-upholstery', icon: <Box className="w-4 h-4" /> },
+    { name: 'Curtain Fabric Albums', id: 'product-curtain', icon: <Layout className="w-4 h-4" /> },
+    { name: 'Fabric Hanger Swatches', id: 'product-hanger', icon: <Ruler className="w-4 h-4" /> },
+    { name: 'Ring Swatch Sets', id: 'product-ring', icon: <Scissors className="w-4 h-4" /> },
+    { name: 'Sample Cards', id: 'product-cards', icon: <ClipboardList className="w-4 h-4" /> }
+  ];
+
   const navItems = [
     { name: 'Home', id: 'home' },
     { name: 'About', id: 'about' },
-    { name: 'Products', id: 'products-overview' },
     { name: 'Process', id: 'process-detail' },
     { name: 'Portfolio', id: 'portfolio' },
     { name: 'Resources', id: 'blog-hub' },
@@ -39,7 +49,64 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
         </div>
 
         <nav className="hidden lg:flex items-center space-x-6">
-          {navItems.map((item) => (
+          <button
+            onClick={() => onNavigate('home')}
+            className={`text-xs font-bold uppercase tracking-widest transition-colors ${
+              currentView === 'home' ? 'text-[#d4a574]' : 'text-[#1a2849] hover:text-[#d4a574]'
+            }`}
+          >
+            Home
+          </button>
+          
+          <button
+            onClick={() => onNavigate('about')}
+            className={`text-xs font-bold uppercase tracking-widest transition-colors ${
+              currentView === 'about' ? 'text-[#d4a574]' : 'text-[#1a2849] hover:text-[#d4a574]'
+            }`}
+          >
+            About
+          </button>
+
+          {/* Products Dropdown */}
+          <div 
+            className="relative group"
+            onMouseEnter={() => setProductsOpen(true)}
+            onMouseLeave={() => setProductsOpen(false)}
+          >
+            <button
+              onClick={() => onNavigate('products-overview')}
+              className={`text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-1 ${
+                currentView.startsWith('product-') || currentView === 'products-overview' ? 'text-[#d4a574]' : 'text-[#1a2849] hover:text-[#d4a574]'
+              }`}
+            >
+              Products <ChevronDown className={`w-3 h-3 transition-transform ${productsOpen ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {productsOpen && (
+              <div className="absolute top-full left-0 mt-2 w-64 bg-white shadow-2xl rounded-2xl border border-gray-100 py-4 animate-fadeIn overflow-hidden">
+                {productLinks.map((link) => (
+                  <button
+                    key={link.id}
+                    onClick={() => { onNavigate(link.id as ViewState); setProductsOpen(false); }}
+                    className="w-full text-left px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-navy hover:bg-gray-50 hover:text-gold flex items-center gap-3 transition-colors"
+                  >
+                    <span className="text-teal">{link.icon}</span>
+                    {link.name}
+                  </button>
+                ))}
+                <div className="mt-2 pt-2 border-t border-gray-50">
+                  <button
+                    onClick={() => { onNavigate('products-overview'); setProductsOpen(false); }}
+                    className="w-full text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gold hover:bg-gray-50 transition-colors"
+                  >
+                    View All Products →
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {navItems.slice(2).map((item) => (
             <button
               key={item.id}
               onClick={() => onNavigate(item.id as ViewState)}
@@ -100,9 +167,31 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
                  <option value="AR">العربية</option>
                </select>
             </div>
-            {navItems.map((item) => (
+            
+            <button onClick={() => { onNavigate('home'); setMobileMenuOpen(false); }} className="block w-full text-left py-3 text-sm font-bold uppercase tracking-widest border-b border-gray-50">Home</button>
+            
+            {/* Mobile Products Menu */}
+            <div className="border-b border-gray-50">
+               <button 
+                onClick={() => setProductsOpen(!productsOpen)}
+                className="flex items-center justify-between w-full text-left py-3 text-sm font-bold uppercase tracking-widest text-navy"
+               >
+                 Products <ChevronDown className={`w-4 h-4 transition-transform ${productsOpen ? 'rotate-180' : ''}`} />
+               </button>
+               {productsOpen && (
+                 <div className="pl-4 pb-4 space-y-3">
+                   {productLinks.map((link) => (
+                     <button key={link.id} onClick={() => { onNavigate(link.id as ViewState); setMobileMenuOpen(false); }} className="block w-full text-left py-1 text-xs font-bold uppercase tracking-widest text-gray-500">{link.name}</button>
+                   ))}
+                   <button onClick={() => { onNavigate('products-overview'); setMobileMenuOpen(false); }} className="block w-full text-left py-1 text-xs font-black uppercase tracking-widest text-gold">View All Products →</button>
+                 </div>
+               )}
+            </div>
+
+            {navItems.slice(1).map((item) => (
               <button key={item.id} onClick={() => { onNavigate(item.id as ViewState); setMobileMenuOpen(false); }} className={`block w-full text-left py-3 text-sm font-bold uppercase tracking-widest border-b border-gray-50 ${currentView === item.id ? 'text-[#d4a574]' : 'text-[#1a2849]'}`}>{item.name}</button>
             ))}
+            
             <button onClick={() => { onNavigate('pricing'); setMobileMenuOpen(false); }} className="block w-full text-left py-3 text-sm font-bold uppercase tracking-widest border-b border-gray-50 text-navy">Pricing Guide</button>
             <div className="pt-4 flex flex-col space-y-3">
               <a href="https://wa.me/919004962871" className="bg-[#25D366] text-white text-center font-bold py-4 rounded-xl text-xs uppercase tracking-widest">WhatsApp Quote</a>

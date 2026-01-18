@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { ViewState } from '../App.tsx';
-// Added missing Layers icon to imports
 import { 
   Star, CheckCircle2, MessageCircle, Download, Briefcase, 
   Monitor, Layout, Factory, Globe, ShieldCheck, Zap, 
   ChevronRight, ArrowRight, HelpCircle, X, Maximize2, 
-  History, TrendingUp, DollarSign, Package, Settings,
-  Layers
+  Layers, Settings, Package, TrendingUp
 } from 'lucide-react';
 import { useGlobalSettings } from './GlobalSettingsContext.tsx';
 
@@ -403,8 +401,8 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
           <div className="mt-16 bg-navy text-white p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
              <h4 className="text-xl font-black mb-8 uppercase tracking-tighter text-gold">Available Add-On Options</h4>
              <ul className="grid sm:grid-cols-2 gap-6 text-[11px] font-bold uppercase tracking-widest">
-                <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-teal" /> Protective Vinyl Case (+{formatPrice(10-15)})</li>
-                <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-teal" /> Extra Swatches (+{formatPrice(2-3)}/pc)</li>
+                <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-teal" /> Protective Vinyl Case (+{formatPrice(15)})</li>
+                <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-teal" /> Extra Swatches (+{formatPrice(3)}/pc)</li>
                 <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-teal" /> Collection Divider Tabs (+{formatPrice(5)})</li>
                 <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-teal" /> Business Card Pocket (+{formatPrice(3)})</li>
              </ul>
@@ -486,7 +484,7 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
               ].map((row, i) => (
                 <tr key={i} className="hover:bg-gray-50 transition-colors">
                   <td className="p-6 bg-gray-50/50 uppercase tracking-widest text-[9px]">{row.f}</td>
-                  <td className="p-6 text-teal">{row.r}</td>
+                  <td className="p-6 text-teal font-black">{row.r}</td>
                   <td className="p-6 text-gray-400">{row.h}</td>
                   <td className="p-6 text-gray-400">{row.l}</td>
                   <td className="p-6 text-gray-400">{row.d}</td>
