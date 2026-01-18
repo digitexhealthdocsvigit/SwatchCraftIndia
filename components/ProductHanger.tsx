@@ -3,7 +3,7 @@ import { ViewState } from '../App.tsx';
 import { 
   Star, CheckCircle2, MessageCircle, Download, Sofa, Store, 
   Monitor, Briefcase, Ruler, Zap, ShieldCheck, Globe, 
-  ChevronRight, ArrowRight, HelpCircle, X, Factory
+  ChevronRight, ArrowRight, HelpCircle, X, Factory, Layers, Trash2
 } from 'lucide-react';
 import { useGlobalSettings } from './GlobalSettingsContext.tsx';
 
@@ -146,11 +146,12 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
       {/* Product Specifications Section */}
       <section className="py-24 px-4 bg-gray-50">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-black text-navy mb-12 text-center uppercase tracking-tighter">Product Specifications</h2>
+          <h2 className="text-3xl font-black text-navy mb-12 text-center uppercase tracking-tighter">Technical Specifications</h2>
           <div className="bg-white rounded-[2.5rem] border border-gray-200 overflow-hidden shadow-sm">
             <table className="w-full text-left">
               <tbody className="divide-y divide-gray-100">
                 {[
+                  { s: "Product Type", d: "Fabric Hanger Swatch Display" },
                   { s: "Hanger Material", d: "Metal (chrome, matte black, brushed nickel) or Natural wood" },
                   { s: "Hanger Size", d: "Standard: 12-15 inches wide, Premium: 18 inches" },
                   { s: "Swatch Size", d: "Standard: 15x15cm, Large: 20x20cm, Custom sizes available" },
@@ -474,7 +475,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
                   <HelpCircle className={`w-6 h-6 text-gold transform transition-transform duration-500 ${activeFaq === i ? 'rotate-180' : ''}`} />
                 </button>
                 {activeFaq === i && (
-                  <div className="px-8 pb-8 text-gray-500 text-sm leading-relaxed border-t border-gray-200 pt-6 font-medium animate-fadeIn">
+                  <div className="px-8 pb-8 text-gray-500 text-sm leading-relaxed border-t border-gray-100 pt-6 font-medium animate-fadeIn">
                     {faq.a}
                   </div>
                 )}
@@ -560,6 +561,11 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
           </div>
         </div>
       )}
+
+      {/* Mobile Sticky CTA */}
+      <div className="lg:hidden fixed bottom-6 left-6 right-6 z-[60]">
+        <button onClick={() => onNavigate('contact-page')} className="w-full bg-teal text-white font-black py-5 rounded-2xl shadow-2xl uppercase tracking-widest text-sm">Request Showroom Quote</button>
+      </div>
     </div>
   );
 };
