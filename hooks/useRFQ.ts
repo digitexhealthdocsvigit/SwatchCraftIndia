@@ -7,7 +7,9 @@ export interface RFQData {
   phone?: string;
   productType: string;
   quantity: string;
-  message?: string;
+  exportMarket?: string;
+  specifications?: string;
+  attachments?: Array<{ name: string; type: string; sizeFormatted: string }>;
 }
 
 export const useRFQ = () => {
@@ -23,19 +25,20 @@ export const useRFQ = () => {
       // TRACKING: Log conversion for GA4
       if (typeof (window as any).gtag === 'function') {
         (window as any).gtag('event', 'generate_lead', {
-          'event_category': 'Engagement',
-          'event_label': data.productType,
-          'value': parseInt(data.quantity) || 100
+          event_category: 'Engagement',
+          event_label: data.productType,
+          value: parseInt(data.quantity) || 100,
+          export_market: data.exportMarket || 'International'
         });
       }
 
-      // Simulated Backend Delay
-      await new Promise((resolve) => setTimeout(resolve, 1800));
+      // Simulated Backend Delay & Lead Storage
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      console.log('B2B Lead Captured Successfully:', data);
+      console.log('B2B Lead Captured Successfully with Attachments:', data);
       setSuccess(true);
     } catch (err) {
-      setError('Connection timeout. Please contact us via WhatsApp: 9004962871');
+      setError('Connection timeout. Please contact us via WhatsApp: +91 90049 62871');
     } finally {
       setLoading(false);
     }
