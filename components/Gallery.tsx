@@ -1,12 +1,42 @@
 import React from 'react';
 
 const galleryItems = [
-  { title: "Upholstery Precision", category: "Upholstery", src: "https://images.unsplash.com/photo-1520183802803-06f731a2059f?auto=format&fit=crop&w=600&q=80" },
-  { title: "Curtain Excellence", category: "Curtains", src: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80" },
-  { title: "Waterfall Palette", category: "Waterfall", src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?auto=format&fit=crop&w=600&q=80" },
-  { title: "Retail Displays", category: "Hangers", src: "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=600&q=80" },
-  { title: "Marketing Kits", category: "Sample Cards", src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80" },
-  { title: "Luxury Binding", category: "Custom", src: "https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=600&q=80" }
+  { 
+    title: "Upholstery Book Binding", 
+    category: "Upholstery", 
+    src: "https://images.unsplash.com/photo-1558383409-ab7ef8db3e01?auto=format&fit=crop&w=800&q=80",
+    alt: "Custom Hardbound Fabric Swatch Book Manufacturer Mumbai Plant"
+  },
+  { 
+    title: "Curtain Presentation Albums", 
+    category: "Curtains", 
+    src: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+    alt: "A3 Large Format Curtain Drapery Fabric Album for Exporters"
+  },
+  { 
+    title: "Cascading Waterfall Cards", 
+    category: "Waterfall", 
+    src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?auto=format&fit=crop&w=800&q=80",
+    alt: "Tiered Waterfall Fabric Swatch Palette on Rigid Cardstock"
+  },
+  { 
+    title: "Showroom Swatch Hangers", 
+    category: "Hangers", 
+    src: "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=800&q=80",
+    alt: "Metal Hook Fabric Waterfall Hangers with Custom Header Cards"
+  },
+  { 
+    title: "Sales Rep Marketing Kits", 
+    category: "Ring Sets", 
+    src: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80",
+    alt: "Portable Chrome Ring-Bound Swatch Fan Decks with Fabric Labels"
+  },
+  { 
+    title: "Hot-Foil Stamped Luxury Binders", 
+    category: "Custom Branding", 
+    src: "https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=800&q=80",
+    alt: "Luxury Embossed Leatherette Swatch Album Spine and Binding Finish"
+  }
 ];
 
 const Gallery: React.FC = () => {
@@ -27,9 +57,9 @@ const Gallery: React.FC = () => {
             <div key={idx} className="group relative overflow-hidden rounded-[2.5rem] aspect-square bg-gray-100 transition-all hover:shadow-2xl cursor-pointer">
               <img 
                 src={item.src} 
-                alt={item.title} 
+                alt={item.alt} 
                 loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-navy/80 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center text-center p-8 translate-y-4 group-hover:translate-y-0 backdrop-blur-sm">
                 <span className="text-[#8B6F47] text-[11px] font-black uppercase tracking-[0.3em] mb-4">{item.category}</span>
