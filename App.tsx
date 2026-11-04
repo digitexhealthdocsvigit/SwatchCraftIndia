@@ -146,16 +146,37 @@ const App: React.FC = () => {
               </h2>
               <div className="prose prose-lg text-gray-700 leading-relaxed font-medium space-y-6">
                 <p>
-                  SwatchCraft India stands as Mumbai's most trusted partner for fabric presentation solutions. Since 1994, we have dedicated our craft to producing the highest quality upholstery and curtain fabric swatch books for the international B2B market. Our specialized facility in Andheri East, Mumbai, integrates advanced automated cutting technology with time-honored bookbinding techniques to ensure every sample set we produce meets stringent global quality standards.
+                  SamplingHub (Digitex Studio) stands as Maharashtra's most trusted partner for fabric presentation solutions. Since 1994, we have dedicated our craft to producing the highest quality upholstery and curtain fabric swatch books for the international B2B market. Our specialized facility in Thane-Bhiwandi, Maharashtra 421302, integrates advanced automated cutting technology with time-honored bookbinding techniques to ensure every sample set we produce meets stringent global quality standards.
                 </p>
                 <p>
                   As a certified ISO 9001:2015 manufacturer, we understand the complexities of the textile export industry. We provide end-to-end support for fabric brands, including technical consultation on binding mechanisms, custom branding through foil stamping and embossing, and complete export logistics. Our standard 21-day express production timeline ensures that your sales teams in Europe, North America, and the Middle East receive their collection updates without the lengthy delays common with other international suppliers.
                 </p>
+              </div>
+
+              <h3 className="text-xl font-black text-[#1e3a5f] mt-12 mb-6 uppercase tracking-tighter">
+                Our Core Fabric Presentation Products
+              </h3>
+              <div className="grid sm:grid-cols-3 gap-8 mb-12">
+                <div>
+                  <h4 className="text-[#0d7377] font-black uppercase tracking-widest text-[13px] mb-2">Swatch Books</h4>
+                  <p className="text-gray-700 font-medium text-[15px] leading-relaxed">Hardbound and ring-bound upholstery &amp; curtain fabric albums with custom foil stamping and showroom-durable covers.</p>
+                </div>
+                <div>
+                  <h4 className="text-[#0d7377] font-black uppercase tracking-widest text-[13px] mb-2">Waterfall Hangers</h4>
+                  <p className="text-gray-700 font-medium text-[15px] leading-relaxed">Cascading metal-hook fabric hangers built for retail showroom floors, with full-color custom header cards.</p>
+                </div>
+                <div>
+                  <h4 className="text-[#0d7377] font-black uppercase tracking-widest text-[13px] mb-2">Rigid Sample Cards</h4>
+                  <p className="text-gray-700 font-medium text-[15px] leading-relaxed">Precision die-cut, rigid fabric memo cards for mailer campaigns and distributor sample packets.</p>
+                </div>
+              </div>
+
+              <div className="prose prose-lg text-gray-700 leading-relaxed font-medium space-y-6">
                 <p>
-                  From large-format curtain albums that showcase the full elegance of a drape to compact waterfall swatch cards optimized for air-freight efficiency, SwatchCraft India offers a diverse range of products. Each is designed to be a durable, professional tool that helps furniture manufacturers and wholesalers close sales faster. Our white-label services allow you to maintain full brand consistency across your entire global distribution network.
+                  From large-format curtain albums that showcase the full elegance of a drape to compact waterfall swatch cards optimized for air-freight efficiency, SamplingHub offers a diverse range of products. Each is designed to be a durable, professional tool that helps furniture manufacturers and wholesalers close sales faster. Our white-label services allow you to maintain full brand consistency across your entire global distribution network.
                 </p>
                 <p>
-                  Our commitment to zero-defect quality control means every book is manually inspected before dispatch. Whether you need a small batch of 50 luxury hardbound albums for a boutique collection or 5,000 waterfall cards for a national marketing campaign, our Mumbai facility delivers consistent excellence with transparent pricing and real-time tracking for every shipment.
+                  Our commitment to zero-defect quality control means every book is manually inspected before dispatch. Whether you need a small batch of 50 luxury hardbound albums for a boutique collection or 5,000 waterfall cards for a national marketing campaign, our Thane-Bhiwandi, Maharashtra facility delivers consistent excellence with transparent pricing and real-time tracking for every shipment.
                 </p>
                 <div className="pt-6">
                   <button onClick={() => navigateTo('about')} className="text-[#0d7377] font-black uppercase tracking-widest text-[11px] border-b-2 border-[#0d7377] pb-1 hover:text-[#8B6F47] hover:border-[#8B6F47] transition-all">

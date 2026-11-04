@@ -56,7 +56,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
         <div className="flex flex-col cursor-pointer shrink-0" onClick={() => handleNav('home')}>
           <span className="text-xl md:text-2xl font-black tracking-tighter text-[#1e3a5f]">
-            SwatchCraft <span className="text-[#8B6F47]">India</span>
+            Sampling<span className="text-[#8B6F47]">Hub</span>
           </span>
           <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-gray-600">Premium Sample Manufacturing</span>
         </div>

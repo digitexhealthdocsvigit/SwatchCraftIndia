@@ -11,11 +11,11 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 border-b border-gray-800 pb-20">
         <div>
           <div className="flex flex-col mb-8 cursor-pointer" onClick={() => onNavigate('home')}>
-            <span className="text-2xl font-bold tracking-tight text-white">SwatchCraft <span className="text-[#c9a86a]">India</span></span>
+            <span className="text-2xl font-bold tracking-tight text-white">Sampling<span className="text-[#c9a86a]">Hub</span></span>
             <span className="text-[10px] uppercase tracking-[0.2em] font-medium text-gray-400">Premium Sample Manufacturing</span>
           </div>
           <p className="text-gray-300 text-sm leading-relaxed mb-8 font-medium">
-            Established in 1994, SwatchCraft specializes in manufacturing premium fabric swatch books for global brands. ISO 9001 certified, exporting to 15+ countries.
+            Established in 1994, SamplingHub (Digitex Studio) specializes in manufacturing premium fabric swatch books for global brands from our Thane-Bhiwandi, Maharashtra facility. ISO 9001 certified, exporting to 15+ countries.
           </p>
           <div className="flex space-x-4">
              {['linkedin', 'instagram', 'facebook'].map(s => <div key={s} className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[#8B6F47] transition-all cursor-pointer"><span className="text-[10px] font-black uppercase tracking-tighter text-gray-300">{s.slice(0,2)}</span></div>)}
@@ -56,14 +56,14 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div className="space-y-6 text-sm text-gray-300">
             <div className="flex items-start"><span className="mr-3">📧</span><span className="font-bold text-white">digitex.studio@gmail.com</span></div>
             <div className="flex items-start"><span className="mr-3">📱</span><span className="font-bold text-white">WhatsApp: +91 90049 62871</span></div>
-            <div className="flex items-start"><span className="mr-3">📍</span><span>Mumbai, Maharashtra, India</span></div>
+            <div className="flex items-start"><span className="mr-3">📍</span><span>Thane-Bhiwandi, Maharashtra 421302, India</span></div>
             <button onClick={() => onNavigate('contact-page')} className="bg-[#0d7377] text-white w-full py-4 rounded-xl font-black text-xs uppercase tracking-widest mt-4 shadow-xl hover:bg-[#8B6F47] transition-all">Email RFQ Now</button>
           </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 pt-12 flex flex-col md:flex-row justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">
-        <p>© 2025 SwatchCraft India. All rights reserved.</p>
+        <p>© 2025 SamplingHub (Digitex Studio). All rights reserved.</p>
         <div className="flex space-x-8 mt-6 md:mt-0 items-center">
           <button onClick={() => onNavigate('privacy')} className="hover:text-white transition-colors">Privacy Policy</button>
           <button onClick={() => onNavigate('terms')} className="hover:text-white transition-colors">Terms of Service</button>

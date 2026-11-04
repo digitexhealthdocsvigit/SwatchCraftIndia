@@ -4,43 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Preconnect to external resources for performance -->
+    <!-- Preconnect to external fonts with display swap for optimal FCP -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-    <!-- Google Analytics 4 Placeholder -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SWATCHCRAFT"></script>
+    <!-- Google Analytics 4 (Deferred to eliminate main-thread blocking) -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-SWATCHCRAFT');
+      
+      // Load third-party GTM asynchronously after initial paint
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(function() {
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SWATCHCRAFT';
+          document.head.appendChild(s);
+        });
+      } else {
+        window.addEventListener('load', function() {
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SWATCHCRAFT';
+          document.head.appendChild(s);
+        });
+      }
     </script>
 
     <!-- Primary Meta Tags -->
-    <title>Sampling Hub | SwatchCraft India - Fabric Swatch Books Manufacturer Mumbai</title>
-    <meta name="title" content="Sampling Hub | SwatchCraft India - Fabric Swatch Books Manufacturer Mumbai">
-    <meta name="description" content="India's leading B2B manufacturer of upholstery & curtain fabric swatch books, waterfall hangers, ring sets & sample cards. ISO 9001:2015 certified Mumbai facility. 21-28 day export delivery to USA, EU, UAE, UK.">
-    <meta name="keywords" content="fabric swatch book manufacturer india, upholstery sample books, curtain fabric album mumbai, waterfall swatch cards, ring swatch sets, export textile samples, sampling hub mumbai">
+    <title>Custom Fabric Swatch Book & Hanger Manufacturer | SamplingHub</title>
+    <meta name="title" content="Custom Fabric Swatch Book & Hanger Manufacturer | SamplingHub">
+    <meta name="description" content="B2B manufacturer of custom fabric swatch books, waterfall hangers & rigid sample cards. ISO 9001:2015 certified, Thane-Bhiwandi, Maharashtra. 21-day export shipping.">
+    <meta name="keywords" content="fabric swatch book manufacturer, custom waterfall hangers, rigid sample cards, B2B textile presentation solutions, swatch book manufacturer thane bhiwandi maharashtra, export textile samples india, samplinghub">
     <meta name="robots" content="index, follow">
     <meta name="language" content="en">
     <meta name="revisit-after" content="7 days">
     <meta name="author" content="Vishal Pendharkar">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.samplinghub.world/">
-    <meta property="og:title" content="Sampling Hub / SwatchCraft India - Global Fabric Presentation Leaders" />
-    <meta property="og:description" content="Custom fabric sample albums & swatch books for furniture brands, wholesalers and textile editors. ISO 9001 certified Mumbai manufacturer with 21-day export shipping." />
+    <meta property="og:title" content="SamplingHub - Custom Fabric Swatch Book & Hanger Manufacturer" />
+    <meta property="og:description" content="Custom fabric sample albums, waterfall hangers & rigid swatch cards for furniture brands, wholesalers and textile editors. ISO 9001 certified Maharashtra manufacturer with 21-day export shipping." />
     <meta property="og:image" content="https://images.unsplash.com/photo-1558383409-ab7ef8db3e01?auto=format&fit=crop&w=800&q=80" />
 
     <link rel="canonical" href="https://www.samplinghub.world/" />
     <link rel="icon" type="image/png" href="https://images.unsplash.com/photo-1520183802803-06f731a2059f?auto=format&fit=crop&w=32&q=80" />
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
+
     <!-- Structured Data: Organization, Manufacturer & Product Schemas -->
     <script type="application/ld+json">
     {
@@ -49,27 +62,26 @@
         {
           "@type": ["Organization", "Manufacturer", "ManufacturingBusiness"],
           "@id": "https://www.samplinghub.world/#organization",
-          "name": "SwatchCraft India / Sampling Hub",
-          "alternateName": ["Sampling Hub", "SwatchCraft India", "SamplingHub.world"],
-          "legalName": "SwatchCraft India",
+          "name": "SamplingHub",
+          "alternateName": ["SamplingHub", "SamplingHub.world", "Digitex Studio"],
+          "legalName": "Digitex Studio",
           "url": "https://www.samplinghub.world/",
           "logo": "https://images.unsplash.com/photo-1558383409-ab7ef8db3e01?auto=format&fit=crop&w=800&q=80",
           "image": "https://images.unsplash.com/photo-1558383409-ab7ef8db3e01?auto=format&fit=crop&w=800&q=80",
-          "description": "ISO 9001:2015 certified manufacturer of premium upholstery fabric swatch books, curtain albums, waterfall hangers, ring sets, and sample cards based in Mumbai, India. Exporting worldwide to USA, European Union, UAE, UK, and Australia with 21-28 day lead times.",
+          "description": "ISO 9001:2015 certified manufacturer of premium upholstery fabric swatch books, curtain albums, waterfall hangers, ring sets, and sample cards based in Thane-Bhiwandi, Maharashtra, India. Exporting worldwide to USA, European Union, UAE, UK, and Australia with 21-28 day lead times.",
           "telephone": "+919004962871",
           "email": "digitex.studio@gmail.com",
           "address": {
             "@type": "PostalAddress",
-            "streetAddress": "Andheri East",
-            "addressLocality": "Mumbai",
+            "addressLocality": "Bhiwandi",
             "addressRegion": "Maharashtra",
-            "postalCode": "400069",
+            "postalCode": "421302",
             "addressCountry": "IN"
           },
           "geo": {
             "@type": "GeoCoordinates",
-            "latitude": 19.1136,
-            "longitude": 72.8697
+            "latitude": 19.3002,
+            "longitude": 73.0635
           },
           "hasCredential": {
             "@type": "EducationalOccupationalCredential",
@@ -91,7 +103,7 @@
             {
               "@type": "ContactPoint",
               "telephone": "+919004962871",
-              "contactType": "sales",
+              "contactType": "Sales / B2B Inquiry",
               "contactOption": "WhatsAppAvailable",
               "availableLanguage": ["English", "Hindi"]
             }
@@ -108,11 +120,11 @@
           "@id": "https://www.samplinghub.world/#product-upholstery",
           "name": "Custom Upholstery Swatch Books",
           "category": "Fabric Sample Books",
-          "description": "Export-grade hardbound and ring-bound upholstery fabric swatch books with custom foil stamping, debossed logos, and durable showroom covers. ISO 9001 certified Mumbai manufacturer.",
+          "description": "Export-grade hardbound and ring-bound upholstery fabric swatch books with custom foil stamping, debossed logos, and durable showroom covers. ISO 9001 certified Maharashtra manufacturer.",
           "image": "https://images.unsplash.com/photo-1558383409-ab7ef8db3e01?auto=format&fit=crop&w=800&q=80",
           "brand": {
             "@type": "Brand",
-            "name": "SwatchCraft India / Sampling Hub"
+            "name": "SamplingHub"
           },
           "manufacturer": {
             "@id": "https://www.samplinghub.world/#organization"
@@ -147,7 +159,7 @@
           "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
           "brand": {
             "@type": "Brand",
-            "name": "SwatchCraft India / Sampling Hub"
+            "name": "SamplingHub"
           },
           "manufacturer": {
             "@id": "https://www.samplinghub.world/#organization"
@@ -179,10 +191,10 @@
           "name": "Waterfall Swatch Hangers",
           "category": "Textile Showroom Hangers",
           "description": "Cascading waterfall fabric hangers with heavy-duty metal swivel hooks and full-color custom printed header cards for retail showrooms.",
-          "image": "https://images.unsplash.com/photo-1520183802803-06f731a2059f?auto=format&fit=crop&w=800&q=80",
+          "image": "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=800&q=80",
           "brand": {
             "@type": "Brand",
-            "name": "SwatchCraft India / Sampling Hub"
+            "name": "SamplingHub"
           },
           "manufacturer": {
             "@id": "https://www.samplinghub.world/#organization"
@@ -214,10 +226,10 @@
           "name": "Portable Ring Swatch Sets",
           "category": "Ring Bound Swatch Sets",
           "description": "Compact swatch fan decks bound with heavy-duty chrome split rings, eyelets, and fabric info tags for traveling sales representatives.",
-          "image": "https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=800&q=80",
+          "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80",
           "brand": {
             "@type": "Brand",
-            "name": "SwatchCraft India / Sampling Hub"
+            "name": "SamplingHub"
           },
           "manufacturer": {
             "@id": "https://www.samplinghub.world/#organization"
@@ -249,10 +261,10 @@
           "name": "Textile Sample Memo Cards",
           "category": "Fabric Swatch Cards",
           "description": "Precision die-cut fabric sample cards with pinked or straight edges, custom branding, and fabric specs, ideal for mailer campaigns and distributor packets.",
-          "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80",
+          "image": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80",
           "brand": {
             "@type": "Brand",
-            "name": "SwatchCraft India / Sampling Hub"
+            "name": "SamplingHub"
           },
           "manufacturer": {
             "@id": "https://www.samplinghub.world/#organization"
@@ -281,48 +293,21 @@
       ]
     }
     </script>
-
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1f2937; scroll-behavior: smooth; }
-        .text-navy { color: #1e3a5f; }
-        .bg-navy { background-color: #1e3a5f; }
-        /* Darkened Gold for 4.5:1 Contrast Ratio on White background */
-        .text-gold { color: #8B6F47; }
-        .bg-gold { background-color: #8B6F47; }
-        .text-teal { color: #0d7377; }
-        .bg-teal { background-color: #0d7377; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
-    </style>
-<script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://esm.sh/react-dom@19.0.0/",
-    "react/": "https://esm.sh/react@19.0.0/",
-    "react": "https://esm.sh/react@19.0.0",
-    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
-    "lucide-react": "https://esm.sh/lucide-react@0.473.0",
-    "clsx": "https://esm.sh/clsx@2.1.1",
-    "tailwind-merge": "https://esm.sh/tailwind-merge@2.6.0",
-    "@google/genai": "https://esm.sh/@google/genai@latest"
-  }
-}
-</script>
 </head>
 <body>
     <!-- Initial HTML for SEO Crawlers - 250+ Word Content -->
     <div id="root">
       <header>
-        <h1>Sampling Hub | SwatchCraft India - Fabric Swatch Book Manufacturer Mumbai</h1>
+        <h1>Custom Fabric Swatch Book & Presentation Folder Manufacturer in Thane-Bhiwandi, Maharashtra</h1>
       </header>
       <main>
         <section>
           <h2>Leading Fabric Swatch Book Manufacturer Since 1994</h2>
-          <p>Sampling Hub / SwatchCraft India is Mumbai's premier manufacturer of premium upholstery and curtain fabric swatch books, serving B2B clients across Europe, USA, UAE, and Middle East markets. With over 30 years of manufacturing excellence, we specialize in custom hardbound fabric sample albums, ring-bound swatch sets, waterfall hangers, and professional marketing materials for furniture manufacturers, interior designers, and textile wholesalers.</p>
-          <p>Our ISO 9001:2015 certified facility produces export-quality swatch books with meticulous attention to detail. From luxurious hardbound upholstery albums to portable ring-bound sales kits, each product is manufactured to withstand daily showroom use while maintaining a premium presentation. We offer comprehensive customization including embossed logos, gold foil stamping, and branded covers to enhance your textile brand identity.</p>
-          <p>With a minimum order quantity starting at just 40-50 units and a 21-28 day express delivery to international markets (USA, EU, UAE, UK), SwatchCraft India has become the trusted partner for global fabric brands seeking reliable, high-quality swatch book manufacturing. Our 6,000 sq ft Mumbai facility employs skilled artisans who combine traditional bookbinding craftsmanship with modern production techniques.</p>
-          <h3>Why Leading Brands Choose SwatchCraft India & Sampling Hub</h3>
-          <p>Our commitment to zero-defect quality control, competitive export pricing, and personalized customer service has made us the preferred swatch book manufacturer for businesses across 15+ countries. Whether you need 50 hardbound albums or 5,000 waterfall cards, we deliver consistent quality with transparent pricing and on-time shipping. Contact our Mumbai headquarters for a technical consultation and volume pricing guide.</p>
+          <p>SamplingHub (Digitex Studio) is a B2B manufacturer of premium upholstery and curtain fabric swatch books, serving clients across Europe, USA, UAE, and Middle East markets. With over 30 years of manufacturing excellence, we specialize in custom hardbound fabric sample albums, waterfall hangers, rigid sample cards, and professional marketing materials for furniture manufacturers, interior designers, and textile wholesalers.</p>
+          <p>Our ISO 9001:2015 certified facility in Thane-Bhiwandi, Maharashtra 421302, produces export-quality swatch books with meticulous attention to detail. From luxurious hardbound upholstery albums to portable ring-bound sales kits, each product is manufactured to withstand daily showroom use while maintaining a premium presentation. We offer comprehensive customization including embossed logos, gold foil stamping, and branded covers to enhance your textile brand identity.</p>
+          <p>With a minimum order quantity starting at just 40-50 units and a 21-28 day express delivery to international markets (USA, EU, UAE, UK), SamplingHub has become the trusted partner for global fabric brands seeking reliable, high-quality swatch book manufacturing. Our Thane-Bhiwandi facility employs skilled artisans who combine traditional bookbinding craftsmanship with modern production techniques.</p>
+          <h3>Why Leading Brands Choose SamplingHub</h3>
+          <p>Our commitment to zero-defect quality control, competitive export pricing, and personalized customer service has made us the preferred swatch book manufacturer for businesses across 15+ countries. Whether you need 50 hardbound albums or 5,000 waterfall cards, we deliver consistent quality with transparent pricing and on-time shipping. Contact our Maharashtra headquarters for a technical consultation and volume pricing guide.</p>
         </section>
       </main>
     </div>
