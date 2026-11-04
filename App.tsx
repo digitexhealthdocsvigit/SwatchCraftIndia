@@ -62,8 +62,30 @@ export type ViewState =
   | 'admin-login'
   | 'admin-dashboard';
 
+// Canonical URL routing: only these views are bound to a real, crawlable URL.
+// Every other ViewState remains reachable via in-app navigation only (no path change),
+// matching the app's existing behavior.
+const PATH_TO_VIEW: Record<string, ViewState> = {
+  '/': 'home',
+  '/about': 'about',
+  '/products': 'products-overview',
+  '/contact': 'contact-page',
+};
+
+const VIEW_TO_PATH: Partial<Record<ViewState, string>> = {
+  home: '/',
+  about: '/about',
+  'products-overview': '/products',
+  'contact-page': '/contact',
+};
+
+const resolveViewFromPath = (pathname: string): ViewState => {
+  const normalized = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+  return PATH_TO_VIEW[normalized] ?? 'not-found';
+};
+
 const App: React.FC = () => {
-  const [currentView, setCurrentView] = useState<ViewState>('home');
+  const [currentView, setCurrentView] = useState<ViewState>(() => resolveViewFromPath(window.location.pathname));
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
   const [activeAsset, setActiveAsset] = useState('Catalogue');
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -74,11 +96,25 @@ const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentView]);
 
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentView(resolveViewFromPath(window.location.pathname));
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
   const navigateTo = (view: ViewState) => {
     if (view === 'admin-dashboard' && !isAuthenticated) {
       setCurrentView('admin-login');
-    } else {
-      setCurrentView(view);
+      return;
+    }
+
+    setCurrentView(view);
+
+    const path = VIEW_TO_PATH[view];
+    if (path && window.location.pathname !== path) {
+      window.history.pushState({ view }, '', path);
     }
   };
 

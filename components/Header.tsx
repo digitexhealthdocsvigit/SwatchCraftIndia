@@ -56,9 +56,9 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
         <div className="flex flex-col cursor-pointer shrink-0" onClick={() => handleNav('home')}>
           <span className="text-xl md:text-2xl font-black tracking-tighter text-[#1e3a5f]">
-            SwatchCraft <span className="text-[#d4a574]">India</span>
+            SwatchCraft <span className="text-[#8B6F47]">India</span>
           </span>
-          <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-gray-500">Premium Sample Manufacturing</span>
+          <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-gray-600">Premium Sample Manufacturing</span>
         </div>
 
         <nav className="hidden lg:block flex-grow">
@@ -86,9 +86,10 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
               onMouseEnter={() => setDesktopProductsOpen(true)}
               onMouseLeave={() => setDesktopProductsOpen(false)}
             >
-              <button 
+              <button
+                onClick={() => handleNav('products-overview')}
                 className={`px-3 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors flex items-center gap-1 ${
-                  currentView.startsWith('product-') ? 'text-[#0d7377]' : 'text-[#1e3a5f] hover:text-[#0d7377]'
+                  currentView.startsWith('product-') || currentView === 'products-overview' ? 'text-[#0d7377]' : 'text-[#1e3a5f] hover:text-[#0d7377]'
                 }`}
               >
                 Products <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${desktopProductsOpen ? 'rotate-180' : ''}`} />
@@ -144,7 +145,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
             Email RFQ
           </button>
           
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden text-[#1e3a5f] p-2">
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden text-[#1e3a5f] p-2" aria-label="Toggle Navigation Menu">
             {mobileMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
           </button>
         </div>
@@ -162,8 +163,9 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
                </button>
                {mobileProductsOpen && (
                  <div className="pl-6 pb-4 space-y-4 pt-2">
+                   <button onClick={() => handleNav('products-overview')} className="flex items-center gap-3 w-full text-left text-[13px] font-black uppercase tracking-widest text-[#0d7377]">View All Products</button>
                    {productLinks.map((link) => (
-                     <button key={link.id} onClick={() => handleNav(link.id)} className={`flex items-center gap-3 w-full text-left text-[13px] font-bold uppercase tracking-widest ${currentView === link.id ? 'text-[#0d7377]' : 'text-gray-500'}`}>{link.name}</button>
+                     <button key={link.id} onClick={() => handleNav(link.id)} className={`flex items-center gap-3 w-full text-left text-[13px] font-bold uppercase tracking-widest ${currentView === link.id ? 'text-[#0d7377]' : 'text-gray-600'}`}>{link.name}</button>
                    ))}
                  </div>
                )}
