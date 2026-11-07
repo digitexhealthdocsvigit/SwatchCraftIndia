@@ -21,7 +21,7 @@ const OutreachTemplates: React.FC<Props> = ({ onNavigate }) => {
 
 I came across your excellent article on "[Article Title Related to Fabric/Export]" and was impressed by your depth on [specific topic].
 
-I'm Vishal Pendharkar, founder of SamplingHub (Digitex Studio), a fabric swatch manufacturer serving B2B exporters and interior designers globally. We've spent 10+ years perfecting the art of efficient sample production for export markets.
+I'm Vishal Pendharkar, founder of SamplingHub (Digitex Studio), an India-based managed OEM fabric sampling solutions provider serving B2B exporters and interior designers globally. Production is coordinated through specialised manufacturing partners with 10+ years of domain expertise.
 
 I'd like to contribute a guest post to your platform on one of these topics:
 1. "MOQ Pricing Breakdown: How Indian Fabric Manufacturers Compete with China & USA in 2025"
@@ -47,13 +47,13 @@ digitex.studio@gmail.com | +91 9004962871`
       subject: "SamplingHub (Digitex Studio) - Premium Fabric Swatch Manufacturer Directory Submission",
       body: `Dear [Directory Editor Name],
 
-SamplingHub (Digitex Studio) is a premium B2B fabric swatch and sample book manufacturer based in Thane-Bhiwandi, Maharashtra, India. We're reaching out to request a featured listing in your [Directory Name] under the "Fabric Manufacturing" or "Export Services" category.
+SamplingHub (Digitex Studio) is an India-based managed OEM fabric sampling solutions provider established in 2011. Production is coordinated through specialised partner manufacturing units. We're reaching out to request a featured listing in your [Directory Name] under the "Fabric Sampling" or "Export Services" category.
 
 ABOUT US:
 - Founded: 2011
 - Service: Custom fabric swatch books, sample albums, and waterfall format cards
 - Market: B2B exporters, interior designers, wholesale buyers in Europe, USA, and Asia
-- Competitive Advantage: 15-20 day delivery (vs China's 45 days), premium quality, competitive MOQ pricing
+- Competitive Advantage: Agile managed OEM production coordination, international export readiness, flexible MOQ pricing
 - Compliance: Export-Ready Documentation (GST registered exporter)
 
 WHAT WE OFFER:
@@ -85,10 +85,10 @@ I noticed your recent coverage of [relevant industry story/trend]. This demonstr
 I'm reaching out with a potential story angle for your publication:
 
 STORY CONCEPT:
-"How One Maharashtra Manufacturer is Disrupting the $2B Global Fabric Sample Market with a Format No One Else is Offering"
+"How SamplingHub (Digitex Studio) is Innovating the Global Fabric Sample Market with Managed OEM Formats"
 
 THE ANGLE:
-- SamplingHub (Digitex Studio) developed the first waterfall swatch format manufactured in India
+- SamplingHub (Digitex Studio) coordinates premium waterfall swatch formats manufactured in India through specialised partner units
 - This format shows 40% more samples in the same space as traditional books
 - Faster production (2-3 weeks vs 3-4 weeks for traditional formats)
 - Same price point, but perceived as premium by buyers
@@ -160,7 +160,7 @@ digitex.studio@gmail.com | +91 9004962871`
       subject: "Featured Business Profile: SamplingHub (Digitex Studio) on Your \"Local Manufacturers\" Page",
       body: `Dear [Chamber/Business Association Lead],
 
-SamplingHub (Digitex Studio) is a Thane-Bhiwandi, Maharashtra-based B2B manufacturer of fabric swatch books and export samples. We're a proud member of [Local Association] and wanted to reach out about a featured business profile on your "Local Manufacturers" or "Export Services" resource page.
+SamplingHub (Digitex Studio) is an India-based managed OEM fabric sampling solutions provider established in 2011. Production is coordinated through specialised manufacturing partner units. We're reaching out about a featured business profile on your "Local Exporters" or "Export Services" resource page.
 
 A profile would highlight:
 - Our 10+ year track record serving global clients

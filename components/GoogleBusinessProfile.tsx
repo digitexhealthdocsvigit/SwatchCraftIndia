@@ -21,12 +21,12 @@ const GoogleBusinessProfile: React.FC<Props> = ({ onNavigate }) => {
   ];
 
   const posts = [
-    "JAN: 📢 New Waterfall Format Alert! Now available: Waterfall Tri-fold cards with 40-50 fabric samples. Perfect for trade shows. 15-day delivery. Contact for samples!",
+    "JAN: 📢 New Waterfall Format Alert! Now available: Waterfall Tri-fold cards with 40-50 fabric samples. Perfect for trade shows. Contact for samples and custom quotes!",
     "FEB: 💡 MOQ Pricing Tip: Ordering 500+ units? You save 25% per unit + free custom branding. Get your volume quote today.",
     "MAR: ✈️ Export-Ready: All our swatch books meet EU & USA import standards. Packaged professionally. Documentation support included.",
     "APR: 🎯 Case Study: European importer increased repeat orders by 58% after switching to our waterfall format. Success story inside!",
-    "MAY: ⏰ Speed Update: Our 15-20 day delivery beats China's 45 days. Waterfall format ready in 2-3 weeks.",
-    "JUN: 🏆 Award: SamplingHub recognized as India's premier fabric swatch innovator. First waterfall format manufacturer in India!",
+    "MAY: ⏰ Speed Update: Agile managed OEM sampling coordination with reliable international air/ocean freight. Waterfall format ready in 2-3 weeks.",
+    "JUN: 🏆 Recognition: SamplingHub recognized as India's premier managed OEM fabric sampling specialist. Innovative waterfall formats for global exporters!",
     "JUL: 📚 Blog Post: Complete MOQ Pricing Guide - India vs China vs USA. What you need to know for profitability.",
     "AUG: 🎨 Design Tip: Professional swatch presentation increases customer confidence by 40%. Waterfall format = instant upgrade.",
     "SEP: 📦 Packaging Excellence: Our export packaging optimized for moisture protection. International standards compliant.",

@@ -16,13 +16,42 @@ export function isProduction(): boolean {
   );
 }
 
+export interface StorageCredentials {
+  url: string;
+  token: string;
+  provider: 'upstash' | 'vercel_kv' | null;
+}
+
+/**
+ * Resolves shared KV credentials with deterministic pair integrity and documented precedence.
+ * Precedence Order:
+ * 1. UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN (Official Vercel Marketplace Upstash Integration)
+ * 2. KV_REST_API_URL + KV_REST_API_TOKEN (Legacy Vercel KV Integration)
+ *
+ * Security Guarantee: Never mixes URL from one provider with TOKEN from another.
+ * If conflicting variables exist, the higher precedence complete pair is used deterministically.
+ */
+export function getSharedStorageCredentials(): StorageCredentials {
+  const upstashUrl = process.env.UPSTASH_REDIS_REST_URL?.trim();
+  const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN?.trim();
+  if (upstashUrl && upstashToken) {
+    return { url: upstashUrl, token: upstashToken, provider: 'upstash' };
+  }
+
+  const kvUrl = process.env.KV_REST_API_URL?.trim();
+  const kvToken = process.env.KV_REST_API_TOKEN?.trim();
+  if (kvUrl && kvToken) {
+    return { url: kvUrl, token: kvToken, provider: 'vercel_kv' };
+  }
+
+  return { url: '', token: '', provider: null };
+}
+
 /**
  * Returns true if managed shared KV storage (Vercel KV or Upstash Redis) is configured.
  */
 export function isSharedStorageConfigured(): boolean {
-  const hasKv = Boolean(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
-  const hasUpstash = Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
-  return hasKv || hasUpstash;
+  return getSharedStorageCredentials().provider !== null;
 }
 
 /**
@@ -59,7 +88,7 @@ export function getAuthConfigStatus(): {
 
   const sharedStorage = isSharedStorageConfigured();
   if (isProduction() && !sharedStorage) {
-    missing.push('KV_REST_API_URL / KV_REST_API_TOKEN (or UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN)');
+    missing.push('UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN (or KV_REST_API_URL / KV_REST_API_TOKEN)');
   }
 
   return {
@@ -233,8 +262,7 @@ export async function sendKvPipeline(commands: any[][]): Promise<any[] | null> {
     return mockKvHandler(commands);
   }
 
-  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+  const { url, token } = getSharedStorageCredentials();
   if (!url || !token) return null;
 
   try {

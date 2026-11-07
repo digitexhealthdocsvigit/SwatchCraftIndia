@@ -58,6 +58,7 @@ async function runSharedStorageTests() {
   // 2. Setup mock shared KV store (simulating an external Upstash/Vercel KV server)
   const remoteKvStore = new Map();
   const remoteTtlStore = new Map();
+  const remoteZSetStore = new Map();
 
   function mockKvPipeline(commands) {
     return Promise.resolve(
@@ -112,6 +113,31 @@ async function runSharedStorageTests() {
           remoteKvStore.delete(args[0]);
           remoteTtlStore.delete(args[0]);
           return 1;
+        }
+        if (cmd === 'ZADD') {
+          const [key, score, member] = args;
+          let list = remoteZSetStore.get(key) || [];
+          list = list.filter((e) => e.member !== String(member));
+          list.push({ member: String(member), score: Number(score) });
+          list.sort((a, b) => b.score - a.score);
+          remoteZSetStore.set(key, list);
+          return 1;
+        }
+        if (cmd === 'ZREVRANGE') {
+          const [key, start, stop] = args;
+          const list = remoteZSetStore.get(key) || [];
+          const startIdx = parseInt(start, 10);
+          const stopIdx = parseInt(stop, 10);
+          const sliced = stopIdx === -1 ? list.slice(startIdx) : list.slice(startIdx, stopIdx + 1);
+          return sliced.map((e) => e.member);
+        }
+        if (cmd === 'ZREM') {
+          const [key, member] = args;
+          let list = remoteZSetStore.get(key) || [];
+          const origLen = list.length;
+          list = list.filter((e) => e.member !== String(member));
+          remoteZSetStore.set(key, list);
+          return origLen !== list.length ? 1 : 0;
         }
         return null;
       })
