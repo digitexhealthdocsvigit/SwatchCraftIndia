@@ -25,14 +25,14 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
     {
       title: "Quality Standards",
       icon: "📜",
-      stat: "ISO 9001:2015",
-      desc: "International quality certifications and export-grade finishing that meets European and American standards"
+      stat: "100% QC",
+      desc: "Documented quality inspection and export-grade finishing that meets European and American standards"
     },
     {
       title: "Faster Delivery",
       icon: "🚢",
       stat: "15-25 Days to Europe/USA",
-      desc: "Strategic Mumbai location enables faster shipping than China (30-45 days) to Western markets"
+      desc: "Strategic Maharashtra location, near Mumbai's ports, enables faster shipping than China (30-45 days) to Western markets"
     },
     {
       title: "English Communication",
@@ -53,7 +53,7 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
 
   const faqs = [
     { q: "What is your export MOQ?", a: "Standard 50-100 pieces, flexible for samples." },
-    { q: "How do I send my fabrics for manufacturing?", a: "We arrange courier pickup or you ship directly to our Mumbai facility." },
+    { q: "How do I send my fabrics for manufacturing?", a: "We arrange courier pickup or you ship directly to our Thane-Bhiwandi facility." },
     { q: "What export documentation do you provide?", a: "Complete set: commercial invoice, packing list, COO, quality certificate." },
     { q: "Can you handle customs clearance?", a: "We provide all documents; you handle import customs (or we can recommend freight forwarder)." },
     { q: "What if I need urgent delivery?", a: "Express air freight available: 3-7 days to most countries." },
@@ -295,7 +295,7 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
                   </div>
                 </div>
               </div>
-              <button onClick={() => onNavigate('contact-page')} className="w-full bg-[#d4a574] text-white font-black py-4 rounded-xl shadow-lg hover:bg-navy transition-all uppercase tracking-widest text-xs">
+              <button onClick={() => onNavigate('contact-page')} className="w-full bg-[#8B6F47] text-white font-black py-4 rounded-xl shadow-lg hover:bg-navy transition-all uppercase tracking-widest text-xs">
                 Request Middle East Quote
               </button>
             </div>

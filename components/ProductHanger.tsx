@@ -186,7 +186,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
             ].map((style, i) => (
               <div key={i} className="bg-gray-50 p-10 rounded-[3.5rem] border border-gray-100 group flex flex-col hover:border-gold transition-all duration-500">
                 <div className="aspect-square bg-white rounded-3xl mb-8 flex items-center justify-center text-gray-300 font-black text-[10px] uppercase tracking-widest text-center px-10 border border-gray-100">{style.i}</div>
-                <h4 className="text-2xl font-black text-navy mb-4 uppercase tracking-tight">{style.t}</h4>
+                <h3 className="text-2xl font-black text-navy mb-4 uppercase tracking-tight">{style.t}</h3>
                 <p className="text-gray-500 text-sm font-medium mb-8 flex-grow leading-relaxed">{style.d}</p>
                 <ul className="space-y-3 mb-10">
                   {style.f.map((feat, idx) => (
@@ -196,8 +196,8 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
                   ))}
                 </ul>
                 <div className="pt-6 border-t border-gray-200">
-                  <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">Pricing from</p>
-                  <p className="text-2xl font-black text-navy">{formatPrice(style.p)}-{formatPrice(style.p + 5)} <span className="text-xs text-gray-400">/ set</span></p>
+                  <p className="text-[10px] text-gray-600 font-bold uppercase mb-1">Pricing from</p>
+                  <p className="text-2xl font-black text-navy">{formatPrice(style.p)}-{formatPrice(style.p + 5)} <span className="text-xs text-gray-600">/ set</span></p>
                 </div>
               </div>
             ))}
@@ -218,7 +218,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
             ].map((opt, i) => (
               <div key={i} className="bg-white p-8 rounded-[3rem] border border-gray-100 text-center flex flex-col h-full shadow-sm group hover:shadow-xl transition-all">
                 <div className="aspect-video bg-gray-50 rounded-2xl mb-6 flex items-center justify-center text-gray-300 font-black text-[9px] uppercase px-4 leading-relaxed">{opt.i}</div>
-                <h5 className="font-black text-navy uppercase text-sm mb-3 tracking-widest">{opt.t}</h5>
+                <h3 className="font-black text-navy uppercase text-sm mb-3 tracking-widest">{opt.t}</h3>
                 <p className="text-gray-500 text-[11px] leading-relaxed font-medium flex-grow">{opt.d}</p>
               </div>
             ))}
@@ -238,7 +238,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
             ].map((method, i) => (
               <div key={i} className="space-y-6">
                 <div className="aspect-video bg-gray-100 rounded-[3rem] border border-gray-100 flex items-center justify-center text-gray-300 font-black text-[9px] uppercase px-8 text-center">{method.i}</div>
-                <h4 className="text-xl font-black text-navy uppercase tracking-tight">{method.t}</h4>
+                <h3 className="text-xl font-black text-navy uppercase tracking-tight">{method.t}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed font-medium">{method.d}</p>
                 <div className="flex gap-2">
                    <span className="bg-teal/10 text-teal text-[9px] font-black px-3 py-1 rounded-full uppercase">Standard</span>
@@ -264,7 +264,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
             ].map((use, i) => (
               <div key={i} className="p-10 bg-white rounded-[2.5rem] border border-gray-100 shadow-sm text-center flex flex-col h-full hover:shadow-xl transition-all">
                 <div className="text-teal mb-6 flex justify-center">{use.icon}</div>
-                <h4 className="font-black text-navy mb-4 uppercase text-sm leading-tight tracking-tight">{use.title}</h4>
+                <h3 className="font-black text-navy mb-4 uppercase text-sm leading-tight tracking-tight">{use.title}</h3>
                 <p className="text-gray-500 text-[11px] leading-relaxed font-medium flex-grow">{use.desc}</p>
               </div>
             ))}
@@ -284,7 +284,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
             ].map((conf, i) => (
               <div key={i} className="space-y-6">
                 <div className="aspect-[4/3] bg-gray-50 rounded-[3rem] border border-gray-100 flex items-center justify-center text-gray-300 font-black text-[9px] uppercase">{conf.i}</div>
-                <h4 className="text-xl font-black text-navy uppercase tracking-tight">{conf.t}</h4>
+                <h3 className="text-xl font-black text-navy uppercase tracking-tight">{conf.t}</h3>
                 <ul className="space-y-3">
                   {conf.s.map((spec, j) => (
                     <li key={j} className="flex items-start text-xs font-bold text-gray-500 uppercase tracking-widest">
@@ -311,7 +311,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
             ].map((strat, i) => (
               <div key={i} className="flex flex-col h-full group">
                  <div className="aspect-video bg-white rounded-3xl mb-6 border border-gray-100 shadow-sm flex items-center justify-center text-[9px] font-black text-gray-300 uppercase px-6 text-center leading-relaxed group-hover:border-gold transition-colors">{strat.i}</div>
-                 <h5 className="text-lg font-black text-navy mb-3 uppercase tracking-tight">{strat.t}</h5>
+                 <h3 className="text-lg font-black text-navy mb-3 uppercase tracking-tight">{strat.t}</h3>
                  <p className="text-gray-500 text-xs font-medium leading-relaxed flex-grow">{strat.d}</p>
               </div>
             ))}
@@ -336,7 +336,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
                 <tbody className="divide-y divide-gray-100">
                   {pricingTiers.map((tier, i) => (
                     <tr key={i} className="hover:bg-gray-50 transition-colors">
-                      <td className="p-8 uppercase tracking-widest text-[10px] text-gray-400">{tier.qty}</td>
+                      <td className="p-8 uppercase tracking-widest text-[10px] text-gray-600">{tier.qty}</td>
                       <td className="p-8 text-gold text-lg font-black">{formatPrice(tier.price)}</td>
                       <td className="p-8 font-medium text-navy/50">{formatPrice(tier.invest)}+</td>
                       <td className="p-8 text-[10px] font-black uppercase tracking-widest text-navy">{tier.ideal}</td>
@@ -362,7 +362,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
           </div>
 
           <div className="mt-16 bg-navy text-white p-10 rounded-[3rem] shadow-2xl relative overflow-hidden">
-             <h4 className="text-xl font-black mb-6 uppercase tracking-tighter text-gold">Available Add-On Services</h4>
+             <h3 className="text-xl font-black mb-6 uppercase tracking-tighter text-gold">Available Add-On Services</h3>
              <ul className="grid sm:grid-cols-2 gap-4 text-[11px] font-bold uppercase tracking-widest">
                 <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-teal" /> Wall Hardware Kit (+{formatPrice(5)}/pc)</li>
                 <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-teal" /> Custom Rail System Design</li>
@@ -391,7 +391,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
                  <div key={i} className="bg-white p-6 rounded-3xl border border-gray-100 text-center shadow-sm hover:scale-105 transition-transform group">
                    <div className="w-12 h-12 bg-navy/5 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl group-hover:bg-gold transition-colors">{step.i}</div>
                    <p className="text-gold font-black text-[9px] uppercase tracking-widest mb-1">{step.s}</p>
-                   <h4 className="font-bold text-navy text-xs mb-1 leading-tight">{step.t}</h4>
+                   <h3 className="font-bold text-navy text-xs mb-1 leading-tight">{step.t}</h3>
                    <p className="text-gray-400 font-bold text-[9px] uppercase">{step.d}</p>
                  </div>
                ))}
@@ -416,7 +416,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
                    <div className="bg-teal/5 rounded-2xl flex items-center justify-center text-[7px] font-black text-teal uppercase p-4 text-center border border-teal/20">AFTER: {ex.a}</div>
                 </div>
                 <div>
-                   <h4 className="text-xl font-black text-navy uppercase tracking-tight">{ex.c}</h4>
+                   <h3 className="text-xl font-black text-navy uppercase tracking-tight">{ex.c}</h3>
                    <p className="text-gold font-black text-[10px] uppercase tracking-widest mt-1 mb-4">{ex.client}</p>
                    <p className="text-gray-500 text-sm font-medium leading-relaxed italic">{ex.s}</p>
                 </div>
@@ -429,12 +429,12 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
       {/* Comparison Section */}
       <section className="py-24 px-4 bg-gray-50 border-y border-gray-100 overflow-x-auto">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-black text-navy text-center mb-12 uppercase tracking-tighter">Why SwatchCraft Hanger Swatches?</h2>
+          <h2 className="text-3xl font-black text-navy text-center mb-12 uppercase tracking-tighter">Why SamplingHub Hanger Swatches?</h2>
           <table className="w-full bg-white rounded-[2.5rem] border border-gray-200 overflow-hidden shadow-xl text-left border-collapse min-w-[600px]">
             <thead className="bg-navy text-white text-[10px] font-black uppercase tracking-widest">
               <tr>
                 <th className="p-6">Feature</th>
-                <th className="p-6">SwatchCraft</th>
+                <th className="p-6">SamplingHub</th>
                 <th className="p-6">DIY Solution</th>
                 <th className="p-6">Import (China)</th>
               </tr>
@@ -451,8 +451,8 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
                 <tr key={i} className="hover:bg-gray-50 transition-colors">
                   <td className="p-6 bg-gray-50/50 w-1/4 uppercase tracking-widest text-[9px]">{row.f}</td>
                   <td className="p-6 text-teal font-black">{row.s}</td>
-                  <td className="p-6 text-gray-400">{row.d}</td>
-                  <td className="p-6 text-gray-400">{row.c}</td>
+                  <td className="p-6 text-gray-600">{row.d}</td>
+                  <td className="p-6 text-gray-600">{row.c}</td>
                 </tr>
               ))}
             </tbody>
@@ -497,8 +497,8 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
             ].map((prod, i) => (
               <div key={i} className="bg-white p-8 rounded-[2.5rem] border border-gray-100 group shadow-sm hover:shadow-xl transition-all h-full flex flex-col">
                 <div className="aspect-video bg-gray-50 rounded-2xl mb-6 flex items-center justify-center text-gray-200 font-black text-[9px] uppercase tracking-widest text-center px-6">Product Visual</div>
-                <h4 className="text-lg font-black text-navy mb-1 uppercase tracking-tight group-hover:text-gold transition-colors">{prod.t}</h4>
-                <p className="text-gray-400 text-[10px] font-bold uppercase mb-6 flex-grow">{prod.d}</p>
+                <h3 className="text-lg font-black text-navy mb-1 uppercase tracking-tight group-hover:text-gold transition-colors">{prod.t}</h3>
+                <p className="text-gray-600 text-[10px] font-bold uppercase mb-6 flex-grow">{prod.d}</p>
                 <div className="flex justify-between items-center pt-4 border-t border-gray-200">
                    <span className="text-[10px] font-black text-navy uppercase tracking-widest">From {formatPrice(prod.p)}</span>
                    <button onClick={() => onNavigate(prod.target as ViewState)} className="text-teal font-black text-[10px] uppercase tracking-widest hover:underline">View Product →</button>
@@ -541,7 +541,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
                  <tbody className="divide-y divide-gray-100">
                     {pricingTiers.map((tier, i) => (
                       <tr key={i} className="hover:bg-gray-50 transition-colors">
-                        <td className="p-4 uppercase tracking-widest text-[10px] text-gray-400">{tier.qty}</td>
+                        <td className="p-4 uppercase tracking-widest text-[10px] text-gray-600">{tier.qty}</td>
                         <td className="p-4 text-right font-black text-gold text-lg">{formatPrice(tier.price)}</td>
                         <td className="p-4 text-right text-navy/50">{formatPrice(tier.invest)}</td>
                       </tr>
@@ -549,7 +549,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
                  </tbody>
                </table>
                <div className="mt-8 p-6 bg-teal/5 rounded-2xl border border-teal/10">
-                  <h5 className="font-black text-teal uppercase text-[10px] mb-2 tracking-widest">Optional Services</h5>
+                  <h4 className="font-black text-teal uppercase text-[10px] mb-2 tracking-widest">Optional Services</h4>
                   <ul className="text-[10px] font-bold text-gray-500 uppercase space-y-2">
                     <li className="flex justify-between"><span>Wall Hardware Kit</span> <span>+ {formatPrice(5)}/hanger</span></li>
                     <li className="flex justify-between"><span>Custom Rail Design</span> <span>Quote on Request</span></li>

@@ -14,7 +14,7 @@ const ProductWaterfall: React.FC<Props> = ({ onNavigate, onDownload }) => {
     { 
       label: "Main View", 
       src: "https://images.unsplash.com/photo-1558383409-ab7ef8db3e01?auto=format&fit=crop&w=800&q=80",
-      alt: "Custom Cascading Waterfall Fabric Swatch Card Manufacturer Mumbai"
+      alt: "Custom Cascading Waterfall Fabric Swatch Card Manufacturer Thane-Bhiwandi, Maharashtra"
     },
     { 
       label: "Bi-Fold", 

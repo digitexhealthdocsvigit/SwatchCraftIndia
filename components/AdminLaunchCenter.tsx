@@ -15,9 +15,9 @@ const AdminLaunchCenter: React.FC = () => {
 
   const imagePrompts = {
     upholstery: [
-      { id: 'uph_1', title: 'Hero Shot', prompt: "Professional product photography of a premium hardbound fabric swatch book on a clean white desk. The book is open showing 8 upholstery fabric samples in rich colors - burgundy velvet, grey linen, navy jacquard. Custom branded cover with gold foil 'SwatchCraft India' logo. Studio lighting, high-end commercial photography, 4K quality, sharp focus, depth of field." },
+      { id: 'uph_1', title: 'Hero Shot', prompt: "Professional product photography of a premium hardbound fabric swatch book on a clean white desk. The book is open showing 8 upholstery fabric samples in rich colors - burgundy velvet, grey linen, navy jacquard. Custom branded cover with gold foil 'SamplingHub' logo. Studio lighting, high-end commercial photography, 4K quality, sharp focus, depth of field." },
       { id: 'uph_2', title: 'Binding Detail', prompt: "Extreme close-up macro photograph of a metal ring binding mechanism on a fabric swatch book. Chrome-plated rings, professional industrial quality, fabric pages with printed labels visible. Professional product photography, white background, sharp macro focus." },
-      { id: 'uph_3', title: 'Custom Branding', prompt: "Embossed logo on premium leatherette fabric swatch book cover. Gold foil stamping reading 'SwatchCraft India', luxury texture visible, professional lighting showing dimension and texture. Product photography, commercial quality." },
+      { id: 'uph_3', title: 'Custom Branding', prompt: "Embossed logo on premium leatherette fabric swatch book cover. Gold foil stamping reading 'SamplingHub', luxury texture visible, professional lighting showing dimension and texture. Product photography, commercial quality." },
       { id: 'uph_4', title: 'In Use', prompt: "Professional businessman hands flipping through premium upholstery fabric swatch book on modern office desk. Multiple fabric samples visible - velvet, linen, jacquard textures. Clean corporate environment, professional B2B setting, natural window lighting." },
       { id: 'uph_5', title: 'Multiple Books', prompt: "Stacked collection of 5 premium hardbound fabric swatch books on white surface. Various colors of covers, consistent professional branding, export-quality presentation. Commercial product photography, clean aesthetic, studio lighting." }
     ],
@@ -55,7 +55,11 @@ const AdminLaunchCenter: React.FC = () => {
     if (generating) return;
     setGenerating(id);
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      // Gemini API key is no longer bundled into the public client (security fix).
+      // Image generation requires a server-side proxy before it can be re-enabled.
+      const apiKey = '';
+      if (!apiKey) throw new Error('Gemini client calls disabled on public site');
+      const ai = new GoogleGenAI({ apiKey });
       const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash-image',
         contents: [{ parts: [{ text: promptText }] }],
@@ -121,7 +125,7 @@ const AdminLaunchCenter: React.FC = () => {
             <section className="bg-teal/5 p-8 rounded-3xl border border-teal/10 mb-8">
               <h3 className="text-xl font-black text-navy mb-4 uppercase tracking-tighter">AI Visual Asset Generator</h3>
               <p className="text-sm text-gray-600 font-medium leading-relaxed">
-                Generate high-resolution commercial-quality product photography for SwatchCraft India. 
+                Generate high-resolution commercial-quality product photography for SamplingHub (Digitex Studio). 
                 Use these generated visuals for your website, Google Business Profile, and social media.
               </p>
               <div className="mt-4 flex items-center gap-2">
@@ -245,9 +249,9 @@ const AdminLaunchCenter: React.FC = () => {
               <h3 className="text-lg font-black text-navy mb-4">Business Description (750 Chars)</h3>
               <textarea 
                 className="w-full h-40 bg-gray-50 border border-gray-200 rounded-2xl p-6 text-sm text-gray-600 font-medium"
-                defaultValue="SwatchCraft India is Mumbai's premier B2B manufacturer of premium fabric swatch books, curtain albums, and waterfall cards. Serving global textile brands for 30+ years, we specialize in high-impact presentation for upholstery and curtain exporters. Our facility offers 21-day production turnarounds—significantly faster than international competitors. ISO 9001:2015 certified."
+                defaultValue="SamplingHub (Digitex Studio) is a Thane-Bhiwandi, Maharashtra-based premier B2B manufacturer of premium fabric swatch books, curtain albums, and waterfall cards. Serving global textile brands for 30+ years, we specialize in high-impact presentation for upholstery and curtain exporters. Our facility offers 21-day production turnarounds—significantly faster than international competitors."
               />
-              <button onClick={() => copyToClipboard("SwatchCraft India Business Description...")} className="mt-4 bg-navy text-white px-6 py-2 rounded-lg text-[10px] font-black uppercase">Copy Description</button>
+              <button onClick={() => copyToClipboard("SamplingHub Business Description...")} className="mt-4 bg-navy text-white px-6 py-2 rounded-lg text-[10px] font-black uppercase">Copy Description</button>
             </section>
           </div>
         )}
@@ -283,7 +287,7 @@ const AdminLaunchCenter: React.FC = () => {
                <pre className="text-[11px] text-gray-500 whitespace-pre-wrap font-medium">
                  Subject: Collaborative Resource: "2025 Fabric Presentation Trends"
                  {"\n\n"}
-                 Hi [Editor Name], I'm Vishal from SwatchCraft India. We've just released a data-backed guide on how sustainable upholstery is changing swatch book design...
+                 Hi [Editor Name], I'm Vishal from SamplingHub (Digitex Studio). We've just released a data-backed guide on how sustainable upholstery is changing swatch book design...
                </pre>
                <button onClick={() => copyToClipboard('Outreach Template 1...')} className="mt-6 text-teal font-black text-[10px] uppercase">Copy Email Template</button>
             </div>
@@ -319,7 +323,7 @@ const AdminLaunchCenter: React.FC = () => {
       
       {/* Footer Footer */}
       <div className="bg-gray-50 p-8 border-t border-gray-100 text-center">
-         <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.4em]">Proprietary GTM Strategy • SwatchCraft India 2025</p>
+         <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.4em]">Proprietary GTM Strategy • SamplingHub 2025</p>
       </div>
     </div>
   );

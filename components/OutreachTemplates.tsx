@@ -21,7 +21,7 @@ const OutreachTemplates: React.FC<Props> = ({ onNavigate }) => {
 
 I came across your excellent article on "[Article Title Related to Fabric/Export]" and was impressed by your depth on [specific topic].
 
-I'm Vishal Pendharkar, founder of SwatchCraft India, a fabric swatch manufacturer serving B2B exporters and interior designers globally. We've spent 10+ years perfecting the art of efficient sample production for export markets.
+I'm Vishal Pendharkar, founder of SamplingHub (Digitex Studio), a fabric swatch manufacturer serving B2B exporters and interior designers globally. We've spent 10+ years perfecting the art of efficient sample production for export markets.
 
 I'd like to contribute a guest post to your platform on one of these topics:
 1. "MOQ Pricing Breakdown: How Indian Fabric Manufacturers Compete with China & USA in 2025"
@@ -37,24 +37,24 @@ Would any of these topics resonate with your editorial calendar? I can provide o
 Best regards,
 
 Vishal Pendharkar
-Founder, SwatchCraft India
+Founder, SamplingHub (Digitex Studio)
 digitex.studio@gmail.com | +91 9004962871`
     },
     {
       id: "directory",
       title: "TEMPLATE 2: INDUSTRY DIRECTORY / LISTING SUBMISSION",
       target: "Exporters.gov.in, IndiaTradeHub, ExportHub",
-      subject: "SwatchCraft India - Premium Fabric Swatch Manufacturer Directory Submission",
+      subject: "SamplingHub (Digitex Studio) - Premium Fabric Swatch Manufacturer Directory Submission",
       body: `Dear [Directory Editor Name],
 
-SwatchCraft India is a premium B2B fabric swatch and sample book manufacturer based in Mumbai, India. We're reaching out to request a featured listing in your [Directory Name] under the "Fabric Manufacturing" or "Export Services" category.
+SamplingHub (Digitex Studio) is a premium B2B fabric swatch and sample book manufacturer based in Thane-Bhiwandi, Maharashtra, India. We're reaching out to request a featured listing in your [Directory Name] under the "Fabric Manufacturing" or "Export Services" category.
 
 ABOUT US:
 - Founded: 1994
 - Service: Custom fabric swatch books, sample albums, and waterfall format cards
 - Market: B2B exporters, interior designers, wholesale buyers in Europe, USA, and Asia
 - Competitive Advantage: 15-20 day delivery (vs China's 45 days), premium quality, competitive MOQ pricing
-- Certifications: ISO 9001:2015, Export-Ready Compliance
+- Compliance: Export-Ready Documentation (GST registered exporter)
 
 WHAT WE OFFER:
 - 6 product formats with custom branding
@@ -70,7 +70,7 @@ Could we arrange a featured listing? We're happy to provide high-quality product
 Best regards,
 
 Vishal Pendharkar
-SwatchCraft India
+SamplingHub (Digitex Studio)
 digitex.studio@gmail.com | +91 9004962871`
     },
     {
@@ -85,10 +85,10 @@ I noticed your recent coverage of [relevant industry story/trend]. This demonstr
 I'm reaching out with a potential story angle for your publication:
 
 STORY CONCEPT:
-"How One Mumbai Manufacturer is Disrupting the $2B Global Fabric Sample Market with a Format No One Else is Offering"
+"How One Maharashtra Manufacturer is Disrupting the $2B Global Fabric Sample Market with a Format No One Else is Offering"
 
 THE ANGLE:
-- SwatchCraft India developed the first waterfall swatch format manufactured in India
+- SamplingHub (Digitex Studio) developed the first waterfall swatch format manufactured in India
 - This format shows 40% more samples in the same space as traditional books
 - Faster production (2-3 weeks vs 3-4 weeks for traditional formats)
 - Same price point, but perceived as premium by buyers
@@ -113,7 +113,7 @@ Would this story interest your publication? I'm available for a conversation at 
 Best regards,
 
 Vishal Pendharkar
-Founder, SwatchCraft India
+Founder, SamplingHub (Digitex Studio)
 digitex.studio@gmail.com | +91 9004962871`
     },
     {
@@ -150,17 +150,17 @@ Would you be open to exploring this? I can draft the outline and we can collabor
 Best regards,
 
 Vishal Pendharkar
-Founder, SwatchCraft India
+Founder, SamplingHub (Digitex Studio)
 digitex.studio@gmail.com | +91 9004962871`
     },
     {
       id: "chamber",
       title: "TEMPLATE 5: LOCAL BUSINESS / CHAMBER OF COMMERCE",
       target: "Mumbai Chamber of Commerce, MSME Resource Pages",
-      subject: "Featured Business Profile: SwatchCraft India on Your \"Local Manufacturers\" Page",
+      subject: "Featured Business Profile: SamplingHub (Digitex Studio) on Your \"Local Manufacturers\" Page",
       body: `Dear [Chamber/Business Association Lead],
 
-SwatchCraft India is a Mumbai-based B2B manufacturer of fabric swatch books and export samples. We're a proud member of [Local Association] and wanted to reach out about a featured business profile on your "Local Manufacturers" or "Export Services" resource page.
+SamplingHub (Digitex Studio) is a Thane-Bhiwandi, Maharashtra-based B2B manufacturer of fabric swatch books and export samples. We're a proud member of [Local Association] and wanted to reach out about a featured business profile on your "Local Manufacturers" or "Export Services" resource page.
 
 A profile would highlight:
 - Our 10+ year track record serving global clients
@@ -176,7 +176,7 @@ PROFILE DETAILS WE'D PROVIDE:
 - Contact information for interested buyers
 - Case study (optional)
 
-BACKLINK BENEFIT TO SWATCH CRAFT:
+BACKLINK BENEFIT TO SAMPLINGHUB:
 A listing on your authoritative local business page improves our SEO and positioning as a serious, established manufacturer—especially valuable for B2B buyers researching vendors.
 
 Is this something your organization supports? I'm happy to provide all content in your preferred format.
@@ -184,7 +184,7 @@ Is this something your organization supports? I'm happy to provide all content i
 Best regards,
 
 Vishal Pendharkar
-Founder, SwatchCraft India
+Founder, SamplingHub (Digitex Studio)
 digitex.studio@gmail.com | +91 9004962871`
     }
   ];

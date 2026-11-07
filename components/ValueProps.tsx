@@ -15,7 +15,7 @@ const ValueProps: React.FC = () => {
     {
       title: "#1 Presentation Quality",
       description: "Premium hardbound albums, professional ring binding, printed fabric labels, composition tags, and custom branding. Your samples represent your brand - we make them exceptional.",
-      badge: "ISO 9001 Certified",
+      badge: "Export-Grade Finish",
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-[#c9a86a]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
@@ -37,7 +37,7 @@ const ValueProps: React.FC = () => {
   return (
     <section className="py-24 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-[#1e3a5f] text-center mb-16">Why Leading Fabric Brands Choose SwatchCraft India</h2>
+        <h2 className="text-3xl md:text-4xl font-extrabold text-[#1e3a5f] text-center mb-16">Why Leading Fabric Brands Choose SamplingHub</h2>
         <div className="grid md:grid-cols-3 gap-8">
           {props.map((prop, idx) => (
             <div key={idx} className="bg-[#f8f9fa] p-10 rounded-2xl border border-gray-100 hover:shadow-xl transition-all flex flex-col h-full">

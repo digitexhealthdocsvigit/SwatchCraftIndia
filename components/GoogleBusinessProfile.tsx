@@ -26,7 +26,7 @@ const GoogleBusinessProfile: React.FC<Props> = ({ onNavigate }) => {
     "MAR: ✈️ Export-Ready: All our swatch books meet EU & USA import standards. Packaged professionally. Documentation support included.",
     "APR: 🎯 Case Study: European importer increased repeat orders by 58% after switching to our waterfall format. Success story inside!",
     "MAY: ⏰ Speed Update: Our 15-20 day delivery beats China's 45 days. Waterfall format ready in 2-3 weeks.",
-    "JUN: 🏆 Award: SwatchCraft recognized as India's premier fabric swatch innovator. First waterfall format manufacturer in India!",
+    "JUN: 🏆 Award: SamplingHub recognized as India's premier fabric swatch innovator. First waterfall format manufacturer in India!",
     "JUL: 📚 Blog Post: Complete MOQ Pricing Guide - India vs China vs USA. What you need to know for profitability.",
     "AUG: 🎨 Design Tip: Professional swatch presentation increases customer confidence by 40%. Waterfall format = instant upgrade.",
     "SEP: 📦 Packaging Excellence: Our export packaging optimized for moisture protection. International standards compliant.",
@@ -46,7 +46,7 @@ const GoogleBusinessProfile: React.FC<Props> = ({ onNavigate }) => {
           <h1 className="text-4xl md:text-5xl font-black text-navy leading-tight tracking-tighter mb-4">
             Google Business <span className="text-gold">Profile Strategy</span>
           </h1>
-          <p className="text-gray-500 text-lg font-medium">Content optimized for: "fabric sample supplier India" | "custom swatch books Mumbai"</p>
+          <p className="text-gray-500 text-lg font-medium">Content optimized for: "fabric sample supplier India" | "custom swatch books Thane Bhiwandi"</p>
         </header>
 
         <div className="grid gap-20">
@@ -55,16 +55,16 @@ const GoogleBusinessProfile: React.FC<Props> = ({ onNavigate }) => {
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-2xl font-black text-navy uppercase tracking-widest border-l-4 border-gold pl-6">Google Business Description</h2>
               <button 
-                onClick={() => copyToClipboard('SwatchCraft India is Mumbai’s premier B2B fabric swatch manufacturer, serving global textile exporters, interior designers, and wholesale buyers. With over 10 years of manufacturing excellence, we bridge the gap between Indian quality and global presentation standards. Our primary competitive advantage is speed: while international competitors quote 45-60 day turnarounds, SwatchCraft delivers premium, export-ready samples in just 15-20 days. We are India’s pioneer in Waterfall Swatch Card manufacturing, a format that displays 40% more fabric in a compact, air-freight friendly cascade. Our diverse range includes hardbound upholstery swatch books, large-format curtain albums, and portable ring swatch sets. We offer tiered MOQ pricing (₹70-120 per unit), ensuring value for both boutique designer launches and mass-market export requirements. SwatchCraft handles complete export documentation and logistics for EU and USA compliance, providing a seamless white-label experience for your brand. Visit our Sector 12, Andheri East showroom or request a custom quote via WhatsApp for 24-hour turnaround on your RFQ.')}
+                onClick={() => copyToClipboard('SamplingHub (Digitex Studio) is Thane-Bhiwandi, Maharashtra’s premier B2B fabric swatch manufacturer, serving global textile exporters, interior designers, and wholesale buyers. With over 10 years of manufacturing excellence, we bridge the gap between Indian quality and global presentation standards. Our primary competitive advantage is speed: while international competitors quote 45-60 day turnarounds, SamplingHub delivers premium, export-ready samples in just 15-20 days. We are India’s pioneer in Waterfall Swatch Card manufacturing, a format that displays 40% more fabric in a compact, air-freight friendly cascade. Our diverse range includes hardbound upholstery swatch books, large-format curtain albums, and portable ring swatch sets. We offer tiered MOQ pricing (₹70-120 per unit), ensuring value for both boutique designer launches and mass-market export requirements. SamplingHub handles complete export documentation and logistics for EU and USA compliance, providing a seamless white-label experience for your brand. Visit our Thane-Bhiwandi, Maharashtra 421302 showroom or request a custom quote via WhatsApp for 24-hour turnaround on your RFQ.')}
                 className="text-[10px] font-black text-teal uppercase tracking-widest hover:underline"
               >
                 Copy All (250 Words)
               </button>
             </div>
             <div className="prose prose-sm text-gray-600 leading-relaxed font-medium bg-white p-8 rounded-2xl border border-gray-200">
-               SwatchCraft India is Mumbai’s premier B2B fabric swatch manufacturer, serving global textile exporters, interior designers, and wholesale buyers. With over 10 years of manufacturing excellence, we bridge the gap between Indian quality and global presentation standards. Our primary competitive advantage is speed: while international competitors quote 45-60 day turnarounds, SwatchCraft delivers premium, export-ready samples in just 15-20 days. 
+               SamplingHub (Digitex Studio) is Thane-Bhiwandi, Maharashtra’s premier B2B fabric swatch manufacturer, serving global textile exporters, interior designers, and wholesale buyers. With over 10 years of manufacturing excellence, we bridge the gap between Indian quality and global presentation standards. Our primary competitive advantage is speed: while international competitors quote 45-60 day turnarounds, SamplingHub delivers premium, export-ready samples in just 15-20 days.
                <br/><br/>
-               We are India’s pioneer in Waterfall Swatch Card manufacturing, a format that displays 40% more fabric in a compact, air-freight friendly cascade. Our diverse range includes hardbound upholstery swatch books, large-format curtain albums, and portable ring swatch sets. We offer tiered MOQ pricing (₹70-120 per unit), ensuring value for both boutique designer launches and mass-market export requirements. SwatchCraft handles complete export documentation and logistics for EU and USA compliance, providing a seamless white-label experience for your brand. Visit our Sector 12, Andheri East showroom or request a custom quote via WhatsApp for 24-hour turnaround on your RFQ.
+               We are India’s pioneer in Waterfall Swatch Card manufacturing, a format that displays 40% more fabric in a compact, air-freight friendly cascade. Our diverse range includes hardbound upholstery swatch books, large-format curtain albums, and portable ring swatch sets. We offer tiered MOQ pricing (₹70-120 per unit), ensuring value for both boutique designer launches and mass-market export requirements. SamplingHub handles complete export documentation and logistics for EU and USA compliance, providing a seamless white-label experience for your brand. Visit our Thane-Bhiwandi, Maharashtra 421302 showroom or request a custom quote via WhatsApp for 24-hour turnaround on your RFQ.
             </div>
           </section>
 

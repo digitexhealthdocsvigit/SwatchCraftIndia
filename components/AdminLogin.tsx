@@ -67,7 +67,7 @@ const AdminLogin: React.FC<Props> = ({ onLogin, onNavigate }) => {
         <div className="text-center mt-12">
           <button onClick={() => onNavigate('home')} className="text-white/20 text-[10px] font-black uppercase tracking-[0.3em] hover:text-white transition-colors">← Exit Secure Session</button>
           <p className="text-[#64748b] text-[11px] font-bold mt-8 uppercase tracking-[0.2em]">
-            © 2025 SwatchCraft India • Internal Access Only
+            © 2025 SamplingHub (Digitex Studio) • Internal Access Only
           </p>
         </div>
       </div>

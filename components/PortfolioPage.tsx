@@ -60,7 +60,7 @@ const PortfolioPage: React.FC<Props> = ({ onNavigate }) => {
           </span>
           <h1 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-tighter">Our Production Portfolio</h1>
           <p className="text-gray-300 max-w-2xl mx-auto text-lg font-medium">
-            Over 500 fabric swatch collections manufactured in our Mumbai plant for premier international brands across USA, EU, and UAE.
+            Over 500 fabric swatch collections manufactured in our Thane-Bhiwandi plant for premier international brands across USA, EU, and UAE.
           </p>
         </div>
       </section>

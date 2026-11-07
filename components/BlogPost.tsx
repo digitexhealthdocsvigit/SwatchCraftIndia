@@ -59,7 +59,7 @@ const BlogPost: React.FC<Props> = ({ postId, onNavigate }) => {
       readTime: "12 min",
       date: "Jan 22, 2025",
       title: "How to Choose the Right Fabric Swatch Format for Your Export Business",
-      author: "SwatchCraft Editorial",
+      author: "SamplingHub Editorial",
       content: (
         <>
           <p className="text-xl font-bold text-navy/80 leading-relaxed mb-10">
@@ -92,7 +92,7 @@ const BlogPost: React.FC<Props> = ({ postId, onNavigate }) => {
 
           <h2 className="text-3xl font-black text-navy uppercase tracking-tighter mb-8 pt-6">Section 2: MOQ & Pricing Tiers</h2>
           <p className="mb-8 leading-relaxed font-medium">
-            Scaling your sampling is critical. At 500+ MOQ, Indian manufacturers like SwatchCraft can offer pricing that competes directly with China while maintaining European quality standards. At 500+ MOQ, you typically save 25% per unit.
+            Scaling your sampling is critical. At 500+ MOQ, Indian manufacturers like SamplingHub can offer pricing that competes directly with China while maintaining European quality standards. At 500+ MOQ, you typically save 25% per unit.
           </p>
 
           <h2 className="text-3xl font-black text-navy uppercase tracking-tighter mb-8 pt-6">Section 3: Production Timeline & Delivery</h2>
@@ -100,7 +100,7 @@ const BlogPost: React.FC<Props> = ({ postId, onNavigate }) => {
             <h4 className="text-xs font-black text-gold uppercase mb-6 tracking-widest">Delivery Timeline by Supplier (Custom Order)</h4>
             <div className="space-y-4">
                {[
-                 { region: "India (SwatchCraft)", time: "15 Days", status: "Competitive Advantage" },
+                 { region: "India (SamplingHub)", time: "15 Days", status: "Competitive Advantage" },
                  { region: "China (Standard)", time: "45 Days", status: "Lagging" },
                  { region: "USA (Domestic)", time: "25 Days", status: "Premium/Slow" }
                ].map((r, i) => (
@@ -116,7 +116,7 @@ const BlogPost: React.FC<Props> = ({ postId, onNavigate }) => {
           <div className="bg-teal/5 p-12 rounded-[3rem] border border-teal/10 mb-12">
             <h4 className="text-xl font-black text-navy mb-4 uppercase tracking-tighter">Case Study: European Success</h4>
             <p className="text-gray-600 leading-relaxed font-medium italic">
-              "How SwatchCraft's 15-day delivery helped a German upholstery importer capture 3 new wholesale accounts in a single trade show cycle using streamlined waterfall formats."
+              "How SamplingHub's 15-day delivery helped a German upholstery importer capture 3 new wholesale accounts in a single trade show cycle using streamlined waterfall formats."
             </p>
           </div>
 
@@ -171,7 +171,7 @@ const BlogPost: React.FC<Props> = ({ postId, onNavigate }) => {
               </thead>
               <tbody className="divide-y divide-gray-100 font-bold text-navy">
                 <tr><td className="p-6">China</td><td className="p-6 text-gray-500">$0.85 - $1.20</td><td className="p-6">45 Days</td><td className="p-6">Standard</td></tr>
-                <tr className="bg-gold/10"><td className="p-6 text-gold font-black">India (SwatchCraft)</td><td className="p-6 text-gold font-black">$0.96 - $1.14</td><td className="p-6 text-teal">15-21 Days</td><td className="p-6 text-teal">Premium</td></tr>
+                <tr className="bg-gold/10"><td className="p-6 text-gold font-black">India (SamplingHub)</td><td className="p-6 text-gold font-black">$0.96 - $1.14</td><td className="p-6 text-teal">15-21 Days</td><td className="p-6 text-teal">Premium</td></tr>
                 <tr><td className="p-6">USA</td><td className="p-6 text-gray-500">$5.00 - $15.00</td><td className="p-6">25 Days</td><td className="p-6">High</td></tr>
               </tbody>
             </table>
@@ -182,7 +182,7 @@ const BlogPost: React.FC<Props> = ({ postId, onNavigate }) => {
 
           <h2 className="text-3xl font-black text-navy uppercase tracking-tighter mb-8 pt-6">Section 4: India's Sweet Spot</h2>
           <p className="mb-10 leading-relaxed">
-            SwatchCraft positioning: "China cost + USA quality + India speed". We offer ₹70-80 per unit at 500 MOQ = $0.96-1.14 which is competitive with China while offering 3-day customer response times instead of 2-week delays.
+            SamplingHub positioning: "China cost + USA quality + India speed". We offer ₹70-80 per unit at 500 MOQ = $0.96-1.14 which is competitive with China while offering 3-day customer response times instead of 2-week delays.
           </p>
 
           <button onClick={() => onNavigate('pricing')} className="bg-gold text-navy font-black py-4 px-10 rounded-xl hover:opacity-90 transition-all shadow-lg text-xs uppercase tracking-widest mb-12">View Full Pricing Guide</button>

@@ -15,18 +15,18 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
   const [isZoomed, setIsZoomed] = useState(false);
 
   const images = [
-    { src: "https://images.unsplash.com/photo-1558383409-ab7ef8db3e01?auto=format&fit=crop&w=800&q=80", alt: "Upholstery swatch book open on desk" },
-    { src: "https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=800&q=80", alt: "Close-up of binding" },
-    { src: "https://images.unsplash.com/photo-1520183802803-06f731a2059f?auto=format&fit=crop&w=800&q=80", alt: "Fabric label detail" },
-    { src: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80", alt: "Multiple books stacked" },
-    { src: "https://images.unsplash.com/photo-1551033406-611cf9a28f67?auto=format&fit=crop&w=800&q=80", alt: "Custom branding example" }
+    { src: "https://images.unsplash.com/photo-1558383409-ab7ef8db3e01?auto=format&fit=crop&w=800&q=80", alt: "Custom Upholstery Swatch Book Open on Desk with Cascading Fabrics" },
+    { src: "https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=800&q=80", alt: "Close-up of Hardbound Book Spine and Gold Foil Stamping" },
+    { src: "https://images.unsplash.com/photo-1520183802803-06f731a2059f?auto=format&fit=crop&w=800&q=80", alt: "Fabric Swatch Labeling Detail and Care Instruction Tags" },
+    { src: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80", alt: "Multiple Custom Swatch Albums Stacked in Showroom" },
+    { src: "https://images.unsplash.com/photo-1551033406-611cf9a28f67?auto=format&fit=crop&w=800&q=80", alt: "Embossed Brand Cover and Custom Fabric Header Sample" }
   ];
 
   return (
     <div className="bg-white min-h-screen">
       {/* Breadcrumb */}
       <nav className="pt-24 pb-4 px-4 bg-gray-50 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto flex items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+        <div className="max-w-7xl mx-auto flex items-center text-[10px] font-black uppercase tracking-widest text-gray-500">
           <button onClick={() => onNavigate('home')} className="hover:text-gold transition-colors">Home</button>
           <span className="mx-3 text-gray-300">/</span>
           <button onClick={() => onNavigate('products-overview')} className="hover:text-gold transition-colors">Products</button>
@@ -68,10 +68,10 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
           <div className="flex flex-col">
             <div className="flex items-center gap-2 text-gold mb-6">
                {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
-               <span className="text-gray-400 text-[10px] font-black uppercase tracking-widest ml-2">4.8/5 (32 reviews)</span>
+               <span className="text-gray-500 text-[10px] font-black uppercase tracking-widest ml-2">4.8/5 (32 reviews)</span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-navy mb-4 leading-none uppercase tracking-tighter">Premium Upholstery Swatch Books</h1>
-            <p className="text-xl text-gray-500 mb-10 leading-relaxed font-medium">Professional fabric presentation for furniture manufacturers and showrooms</p>
+            <p className="text-xl text-gray-600 mb-10 leading-relaxed font-medium">Professional fabric presentation for furniture manufacturers and showrooms</p>
             
             <div className="space-y-4 mb-10">
               {[
@@ -89,9 +89,9 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
             </div>
 
             <div className="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 mb-8">
-              <p className="text-gray-400 text-[9px] font-black uppercase mb-1">Standard Pricing</p>
-              <p className="text-3xl font-black text-navy leading-none">Starting from {formatPrice(70)} <span className="text-[10px] text-gray-400 uppercase font-bold">/ piece for 100+ units</span></p>
-              <p className="text-xs text-gray-400 font-bold mt-2">Request Quote for Volume Pricing</p>
+              <p className="text-gray-500 text-[9px] font-black uppercase mb-1">Standard Pricing</p>
+              <p className="text-3xl font-black text-navy leading-none">Starting from {formatPrice(70)} <span className="text-[10px] text-gray-500 uppercase font-bold">/ piece for 100+ units</span></p>
+              <p className="text-xs text-gray-500 font-bold mt-2">Request Quote for Volume Pricing</p>
               <button 
                 onClick={() => setShowPricingModal(true)}
                 className="text-teal font-black text-[10px] uppercase tracking-widest mt-4 flex items-center gap-1 hover:text-gold transition-colors"
@@ -111,7 +111,7 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
               <a href="https://wa.me/919004962871" className="w-full border-2 border-[#25D366] text-[#25D366] font-black py-5 rounded-2xl flex items-center justify-center gap-3 hover:bg-[#25D366] hover:text-white transition-all text-sm uppercase tracking-widest">
                 <MessageCircle className="w-5 h-5" /> WhatsApp for Quick Questions
               </a>
-              <button onClick={() => onDownload('Upholstery Swatch Book Spec Sheet')} className="text-gray-400 text-[10px] font-black underline uppercase tracking-widest hover:text-navy transition-colors text-center">
+              <button onClick={() => onDownload('Upholstery Swatch Book Spec Sheet')} className="text-gray-500 text-[10px] font-black underline uppercase tracking-widest hover:text-navy transition-colors text-center">
                 Download Product Spec Sheet
               </button>
             </div>
@@ -162,9 +162,9 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
               { t: "Binding & Layout", l: "Ring mechanism, post-bound, hardcover, custom layouts", desc: "[Binding types]" }
             ].map((card, i) => (
               <div key={i} className="bg-gray-50 p-10 rounded-[3rem] border border-gray-100 group hover:border-gold transition-colors">
-                <div className="aspect-square bg-white rounded-2xl mb-8 flex items-center justify-center text-gray-300 font-black text-[10px] uppercase tracking-widest text-center px-4">{card.desc}</div>
-                <h4 className="text-xl font-black text-navy mb-4 uppercase tracking-tight">{card.t}</h4>
-                <p className="text-gray-500 text-xs font-bold uppercase tracking-widest leading-relaxed">{card.l}</p>
+                <div className="aspect-square bg-white rounded-2xl mb-8 flex items-center justify-center text-gray-400 font-black text-[10px] uppercase tracking-widest text-center px-4">{card.desc}</div>
+                <h3 className="text-xl font-black text-navy mb-4 uppercase tracking-tight">{card.t}</h3>
+                <p className="text-gray-600 text-xs font-bold uppercase tracking-widest leading-relaxed">{card.l}</p>
               </div>
             ))}
           </div>
@@ -184,8 +184,8 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
             ].map((use, i) => (
               <div key={i} className="p-10 bg-white rounded-[3rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all text-center">
                 <div className="text-teal mb-6 flex justify-center">{use.icon}</div>
-                <h4 className="text-xl font-black text-navy mb-4 uppercase tracking-tight">{use.title}</h4>
-                <p className="text-gray-500 text-sm leading-relaxed font-medium">{use.desc}</p>
+                <h3 className="text-xl font-black text-navy mb-4 uppercase tracking-tight">{use.title}</h3>
+                <p className="text-gray-600 text-sm leading-relaxed font-medium">{use.desc}</p>
               </div>
             ))}
           </div>
@@ -198,7 +198,7 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
           <h2 className="text-3xl font-black text-navy text-center mb-16 uppercase tracking-tighter">Materials & Construction</h2>
           <div className="grid md:grid-cols-3 gap-12">
             <div>
-              <h4 className="text-gold font-black uppercase text-[10px] tracking-[0.3em] mb-6">Cover Options</h4>
+              <h3 className="text-gold font-black uppercase text-[11px] tracking-[0.3em] mb-6">Cover Options</h3>
               <ul className="space-y-4 text-sm font-bold text-navy">
                 <li className="flex items-center gap-3"><Zap className="w-4 h-4 text-teal" /> 300 GSM premium cardstock</li>
                 <li className="flex items-center gap-3"><Zap className="w-4 h-4 text-teal" /> Leatherette (various colors)</li>
@@ -207,7 +207,7 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
               </ul>
             </div>
             <div>
-              <h4 className="text-gold font-black uppercase text-[10px] tracking-[0.3em] mb-6">Binding Mechanisms</h4>
+              <h3 className="text-gold font-black uppercase text-[11px] tracking-[0.3em] mb-6">Binding Mechanisms</h3>
               <ul className="space-y-4 text-sm font-bold text-navy">
                 <li className="flex items-center gap-3"><Zap className="w-4 h-4 text-teal" /> 3-ring D-ring binder</li>
                 <li className="flex items-center gap-3"><Zap className="w-4 h-4 text-teal" /> 4-ring mechanism</li>
@@ -216,7 +216,7 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
               </ul>
             </div>
             <div>
-              <h4 className="text-gold font-black uppercase text-[10px] tracking-[0.3em] mb-6">Interior Pages</h4>
+              <h3 className="text-gold font-black uppercase text-[11px] tracking-[0.3em] mb-6">Interior Pages</h3>
               <ul className="space-y-4 text-sm font-bold text-navy">
                 <li className="flex items-center gap-3"><Zap className="w-4 h-4 text-teal" /> Transparent protective sleeves</li>
                 <li className="flex items-center gap-3"><Zap className="w-4 h-4 text-teal" /> Fabric-safe mounting</li>
@@ -252,13 +252,13 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
                     <tr key={i} className="hover:bg-gray-50 transition-colors">
                       <td className="p-8">{tier.q}</td>
                       <td className="p-8 text-gold text-lg font-black">{tier.p}</td>
-                      <td className="p-8 text-gray-400 uppercase tracking-widest text-[10px] font-black">{tier.b}</td>
+                      <td className="p-8 text-gray-500 uppercase tracking-widest text-[10px] font-black">{tier.b}</td>
                     </tr>
                   ))}
                 </tbody>
              </table>
           </div>
-          <p className="text-center text-[10px] text-gray-400 font-bold uppercase mt-8 italic">"Prices vary based on customization, binding type, and swatch count. Request a detailed quote for your specific requirements."</p>
+          <p className="text-center text-[11px] text-gray-500 font-bold uppercase mt-8 italic">"Prices vary based on customization, binding type, and swatch count. Request a detailed quote for your specific requirements."</p>
           <div className="flex justify-center mt-10">
             <button onClick={() => onNavigate('contact-page')} className="bg-navy text-white px-12 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-gold transition-all">Get My Custom Pricing</button>
           </div>
@@ -282,8 +282,8 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
                ].map((step, i) => (
                  <div key={i} className="bg-white p-6 rounded-3xl border border-gray-100 text-center shadow-sm hover:scale-105 transition-transform group">
                    <p className="text-gold font-black text-[9px] uppercase tracking-widest mb-1 group-hover:text-teal transition-colors">{step.s}</p>
-                   <h4 className="font-bold text-navy text-sm mb-1 leading-tight">{step.t}</h4>
-                   <p className="text-gray-400 font-bold text-[10px] uppercase">{step.d}</p>
+                   <h3 className="font-bold text-navy text-sm mb-1 leading-tight">{step.t}</h3>
+                   <p className="text-gray-500 font-bold text-[10px] uppercase">{step.d}</p>
                  </div>
                ))}
              </div>
@@ -297,15 +297,15 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
           <h2 className="text-3xl font-black text-navy text-center mb-16 uppercase tracking-tighter">What Our Clients Say</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { q: "SwatchCraft's upholstery books transformed our sales presentations. The quality is exceptional and delivery was exactly on schedule.", n: "Rajesh Kapoor", c: "Premium Furniture Co., Delhi" },
-              { q: "We export to Europe and needed export-grade presentation. SwatchCraft delivered perfectly—our buyers were impressed.", n: "Maria Santos", c: "Textile Exporter, Mumbai" },
+              { q: "SamplingHub's upholstery books transformed our sales presentations. The quality is exceptional and delivery was exactly on schedule.", n: "Rajesh Kapoor", c: "Premium Furniture Co., Delhi" },
+              { q: "We export to Europe and needed export-grade presentation. SamplingHub delivered perfectly—our buyers were impressed.", n: "Maria Santos", c: "Textile Exporter, Mumbai" },
               { q: "Fast turnaround, excellent customization, and great pricing. We've reordered 3 times already.", n: "Interior Designer", c: "Design Studio, Bangalore" }
             ].map((test, i) => (
               <div key={i} className="bg-white p-10 rounded-[3rem] border border-gray-100 flex flex-col h-full shadow-sm">
                 <div className="flex text-gold mb-6">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-current" />)}</div>
                 <p className="text-gray-600 text-sm italic font-medium leading-relaxed mb-8 flex-grow">"{test.q}"</p>
                 <div>
-                  <h5 className="font-black text-navy text-sm uppercase mb-1">{test.n}</h5>
+                  <h3 className="font-black text-navy text-sm uppercase mb-1">{test.n}</h3>
                   <p className="text-gold font-black text-[9px] uppercase tracking-widest">{test.c}</p>
                 </div>
               </div>
@@ -325,10 +325,10 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
               { t: "Sample Cards & Storyboards", p: "15", target: 'product-cards' }
             ].map((prod, i) => (
               <div key={i} className="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 group">
-                <div className="aspect-video bg-white rounded-2xl mb-6 flex items-center justify-center text-gray-200 font-black text-[9px] uppercase tracking-widest text-center px-6">Product Visual</div>
-                <h4 className="text-lg font-black text-navy mb-4 uppercase tracking-tight group-hover:text-gold transition-colors">{prod.t}</h4>
+                <div className="aspect-video bg-white rounded-2xl mb-6 flex items-center justify-center text-gray-400 font-black text-[9px] uppercase tracking-widest text-center px-6">Product Visual</div>
+                <h3 className="text-lg font-black text-navy mb-4 uppercase tracking-tight group-hover:text-gold transition-colors">{prod.t}</h3>
                 <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-                   <span className="text-[10px] font-black text-gray-400 uppercase">From {formatPrice(Number(prod.p))}</span>
+                   <span className="text-[10px] font-black text-gray-500 uppercase">From {formatPrice(Number(prod.p))}</span>
                    <button onClick={() => onNavigate(prod.target as ViewState)} className="text-teal font-black text-[10px] uppercase tracking-widest hover:underline">View Details →</button>
                 </div>
               </div>
@@ -341,37 +341,27 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
       <section className="bg-navy py-24 px-4 text-center text-white relative overflow-hidden">
         <div className="max-w-4xl mx-auto relative z-10">
           <h2 className="text-3xl md:text-6xl font-black mb-6 uppercase tracking-tighter leading-tight">Ready to Order Premium Upholstery Swatch Books?</h2>
-          <p className="text-gray-400 text-lg mb-12 font-medium">Get your custom quote within 24 hours. Export-ready direct from Mumbai.</p>
+          <p className="text-gray-300 text-lg mb-12 font-medium">Get your custom quote within 24 hours. Export-ready direct from Thane-Bhiwandi, Maharashtra.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-6">
-            <button onClick={() => onNavigate('contact-page')} className="bg-teal text-white px-12 py-5 rounded-2xl font-black shadow-2xl hover:bg-white hover:text-navy transition-all uppercase tracking-widest text-xs">Request Quote</button>
-            <button onClick={() => onDownload('Upholstery Swatch Book Spec Sheet')} className="bg-white/10 text-white border border-white/20 px-12 py-5 rounded-2xl font-black hover:bg-white/20 transition-all uppercase tracking-widest text-xs">Download Spec Sheet</button>
+            <button onClick={() => onNavigate('contact-page')} className="bg-teal text-white px-12 py-5 rounded-2xl font-black shadow-2xl hover:bg-gold transition-all uppercase tracking-widest text-xs">Request Technical Quote</button>
+            <button onClick={() => onDownload('Full Upholstery Guide')} className="bg-white/10 text-white border border-white/20 px-12 py-5 rounded-2xl font-black hover:bg-white/20 transition-all uppercase tracking-widest text-xs">Download Catalog (PDF)</button>
           </div>
         </div>
       </section>
 
-      {/* Mobile Sticky CTA */}
-      <div className="lg:hidden fixed bottom-6 left-6 right-6 z-[60]">
-        <button onClick={() => onNavigate('contact-page')} className="w-full bg-teal text-white font-black py-5 rounded-2xl shadow-2xl uppercase tracking-widest text-sm animate-bounce">Request Quote Now</button>
-      </div>
-
       {/* Pricing Modal */}
       {showPricingModal && (
-        <div className="fixed inset-0 bg-navy/95 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-[3rem] w-full max-w-2xl overflow-hidden shadow-2xl relative">
-            <button onClick={() => setShowPricingModal(false)} className="absolute top-8 right-8 text-gray-400 hover:text-navy transition-colors"><X className="w-8 h-8" /></button>
-            <div className="p-12">
-               <h3 className="text-2xl font-black text-navy uppercase tracking-widest mb-10 border-b border-gray-100 pb-4">Volume Pricing Structure</h3>
-               <table className="w-full text-left font-bold text-navy text-sm">
-                 <tbody className="divide-y divide-gray-100">
-                    <tr><td className="py-4">1-5 Sample Pack</td><td className="py-4 text-gold font-black">{formatPrice(300)} / pc</td></tr>
-                    <tr><td className="py-4">10-25 Units</td><td className="py-4 text-gold font-black">{formatPrice(150)}-{formatPrice(200)} / pc</td></tr>
-                    <tr><td className="py-4">50-100 Units</td><td className="py-4 text-gold font-black">{formatPrice(85)}-{formatPrice(100)} / pc</td></tr>
-                    <tr><td className="py-4">100-500 Units</td><td className="py-4 text-gold font-black">{formatPrice(70)}-{formatPrice(85)} / pc</td></tr>
-                    <tr><td className="py-4">500+ Bulk Tier</td><td className="py-4 text-teal font-black">{formatPrice(60)}-{formatPrice(80)} / pc</td></tr>
-                 </tbody>
-               </table>
-               <button onClick={() => onNavigate('contact-page')} className="w-full bg-navy text-white font-black py-5 rounded-2xl mt-12 uppercase tracking-widest text-xs shadow-xl">Get Technical RFQ Now</button>
+        <div className="fixed inset-0 bg-navy/90 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+          <div className="bg-white rounded-[2.5rem] w-full max-w-lg p-10 relative animate-fadeIn shadow-2xl">
+            <button onClick={() => setShowPricingModal(false)} className="absolute top-6 right-6 text-gray-400 hover:text-navy"><X className="w-6 h-6" /></button>
+            <h3 className="text-2xl font-black text-navy uppercase tracking-tighter mb-6">Upholstery Book Pricing</h3>
+            <div className="divide-y divide-gray-100 text-sm font-bold text-navy mb-8">
+              <div className="py-3 flex justify-between"><span>50-100 units</span> <span className="text-gold">{formatPrice(85)} - {formatPrice(100)} / pc</span></div>
+              <div className="py-3 flex justify-between"><span>100-250 units</span> <span className="text-gold">{formatPrice(75)} - {formatPrice(85)} / pc</span></div>
+              <div className="py-3 flex justify-between"><span>250-500 units</span> <span className="text-gold">{formatPrice(70)} - {formatPrice(75)} / pc</span></div>
+              <div className="py-3 flex justify-between"><span>500+ units (Export Tier)</span> <span className="text-teal font-black">{formatPrice(60)} - {formatPrice(70)} / pc</span></div>
             </div>
+            <button onClick={() => { setShowPricingModal(false); onNavigate('contact-page'); }} className="w-full bg-navy text-white font-black py-4 rounded-xl uppercase tracking-widest text-xs hover:bg-gold transition-colors">Request Written Quote</button>
           </div>
         </div>
       )}

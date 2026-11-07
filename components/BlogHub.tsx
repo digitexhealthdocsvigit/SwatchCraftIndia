@@ -14,7 +14,11 @@ const BlogHub: React.FC<Props> = ({ onNavigate }) => {
   useEffect(() => {
     async function fetchTrends() {
       try {
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        // Gemini API key is no longer bundled into the public client (security fix).
+        // Live trends require a server-side proxy; until then, the static fallback below is used.
+        const apiKey = '';
+        if (!apiKey) throw new Error('Gemini client calls disabled on public site');
+        const ai = new GoogleGenAI({ apiKey });
         const response = await ai.models.generateContent({
           model: 'gemini-3-flash-preview',
           contents: 'Identify 3 brief, one-sentence latest trends in global textile export and swatch book manufacturing from India for 2025.',
@@ -38,7 +42,7 @@ const BlogHub: React.FC<Props> = ({ onNavigate }) => {
       excerpt: "Exporters often struggle with sample presentation. Compare traditional swatch books vs waterfall cards and see which captures more repeat orders.",
       tag: "Strategy",
       date: "Jan 22, 2025",
-      author: "SwatchCraft Editorial",
+      author: "SamplingHub Editorial",
       readTime: "12 min",
       target: 'blog-post-1' as ViewState
     },

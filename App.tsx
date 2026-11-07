@@ -146,10 +146,10 @@ const App: React.FC = () => {
               </h2>
               <div className="prose prose-lg text-gray-700 leading-relaxed font-medium space-y-6">
                 <p>
-                  SamplingHub (Digitex Studio) stands as Maharashtra's most trusted partner for fabric presentation solutions. Since 1994, we have dedicated our craft to producing the highest quality upholstery and curtain fabric swatch books for the international B2B market. Our specialized facility in Thane-Bhiwandi, Maharashtra 421302, integrates advanced automated cutting technology with time-honored bookbinding techniques to ensure every sample set we produce meets stringent global quality standards.
+                  SamplingHub (Digitex Studio) stands as Maharashtra's most trusted partner for fabric presentation solutions. Since 1994, we have dedicated our craft to producing the highest quality upholstery and curtain fabric swatch books for the international B2B market. Our specialized facility in Thane Bhiwandi, PIN: 421302, Maharashtra, India, integrates advanced automated cutting technology with time-honored bookbinding techniques to ensure every sample set we produce meets stringent global quality standards.
                 </p>
                 <p>
-                  As a certified ISO 9001:2015 manufacturer, we understand the complexities of the textile export industry. We provide end-to-end support for fabric brands, including technical consultation on binding mechanisms, custom branding through foil stamping and embossing, and complete export logistics. Our standard 21-day express production timeline ensures that your sales teams in Europe, North America, and the Middle East receive their collection updates without the lengthy delays common with other international suppliers.
+                  As an experienced export manufacturer, we understand the complexities of the textile export industry. We provide end-to-end support for fabric brands, including technical consultation on binding mechanisms, custom branding through foil stamping and embossing, and complete export logistics. Our standard 21-day express production timeline ensures that your sales teams in Europe, North America, and the Middle East receive their collection updates without the lengthy delays common with other international suppliers.
                 </p>
               </div>
 

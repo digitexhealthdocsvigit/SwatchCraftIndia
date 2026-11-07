@@ -9,7 +9,7 @@ interface Props {
 const LegalPage: React.FC<Props> = ({ type, onNavigate }) => {
   const content = type === 'privacy' ? {
     title: "Privacy Policy",
-    intro: "SwatchCraft India respects your privacy. This policy explains how we collect and protect your data.",
+    intro: "SamplingHub (Digitex Studio) respects your privacy. This policy explains how we collect and protect your data.",
     sections: [
       { t: "1. Data Collection", c: "We collect information such as name, email, and company details through our RFQ form to provide accurate manufacturing quotes." },
       { t: "2. Use of Information", c: "Your data is used solely for project consultation, order fulfillment, and export documentation." },
@@ -17,7 +17,7 @@ const LegalPage: React.FC<Props> = ({ type, onNavigate }) => {
     ]
   } : {
     title: "Terms of Service",
-    intro: "General terms for B2B manufacturing and international export services provided by SwatchCraft India.",
+    intro: "General terms for B2B manufacturing and international export services provided by SamplingHub (Digitex Studio).",
     sections: [
       { t: "1. Order Minimums", c: "Upholstery books require a minimum of 50 units. Curtain albums require 40 units. Sample pieces are billed at a flat rate." },
       { t: "2. Payment Terms", c: "Standard terms: 30% advance deposit, 70% balanced payment before export dispatch or against documents." },

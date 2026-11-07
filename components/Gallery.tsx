@@ -5,7 +5,7 @@ const galleryItems = [
     title: "Upholstery Book Binding", 
     category: "Upholstery", 
     src: "https://images.unsplash.com/photo-1558383409-ab7ef8db3e01?auto=format&fit=crop&w=800&q=80",
-    alt: "Custom Hardbound Fabric Swatch Book Manufacturer Mumbai Plant"
+    alt: "Custom Hardbound Fabric Swatch Book Manufacturer Thane-Bhiwandi Plant"
   },
   { 
     title: "Curtain Presentation Albums", 
@@ -48,7 +48,7 @@ const Gallery: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-black text-navy mb-4 uppercase tracking-tighter leading-none">Production Excellence</h2>
           <div className="w-16 h-1 bg-[#8B6F47] mx-auto mb-8"></div>
           <p className="text-gray-700 max-w-2xl mx-auto font-medium text-lg">
-            A glimpse into our 6,000 sq ft manufacturing facility in Mumbai where precision meets world-class textile presentation.
+            A glimpse into our 6,000 sq ft manufacturing facility in Thane-Bhiwandi, Maharashtra, where precision meets world-class textile presentation.
           </p>
         </div>
 

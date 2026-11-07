@@ -13,7 +13,7 @@ const WhatsAppFloatingCTA: React.FC<Props> = ({ phoneNumber = '919004962871' }) 
     {
       title: "Request Export Catalog & Price List",
       desc: "Get 2026 B2B volume pricing & PDF catalog",
-      msg: "Hello SwatchCraft India / Sampling Hub! Please share your latest export catalog and B2B volume pricing guide for international orders."
+      msg: "Hello SamplingHub (Digitex Studio)! Please share your latest export catalog and B2B volume pricing guide for international orders."
     },
     {
       title: "Quick MOQ & Lead Time Inquiry",
@@ -28,7 +28,7 @@ const WhatsAppFloatingCTA: React.FC<Props> = ({ phoneNumber = '919004962871' }) 
   ];
 
   const handleOpenWhatsApp = (customMsg?: string) => {
-    const text = customMsg || selectedPrompt || "Hello SwatchCraft India! I am interested in custom fabric swatch books / sampling books for my business. Please share your catalog and export quote.";
+    const text = customMsg || selectedPrompt || "Hello SamplingHub (Digitex Studio)! I am interested in custom fabric swatch books / sampling books for my business. Please share your catalog and export quote.";
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
@@ -56,10 +56,10 @@ const WhatsAppFloatingCTA: React.FC<Props> = ({ phoneNumber = '919004962871' }) 
               </div>
               <div>
                 <h3 className="font-black text-sm uppercase tracking-wider text-white flex items-center gap-1.5">
-                  Sampling Hub Factory
+                  SamplingHub Factory
                   <ShieldCheck className="w-4 h-4 text-[#8B6F47]" />
                 </h3>
-                <p className="text-[11px] text-gray-200 font-medium">Export Technical Team • Mumbai, India</p>
+                <p className="text-[11px] text-gray-200 font-medium">Export Technical Team • Thane-Bhiwandi, Maharashtra</p>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse"></span>
                   <span className="text-[10px] text-[#25D366] font-bold uppercase tracking-widest">Typically replies in 15 mins</span>
@@ -71,7 +71,7 @@ const WhatsAppFloatingCTA: React.FC<Props> = ({ phoneNumber = '919004962871' }) 
           {/* Body */}
           <div className="p-5 bg-gray-50/60 space-y-4">
             <div className="bg-white p-3.5 rounded-2xl border border-gray-100 shadow-sm text-xs text-gray-700 leading-relaxed font-medium">
-              👋 Hi! Welcome to <span className="font-bold text-[#1e3a5f]">SwatchCraft India / Sampling Hub</span>. Select an inquiry below or chat directly with our Mumbai export specialists:
+              👋 Hi! Welcome to <span className="font-bold text-[#1e3a5f]">SamplingHub (Digitex Studio)</span>. Select an inquiry below or chat directly with our Thane-Bhiwandi export specialists:
             </div>
 
             <div className="space-y-2">

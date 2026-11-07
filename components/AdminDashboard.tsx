@@ -41,7 +41,7 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
     <div className="min-h-screen bg-gray-50 flex">
       <div className="w-72 bg-navy text-white flex flex-col fixed inset-y-0 shadow-2xl z-20">
         <div className="p-8 border-b border-white/10">
-          <span className="text-xl font-black uppercase tracking-tighter">SwatchCraft <span className="text-gold">Ops</span></span>
+          <span className="text-xl font-black uppercase tracking-tighter">SamplingHub <span className="text-gold">Ops</span></span>
           <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Management Console</p>
         </div>
         

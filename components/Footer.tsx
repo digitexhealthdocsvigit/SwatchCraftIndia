@@ -15,7 +15,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <span className="text-[10px] uppercase tracking-[0.2em] font-medium text-gray-400">Premium Sample Manufacturing</span>
           </div>
           <p className="text-gray-300 text-sm leading-relaxed mb-8 font-medium">
-            Established in 1994, SamplingHub (Digitex Studio) specializes in manufacturing premium fabric swatch books for global brands from our Thane-Bhiwandi, Maharashtra facility. ISO 9001 certified, exporting to 15+ countries.
+            Established in 1994, SamplingHub (Digitex Studio) specializes in manufacturing premium fabric swatch books for global brands from our Thane Bhiwandi, PIN: 421302, Maharashtra, India facility, exporting to 15+ countries.
           </p>
           <div className="flex space-x-4">
              {['linkedin', 'instagram', 'facebook'].map(s => <div key={s} className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[#8B6F47] transition-all cursor-pointer"><span className="text-[10px] font-black uppercase tracking-tighter text-gray-300">{s.slice(0,2)}</span></div>)}

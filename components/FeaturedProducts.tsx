@@ -11,7 +11,7 @@ const products = [
     moq: "50 Books",
     leadTime: "21-28 days",
     image: "https://images.unsplash.com/photo-1558383409-ab7ef8db3e01?auto=format&fit=crop&w=800&q=80",
-    alt: "Custom Hardbound Upholstery Swatch Book Manufacturer Mumbai",
+    alt: "Custom Hardbound Upholstery Swatch Book Manufacturer Thane-Bhiwandi, Maharashtra",
     target: 'product-upholstery'
   },
   {

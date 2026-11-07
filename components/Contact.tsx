@@ -29,7 +29,7 @@ const Contact: React.FC = () => {
   // Generate formatted WhatsApp message summarizing selected product specs
   const generateWhatsAppMessage = (): string => {
     const lines = [
-      `*B2B Fabric Sample Book RFQ - Sampling Hub / SwatchCraft India*`,
+      `*B2B Fabric Sample Book RFQ - SamplingHub (Digitex Studio)*`,
       `━━━━━━━━━━━━━━━━━━━━`,
       `👤 *Buyer:* ${fullName || 'International Buyer'}`,
       `🏢 *Company:* ${companyName || 'Not Specified'}`,
@@ -43,7 +43,7 @@ const Contact: React.FC = () => {
         ? `📎 *Media Attached:* ${attachments.length} reference file(s) (${attachments.map(a => a.type).join(', ')})` 
         : '📎 *Media Reference:* Ready to send photos/video via WhatsApp',
       `━━━━━━━━━━━━━━━━━━━━`,
-      `📍 *Factory:* Mumbai, India (ISO 9001:2015)`,
+      `📍 *Factory:* Thane Bhiwandi, PIN: 421302, Maharashtra, India`,
       `_Submitted via samplinghub.world RFQ Engine_`
     ].filter(Boolean);
 
@@ -86,7 +86,7 @@ const Contact: React.FC = () => {
             RFQ Received Successfully!
           </h2>
           <p className="text-gray-700 text-lg mb-8 leading-relaxed font-medium">
-            Thank you, <span className="font-bold text-[#1e3a5f]">{fullName || 'partner'}</span>. Our Mumbai technical export engineering team has received your inquiry for <span className="font-bold text-[#8B6F47]">{productType}</span> ({quantity} units).
+            Thank you, <span className="font-bold text-[#1e3a5f]">{fullName || 'partner'}</span>. Our Thane-Bhiwandi technical export engineering team has received your inquiry for <span className="font-bold text-[#8B6F47]">{productType}</span> ({quantity} units).
           </p>
 
           <div className="bg-white p-6 rounded-2xl border border-gray-100 max-w-md mx-auto mb-10 shadow-sm text-left text-xs space-y-2 text-gray-600">
@@ -130,7 +130,7 @@ const Contact: React.FC = () => {
           <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm mb-4 border border-gray-100">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
             <span className="text-[#8B6F47] font-black uppercase tracking-[0.25em] text-[10px]">
-              Direct From Mumbai Facility • ISO 9001:2015 Certified
+              Direct From Thane Bhiwandi Facility • Export-Grade Quality
             </span>
           </div>
           <h1 className="text-4xl md:text-6xl font-black text-[#1e3a5f] mb-4 tracking-tighter uppercase leading-none">
@@ -351,7 +351,7 @@ const Contact: React.FC = () => {
                 </div>
 
                 <p className="text-center text-[10px] text-gray-400 font-bold uppercase tracking-wider">
-                  🔒 ISO 9001:2015 NDA Protected • Direct Mumbai factory response within 24 hours
+                  🔒 NDA Protected • Direct Thane-Bhiwandi factory response within 24 hours
                 </p>
               </div>
             </form>
@@ -365,7 +365,7 @@ const Contact: React.FC = () => {
                   Direct Factory Contact
                 </span>
                 <h3 className="text-2xl font-black uppercase tracking-tight text-white leading-tight">
-                  Mumbai Export Headquarters
+                  Thane-Bhiwandi Export Headquarters
                 </h3>
               </div>
 
@@ -412,7 +412,7 @@ const Contact: React.FC = () => {
                       Manufacturing Facility
                     </p>
                     <p className="font-bold text-sm text-white">
-                      Andheri East, Mumbai, Maharashtra 400069, India
+                      Thane Bhiwandi, PIN: 421302, Maharashtra, India
                     </p>
                     <p className="text-[10px] text-gray-300">6,000 sq ft Bookbinding & Die-Cutting Plant</p>
                   </div>
@@ -422,7 +422,7 @@ const Contact: React.FC = () => {
               <div className="pt-6 border-t border-white/10 space-y-3">
                 <div className="flex items-center gap-2 text-xs text-gray-200">
                   <ShieldCheck className="w-4 h-4 text-[#8B6F47]" />
-                  <span>ISO 9001:2015 Certified Production</span>
+                  <span>100% Manual QC Inspection</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-gray-200">
                   <CheckCircle2 className="w-4 h-4 text-[#25D366]" />

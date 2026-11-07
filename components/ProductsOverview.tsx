@@ -87,7 +87,7 @@ const ProductsOverview: React.FC<Props> = ({ onNavigate }) => {
                 "Bespoke Dimensions for Export Needs"
               ].map((opt, i) => (
                 <li key={i} className="flex items-center text-gray-700">
-                  <span className="w-2 h-2 bg-[#d4a574] rounded-full mr-3"></span>
+                  <span className="w-2 h-2 bg-[#8B6F47] rounded-full mr-3"></span>
                   {opt}
                 </li>
               ))}
@@ -110,7 +110,7 @@ const ProductsOverview: React.FC<Props> = ({ onNavigate }) => {
           <h2 className="text-3xl font-bold mb-6">Need a Tailored Solution?</h2>
           <button 
             onClick={() => onNavigate('contact-page')}
-            className="bg-[#d4a574] text-white px-10 py-4 rounded-xl font-bold hover:bg-opacity-90 transition-all"
+            className="bg-[#8B6F47] text-white px-10 py-4 rounded-xl font-bold hover:bg-opacity-90 transition-all"
           >
             Start Your Technical Discussion
           </button>

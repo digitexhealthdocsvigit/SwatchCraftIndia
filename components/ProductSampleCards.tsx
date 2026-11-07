@@ -47,7 +47,7 @@ const ProductSampleCards: React.FC<Props> = ({ onNavigate, onDownload }) => {
     <div className="bg-white min-h-screen">
       {/* Breadcrumb */}
       <nav className="pt-24 px-4 pb-6 bg-gray-50 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto flex items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+        <div className="max-w-7xl mx-auto flex items-center text-[10px] font-black uppercase tracking-widest text-gray-600">
           <button onClick={() => onNavigate('home')} className="hover:text-[#8B6F47] transition-colors">Home</button>
           <span className="mx-3 text-gray-300">/</span>
           <button onClick={() => onNavigate('products-overview')} className="hover:text-[#8B6F47] transition-colors">Products</button>
@@ -94,7 +94,7 @@ const ProductSampleCards: React.FC<Props> = ({ onNavigate, onDownload }) => {
           <div>
             <div className="flex items-center gap-2 text-[#8B6F47] mb-6">
                {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
-               <span className="text-gray-400 text-[10px] font-black uppercase tracking-widest ml-2">4.9/5 (52 reviews)</span>
+               <span className="text-gray-600 text-[10px] font-black uppercase tracking-widest ml-2">4.9/5 (52 reviews)</span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#1e3a5f] mb-4 leading-none uppercase tracking-tighter">Sample Cards & Storyboards</h1>
             <p className="text-xl text-gray-500 mb-10 leading-relaxed font-medium italic">"The highest-converting marketing tool for textile brands. Showcase collection color stories in a lightweight, mailable format."</p>
@@ -115,8 +115,8 @@ const ProductSampleCards: React.FC<Props> = ({ onNavigate, onDownload }) => {
             </div>
 
             <div className="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 mb-10">
-              <p className="text-gray-400 text-[9px] font-black uppercase mb-1 leading-none">Starting from</p>
-              <p className="text-3xl font-black text-[#1e3a5f] leading-none mt-2">{formatPrice(15)} <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">/ card for 1000+ units</span></p>
+              <p className="text-gray-600 text-[9px] font-black uppercase mb-1 leading-none">Starting from</p>
+              <p className="text-3xl font-black text-[#1e3a5f] leading-none mt-2">{formatPrice(15)} <span className="text-[10px] text-gray-600 font-bold uppercase tracking-widest">/ card for 1000+ units</span></p>
               <p className="text-xs text-[#0d7377] font-bold mt-3 uppercase tracking-tighter">Volume Discounts for Exporters</p>
               <button 
                 onClick={() => setIsPricingModalOpen(true)}
@@ -137,7 +137,7 @@ const ProductSampleCards: React.FC<Props> = ({ onNavigate, onDownload }) => {
               <a href="https://wa.me/919004962871" className="w-full border-2 border-[#25D366] text-[#25D366] font-black py-5 rounded-2xl flex items-center justify-center gap-3 hover:bg-[#25D366] hover:text-white transition-all text-sm uppercase tracking-widest">
                 <MessageCircle className="w-5 h-5" /> WhatsApp for Quick RFQ
               </a>
-              <button onClick={() => onDownload('Sample Card Design Templates')} className="text-gray-400 text-[10px] font-black underline uppercase tracking-widest hover:text-[#1e3a5f] transition-colors text-center mt-2">
+              <button onClick={() => onDownload('Sample Card Design Templates')} className="text-gray-600 text-[10px] font-black underline uppercase tracking-widest hover:text-[#1e3a5f] transition-colors text-center mt-2">
                 Download Design Templates (AI/PDF)
               </button>
             </div>
@@ -209,24 +209,24 @@ const ProductSampleCards: React.FC<Props> = ({ onNavigate, onDownload }) => {
             ].map((format, i) => (
               <div key={i} className="bg-gray-50 p-10 rounded-[3.5rem] border border-gray-100 group flex flex-col hover:border-[#8B6F47] transition-all duration-500 h-full">
                 <div className="aspect-square bg-white rounded-3xl mb-8 flex items-center justify-center text-gray-300 font-black text-[10px] uppercase tracking-widest text-center px-10 border border-gray-100">{format.i}</div>
-                <h4 className="text-2xl font-black text-[#1e3a5f] mb-6 uppercase tracking-tight">{format.t}</h4>
+                <h3 className="text-2xl font-black text-[#1e3a5f] mb-6 uppercase tracking-tight">{format.t}</h3>
                 
                 <div className="mb-6">
-                  <h5 className="text-[9px] font-black text-[#8B6F47] uppercase tracking-widest mb-3">Layout Specs</h5>
+                  <h4 className="text-[9px] font-black text-[#8B6F47] uppercase tracking-widest mb-3">Layout Specs</h4>
                   <ul className="space-y-2">
                     {format.specs.map((s, idx) => <li key={idx} className="text-xs font-bold text-[#1e3a5f] flex items-center gap-2"><Zap className="w-3 h-3 text-[#0d7377]" /> {s}</li>)}
                   </ul>
                 </div>
 
                 <div className="mb-6 flex-grow">
-                   <h5 className="text-[9px] font-black text-[#8B6F47] uppercase tracking-widest mb-3">Ideal For</h5>
+                   <h4 className="text-[9px] font-black text-[#8B6F47] uppercase tracking-widest mb-3">Ideal For</h4>
                    <div className="flex flex-wrap gap-2">
                       {format.best.map((b, idx) => <span key={idx} className="bg-white px-3 py-1 rounded-full text-[9px] font-bold text-gray-500 uppercase border border-gray-100">{b}</span>)}
                    </div>
                 </div>
 
                 <div className="pt-6 border-t border-gray-200">
-                  <p className="text-2xl font-black text-[#1e3a5f]">{formatPrice(format.p)} <span className="text-[10px] font-bold text-gray-400">/ starting price</span></p>
+                  <p className="text-2xl font-black text-[#1e3a5f]">{formatPrice(format.p)} <span className="text-[10px] font-bold text-gray-600">/ starting price</span></p>
                 </div>
               </div>
             ))}
@@ -246,8 +246,8 @@ const ProductSampleCards: React.FC<Props> = ({ onNavigate, onDownload }) => {
             ].map((type, i) => (
               <div key={i} className="flex flex-col h-full bg-white/5 p-10 rounded-[3rem] border border-white/10 hover:bg-white/10 transition-colors">
                 <div className="aspect-video bg-white/10 rounded-2xl mb-8 flex items-center justify-center text-white/20 font-black text-[9px] uppercase">{type.i}</div>
-                <h4 className="text-2xl font-black mb-4 uppercase tracking-tight text-white">{type.t}</h4>
-                <p className="text-gray-400 text-sm font-medium mb-8 flex-grow leading-relaxed">{type.d}</p>
+                <h3 className="text-2xl font-black mb-4 uppercase tracking-tight text-white">{type.t}</h3>
+                <p className="text-gray-300 text-sm font-medium mb-8 flex-grow leading-relaxed">{type.d}</p>
                 <div className="pt-6 border-t border-white/10">
                    <p className="text-[9px] font-black text-[#8B6F47] uppercase tracking-widest">Target: {type.cap}</p>
                    <p className="text-xs font-bold text-white mt-1 uppercase">{type.best}</p>
@@ -272,11 +272,11 @@ const ProductSampleCards: React.FC<Props> = ({ onNavigate, onDownload }) => {
             ].map((use, i) => (
               <div key={i} className="p-10 bg-white rounded-[3rem] border border-gray-100 shadow-sm flex flex-col h-full group hover:shadow-2xl transition-all text-center">
                 <div className="text-[#0d7377] mb-6 flex justify-center group-hover:scale-110 transition-transform">{use.icon}</div>
-                <h4 className="font-black text-[#1e3a5f] mb-4 uppercase text-lg leading-tight">{use.title}</h4>
+                <h3 className="font-black text-[#1e3a5f] mb-4 uppercase text-lg leading-tight">{use.title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed font-medium mb-8 flex-grow">{use.desc}</p>
                 <div className="pt-6 border-t border-gray-50 flex flex-col gap-2">
                    <p className="text-[10px] text-[#0d7377] font-black uppercase tracking-widest">ROI: {use.roi}</p>
-                   <p className="text-[9px] text-gray-400 font-bold uppercase tracking-[0.2em]">Typical Order: {use.ord}</p>
+                   <p className="text-[9px] text-gray-600 font-bold uppercase tracking-[0.2em]">Typical Order: {use.ord}</p>
                 </div>
               </div>
             ))}
@@ -301,7 +301,7 @@ const ProductSampleCards: React.FC<Props> = ({ onNavigate, onDownload }) => {
                 <tbody className="divide-y divide-gray-100">
                   {pricingTiers.map((tier, i) => (
                     <tr key={i} className="hover:bg-gray-50 transition-colors">
-                      <td className="p-8 uppercase tracking-widest text-[10px] text-gray-400">{tier.q}</td>
+                      <td className="p-8 uppercase tracking-widest text-[10px] text-gray-600">{tier.q}</td>
                       <td className="p-8 text-[#8B6F47] text-lg font-black">{formatPrice(tier.p)}</td>
                       <td className="p-8 font-medium text-[#1e3a5f]/50">{formatPrice(tier.i)}+</td>
                       <td className="p-8 text-[10px] font-black uppercase tracking-widest text-[#1e3a5f]">{tier.best}</td>
@@ -327,7 +327,7 @@ const ProductSampleCards: React.FC<Props> = ({ onNavigate, onDownload }) => {
           </div>
 
           <div className="mt-16 bg-[#1e3a5f] text-white p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
-             <h4 className="text-xl font-black mb-8 uppercase tracking-tighter text-[#8B6F47]">Branding & Add-Ons</h4>
+             <h3 className="text-xl font-black mb-8 uppercase tracking-tighter text-[#8B6F47]">Branding & Add-Ons</h3>
              <ul className="grid sm:grid-cols-2 gap-6 text-[11px] font-bold uppercase tracking-widest">
                 <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-[#0d7377]" /> Soft-Touch Lamination (+{formatPrice(3)})</li>
                 <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-[#0d7377]" /> Spot UV Gloss (+{formatPrice(2)})</li>
@@ -367,7 +367,7 @@ const ProductSampleCards: React.FC<Props> = ({ onNavigate, onDownload }) => {
       <section className="bg-navy py-24 px-4 text-center text-white relative overflow-hidden">
         <div className="max-w-4xl mx-auto relative z-10">
           <h2 className="text-3xl md:text-6xl font-black mb-6 uppercase tracking-tighter leading-tight">Elevate Your Collection Launch</h2>
-          <p className="text-gray-400 text-lg mb-12 font-medium">Request a custom quote for branded fabric storyboards and start reaching more designers globally.</p>
+          <p className="text-gray-600 text-lg mb-12 font-medium">Request a custom quote for branded fabric storyboards and start reaching more designers globally.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-6">
             <button onClick={() => onNavigate('contact-page')} className="bg-[#0d7377] text-white px-12 py-5 rounded-2xl font-black shadow-2xl hover:bg-white hover:text-navy transition-all uppercase tracking-widest text-xs">Request Marketing RFQ</button>
             <button onClick={() => onDownload('Sample Marketing Pack')} className="bg-white/10 text-white border border-white/20 px-12 py-5 rounded-2xl font-black hover:bg-white/20 transition-all uppercase tracking-widest text-xs">Order 10 Sample Cards ({formatPrice(600)})</button>
@@ -383,7 +383,7 @@ const ProductSampleCards: React.FC<Props> = ({ onNavigate, onDownload }) => {
       {isPricingModalOpen && (
         <div className="fixed inset-0 bg-[#1e3a5f]/95 backdrop-blur-sm z-[100] flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-white rounded-[3rem] w-full max-w-2xl overflow-hidden shadow-2xl relative">
-            <button onClick={() => setIsPricingModalOpen(false)} className="absolute top-8 right-8 text-gray-400 hover:text-[#1e3a5f] transition-colors"><X className="w-8 h-8" /></button>
+            <button onClick={() => setIsPricingModalOpen(false)} className="absolute top-8 right-8 text-gray-600 hover:text-[#1e3a5f] transition-colors"><X className="w-8 h-8" /></button>
             <div className="p-12">
                <h3 className="text-2xl font-black text-[#1e3a5f] uppercase tracking-widest mb-10 border-b border-gray-100 pb-4 text-center">Sample Card Price List</h3>
                <table className="w-full text-left font-bold text-[#1e3a5f] text-sm">
@@ -401,7 +401,7 @@ const ProductSampleCards: React.FC<Props> = ({ onNavigate, onDownload }) => {
                  </tbody>
                </table>
                <div className="mt-8 p-6 bg-teal/5 rounded-2xl border border-teal/10">
-                  <h5 className="font-black text-[#0d7377] uppercase text-[10px] mb-2 tracking-widest">Technical Add-Ons</h5>
+                  <h4 className="font-black text-[#0d7377] uppercase text-[10px] mb-2 tracking-widest">Technical Add-Ons</h4>
                   <ul className="text-[10px] font-bold text-gray-500 uppercase space-y-2">
                     <li className="flex justify-between"><span>Recycled Grey-back Stock</span> <span>- {formatPrice(2)} discount</span></li>
                     <li className="flex justify-between"><span>Double-sided Printing</span> <span>+ {formatPrice(4)}</span></li>

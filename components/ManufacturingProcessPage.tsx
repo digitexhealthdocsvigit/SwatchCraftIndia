@@ -21,7 +21,7 @@ const detailedSteps = [
   {
     title: "3. Precision Production",
     duration: "12-18 Days",
-    details: "Fabrics are precision-cut, labeled, and bound in our Mumbai facility using high-end automation.",
+    details: "Fabrics are precision-cut, labeled, and bound in our Thane-Bhiwandi facility using high-end automation.",
     icon: "🏭"
   },
   {
@@ -44,7 +44,7 @@ const ManufacturingProcessPage: React.FC<Props> = ({ onNavigate }) => {
       {/* Header */}
       <section className="bg-white py-20 px-4">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-[#1a2849] mb-6">The SwatchCraft Process</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-[#1a2849] mb-6">The SamplingHub Process</h1>
           <p className="text-gray-600 text-lg max-w-2xl leading-relaxed">
             From initial enquiry to international dispatch, we maintain complete transparency and rigorous quality control at every stage of manufacturing.
           </p>
@@ -60,7 +60,7 @@ const ManufacturingProcessPage: React.FC<Props> = ({ onNavigate }) => {
               <div>
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-xl font-bold text-[#1a2849]">{step.title}</h3>
-                  <span className="text-xs font-bold text-[#d4a574] uppercase tracking-widest">{step.duration}</span>
+                  <span className="text-xs font-bold text-[#8B6F47] uppercase tracking-widest">{step.duration}</span>
                 </div>
                 <p className="text-gray-600 leading-relaxed">{step.details}</p>
               </div>
