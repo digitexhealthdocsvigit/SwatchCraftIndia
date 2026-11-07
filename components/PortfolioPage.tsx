@@ -53,16 +53,16 @@ const projects = [
 
 const PortfolioPage: React.FC<Props> = ({ onNavigate }) => {
   return (
-    <div className="bg-white min-h-screen pb-20">
-      <section className="pt-32 pb-16 bg-[#1e3a5f] text-white px-4">
+    <div className="bg-white min-h-screen pb-20 w-full overflow-x-hidden">
+      <section className="pt-28 pb-16 bg-[#1e3a5f] text-white px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="max-w-7xl mx-auto text-center">
           <span className="text-[#c9a86a] font-black uppercase tracking-[0.3em] text-[10px] mb-4 inline-block bg-white/10 px-4 py-1.5 rounded-full">
             Export Manufacturing Track Record
           </span>
-          <h1 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-tighter">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-6 uppercase tracking-tight break-words max-w-4xl mx-auto">
             Our Production Portfolio
           </h1>
-          <p className="text-gray-300 max-w-2xl mx-auto text-lg font-medium">
+          <p className="text-gray-200 max-w-3xl mx-auto text-base sm:text-lg font-medium leading-relaxed">
             Over 500 fabric and wallpaper swatch collections delivered through our managed OEM manufacturing network for premier international brands across USA, EU, UK, and UAE.
           </p>
         </div>

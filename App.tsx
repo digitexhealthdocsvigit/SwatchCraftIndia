@@ -86,6 +86,8 @@ const PATH_TO_VIEW: Record<string, ViewState> = {
   '/privacy': 'privacy',
   '/terms': 'terms',
   '/contact': 'contact-page',
+  '/admin': 'admin-login',
+  '/admin/login': 'admin-login',
 };
 
 const VIEW_TO_PATH: Partial<Record<ViewState, string>> = {
@@ -107,10 +109,16 @@ const VIEW_TO_PATH: Partial<Record<ViewState, string>> = {
   privacy: '/privacy',
   terms: '/terms',
   'contact-page': '/contact',
+  'admin-login': '/admin',
+  'admin-dashboard': '/admin',
 };
 
 const resolveViewFromPath = (pathname: string): ViewState => {
   const normalized = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+  if (normalized === '/admin' || normalized === '/admin/login') {
+    const hasToken = typeof window !== 'undefined' && !!localStorage.getItem('samplinghub_admin_token');
+    return hasToken ? 'admin-dashboard' : 'admin-login';
+  }
   return PATH_TO_VIEW[normalized] ?? 'not-found';
 };
 
@@ -172,7 +180,9 @@ const App: React.FC = () => {
 
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
-    localStorage.setItem('samplinghub_admin_session', 'true');
+    if (window.location.pathname !== '/admin') {
+      window.history.pushState({ view: 'admin-dashboard' }, '', '/admin');
+    }
     setCurrentView('admin-dashboard');
   };
 
@@ -180,7 +190,10 @@ const App: React.FC = () => {
     setIsAuthenticated(false);
     localStorage.removeItem('samplinghub_admin_token');
     fetch('/api/admin/logout', { method: 'POST' }).catch(() => {});
-    setCurrentView('home');
+    setCurrentView('admin-login');
+    if (window.location.pathname !== '/admin') {
+      window.history.pushState({ view: 'admin-login' }, '', '/admin');
+    }
   };
 
   const renderContent = () => {

@@ -64,6 +64,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div className="flex space-x-8 mt-6 md:mt-0 items-center">
           <button onClick={() => onNavigate('privacy')} className="hover:text-white transition-colors">Privacy Policy</button>
           <button onClick={() => onNavigate('terms')} className="hover:text-white transition-colors">Terms of Service</button>
+          <button onClick={() => onNavigate('admin-login')} className="hover:text-white transition-colors text-gray-400">Staff Portal</button>
         </div>
       </div>
     </footer>

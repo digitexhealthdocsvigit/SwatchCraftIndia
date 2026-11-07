@@ -42,7 +42,7 @@ const ManufacturingProcessPage: React.FC<Props> = ({ onNavigate }) => {
   return (
     <div className="pt-20">
       {/* Header */}
-      <section className="bg-white py-20 px-4">
+      <section className="bg-white pt-8 pb-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-extrabold text-[#1a2849] mb-6">The SamplingHub Process</h1>
           <p className="text-gray-600 text-lg max-w-2xl leading-relaxed">
