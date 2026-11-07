@@ -45,8 +45,8 @@ const ProductWaterfall: React.FC<Props> = ({ onNavigate, onDownload }) => {
 
           <div className="grid sm:grid-cols-2 gap-6 mb-12">
             <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100">
-              <span className="text-navy font-black text-2xl block mb-1">500+</span>
-              <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Units Daily Capacity</span>
+              <span className="text-navy font-black text-2xl block mb-1">100+</span>
+              <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Starting MOQ Tier</span>
             </div>
             <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100">
               <span className="text-[#8B6F47] font-black text-2xl block mb-1">14-21</span>

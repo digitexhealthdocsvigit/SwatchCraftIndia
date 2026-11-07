@@ -5,7 +5,7 @@
 **Production Website:** [https://www.samplinghub.world](https://www.samplinghub.world)  
 **Hosting Provider:** Vercel (Edge / Serverless Node.js `bom1`)  
 **Technology Stack:** Vite + React 19 + TypeScript + Tailwind CSS 3.4  
-**Feature Branch:** `fix/samplinghub-admin-image-audit`  
+**Feature Branch:** `fix/samplinghub-machinery-image-accuracy-audit`  
 **Audit Completion Date:** November 2026  
 **Auditor & Implementation Agent:** Antigravity Engineering Suite  
 

@@ -379,7 +379,7 @@ export const ProductWallpaperCatalog: React.FC<ProductWallpaperCatalogProps> = (
               Volume Pricing Structure
             </h2>
             <p className="text-charcoal/70">
-              Factory-direct wholesale tiers from our Thane-Bhiwandi manufacturing unit
+              Wholesale OEM tiers coordinated from our Thane-Bhiwandi operations hub
             </p>
           </div>
 
@@ -706,7 +706,7 @@ export const ProductWallpaperCatalog: React.FC<ProductWallpaperCatalogProps> = (
             Ready to Manufacture Your Next Wallpaper Collection Catalog?
           </h2>
           <p className="text-gray-300 mb-8 text-lg">
-            Send us your roll count, sheet dimensions (45×45 cm or 50×50 cm), and room-scene insert requirements for a factory-direct export quotation within 24 hours.
+            Send us your roll count, sheet dimensions (45×45 cm or 50×50 cm), and room-scene insert requirements for a direct export OEM quotation within 24 hours.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button

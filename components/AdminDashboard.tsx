@@ -100,7 +100,7 @@ const INITIAL_SERVER_RFQS: RFQItem[] = [
     status: 'Quotation Sent',
     estimatedValueUsd: 19800,
     internalNotes: ['Pro-forma invoice sent with DDP air freight via FedEx.'],
-    partnerAssigned: 'Unit B - Automated Pinking & Mounting',
+    partnerAssigned: 'Unit B — Precision Pinking & Sample Mounting',
   },
   {
     id: 'RFQ-2026-7612',
@@ -123,7 +123,7 @@ const INITIAL_SERVER_RFQS: RFQItem[] = [
 const OEM_PARTNERS = [
   {
     id: 'PARTNER-01',
-    name: 'Unit A — Precision Bookbinding & Board Assembly',
+    name: 'Unit A — Precision Bookbinding & Board Assembly Partner',
     location: 'Thane-Bhiwandi Sector 4',
     specialty: '3mm–4mm Kappa Board Hardbound Books, Buckram Wrapping, Chicago Screw Binding',
     capacity: '4,000 Hardbound Books / Month',
@@ -132,16 +132,16 @@ const OEM_PARTNERS = [
   },
   {
     id: 'PARTNER-02',
-    name: 'Unit B — Automated Pinking & Fabric Slitting Hub',
+    name: 'Unit B — Precision Pinking & Fabric Slitting Partner',
     location: 'Bhiwandi Textile Complex',
-    specialty: 'High-Speed Automated Pinking, Straight Cutting, Fabric Serialization & Labeling',
+    specialty: 'Precision Pinking, Manual Straight Cutting, Swatch Serialization & Labeling',
     capacity: '80,000 Swatch Leaves / Month',
     leadTime: '7–10 Days',
     status: 'Sample Benchmark (Pending Verification)',
   },
   {
     id: 'PARTNER-03',
-    name: 'Unit C — High-Tonnage Debossing & Foil Stamping',
+    name: 'Unit C — Precision Debossing & Foil Stamping Partner',
     location: 'Thane Industrial Zone',
     specialty: 'Hot Foil Metallic Stamping, Precision Blind Debossing, Silk Screen Header Printing',
     capacity: '15,000 Header Cards / Month',
@@ -150,7 +150,7 @@ const OEM_PARTNERS = [
   },
   {
     id: 'PARTNER-04',
-    name: 'Unit D — Oversized Wallpaper Sheeting & Roll Conversion',
+    name: 'Unit D — Oversized Wallpaper Sheeting & Conversion Partner',
     location: 'Kalher-Bhiwandi Logistics Node',
     specialty: 'Guillotine Sheeting with Pattern Repeat Registration, EN 233 Label Stamping',
     capacity: '2,500 Oversized Wallpaper Albums / Month',

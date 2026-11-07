@@ -56,7 +56,7 @@ const WhatsAppFloatingCTA: React.FC<Props> = ({ phoneNumber = '919004962871' }) 
               </div>
               <div>
                 <h3 className="font-black text-sm uppercase tracking-wider text-white flex items-center gap-1.5">
-                  SamplingHub Factory
+                  SamplingHub Operations
                   <ShieldCheck className="w-4 h-4 text-[#8B6F47]" />
                 </h3>
                 <p className="text-[11px] text-gray-200 font-medium">Export Technical Team • Thane-Bhiwandi, Maharashtra</p>

@@ -43,7 +43,7 @@ const Contact: React.FC = () => {
         ? `📎 *Media Attached:* ${attachments.length} reference file(s) (${attachments.map(a => a.type).join(', ')})` 
         : '📎 *Media Reference:* Ready to send photos/video via WhatsApp',
       `━━━━━━━━━━━━━━━━━━━━`,
-      `📍 *Factory:* Thane Bhiwandi, PIN: 421302, Maharashtra, India`,
+      `📍 *Operations Hub:* Thane Bhiwandi, PIN: 421302, Maharashtra, India`,
       `_Submitted via samplinghub.world RFQ Engine_`
     ].filter(Boolean);
 
@@ -351,18 +351,18 @@ const Contact: React.FC = () => {
                 </div>
 
                 <p className="text-center text-[10px] text-gray-400 font-bold uppercase tracking-wider">
-                  🔒 NDA Protected • Direct Thane-Bhiwandi factory response within 24 hours
+                  🔒 NDA Protected • Direct Thane-Bhiwandi operations response within 24 hours
                 </p>
               </div>
             </form>
           </div>
 
-          {/* RIGHT: Factory & Technical Support Panel */}
+          {/* RIGHT: Central Operations & Technical Support Panel */}
           <div className="space-y-8">
             <div className="bg-[#1e3a5f] rounded-[3rem] p-10 text-white shadow-xl space-y-8">
               <div>
                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8B6F47] block mb-2">
-                  Direct Factory Contact
+                  Direct Operations Contact
                 </span>
                 <h3 className="text-2xl font-black uppercase tracking-tight text-white leading-tight">
                   Thane-Bhiwandi Export Headquarters

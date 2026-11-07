@@ -69,7 +69,7 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
                <h3 className="text-xl font-bold text-navy mb-6 uppercase tracking-widest border-b border-gray-100 pb-4">Centralised Project &amp; Quality Hub</h3>
                <ul className="space-y-6">
                  {[
-                   { t: "Precision Cutting Suite", d: "Equipped with high-speed automated fabric cutters for 100% fray-free pinking and straight cuts." },
+                   { t: "Manual Cutting & Pinking", d: "Precision serrated pinking blades and straight-shearing executed by experienced partner craftsmen for anti-fray swatches." },
                    { t: "Climate-Controlled Storage", d: "Ensures fabric integrity and prevents moisture damage for sensitive European silks and velvets." },
                    { t: "Precision Branding & Debossing", d: "Custom branding executed under strict quality control for foil registration and logo accuracy." },
                    { t: "Triple-Layer QC Station", d: "Every book passes through three stages of manual inspection before export packaging." }
@@ -97,14 +97,14 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
                   desc: "Order management, technical specifications, and international export logistics coordination."
                 },
                 {
-                  label: "Automated Pinking & Cutting",
+                  label: "Precision Pinking & Manual Cutting",
                   sub: "Specialised OEM Partner Unit",
                   icon: (
                     <svg className="w-6 h-6 text-[#8B6F47]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879a3 3 0 11-4.242-4.242L12 12m0 0l-2.879-2.879a3 3 0 10-4.242 4.242L12 12"/>
                     </svg>
                   ),
-                  desc: "High-speed computerized pinking knives and automated straight-cut shearing for anti-fray swatch leaves."
+                  desc: "Specialized serrated pinking blades, manual straight shearing, and careful sample handling for anti-fray swatch presentation."
                 },
                 {
                   label: "Precision Case-Binding Press",

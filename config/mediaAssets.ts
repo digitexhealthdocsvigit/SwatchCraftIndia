@@ -61,6 +61,7 @@ export function createStudioPlaceholderSvg(
 
 export const LOCAL_IMAGES = {
   heroShowcase: '/images/hero-main-showcase.jpg',
+  inspectionQC: '/images/upholstery-swatch-book-2.jpg',
   factoryBhiwandi: '/images/upholstery-swatch-book-2.jpg',
   wallpaperBook: '/images/wallpaper-catalog-book.jpg',
   wallpaperRollDisplay: '/images/wallpaper-roll-display.jpg',
@@ -239,7 +240,7 @@ export const SAMPLE_CARDS_MEDIA: MediaItem[] = [
 export const FACTORY_MEDIA: MediaItem[] = [
   {
     type: 'image',
-    src: LOCAL_IMAGES.factoryBhiwandi,
+    src: LOCAL_IMAGES.inspectionQC,
     alt: 'Macro Inspection: Anti-Fray Pinking Cuts & Swatch Registration - SamplingHub',
     caption: 'Macro Inspection & Finishing Quality Control — Precision Pinking, Board Alignment & Export Packing',
     fallbackTitle: 'OEM Partner Production & Quality Inspection',

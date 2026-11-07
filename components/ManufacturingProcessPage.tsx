@@ -14,9 +14,9 @@ const detailedSteps = [
     icon: "📐"
   },
   {
-    title: "2. Precision Sheeting & Automated Pinking",
+    title: "2. Manual Cutting & Anti-Fray Pinking",
     duration: "3-5 Days",
-    details: "Bulk fabric rolls are precision sheeted and edge-finished using high-speed automated zig-zag pinking knives to eliminate fraying.",
+    details: "Bulk fabric rolls are measured, sheeted, and edge-finished using specialized serrated pinking shears and precision cutters to eliminate fraying.",
     icon: "✂️"
   },
   {
@@ -84,7 +84,7 @@ const ManufacturingProcessPage: React.FC<Props> = ({ onNavigate }) => {
                  <span className="text-[#c9a86a] font-black uppercase tracking-widest block text-[10px] mb-1">
                    Inspection Standard • Macro Verification
                  </span>
-                 Precision automated zig-zag pinking, zero fabric fraying, and exact 3mm Kappa board casing alignment checked across 100% of finished collections.
+                 Precision zig-zag pinking cuts, zero fabric fraying, and exact 3mm Kappa board casing alignment verified across 100% of finished collections.
                </div>
              </div>
           </div>
