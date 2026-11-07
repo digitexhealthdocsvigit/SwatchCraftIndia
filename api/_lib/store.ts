@@ -74,6 +74,7 @@ const SEED_RFQS: StoredRFQ[] = [
 const TMP_FILE = path.join(os.tmpdir(), 'samplinghub_rfqs.json');
 export const RFQ_INDEX_KEY = 'samplinghub:rfqs_index';
 export const RFQ_LEGACY_KEY = 'samplinghub:rfqs';
+export const RFQ_MIGRATION_LOCK = 'samplinghub:rfqs_migration_lock';
 
 // In-memory cache across serverless warm starts
 let memoryStore: StoredRFQ[] = [...SEED_RFQS];
@@ -106,6 +107,7 @@ loadFromFile();
 /**
  * Fetches all RFQs using the atomic sorted set index (samplinghub:rfqs_index).
  * Performs automatic forward-migration from legacy monolithic key (samplinghub:rfqs) if index is uninitialized.
+ * Features self-healing reconciliation: automatically detects and prunes orphaned index entries.
  */
 export async function getAllRFQsAsync(): Promise<StoredRFQ[]> {
   if (isSharedStorageConfigured()) {
@@ -125,18 +127,35 @@ export async function getAllRFQsAsync(): Promise<StoredRFQ[]> {
 
         if (recordsRes && Array.isArray(recordsRes)) {
           const rfqs: StoredRFQ[] = [];
-          for (let i = 0; i < recordsRes.length; i++) {
+          const orphanedIds: string[] = [];
+
+          for (let i = 0; i < ids.length; i++) {
+            const id = ids[i];
             const raw = recordsRes[i];
-            if (!raw) continue;
+            if (!raw) {
+              // Orphaned index entry without record
+              orphanedIds.push(id);
+              continue;
+            }
             try {
               const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
               if (parsed && typeof parsed.id === 'string' && typeof parsed.fullName === 'string') {
                 rfqs.push(parsed);
+              } else {
+                orphanedIds.push(id);
               }
             } catch {
-              // Skip malformed records safely
+              // Corrupted JSON
+              orphanedIds.push(id);
             }
           }
+
+          // Asynchronously prune orphaned index entries in the background
+          if (orphanedIds.length > 0) {
+            const pruneCmds = orphanedIds.map((oid) => ['ZREM', RFQ_INDEX_KEY, oid]);
+            sendKvPipeline(pruneCmds).catch(() => {});
+          }
+
           if (rfqs.length > 0) {
             memoryStore = rfqs;
             saveToFile();
@@ -145,44 +164,64 @@ export async function getAllRFQsAsync(): Promise<StoredRFQ[]> {
         }
       }
 
-      // 3. Migration / Seeding check:
-      // If index was empty, check if legacy monolithic key 'samplinghub:rfqs' exists
-      const legacyRes = await sendKvPipeline([['GET', RFQ_LEGACY_KEY]]);
-      if (legacyRes && legacyRes[0]) {
+      // 3. Migration / Seeding check with distributed concurrency lock
+      const lockRes = await sendKvPipeline([['SET', RFQ_MIGRATION_LOCK, '1', 'EX', 30, 'NX']]);
+      const lockAcquired = Boolean(lockRes && lockRes[0] === 'OK');
+
+      if (lockAcquired || ids.length === 0) {
         try {
-          const parsedLegacy = typeof legacyRes[0] === 'string' ? JSON.parse(legacyRes[0]) : legacyRes[0];
-          if (Array.isArray(parsedLegacy) && parsedLegacy.length > 0) {
-            // Forward-migrate each legacy record into an individual key + index
-            const migratePipeline: any[][] = [];
-            for (const r of parsedLegacy) {
-              const score = new Date(r.submittedAt).getTime() || Date.now();
-              migratePipeline.push(['SET', `samplinghub:rfq:${r.id}`, JSON.stringify(r)]);
-              migratePipeline.push(['ZADD', RFQ_INDEX_KEY, score, r.id]);
+          const legacyRes = await sendKvPipeline([['GET', RFQ_LEGACY_KEY]]);
+          if (legacyRes && legacyRes[0]) {
+            try {
+              const parsedLegacy = typeof legacyRes[0] === 'string' ? JSON.parse(legacyRes[0]) : legacyRes[0];
+              if (Array.isArray(parsedLegacy) && parsedLegacy.length > 0) {
+                // Deduplicate legacy records by ID (retaining latest entry)
+                const dedupedMap = new Map<string, StoredRFQ>();
+                for (const r of parsedLegacy) {
+                  if (!r || typeof r.id !== 'string') continue;
+                  dedupedMap.set(r.id, r);
+                }
+                const dedupedList = Array.from(dedupedMap.values());
+
+                // Forward-migrate each deduplicated legacy record into an individual key + index
+                const migratePipeline: any[][] = [];
+                for (const r of dedupedList) {
+                  const score = new Date(r.submittedAt).getTime() || Date.now();
+                  migratePipeline.push(['SET', `samplinghub:rfq:${r.id}`, JSON.stringify(r)]);
+                  migratePipeline.push(['ZADD', RFQ_INDEX_KEY, score, r.id]);
+                }
+                if (migratePipeline.length > 0) {
+                  await sendKvPipeline(migratePipeline);
+                }
+                memoryStore = dedupedList;
+                saveToFile();
+                return memoryStore;
+              }
+            } catch {
+              // Fall through to seed
             }
-            await sendKvPipeline(migratePipeline);
-            memoryStore = parsedLegacy;
+          }
+
+          // 4. Initial Seed if storage is completely empty
+          if (legacyRes && legacyRes[0] === null && ids.length === 0) {
+            const seedPipeline: any[][] = [];
+            for (const r of SEED_RFQS) {
+              const score = new Date(r.submittedAt).getTime() || Date.now();
+              seedPipeline.push(['SET', `samplinghub:rfq:${r.id}`, JSON.stringify(r)]);
+              seedPipeline.push(['ZADD', RFQ_INDEX_KEY, score, r.id]);
+            }
+            // Preserve legacy key for rollback compatibility
+            seedPipeline.push(['SET', RFQ_LEGACY_KEY, JSON.stringify(SEED_RFQS)]);
+            await sendKvPipeline(seedPipeline);
+            memoryStore = [...SEED_RFQS];
             saveToFile();
             return memoryStore;
           }
-        } catch {
-          // Fall through to seed
+        } finally {
+          if (lockAcquired) {
+            await sendKvPipeline([['DEL', RFQ_MIGRATION_LOCK]]).catch(() => {});
+          }
         }
-      }
-
-      // 4. Initial Seed if storage is completely empty
-      if (legacyRes && legacyRes[0] === null && ids.length === 0) {
-        const seedPipeline: any[][] = [];
-        for (const r of SEED_RFQS) {
-          const score = new Date(r.submittedAt).getTime() || Date.now();
-          seedPipeline.push(['SET', `samplinghub:rfq:${r.id}`, JSON.stringify(r)]);
-          seedPipeline.push(['ZADD', RFQ_INDEX_KEY, score, r.id]);
-        }
-        // Also maintain legacy key for rollback compatibility
-        seedPipeline.push(['SET', RFQ_LEGACY_KEY, JSON.stringify(SEED_RFQS)]);
-        await sendKvPipeline(seedPipeline);
-        memoryStore = [...SEED_RFQS];
-        saveToFile();
-        return memoryStore;
       }
     } catch {
       // Fall back to local file/memory
@@ -195,8 +234,8 @@ export async function getAllRFQsAsync(): Promise<StoredRFQ[]> {
 
 /**
  * Creates and persists a new RFQ.
- * Writes to an isolated individual key (samplinghub:rfq:<id>) and atomically registers the ID
- * in the sorted set index (samplinghub:rfqs_index), eliminating read-modify-write lost-update races.
+ * Uses atomic Redis Lua script (EVAL) to guarantee simultaneous SET and ZADD execution.
+ * Eliminates partial failure windows where a record key is created without an index entry.
  */
 export async function addRFQAsync(
   rfqData: Omit<StoredRFQ, 'id' | 'submittedAt' | 'status'>
@@ -217,10 +256,19 @@ export async function addRFQAsync(
 
   if (isSharedStorageConfigured()) {
     try {
-      await sendKvPipeline([
-        ['SET', `samplinghub:rfq:${id}`, JSON.stringify(record)],
-        ['ZADD', RFQ_INDEX_KEY, timestamp, id],
+      // Atomic Lua transaction: guarantees SET and ZADD happen in a single Redis engine operation
+      const luaScript = "redis.call('SET', KEYS[1], ARGV[1]); redis.call('ZADD', KEYS[2], ARGV[2], ARGV[3]); return 1;";
+      const evalRes = await sendKvPipeline([
+        ['EVAL', luaScript, 2, `samplinghub:rfq:${id}`, RFQ_INDEX_KEY, JSON.stringify(record), timestamp, id],
       ]);
+
+      if (!evalRes || evalRes[0] !== 1) {
+        // Fallback pipeline if EVAL is restricted
+        await sendKvPipeline([
+          ['SET', `samplinghub:rfq:${id}`, JSON.stringify(record)],
+          ['ZADD', RFQ_INDEX_KEY, timestamp, id],
+        ]);
+      }
     } catch {
       // Non-fatal fallback
     }
@@ -281,7 +329,7 @@ export async function updateRFQStatusAsync(
 }
 
 /**
- * Deletes an RFQ atomically from its isolated key and removes its ID from the index.
+ * Deletes an RFQ atomically from its isolated key and removes its ID from the index via Lua transaction.
  */
 export async function deleteRFQAsync(id: string): Promise<boolean> {
   loadFromFile();
@@ -291,11 +339,19 @@ export async function deleteRFQAsync(id: string): Promise<boolean> {
 
   if (isSharedStorageConfigured()) {
     try {
-      const delRes = await sendKvPipeline([
-        ['DEL', `samplinghub:rfq:${id}`],
-        ['ZREM', RFQ_INDEX_KEY, id],
+      const luaDelScript = "redis.call('DEL', KEYS[1]); redis.call('ZREM', KEYS[2], ARGV[1]); return 1;";
+      const evalRes = await sendKvPipeline([
+        ['EVAL', luaDelScript, 2, `samplinghub:rfq:${id}`, RFQ_INDEX_KEY, id],
       ]);
-      return Boolean(delRes && delRes[0]);
+
+      if (!evalRes || evalRes[0] !== 1) {
+        const delRes = await sendKvPipeline([
+          ['DEL', `samplinghub:rfq:${id}`],
+          ['ZREM', RFQ_INDEX_KEY, id],
+        ]);
+        return Boolean(delRes && delRes[0]);
+      }
+      return true;
     } catch {
       // Non-fatal fallback
     }

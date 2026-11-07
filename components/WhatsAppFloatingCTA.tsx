@@ -17,7 +17,7 @@ const WhatsAppFloatingCTA: React.FC<Props> = ({ phoneNumber = '919004962871' }) 
     },
     {
       title: "Quick MOQ & Lead Time Inquiry",
-      desc: "50 pcs MOQ | 21-day express delivery to US/EU/UAE",
+      desc: "50 pcs MOQ | Managed OEM sampling for US/EU/UAE",
       msg: "Hi! I want to check MOQ and export lead times for custom fabric swatch books shipped to my country."
     },
     {

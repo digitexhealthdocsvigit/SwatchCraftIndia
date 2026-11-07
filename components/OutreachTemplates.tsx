@@ -90,7 +90,7 @@ STORY CONCEPT:
 THE ANGLE:
 - SamplingHub (Digitex Studio) coordinates premium waterfall swatch formats manufactured in India through specialised partner units
 - This format shows 40% more samples in the same space as traditional books
-- Faster production (2-3 weeks vs 3-4 weeks for traditional formats)
+- Streamlined managed production workflows with schedules confirmed upon technical review
 - Same price point, but perceived as premium by buyers
 - Result: Customers see 50-60% repeat order rate vs industry average 30-40%
 

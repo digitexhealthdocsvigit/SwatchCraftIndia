@@ -100,7 +100,7 @@ const BlogPost: React.FC<Props> = ({ postId, onNavigate }) => {
             <h4 className="text-xs font-black text-gold uppercase mb-6 tracking-widest">Delivery Timeline by Supplier (Custom Order)</h4>
             <div className="space-y-4">
                {[
-                 { region: "India (SamplingHub)", time: "15 Days", status: "Competitive Advantage" },
+                 { region: "India (SamplingHub)", time: "Project-based", status: "Managed Partner Model" },
                  { region: "China (Standard)", time: "45 Days", status: "Lagging" },
                  { region: "USA (Domestic)", time: "25 Days", status: "Premium/Slow" }
                ].map((r, i) => (
@@ -116,7 +116,7 @@ const BlogPost: React.FC<Props> = ({ postId, onNavigate }) => {
           <div className="bg-teal/5 p-12 rounded-[3rem] border border-teal/10 mb-12">
             <h4 className="text-xl font-black text-navy mb-4 uppercase tracking-tighter">Case Study: European Success</h4>
             <p className="text-gray-600 leading-relaxed font-medium italic">
-              "How SamplingHub's 15-day delivery helped a German upholstery importer capture 3 new wholesale accounts in a single trade show cycle using streamlined waterfall formats."
+              "How SamplingHub's agile OEM coordination helped a German upholstery importer capture 3 new wholesale accounts in a single trade show cycle using streamlined waterfall formats."
             </p>
           </div>
 
@@ -171,7 +171,7 @@ const BlogPost: React.FC<Props> = ({ postId, onNavigate }) => {
               </thead>
               <tbody className="divide-y divide-gray-100 font-bold text-navy">
                 <tr><td className="p-6">China</td><td className="p-6 text-gray-500">$0.85 - $1.20</td><td className="p-6">45 Days</td><td className="p-6">Standard</td></tr>
-                <tr className="bg-gold/10"><td className="p-6 text-gold font-black">India (SamplingHub)</td><td className="p-6 text-gold font-black">$0.96 - $1.14</td><td className="p-6 text-teal">15-21 Days</td><td className="p-6 text-teal">Premium</td></tr>
+                <tr className="bg-gold/10"><td className="p-6 text-gold font-black">India (SamplingHub)</td><td className="p-6 text-gold font-black">$0.96 - $1.14</td><td className="p-6 text-teal">Project-based</td><td className="p-6 text-teal">Managed OEM</td></tr>
                 <tr><td className="p-6">USA</td><td className="p-6 text-gray-500">$5.00 - $15.00</td><td className="p-6">25 Days</td><td className="p-6">High</td></tr>
               </tbody>
             </table>

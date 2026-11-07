@@ -67,8 +67,16 @@ async function runSharedStorageTests() {
           return remoteKvStore.get(args[0]) ?? null;
         }
         if (cmd === 'SET') {
-          const [key, val] = args;
+          const [key, val, ...rest] = args;
+          if (rest.includes('NX') && remoteKvStore.has(key)) {
+            return null;
+          }
           remoteKvStore.set(key, String(val));
+          if (rest.includes('EX')) {
+            const exIdx = rest.indexOf('EX');
+            const exSec = parseInt(rest[exIdx + 1], 10);
+            remoteTtlStore.set(key, Date.now() + exSec * 1000);
+          }
           return 'OK';
         }
         if (cmd === 'SETEX') {
@@ -85,17 +93,43 @@ async function runSharedStorageTests() {
           return next;
         }
         if (cmd === 'EVAL') {
-          // Lua script simulation for atomic INCR + conditional EXPIRE
-          // args: [script, numkeys, key, expireSeconds]
-          const key = args[2];
-          const expireSec = parseInt(args[3], 10);
-          const curr = parseInt(remoteKvStore.get(key) || '0', 10);
-          const next = curr + 1;
-          remoteKvStore.set(key, String(next));
-          if (next === 1) {
-            remoteTtlStore.set(key, Date.now() + expireSec * 1000);
+          const script = args[0];
+          if (script.includes('INCR')) {
+            const key = args[2];
+            const expireSec = parseInt(args[3], 10);
+            const curr = parseInt(remoteKvStore.get(key) || '0', 10);
+            const next = curr + 1;
+            remoteKvStore.set(key, String(next));
+            if (next === 1) {
+              remoteTtlStore.set(key, Date.now() + expireSec * 1000);
+            }
+            return next;
           }
-          return next;
+          if (script.includes('ZADD')) {
+            const rfqKey = args[2];
+            const indexKey = args[3];
+            const val = args[4];
+            const score = Number(args[5]);
+            const member = String(args[6]);
+            remoteKvStore.set(rfqKey, String(val));
+            let list = remoteZSetStore.get(indexKey) || [];
+            list = list.filter((e) => e.member !== member);
+            list.push({ member, score });
+            list.sort((a, b) => b.score - a.score);
+            remoteZSetStore.set(indexKey, list);
+            return 1;
+          }
+          if (script.includes('ZREM')) {
+            const rfqKey = args[2];
+            const indexKey = args[3];
+            const member = String(args[4]);
+            remoteKvStore.delete(rfqKey);
+            let list = remoteZSetStore.get(indexKey) || [];
+            list = list.filter((e) => e.member !== member);
+            remoteZSetStore.set(indexKey, list);
+            return 1;
+          }
+          return 1;
         }
         if (cmd === 'TTL') {
           const key = args[0];

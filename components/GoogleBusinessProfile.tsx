@@ -25,7 +25,7 @@ const GoogleBusinessProfile: React.FC<Props> = ({ onNavigate }) => {
     "FEB: 💡 MOQ Pricing Tip: Ordering 500+ units? You save 25% per unit + free custom branding. Get your volume quote today.",
     "MAR: ✈️ Export-Ready: All our swatch books meet EU & USA import standards. Packaged professionally. Documentation support included.",
     "APR: 🎯 Case Study: European importer increased repeat orders by 58% after switching to our waterfall format. Success story inside!",
-    "MAY: ⏰ Speed Update: Agile managed OEM sampling coordination with reliable international air/ocean freight. Waterfall format ready in 2-3 weeks.",
+    "MAY: ⏰ Sampling Update: Agile managed OEM sampling coordination through specialised partner units. Production schedules confirmed upon technical specification review.",
     "JUN: 🏆 Recognition: SamplingHub recognized as India's premier managed OEM fabric sampling specialist. Innovative waterfall formats for global exporters!",
     "JUL: 📚 Blog Post: Complete MOQ Pricing Guide - India vs China vs USA. What you need to know for profitability.",
     "AUG: 🎨 Design Tip: Professional swatch presentation increases customer confidence by 40%. Waterfall format = instant upgrade.",
