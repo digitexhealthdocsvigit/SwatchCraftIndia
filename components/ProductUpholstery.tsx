@@ -290,8 +290,8 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { t: "Wallpaper Catalog Books", p: "120", target: 'product-wallpaper-catalog', img: LOCAL_IMAGES.wallpaperBook },
-              { t: "Curtain Fabric Albums", p: "100", target: 'product-curtain', img: LOCAL_IMAGES.wallpaperRollDisplay },
-              { t: "Fabric Hanger Swatches", p: "18", target: 'product-hanger', img: LOCAL_IMAGES.wallpaperRollDisplay }
+              { t: "Curtain Fabric Albums", p: "100", target: 'product-curtain', img: LOCAL_IMAGES.curtainAlbum },
+              { t: "Fabric Hanger Swatches", p: "18", target: 'product-hanger', img: LOCAL_IMAGES.waterfallHanger }
             ].map((prod, i) => (
               <div key={i} className="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 group">
                 <div className="aspect-video bg-white rounded-2xl mb-6 overflow-hidden">

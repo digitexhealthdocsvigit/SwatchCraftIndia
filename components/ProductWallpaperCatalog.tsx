@@ -655,19 +655,19 @@ export const ProductWallpaperCatalog: React.FC<ProductWallpaperCatalogProps> = (
               {
                 title: 'Upholstery Swatch Books',
                 desc: 'Heavy-duty screw-post and hardbound albums for coordinated furnishing fabrics.',
-                img: LOCAL_IMAGES.wallpaperBook,
+                img: LOCAL_IMAGES.upholsteryBook,
                 link: 'product-upholstery',
               },
               {
                 title: 'Curtain & Drapery Catalogs',
                 desc: 'Full-drop cascade albums for sheer, blackout, and jacquard window coverings.',
-                img: LOCAL_IMAGES.wallpaperRollDisplay,
+                img: LOCAL_IMAGES.curtainAlbum,
                 link: 'product-curtain',
               },
               {
                 title: 'Waterfall Hanger Samples',
                 desc: 'Showroom rack cascades for multi-colorway textile and wallcovering lines.',
-                img: LOCAL_IMAGES.wallpaperRollDisplay,
+                img: LOCAL_IMAGES.waterfallHanger,
                 link: 'product-waterfall',
               },
             ].map((prod, idx) => (

@@ -17,26 +17,26 @@ const galleryItems = [
   {
     title: 'Upholstery Book Binding',
     category: 'Upholstery',
-    src: LOCAL_IMAGES.wallpaperBook,
-    alt: 'Custom Hardbound Fabric Swatch Book Manufacturer Thane-Bhiwandi Plant',
+    src: LOCAL_IMAGES.upholsteryBook,
+    alt: 'Custom Hardbound Fabric Swatch Book with Layered Upholstery Swatches - SamplingHub Plant',
   },
   {
     title: 'Curtain Presentation Albums',
     category: 'Curtains & Drapery',
-    src: LOCAL_IMAGES.wallpaperRollDisplay,
-    alt: 'A3 Large Format Curtain Drapery Fabric Album for Exporters',
+    src: LOCAL_IMAGES.curtainAlbum,
+    alt: 'Large-Format Post-Bound Curtain Drapery Fabric Album - SamplingHub',
   },
   {
-    title: 'Cascading Waterfall Cards',
+    title: 'Cascading Waterfall Hangers',
     category: 'Waterfall Systems',
-    src: LOCAL_IMAGES.wallpaperRollDisplay,
-    alt: 'Tiered Waterfall Fabric & Wallcovering Swatch Palette on Rigid Cardstock',
+    src: LOCAL_IMAGES.waterfallHanger,
+    alt: 'Tiered Waterfall Fabric Swatch Hanger on Branded Header Card',
   },
   {
-    title: 'Room-Scene Visualizer Binders',
-    category: 'Custom Branding',
-    src: LOCAL_IMAGES.wallpaperBook,
-    alt: 'Luxury Buckram Swatch Album with Full-Color Room-Scene Visualizer Sheet',
+    title: 'Sample Cards & Storyboards',
+    category: 'Marketing Materials',
+    src: LOCAL_IMAGES.sampleCardsStoryboard,
+    alt: 'Precision Die-Cut Fabric Sample Storyboards and Presentation Cards - SamplingHub',
   },
 ];
 

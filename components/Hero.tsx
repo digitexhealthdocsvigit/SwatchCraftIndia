@@ -1,7 +1,7 @@
 import React from 'react';
 import { ViewState } from '../App.tsx';
 import { ProductMediaCarousel } from './ProductMediaCarousel';
-import { WALLPAPER_CATALOG_MEDIA } from '../config/mediaAssets';
+import { HERO_MEDIA } from '../config/mediaAssets';
 
 interface Props {
   onNavigate: (view: ViewState) => void;
@@ -37,7 +37,7 @@ const Hero: React.FC<Props> = ({ onNavigate }) => {
 
         <div className="relative">
           <ProductMediaCarousel
-            items={WALLPAPER_CATALOG_MEDIA}
+            items={HERO_MEDIA}
             badge="Export Quality • Thane-Bhiwandi"
           />
         </div>

@@ -60,15 +60,34 @@ export function createStudioPlaceholderSvg(
 }
 
 export const LOCAL_IMAGES = {
+  heroShowcase: '/images/hero-main-showcase.jpg',
   wallpaperBook: '/images/wallpaper-catalog-book.jpg',
   wallpaperRollDisplay: '/images/wallpaper-roll-display.jpg',
   upholsteryBook: '/images/upholstery-swatch-book.jpg',
-  curtainCatalog: '/images/curtain-fabric-catalog.jpg',
-  waterfallHanger: '/images/waterfall-hanger-sample.jpg',
-  fabricHanger: '/images/fabric-hanger-header.jpg',
+  curtainAlbum: '/images/curtain-fabric-album.jpg',
+  waterfallHanger: '/images/waterfall-hanger.jpg',
   ringSwatchSet: '/images/ring-swatch-set.jpg',
-  sampleCardFolder: '/images/sample-card-folder.jpg',
+  sampleCardsStoryboard: '/images/sample-cards-storyboard.jpg',
 } as const;
+
+export const HERO_MEDIA: MediaItem[] = [
+  {
+    type: 'image',
+    src: LOCAL_IMAGES.heroShowcase,
+    alt: 'SamplingHub Manufacturing Plant - Thane Bhiwandi, Maharashtra Swatch Book Factory',
+    caption: 'SamplingHub Thane-Bhiwandi 6,000 Sq Ft Precision Manufacturing Plant & Automated Bookbinding Lines',
+    fallbackTitle: 'SamplingHub Manufacturing Facility',
+    fallbackSubtitle: 'THANE-BHIWANDI, MAHARASHTRA • EXPORT PRODUCTION',
+  },
+  {
+    type: 'image',
+    src: LOCAL_IMAGES.wallpaperBook,
+    alt: 'Custom Hardbound Wallpaper Catalog Book with Room-Scene Visualizer Sheet - SamplingHub Thane-Bhiwandi',
+    caption: 'Oversized 45×45 cm Hardbound Wallpaper Catalog with Full-Color Room-Scene Visualizer Sheet',
+    fallbackTitle: 'Hardbound Wallpaper Catalog Book',
+    fallbackSubtitle: 'OVERSIZED 45×45 CM & 50×50 CM REPEAT BOOKS',
+  },
+];
 
 export const WALLPAPER_CATALOG_MEDIA: MediaItem[] = [
   {
@@ -92,74 +111,74 @@ export const WALLPAPER_CATALOG_MEDIA: MediaItem[] = [
 export const UPHOLSTERY_MEDIA: MediaItem[] = [
   {
     type: 'image',
-    src: LOCAL_IMAGES.wallpaperBook,
-    alt: 'Custom Hardbound Upholstery & Furnishing Swatch Book - SamplingHub Thane-Bhiwandi',
-    caption: '3mm Imported Kappa Board Hardbound Swatch Book with Room-Scene Index & Layered Fabric Leaves',
+    src: LOCAL_IMAGES.upholsteryBook,
+    alt: 'Custom Hardbound Upholstery Swatch Book with Layered Boucle & Velvet Swatches - SamplingHub',
+    caption: '3mm Rigid Kappa Board Upholstery Album with Cascading Multi-Color Boucle, Chenille & Velvet Leaves',
     fallbackTitle: 'Hardbound Upholstery Swatch Book',
     fallbackSubtitle: '3MM KAPPA BOARD • SCREW-POST & BUCKRAM BINDING',
   },
   {
     type: 'image',
-    src: LOCAL_IMAGES.wallpaperRollDisplay,
-    alt: 'Textured Furnishing, Jacquard & Heavy Weave Sample Display Drops',
-    caption: 'Multi-Collection Heavy Jacquard, Chenille, Boucle & Textured Furnishing Presentation Display',
-    fallbackTitle: 'Heavy Upholstery Texture Cascade',
-    fallbackSubtitle: '300–600 GSM JACQUARD, BOUCLE & VELVET SWATCHES',
+    src: LOCAL_IMAGES.heroShowcase,
+    alt: 'Precision Cutting & Bookbinding Assembly for Upholstery Books at SamplingHub Thane-Bhiwandi',
+    caption: 'High-Volume Precision Cutting, Anti-Fray Pinking & Artisan Bookbinding at Thane-Bhiwandi Plant',
+    fallbackTitle: 'Factory Assembly & Inspection',
+    fallbackSubtitle: 'THANE-BHIWANDI • 21-DAY EXPORT PRODUCTION',
   },
 ];
 
 export const CURTAIN_MEDIA: MediaItem[] = [
   {
     type: 'image',
-    src: LOCAL_IMAGES.wallpaperRollDisplay,
-    alt: 'Drapery, Curtain & Wallcovering Full-Drop Cascade Presentation - SamplingHub',
-    caption: 'Full-Drop Drapery, Sheer & Coordinated Wallcovering Cascade Presentation for Showroom Evaluation',
-    fallbackTitle: 'Curtain & Drapery Catalog Display',
+    src: LOCAL_IMAGES.curtainAlbum,
+    alt: 'Large-Format Post-Bound Curtain Fabric Album with Full-Drop Sheer & Drapery Swatches - SamplingHub',
+    caption: 'Oversized A3+ Post-Bound Album with Full-Drop Sheers, Jacquards & Blackout Drapery Leaves',
+    fallbackTitle: 'Curtain & Drapery Catalog Album',
     fallbackSubtitle: 'SHEER, BLACKOUT & JACQUARD DRAPERY COLLECTIONS',
   },
   {
     type: 'image',
-    src: LOCAL_IMAGES.wallpaperBook,
-    alt: 'Hardbound Drapery & Interior Furnishing Album with Room-Scene Divider',
-    caption: 'Hardbound Showroom Album with Full-Color Interior Room-Scene Visualizer & Coordinate Swatch Strips',
+    src: LOCAL_IMAGES.heroShowcase,
+    alt: 'Commercial Drapery Album Assembly Line - SamplingHub Thane-Bhiwandi',
+    caption: 'Artisan Bookbinding & Hardware Attachment for Heavy Commercial Drapery Collections',
     fallbackTitle: 'Showroom Drapery Portfolio Album',
-    fallbackSubtitle: 'ROOM-SCENE VISUALIZER • ANTI-FRAY PINKING CUTS',
+    fallbackSubtitle: 'HEAVY-DUTY BRASS SCREW-POST ARCHITECTURE',
   },
 ];
 
 export const WATERFALL_MEDIA: MediaItem[] = [
   {
     type: 'image',
-    src: LOCAL_IMAGES.wallpaperRollDisplay,
-    alt: 'Cascading Waterfall Sample Drops for Multi-Colorway Collections - SamplingHub',
-    caption: 'Multi-Drop Cascading Presentation Showing Pattern Repeat, Texture & Colorway Harmony',
+    src: LOCAL_IMAGES.waterfallHanger,
+    alt: 'SamplingHub Custom Waterfall Swatch Hanger with Metal Hook and Header Card',
+    caption: 'Cascading Tiered Waterfall Hanger with Custom Foil-Stamped Header Card & Pinned Swatches',
     fallbackTitle: 'Waterfall Hanger & Cascade System',
     fallbackSubtitle: '25MM–35MM STEPPED DROPS • REINFORCED HEADER CARD',
   },
   {
     type: 'image',
-    src: LOCAL_IMAGES.wallpaperBook,
-    alt: 'Stepped Waterfall Swatch Assembly Inside Hardcover Presentation Book',
-    caption: 'Precision Stepped Waterfall Swatch Strips Mounted with Non-Yellowing Japanese Acrylic Adhesive',
-    fallbackTitle: 'Book-Style Folded Waterfall Album',
-    fallbackSubtitle: 'PROTECTIVE HARDCOVER • EXPORT SHOWROOM FORMAT',
+    src: LOCAL_IMAGES.heroShowcase,
+    alt: 'Multi-Colorway Waterfall Assembly at SamplingHub Maharashtra Plant',
+    caption: 'Automated Guillotine Repeat Cutting & Multi-Drop Waterfall Mounting Lines',
+    fallbackTitle: 'Waterfall Showroom Display System',
+    fallbackSubtitle: 'CHROME SWIVEL HOOK • EXPORT FINISH',
   },
 ];
 
 export const HANGER_MEDIA: MediaItem[] = [
   {
     type: 'image',
-    src: LOCAL_IMAGES.wallpaperRollDisplay,
-    alt: 'Showroom Hanging Fabric & Wallcovering Drop Display - SamplingHub',
-    caption: 'Full-Drop Showroom Hanging Samples for Feel, Drape, Repeat & Light-Transmission Testing',
+    src: LOCAL_IMAGES.waterfallHanger,
+    alt: 'Chrome Swivel Hook Fabric Hanger with Branded Navy & Gold Header - SamplingHub',
+    caption: 'Full-Drop Showroom Hanger with Branded 3mm Kappa Header Card and Anti-Fray Pinked Swatches',
     fallbackTitle: 'Commercial Fabric Hanger Headers',
     fallbackSubtitle: 'CHROME SWIVEL HOOKS • CONCEALED SCREW-POST CLAMP',
   },
   {
     type: 'image',
-    src: LOCAL_IMAGES.wallpaperBook,
-    alt: 'Coordinated Catalog & Showroom Header Presentation System',
-    caption: 'Coordinated Collection Header & Room-Scene Presentation System Manufactured in Thane-Bhiwandi',
+    src: LOCAL_IMAGES.heroShowcase,
+    alt: 'Hanger Sample Header Production at Thane-Bhiwandi Facility',
+    caption: 'Custom Header Board Lamination, Die-Cutting & Rivet Fastening for Global Textile Showrooms',
     fallbackTitle: 'Branded Header Card & Hook System',
     fallbackSubtitle: '3MM KAPPA BOARD HEADER • FOIL-STAMPED BRANDING',
   },
@@ -168,17 +187,17 @@ export const HANGER_MEDIA: MediaItem[] = [
 export const RING_SWATCH_MEDIA: MediaItem[] = [
   {
     type: 'image',
-    src: LOCAL_IMAGES.wallpaperRollDisplay,
-    alt: 'Multi-Texture Swatch Drops & Portable Colorway Collection - SamplingHub',
-    caption: 'Complete Colorway & Texture Range Engineered for Field Sales Reps and Interior Designers',
+    src: LOCAL_IMAGES.ringSwatchSet,
+    alt: 'Portable Heavy-Duty Chrome Ring Swatch Set with Printed Spec Label - SamplingHub',
+    caption: 'Chrome Split-Ring Swatch Fan Deck with Brass Eyelet Reinforcement and Technical Specification Labels',
     fallbackTitle: 'Heavy-Duty Ring Swatch Sets',
     fallbackSubtitle: '25MM–75MM NICKEL & BRASS RINGS • BRASS EYELETS',
   },
   {
     type: 'image',
-    src: LOCAL_IMAGES.wallpaperBook,
-    alt: 'Indexed Collection Swatches with Printed Specification Header',
-    caption: 'Die-Cut & Pinked Swatch Leaves Paired with Printed Technical Specification Headers',
+    src: LOCAL_IMAGES.sampleCardsStoryboard,
+    alt: 'Portable Swatch Kits & Marketing Storyboard Set - SamplingHub',
+    caption: 'Coordinated Sales Representative Travel Kits & Die-Cut Swatch Folders',
     fallbackTitle: 'Indexed Feelers & Ring Fans',
     fallbackSubtitle: 'PINKED OR OVERLOCKED EDGES • BARCODE BACK-LABELS',
   },
@@ -187,24 +206,24 @@ export const RING_SWATCH_MEDIA: MediaItem[] = [
 export const SAMPLE_CARDS_MEDIA: MediaItem[] = [
   {
     type: 'image',
-    src: LOCAL_IMAGES.wallpaperBook,
-    alt: 'Custom Printed Tri-Fold & Bi-Fold Swatch Card Book with Room Visualizer - SamplingHub',
-    caption: 'High-Definition Offset Printed Room-Scene Visualizer Paired with Precision-Mounted Swatch Windows',
+    src: LOCAL_IMAGES.sampleCardsStoryboard,
+    alt: 'SamplingHub Die-Cut Swatch Cards & Multi-Fold Sample Storyboards',
+    caption: 'Rigid 400 GSM Art Card Swatch Cards with Precision Die-Cut Windows and Collection Storytelling',
     fallbackTitle: 'Custom Swatch Cards & Shade Cards',
     fallbackSubtitle: '350–400 GSM ART CARD • BI-FOLD & TRI-FOLD FOLDERS',
   },
   {
     type: 'image',
-    src: LOCAL_IMAGES.wallpaperRollDisplay,
-    alt: 'Multi-Shade Textile & Wallcovering Collection Swatch Series',
-    caption: 'Color-Accurate Multi-Shade Presentation Engineered for High-Volume Trade Mailers & Showrooms',
+    src: LOCAL_IMAGES.ringSwatchSet,
+    alt: 'Portable Fabric Swatch Cards & Ring Kit Presentation - SamplingHub',
+    caption: 'High-Converting Trade Mailer Cards and Field Rep Presentation Kits Manufactured in Thane-Bhiwandi',
     fallbackTitle: 'Die-Cut Window & Waterfall Shade Cards',
     fallbackSubtitle: 'MATTE/VELVET LAMINATION • METALLIC FOIL STAMPING',
   },
 ];
 
 export const MEDIA_ASSETS = {
-  hero: WALLPAPER_CATALOG_MEDIA,
+  hero: HERO_MEDIA,
   wallpaperCatalog: WALLPAPER_CATALOG_MEDIA,
   upholstery: UPHOLSTERY_MEDIA,
   curtain: CURTAIN_MEDIA,
@@ -212,6 +231,6 @@ export const MEDIA_ASSETS = {
   hanger: HANGER_MEDIA,
   ringSwatch: RING_SWATCH_MEDIA,
   sampleCards: SAMPLE_CARDS_MEDIA,
-  portfolio: WALLPAPER_CATALOG_MEDIA,
-  factory: WALLPAPER_CATALOG_MEDIA,
+  portfolio: HERO_MEDIA,
+  factory: HERO_MEDIA,
 } as const;

@@ -124,8 +124,8 @@ const ProductsOverview: React.FC<Props> = ({ onNavigate }) => {
           >
             <div className="sm:w-1/2 aspect-[4/3] sm:aspect-auto overflow-hidden bg-navy/5">
               <img
-                src={LOCAL_IMAGES.wallpaperRollDisplay}
-                alt="Commercial Wallcovering & Textured Wallpaper Sample Drops Display"
+                src={LOCAL_IMAGES.waterfallHanger}
+                alt="SamplingHub Custom Waterfall Swatch Hanger with Metal Hook and Header Card"
                 className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
               />
             </div>
@@ -222,8 +222,8 @@ const ProductsOverview: React.FC<Props> = ({ onNavigate }) => {
           </div>
           <div className="rounded-3xl overflow-hidden shadow-lg border border-gray-200 aspect-[4/3] bg-gray-100">
             <img
-              src={LOCAL_IMAGES.wallpaperBook}
-              alt="Custom Hardbound Wallpaper & Fabric Catalog Book with Room-Scene Visualizer"
+              src={LOCAL_IMAGES.upholsteryBook}
+              alt="Custom Hardbound Upholstery Swatch Book with Layered Fabric Swatches - SamplingHub"
               className="w-full h-full object-cover"
               loading="lazy"
             />
