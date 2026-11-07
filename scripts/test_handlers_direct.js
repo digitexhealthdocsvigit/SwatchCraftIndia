@@ -83,6 +83,7 @@ async function run() {
   }
 
   // 0. Fail-safe configuration test: When env vars are absent, returns 503
+  delete process.env.ADMIN_EMAIL;
   delete process.env.ADMIN_PASSWORD_HASH;
   delete process.env.ADMIN_SESSION_SECRET;
   const res0 = await invoke(loginHandler, {
@@ -98,6 +99,7 @@ async function run() {
   const testEmail = 'digitex.studio@gmail.com';
   const testPass = 'SuperSecret2026!';
   const testHash = crypto.createHash('sha256').update(`${testEmail}:${testPass}`).digest('hex');
+  process.env.ADMIN_EMAIL = testEmail;
   process.env.ADMIN_PASSWORD_HASH = testHash;
   process.env.ADMIN_SESSION_SECRET = 'test-session-secret-key-64-character-entropy-samplinghub-2026';
 

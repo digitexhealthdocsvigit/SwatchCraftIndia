@@ -3,14 +3,15 @@
 /**
  * SamplingHub — Secure First Administrator Credential Generator
  * 
- * This tool allows the business owner to create their private superadministrator
- * password locally and generate the required Vercel environment variables.
+ * This tool allows the business owner to choose an administrator email address
+ * they control, create their private superadministrator password locally, and
+ * generate the required Vercel environment variables.
  * 
  * SECURITY GUARANTEES:
  * 1. The plaintext password is NEVER stored on disk, logged, or committed to Git.
- * 2. Inputs are masked in the terminal.
+ * 2. Inputs are masked in the terminal with asterisks.
  * 3. A cryptographically strong HMAC-SHA256 session secret is generated on the fly.
- * 4. The resulting hash and secret are output directly to the terminal for the owner
+ * 4. The resulting configuration keys are output directly to the terminal for the owner
  *    to paste into their Vercel Environment Variables dashboard.
  */
 
@@ -84,10 +85,16 @@ async function main() {
   console.log('This script will generate your private admin credentials for:');
   console.log('https://www.samplinghub.world/admin\n');
 
-  // Step 1: Identifier
-  const defaultEmail = 'digitex.studio@gmail.com';
-  const emailInput = await askQuestion(`Enter Admin Identifier (Email) [default: ${defaultEmail}]: `);
-  const adminEmail = (emailInput || defaultEmail).toLowerCase().trim();
+  // Step 1: Owner-Chosen Administrator Email
+  let adminEmail = '';
+  while (!adminEmail) {
+    const emailInput = await askQuestion('Enter your Administrator Email address: ');
+    if (emailInput && emailInput.includes('@') && emailInput.includes('.')) {
+      adminEmail = emailInput.toLowerCase().trim();
+    } else {
+      console.log('Please enter a valid email address (e.g., owner@samplinghub.world or your chosen address).\n');
+    }
+  }
 
   // Step 2: Password with masking
   console.log('\nEnter your private administrator password.');
@@ -116,22 +123,27 @@ async function main() {
   console.log('\n================================================================');
   console.log('           ADMIN CREDENTIALS GENERATED SUCCESSFULLY             ');
   console.log('================================================================\n');
-  console.log(`Administrator Login ID:  ${adminEmail}\n`);
-  console.log('Add the following two environment variables to your Vercel Project:');
+  console.log(`Configured Administrator Email:  ${adminEmail}\n`);
+  console.log('Add the following THREE environment variables to your Vercel Project:');
   console.log('(Go to: Vercel Dashboard -> SwatchCraftIndia -> Settings -> Environment Variables)\n');
   console.log('----------------------------------------------------------------');
-  console.log('KEY 1:');
+  console.log('VARIABLE 1:');
+  console.log('Name:   ADMIN_EMAIL');
+  console.log(`Value:  ${adminEmail}`);
+  console.log('Target: Production, Preview, Development (Select all 3)');
+  console.log('----------------------------------------------------------------');
+  console.log('VARIABLE 2:');
   console.log('Name:   ADMIN_PASSWORD_HASH');
   console.log(`Value:  ${passwordHash}`);
   console.log('Target: Production, Preview, Development (Select all 3)');
   console.log('----------------------------------------------------------------');
-  console.log('KEY 2:');
+  console.log('VARIABLE 3:');
   console.log('Name:   ADMIN_SESSION_SECRET');
   console.log(`Value:  ${sessionSecret}`);
   console.log('Target: Production, Preview, Development (Select all 3)');
   console.log('----------------------------------------------------------------\n');
   console.log('NEXT STEPS:');
-  console.log('1. Copy KEY 1 and KEY 2 into your Vercel Project Settings.');
+  console.log('1. Copy VARIABLE 1, 2, and 3 into your Vercel Project Settings.');
   console.log('2. Redeploy the latest commit in Vercel to activate the new environment variables.');
   console.log(`3. Navigate to https://www.samplinghub.world/admin and log in with ${adminEmail}`);
   console.log('   using the private password you just created.\n');

@@ -52,7 +52,7 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
     res.setHeader('Content-Type', 'application/json');
     res.end(
       JSON.stringify({
-        error: 'Admin authentication is not configured on the server. Please configure ADMIN_PASSWORD_HASH and ADMIN_SESSION_SECRET in Vercel project environment variables.',
+        error: 'Admin authentication is not configured on the server. Please configure ADMIN_EMAIL, ADMIN_PASSWORD_HASH, and ADMIN_SESSION_SECRET in Vercel project environment variables.',
         code: 'AUTH_NOT_CONFIGURED',
       })
     );

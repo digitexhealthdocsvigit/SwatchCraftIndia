@@ -1,11 +1,24 @@
 import crypto from 'node:crypto';
 
 /**
- * Returns true if both required environment variables are set.
+ * Returns true if all three required environment variables are set:
+ * ADMIN_EMAIL, ADMIN_PASSWORD_HASH, ADMIN_SESSION_SECRET.
  * Fails safely: does NOT activate hardcoded default credentials in production.
  */
 export function isAuthConfigured(): boolean {
-  return Boolean(process.env.ADMIN_PASSWORD_HASH && process.env.ADMIN_SESSION_SECRET);
+  return Boolean(
+    process.env.ADMIN_EMAIL &&
+    process.env.ADMIN_PASSWORD_HASH &&
+    process.env.ADMIN_SESSION_SECRET
+  );
+}
+
+export function getConfiguredAdminEmail(): string {
+  const email = process.env.ADMIN_EMAIL;
+  if (!email) {
+    throw new Error('ADMIN_EMAIL environment variable is not configured on the server.');
+  }
+  return email.trim().toLowerCase();
 }
 
 export function getSessionSecret(): string {
@@ -53,15 +66,31 @@ export function verifyCredentials(identifier: string, pass: string): boolean {
   if (!isAuthConfigured()) {
     return false;
   }
+  const configuredEmail = getConfiguredAdminEmail();
+  const inputEmail = identifier.trim().toLowerCase();
+
+  // Strict identifier check against configured administrator email
+  if (inputEmail !== configuredEmail) {
+    return false;
+  }
+
   const expectedDigest = getExpectedPasswordDigest();
-  const normalized = `${identifier.trim().toLowerCase()}:${pass}`;
-  const hash = crypto.createHash('sha256').update(normalized).digest('hex');
+  const digestWithEmail = crypto.createHash('sha256').update(`${inputEmail}:${pass}`).digest('hex');
+  const digestPure = crypto.createHash('sha256').update(pass).digest('hex');
 
-  const bufA = Buffer.from(hash, 'utf8');
-  const bufB = Buffer.from(expectedDigest, 'utf8');
+  const bufExpected = Buffer.from(expectedDigest, 'utf8');
+  const bufWithEmail = Buffer.from(digestWithEmail, 'utf8');
+  const bufPure = Buffer.from(digestPure, 'utf8');
 
-  if (bufA.length !== bufB.length) return false;
-  return crypto.timingSafeEqual(bufA, bufB);
+  const matchWithEmail =
+    bufWithEmail.length === bufExpected.length &&
+    crypto.timingSafeEqual(bufWithEmail, bufExpected);
+
+  const matchPure =
+    bufPure.length === bufExpected.length &&
+    crypto.timingSafeEqual(bufPure, bufExpected);
+
+  return matchWithEmail || matchPure;
 }
 
 export function generateSessionToken(email: string): string {

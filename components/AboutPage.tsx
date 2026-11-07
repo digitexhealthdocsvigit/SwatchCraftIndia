@@ -45,16 +45,16 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
 
           <div className="mt-20 grid md:grid-cols-3 gap-8">
             <div className="bg-gray-50 p-10 rounded-3xl border border-gray-200 text-center hover:border-[#8B6F47] transition-colors">
-              <p className="text-4xl font-black text-navy mb-2 leading-none">3,000+</p>
-              <p className="text-[11px] text-gray-600 font-bold uppercase tracking-widest">Units Produced / Month</p>
+              <p className="text-4xl font-black text-navy mb-2 leading-none">2011</p>
+              <p className="text-[11px] text-gray-600 font-bold uppercase tracking-widest">Established in Maharashtra</p>
             </div>
             <div className="bg-navy text-white p-10 rounded-3xl text-center shadow-xl hover:bg-[#8B6F47] transition-all duration-500 group">
-              <p className="text-4xl font-black text-[#8B6F47] group-hover:text-white mb-2 leading-none">15-20</p>
-              <p className="text-[11px] text-gray-300 font-bold uppercase tracking-widest">Day Delivery Advantage</p>
+              <p className="text-4xl font-black text-[#8B6F47] group-hover:text-white mb-2 leading-none">100%</p>
+              <p className="text-[11px] text-gray-300 font-bold uppercase tracking-widest">Custom OEM Specifications</p>
             </div>
             <div className="bg-gray-50 p-10 rounded-3xl border border-gray-200 text-center hover:border-[#8B6F47] transition-colors">
-              <p className="text-4xl font-black text-navy mb-2 leading-none">15+</p>
-              <p className="text-[11px] text-gray-600 font-bold uppercase tracking-widest">Global Markets Served</p>
+              <p className="text-4xl font-black text-navy mb-2 leading-none">Export</p>
+              <p className="text-[11px] text-gray-600 font-bold uppercase tracking-widest">Standard Quality Control</p>
             </div>
           </div>
         </div>

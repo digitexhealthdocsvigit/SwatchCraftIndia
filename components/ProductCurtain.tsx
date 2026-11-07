@@ -273,7 +273,7 @@ const ProductCurtain: React.FC<Props> = ({ onNavigate, onDownload }) => {
                   <tr><td className="p-6 bg-gray-50/50">Price (MOQ 500+)</td><td className="p-6 text-teal font-black">₹90-110 / $6-8</td><td className="p-6 text-gray-600">$5-7</td><td className="p-6 text-gray-600">$8-12</td></tr>
                   <tr><td className="p-6 bg-gray-50/50">Lead Time</td><td className="p-6 text-teal font-black">24-30 days</td><td className="p-6 text-gray-600">35-50 days</td><td className="p-6 text-gray-600">25-35 days</td></tr>
                   <tr><td className="p-6 bg-gray-50/50">Customization</td><td className="p-6 text-teal font-black">Full white-label</td><td className="p-6 text-gray-600">Limited</td><td className="p-6 text-gray-600">Full custom</td></tr>
-                  <tr><td className="p-6 bg-gray-50/50">Fabric Handling</td><td className="p-6 text-teal font-black">Expert (30+ years)</td><td className="p-6 text-gray-600">Standard</td><td className="p-6 text-gray-600">Expert</td></tr>
+                  <tr><td className="p-6 bg-gray-50/50">Fabric Handling</td><td className="p-6 text-teal font-black">Managed OEM Specialist (Since 2011)</td><td className="p-6 text-gray-600">Standard</td><td className="p-6 text-gray-600">Expert</td></tr>
                   <tr><td className="p-6 bg-gray-50/50">Communication</td><td className="p-6 text-teal font-black">English Fluent</td><td className="p-6 text-gray-600">Language Barrier</td><td className="p-6 text-gray-600">Native</td></tr>
                </tbody>
             </table>

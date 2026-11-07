@@ -26,6 +26,7 @@ async function runTests() {
   }
 
   // 0. Fail-safe unconfigured check
+  delete process.env.ADMIN_EMAIL;
   delete process.env.ADMIN_PASSWORD_HASH;
   delete process.env.ADMIN_SESSION_SECRET;
   assert(isAuthConfigured() === false, 'isAuthConfigured returns false when env vars are missing');
@@ -36,6 +37,7 @@ async function runTests() {
   const testPass = 'OwnerExportAccess2026!';
   const testHash = crypto.createHash('sha256').update(`${testEmail}:${testPass}`).digest('hex');
   const testSecret = 'samplinghub-test-session-secret-high-entropy-64-character-string';
+  process.env.ADMIN_EMAIL = testEmail;
   process.env.ADMIN_PASSWORD_HASH = testHash;
   process.env.ADMIN_SESSION_SECRET = testSecret;
 
