@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { addRFQ } from '../_lib/store.js';
+import { addRFQAsync } from '../_lib/store.js';
 
 interface RequestWithBody extends IncomingMessage {
   body?: any;
@@ -79,7 +79,7 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
     return;
   }
 
-  const rfqRecord = addRFQ({
+  const rfqRecord = await addRFQAsync({
     fullName,
     companyName: companyName || fullName,
     email,

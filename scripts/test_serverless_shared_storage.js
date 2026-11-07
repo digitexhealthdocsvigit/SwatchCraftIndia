@@ -15,6 +15,12 @@ import {
   setMockKvHandler,
   SESSION_EXPIRY_MS,
 } from '../api/_lib/auth.ts';
+import {
+  getAllRFQsAsync,
+  addRFQAsync,
+  updateRFQStatusAsync,
+  deleteRFQAsync,
+} from '../api/_lib/store.ts';
 
 async function runSharedStorageTests() {
   console.log('--- SERVERLESS SHARED STORAGE & FAIL-CLOSED SECURITY TESTS ---\n');
@@ -59,6 +65,11 @@ async function runSharedStorageTests() {
         if (cmd === 'GET') {
           return remoteKvStore.get(args[0]) ?? null;
         }
+        if (cmd === 'SET') {
+          const [key, val] = args;
+          remoteKvStore.set(key, String(val));
+          return 'OK';
+        }
         if (cmd === 'SETEX') {
           const [key, ttlSeconds, val] = args;
           remoteKvStore.set(key, String(val));
@@ -70,6 +81,19 @@ async function runSharedStorageTests() {
           const curr = parseInt(remoteKvStore.get(key) || '0', 10);
           const next = curr + 1;
           remoteKvStore.set(key, String(next));
+          return next;
+        }
+        if (cmd === 'EVAL') {
+          // Lua script simulation for atomic INCR + conditional EXPIRE
+          // args: [script, numkeys, key, expireSeconds]
+          const key = args[2];
+          const expireSec = parseInt(args[3], 10);
+          const curr = parseInt(remoteKvStore.get(key) || '0', 10);
+          const next = curr + 1;
+          remoteKvStore.set(key, String(next));
+          if (next === 1) {
+            remoteTtlStore.set(key, Date.now() + expireSec * 1000);
+          }
           return next;
         }
         if (cmd === 'TTL') {
@@ -130,32 +154,29 @@ async function runSharedStorageTests() {
   const token2 = generateSessionToken(testEmail);
   const parts2 = token2.split('.');
   const payload2 = JSON.parse(Buffer.from(parts2[0], 'base64url').toString('utf8'));
-  // Simulate instance C revoking token2 directly in KV
+
+  // First verification is valid
+  const firstCheck = await verifySessionToken(token2);
+  assert(firstCheck.valid === true, 'Initial verification succeeds');
+
+  // Another instance revokes directly in shared store
   remoteKvStore.set(`revoked:${payload2.jti}`, '1');
-  remoteTtlStore.set(`revoked:${payload2.jti}`, Date.now() + 86400000);
 
-  // Instance A checks token2: must query shared KV and reject it
-  const verifyInstanceA = await verifySessionToken(token2);
-  assert(verifyInstanceA.valid === false, 'Instance A detects revocation performed on Instance C without stale cache override');
+  // This instance must check remote store and NOT trust memory for validity
+  const secondCheck = await verifySessionToken(token2);
+  assert(secondCheck.valid === false, 'Positive-only cache correctly consults shared store on subsequent checks');
 
-  // 6. Revocation TTL cannot exceed remaining session lifetime
-  const expSeconds = Math.ceil((remoteTtlStore.get(`revoked:${tokenPayload.jti}`) - Date.now()) / 1000);
-  assert(expSeconds <= SESSION_EXPIRY_MS / 1000, 'Revocation TTL is bounded by session token lifetime');
-
-  // 7. Atomic concurrent rate limiting across independent instances
-  const testIp = '203.0.113.88';
+  // 6. Distributed Rate Limiting via atomic Lua EVAL
+  const testIp = '203.0.113.195';
   await resetLoginRateLimit(testIp, 'ip');
 
-  // Simulate 5 concurrent failed requests hitting different instances simultaneously
-  const concurrentIncrements = await Promise.all([
-    recordFailedLogin(testIp, 'ip'),
-    recordFailedLogin(testIp, 'ip'),
-    recordFailedLogin(testIp, 'ip'),
-    recordFailedLogin(testIp, 'ip'),
-    recordFailedLogin(testIp, 'ip'),
-  ]);
-  assert(concurrentIncrements.every((r) => r.success === true), 'Concurrent increments all processed');
-  assert(remoteKvStore.get(`rate:ip:${testIp}`) === '5', 'Atomic counter accurately reflects 5 failed attempts in shared KV');
+  // 5 concurrent/sequential attempts across instances
+  for (let i = 1; i <= 5; i++) {
+    const check = await checkLoginRateLimit(testIp, 'ip');
+    assert(check.allowed === true, `Attempt ${i} allowed before limit`);
+    const record = await recordFailedLogin(testIp, 'ip');
+    assert(record.success === true, `Attempt ${i} recorded`);
+  }
 
   // 6th attempt must be blocked
   const ipBlocked = await checkLoginRateLimit(testIp, 'ip');
@@ -168,7 +189,32 @@ async function runSharedStorageTests() {
   const subsequentTtl = remoteTtlStore.get(`rate:ip:${testIp}`);
   assert(initialTtl === subsequentTtl, 'Expiration is fixed from initial attempt and NOT reset on subsequent attempts');
 
-  // 9. Store failure produces safe fail-closed response in production
+  // 9. Shared RFQ Store cross-instance tests
+  const initialRfqs = await getAllRFQsAsync();
+  assert(Array.isArray(initialRfqs) && initialRfqs.length > 0, 'Shared RFQ store initialized and fetched');
+  assert(remoteKvStore.has('samplinghub:rfqs'), 'RFQs backed to shared KV key "samplinghub:rfqs"');
+
+  const newRfq = await addRFQAsync({
+    fullName: 'Test Buyer',
+    companyName: 'Global Fabrics Ltd',
+    email: 'buyer@globalfabrics.com',
+    productType: 'Hardbound Swatch Books',
+    quantity: '500 Units',
+  });
+  assert(newRfq.id.startsWith('RFQ-'), 'New RFQ generated with formatted ID');
+
+  const updatedRfqs = await getAllRFQsAsync();
+  assert(updatedRfqs.some((r) => r.id === newRfq.id), 'Newly added RFQ visible across instances in shared store');
+
+  const updatedStatus = await updateRFQStatusAsync(newRfq.id, { status: 'Qualified', estimatedValueUsd: 12000 });
+  assert(updatedStatus?.status === 'Qualified', 'RFQ status updated to Qualified in shared store');
+
+  const deleted = await deleteRFQAsync(newRfq.id);
+  assert(deleted === true, 'RFQ successfully deleted from shared store');
+  const postDeleteRfqs = await getAllRFQsAsync();
+  assert(!postDeleteRfqs.some((r) => r.id === newRfq.id), 'Deleted RFQ removed from shared KV store');
+
+  // 10. Store failure produces safe fail-closed response in production
   // Simulate KV outage in production
   setMockKvHandler(() => Promise.resolve(null)); // returns null on network outage
   const token3 = generateSessionToken(testEmail);

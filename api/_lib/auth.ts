@@ -337,6 +337,7 @@ export async function checkLoginRateLimit(
 
 /**
  * Atomically increments failed attempts and sets fixed 900s TTL only on the first attempt.
+ * Uses atomic Redis Lua script (EVAL) to eliminate concurrency windows between INCR and EXPIRE.
  */
 export async function recordFailedLogin(
   targetKey: string,
@@ -345,7 +346,14 @@ export async function recordFailedLogin(
   const key = `rate:${type}:${targetKey}`;
 
   if (isSharedStorageConfigured()) {
-    // Atomic INCR + TTL check
+    // Try single atomic EVAL Lua script to eliminate concurrency / failure window between INCR and EXPIRE
+    const luaScript = "local c = redis.call('INCR', KEYS[1]); if c == 1 then redis.call('EXPIRE', KEYS[1], ARGV[1]) end; return c;";
+    const evalRes = await sendKvPipeline([['EVAL', luaScript, 1, key, 900]]);
+    if (evalRes && typeof evalRes[0] === 'number') {
+      return { success: true, attempts: evalRes[0] };
+    }
+
+    // Fallback pipeline: atomic batch INCR + TTL + conditional EXPIRE
     const incrRes = await sendKvPipeline([['INCR', key], ['TTL', key]]);
     if (incrRes && typeof incrRes[0] === 'number') {
       const attempts = incrRes[0];

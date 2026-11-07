@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import { isSharedStorageConfigured, sendKvPipeline } from './auth.ts';
 
 export interface StoredRFQ {
   id: string;
@@ -71,6 +72,7 @@ const SEED_RFQS: StoredRFQ[] = [
 ];
 
 const TMP_FILE = path.join(os.tmpdir(), 'samplinghub_rfqs.json');
+const RFQ_KV_KEY = 'samplinghub:rfqs';
 
 // In-memory cache across serverless warm starts
 let memoryStore: StoredRFQ[] = [...SEED_RFQS];
@@ -100,6 +102,97 @@ function saveToFile() {
 // Initial attempt to load from disk
 loadFromFile();
 
+export async function getAllRFQsAsync(): Promise<StoredRFQ[]> {
+  if (isSharedStorageConfigured()) {
+    try {
+      const res = await sendKvPipeline([['GET', RFQ_KV_KEY]]);
+      if (res && res[0]) {
+        const parsed = typeof res[0] === 'string' ? JSON.parse(res[0]) : res[0];
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          memoryStore = parsed;
+          saveToFile();
+          return memoryStore;
+        }
+      }
+      if (res && res[0] === null) {
+        await sendKvPipeline([['SET', RFQ_KV_KEY, JSON.stringify(memoryStore)]]);
+      }
+    } catch {
+      // Fall back to local file/memory
+    }
+  }
+  loadFromFile();
+  return memoryStore;
+}
+
+export async function addRFQAsync(
+  rfqData: Omit<StoredRFQ, 'id' | 'submittedAt' | 'status'>
+): Promise<StoredRFQ> {
+  const current = await getAllRFQsAsync();
+  const id = `RFQ-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+  const record: StoredRFQ = {
+    ...rfqData,
+    id,
+    submittedAt: new Date().toISOString(),
+    status: 'New',
+    internalNotes: [],
+  };
+  memoryStore = [record, ...current];
+  saveToFile();
+
+  if (isSharedStorageConfigured()) {
+    try {
+      await sendKvPipeline([['SET', RFQ_KV_KEY, JSON.stringify(memoryStore)]]);
+    } catch {
+      // Non-fatal fallback
+    }
+  }
+  return record;
+}
+
+export async function updateRFQStatusAsync(
+  id: string,
+  updates: Partial<Pick<StoredRFQ, 'status' | 'internalNotes' | 'estimatedValueUsd' | 'partnerAssigned'>>
+): Promise<StoredRFQ | null> {
+  await getAllRFQsAsync();
+  const index = memoryStore.findIndex((r) => r.id === id);
+  if (index === -1) return null;
+
+  memoryStore[index] = {
+    ...memoryStore[index],
+    ...updates,
+  };
+  saveToFile();
+
+  if (isSharedStorageConfigured()) {
+    try {
+      await sendKvPipeline([['SET', RFQ_KV_KEY, JSON.stringify(memoryStore)]]);
+    } catch {
+      // Non-fatal fallback
+    }
+  }
+  return memoryStore[index];
+}
+
+export async function deleteRFQAsync(id: string): Promise<boolean> {
+  await getAllRFQsAsync();
+  const initialLen = memoryStore.length;
+  memoryStore = memoryStore.filter((r) => r.id !== id);
+  if (memoryStore.length !== initialLen) {
+    saveToFile();
+    if (isSharedStorageConfigured()) {
+      try {
+        await sendKvPipeline([['SET', RFQ_KV_KEY, JSON.stringify(memoryStore)]]);
+      } catch {
+        // Non-fatal fallback
+      }
+    }
+    return true;
+  }
+  return false;
+}
+
+// Synchronous exports for local compatibility
 export function getAllRFQs(): StoredRFQ[] {
   loadFromFile();
   return memoryStore;

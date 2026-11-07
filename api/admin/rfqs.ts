@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { parseCookies, verifySessionToken, handleCors } from '../_lib/auth.js';
-import { getAllRFQs, updateRFQStatus, deleteRFQ } from '../_lib/store.js';
+import { getAllRFQsAsync, updateRFQStatusAsync, deleteRFQAsync } from '../_lib/store.js';
 
 interface RequestWithBody extends IncomingMessage {
   body?: any;
@@ -61,7 +61,7 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
   res.setHeader('Content-Type', 'application/json');
 
   if (req.method === 'GET') {
-    const rfqs = getAllRFQs();
+    const rfqs = await getAllRFQsAsync();
     res.statusCode = 200;
     res.end(
       JSON.stringify({
@@ -96,7 +96,7 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
         ? [internalNote.trim()]
         : undefined;
 
-    const updated = updateRFQStatus(id, {
+    const updated = await updateRFQStatusAsync(id, {
       status,
       estimatedValueUsd: typeof estimatedValueUsd === 'number' ? estimatedValueUsd : undefined,
       internalNotes: resolvedNotes,
@@ -131,7 +131,7 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
       return;
     }
 
-    const deleted = deleteRFQ(id);
+    const deleted = await deleteRFQAsync(id);
     if (!deleted) {
       res.statusCode = 404;
       res.end(JSON.stringify({ error: 'RFQ not found' }));
