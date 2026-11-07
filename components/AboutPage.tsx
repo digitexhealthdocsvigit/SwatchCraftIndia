@@ -84,17 +84,60 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
                  ))}
                </ul>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-               {[
-                 "Thane-Bhiwandi Registered Hub",
-                 "Automated Cutting Machine",
-                 "Binding Station (Hardbound)",
-                 "Export Packaging Zone"
-               ].map((label, i) => (
-                 <div key={i} className="aspect-square bg-gray-200 rounded-3xl flex items-center justify-center text-center p-6 border border-gray-300 hover:border-[#8B6F47] transition-colors">
-                    <p className="text-[11px] font-black text-gray-600 uppercase tracking-widest">{label}</p>
-                 </div>
-               ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                {
+                  label: "Thane Bhiwandi Coordination Hub",
+                  sub: "Central Quality & Export Office",
+                  icon: (
+                    <svg className="w-6 h-6 text-[#8B6F47]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                  ),
+                  desc: "Order management, technical specifications, and international export logistics coordination."
+                },
+                {
+                  label: "Automated Pinking & Cutting",
+                  sub: "Specialised OEM Partner Unit",
+                  icon: (
+                    <svg className="w-6 h-6 text-[#8B6F47]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879a3 3 0 11-4.242-4.242L12 12m0 0l-2.879-2.879a3 3 0 10-4.242 4.242L12 12"/>
+                    </svg>
+                  ),
+                  desc: "High-speed computerized pinking knives and automated straight-cut shearing for anti-fray swatch leaves."
+                },
+                {
+                  label: "Precision Case-Binding Press",
+                  sub: "Specialised OEM Partner Unit",
+                  icon: (
+                    <svg className="w-6 h-6 text-[#8B6F47]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                  ),
+                  desc: "3mm–4mm rigid Kappa board casing, buckram spine wrap, and hot-foil metallic debossing."
+                },
+                {
+                  label: "Export QC & Moisture Barrier Packaging",
+                  sub: "Central Dispatch Protocol",
+                  icon: (
+                    <svg className="w-6 h-6 text-[#8B6F47]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                    </svg>
+                  ),
+                  desc: "Individual shrink-wrapping, corner guards, and palletized sea/air freight packing."
+                }
+              ].map((item, i) => (
+                <div key={i} className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-[#8B6F47] shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                  <div>
+                    <div className="w-12 h-12 bg-[#8B6F47]/10 rounded-xl flex items-center justify-center mb-4">
+                      {item.icon}
+                    </div>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-[#8B6F47] block mb-1">{item.sub}</span>
+                    <h4 className="text-sm font-black text-navy uppercase tracking-tight mb-2">{item.label}</h4>
+                    <p className="text-xs text-gray-600 leading-relaxed font-medium">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

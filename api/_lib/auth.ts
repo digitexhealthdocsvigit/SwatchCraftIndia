@@ -1,13 +1,28 @@
 import crypto from 'node:crypto';
 
-const SECRET_KEY =
-  process.env.ADMIN_SESSION_SECRET ||
-  'samplinghub-b2b-export-secret-key-mumbai-thane-2026';
+/**
+ * Returns true if both required environment variables are set.
+ * Fails safely: does NOT activate hardcoded default credentials in production.
+ */
+export function isAuthConfigured(): boolean {
+  return Boolean(process.env.ADMIN_PASSWORD_HASH && process.env.ADMIN_SESSION_SECRET);
+}
 
-// Expected admin credentials (SHA-256 digest of "email:password")
-const EXPECTED_DIGEST =
-  process.env.ADMIN_PASSWORD_HASH ||
-  '3732f1f3631cc628d9e17e5486db110ab515c09d458280f82cc2cc6a29252fd2';
+export function getSessionSecret(): string {
+  const secret = process.env.ADMIN_SESSION_SECRET;
+  if (!secret) {
+    throw new Error('ADMIN_SESSION_SECRET environment variable is not configured on the server.');
+  }
+  return secret;
+}
+
+export function getExpectedPasswordDigest(): string {
+  const digest = process.env.ADMIN_PASSWORD_HASH;
+  if (!digest) {
+    throw new Error('ADMIN_PASSWORD_HASH environment variable is not configured on the server.');
+  }
+  return digest;
+}
 
 // Rate limiting in-memory map: IP -> { attempts: number, resetAt: number }
 const loginRateLimitMap = new Map<string, { attempts: number; resetAt: number }>();
@@ -35,38 +50,46 @@ export function resetLoginRateLimit(ip: string): void {
 }
 
 export function verifyCredentials(identifier: string, pass: string): boolean {
+  if (!isAuthConfigured()) {
+    return false;
+  }
+  const expectedDigest = getExpectedPasswordDigest();
   const normalized = `${identifier.trim().toLowerCase()}:${pass}`;
   const hash = crypto.createHash('sha256').update(normalized).digest('hex');
 
   const bufA = Buffer.from(hash, 'utf8');
-  const bufB = Buffer.from(EXPECTED_DIGEST, 'utf8');
+  const bufB = Buffer.from(expectedDigest, 'utf8');
 
   if (bufA.length !== bufB.length) return false;
   return crypto.timingSafeEqual(bufA, bufB);
 }
 
 export function generateSessionToken(email: string): string {
+  const secretKey = getSessionSecret();
   const expiry = Date.now() + 1000 * 60 * 60 * 24 * 7; // 7 days
   const payload = Buffer.from(JSON.stringify({ email, expiry })).toString('base64url');
-  const signature = crypto.createHmac('sha256', SECRET_KEY).update(payload).digest('base64url');
+  const signature = crypto.createHmac('sha256', secretKey).update(payload).digest('base64url');
   return `${payload}.${signature}`;
 }
 
 export function verifySessionToken(token: string | undefined): { valid: boolean; email?: string } {
   if (!token || typeof token !== 'string') return { valid: false };
+  if (!isAuthConfigured()) return { valid: false };
+
   const parts = token.split('.');
   if (parts.length !== 2) return { valid: false };
 
   const [payload, signature] = parts;
-  const expectedSig = crypto.createHmac('sha256', SECRET_KEY).update(payload).digest('base64url');
-
-  const bufSig = Buffer.from(signature, 'utf8');
-  const bufExpected = Buffer.from(expectedSig, 'utf8');
-
-  if (bufSig.length !== bufExpected.length) return { valid: false };
-  if (!crypto.timingSafeEqual(bufSig, bufExpected)) return { valid: false };
-
   try {
+    const secretKey = getSessionSecret();
+    const expectedSig = crypto.createHmac('sha256', secretKey).update(payload).digest('base64url');
+
+    const bufSig = Buffer.from(signature, 'utf8');
+    const bufExpected = Buffer.from(expectedSig, 'utf8');
+
+    if (bufSig.length !== bufExpected.length) return { valid: false };
+    if (!crypto.timingSafeEqual(bufSig, bufExpected)) return { valid: false };
+
     const data = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8'));
     if (!data.expiry || Date.now() > data.expiry) {
       return { valid: false };

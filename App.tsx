@@ -165,8 +165,11 @@ const App: React.FC = () => {
   }, []);
 
   const navigateTo = (view: ViewState) => {
-    if (view === 'admin-dashboard' && !isAuthenticated) {
+    if ((view === 'admin-dashboard' || view === 'admin-login') && !isAuthenticated) {
       setCurrentView('admin-login');
+      if (window.location.pathname !== '/admin') {
+        window.history.pushState({ view: 'admin-login' }, '', '/admin');
+      }
       return;
     }
 

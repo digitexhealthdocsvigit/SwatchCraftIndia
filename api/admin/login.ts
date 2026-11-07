@@ -1,5 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import {
+  isAuthConfigured,
   verifyCredentials,
   generateSessionToken,
   checkLoginRateLimit,
@@ -42,6 +43,19 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
     res.statusCode = 405;
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify({ error: 'Method not allowed' }));
+    return;
+  }
+
+  // Failsafe configuration check: reject if environment variables are missing
+  if (!isAuthConfigured()) {
+    res.statusCode = 503;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(
+      JSON.stringify({
+        error: 'Admin authentication is not configured on the server. Please configure ADMIN_PASSWORD_HASH and ADMIN_SESSION_SECRET in Vercel project environment variables.',
+        code: 'AUTH_NOT_CONFIGURED',
+      })
+    );
     return;
   }
 
@@ -88,7 +102,11 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
   const token = generateSessionToken(String(email));
 
   // Set HttpOnly cookie
-  const isProd = process.env.NODE_ENV === 'production';
+  const isProd =
+    process.env.NODE_ENV === 'production' ||
+    process.env.VERCEL_ENV === 'production' ||
+    process.env.VERCEL === '1';
+
   const cookieFlags = [
     `samplinghub_admin_token=${token}`,
     'Path=/',

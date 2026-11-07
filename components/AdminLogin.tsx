@@ -18,7 +18,7 @@ const AdminLogin: React.FC<Props> = ({ onLogin, onNavigate }) => {
     setErrorMsg(null);
 
     try {
-      // Server-side authentication only — no credentials or hashes stored in client bundle
+      // Server-side authentication only — zero credentials or hashes stored in client bundle
       const response = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -39,6 +39,8 @@ const AdminLogin: React.FC<Props> = ({ onLogin, onNavigate }) => {
         setErrorMsg('Access Denied: Invalid technical credentials.');
       } else if (response.status === 429) {
         setErrorMsg('Too many login attempts. Please wait 15 minutes before retrying.');
+      } else if (response.status === 503) {
+        setErrorMsg('First-Time Setup Required: Server administrator credentials have not yet been configured in Vercel project settings.');
       } else {
         setErrorMsg('Authentication service unavailable. Please check server status.');
       }
@@ -59,34 +61,47 @@ const AdminLogin: React.FC<Props> = ({ onLogin, onNavigate }) => {
                 {errorMsg}
               </div>
             )}
-            <div className="space-y-4">
-              <label className="text-[12px] font-black text-gray-600 uppercase tracking-[0.2em] block">
-                Technical ID
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoComplete="username"
-                className="w-full bg-[#f8fafc] border border-[#f1f5f9] rounded-2xl px-6 py-5 focus:ring-2 focus:ring-navy/5 outline-none font-bold text-[#1e3a5f] transition-all placeholder:text-gray-400"
-                placeholder="Authorized email"
-              />
+
+            <div>
+              <span className="text-[#8B6F47] font-black uppercase tracking-[0.4em] text-[10px] mb-2 block">
+                Security Gateway
+              </span>
+              <h2 className="text-3xl font-black text-navy uppercase tracking-tighter">
+                Staff &amp; Partner Portal
+              </h2>
+              <p className="text-gray-500 text-xs mt-2 font-medium">
+                Authorized access for SamplingHub (Digitex Studio) management, export engineering, and OEM coordination.
+              </p>
             </div>
 
-            <div className="space-y-4">
-              <label className="text-[12px] font-black text-gray-600 uppercase tracking-[0.2em] block">
-                Access Key
-              </label>
-              <input
-                type="password"
-                value={pass}
-                onChange={(e) => setPass(e.target.value)}
-                required
-                autoComplete="current-password"
-                className="w-full bg-[#f8fafc] border border-[#f1f5f9] rounded-2xl px-6 py-5 focus:ring-2 focus:ring-navy/5 outline-none font-bold text-[#1e3a5f] transition-all placeholder:text-gray-400"
-                placeholder="••••••••"
-              />
+            <div className="space-y-6">
+              <div>
+                <label className="block text-[11px] font-black uppercase tracking-widest text-[#1a2849] mb-3">
+                  Technical Identifier (Email)
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="e.g., digitex.studio@gmail.com"
+                  required
+                  className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-6 py-4 text-sm font-semibold focus:outline-none focus:border-teal"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-black uppercase tracking-widest text-[#1a2849] mb-3">
+                  Access Key (Password)
+                </label>
+                <input
+                  type="password"
+                  value={pass}
+                  onChange={(e) => setPass(e.target.value)}
+                  placeholder="••••••••••••"
+                  required
+                  className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-6 py-4 text-sm font-semibold focus:outline-none focus:border-teal"
+                />
+              </div>
             </div>
 
             <button
@@ -99,16 +114,13 @@ const AdminLogin: React.FC<Props> = ({ onLogin, onNavigate }) => {
           </form>
         </div>
 
-        <div className="text-center mt-12">
+        <div className="mt-8 text-center">
           <button
             onClick={() => onNavigate('home')}
-            className="text-white/60 text-[10px] font-black uppercase tracking-[0.3em] hover:text-white transition-colors"
+            className="text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest"
           >
-            ← Exit Secure Session
+            ← Return to SamplingHub Public Site
           </button>
-          <p className="text-gray-400 text-[11px] font-bold mt-8 uppercase tracking-[0.2em]">
-            © 2026 SamplingHub (Digitex Studio) • Internal Access Only
-          </p>
         </div>
       </div>
     </div>

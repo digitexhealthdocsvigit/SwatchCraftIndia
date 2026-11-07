@@ -1,4 +1,5 @@
 import { EventEmitter } from 'node:events';
+import crypto from 'node:crypto';
 import loginHandler from '../api/admin/login.ts';
 import sessionHandler from '../api/admin/session.ts';
 import logoutHandler from '../api/admin/logout.ts';
@@ -81,6 +82,25 @@ async function run() {
     }
   }
 
+  // 0. Fail-safe configuration test: When env vars are absent, returns 503
+  delete process.env.ADMIN_PASSWORD_HASH;
+  delete process.env.ADMIN_SESSION_SECRET;
+  const res0 = await invoke(loginHandler, {
+    method: 'POST',
+    url: '/api/admin/login',
+    headers: { 'content-type': 'application/json' },
+    body: { email: 'digitex.studio@gmail.com', password: 'somepassword' },
+  });
+  assert(res0.status === 503, 'Unconfigured environment variables return 503 Service Unavailable');
+  assert(res0.json?.code === 'AUTH_NOT_CONFIGURED', 'Returns code AUTH_NOT_CONFIGURED');
+
+  // Now configure test environment variables for authorized test suite
+  const testEmail = 'digitex.studio@gmail.com';
+  const testPass = 'SuperSecret2026!';
+  const testHash = crypto.createHash('sha256').update(`${testEmail}:${testPass}`).digest('hex');
+  process.env.ADMIN_PASSWORD_HASH = testHash;
+  process.env.ADMIN_SESSION_SECRET = 'test-session-secret-key-64-character-entropy-samplinghub-2026';
+
   // 1. Unauthenticated session check
   const res1 = await invoke(sessionHandler, { method: 'GET', url: '/api/admin/session' });
   assert(res1.status === 401, 'Unauthenticated /api/admin/session returns 401');
@@ -117,17 +137,28 @@ async function run() {
   });
   assert(res5.status === 400, 'Empty login payload returns 400');
 
-  // 6. Valid Bearer token session check
-  const validToken = generateSessionToken('admin@samplinghub.world');
+  // 6. Valid login with configured credentials
+  const resLoginSuccess = await invoke(loginHandler, {
+    method: 'POST',
+    url: '/api/admin/login',
+    headers: { 'content-type': 'application/json' },
+    body: { email: testEmail, password: testPass },
+  });
+  assert(resLoginSuccess.status === 200, 'Valid login with configured credentials returns 200');
+  assert(resLoginSuccess.json?.success === true && resLoginSuccess.json?.token, 'Login issues JWT/HMAC token');
+  assert(Boolean(resLoginSuccess.headers['set-cookie']?.includes('HttpOnly')), 'Sets HttpOnly session cookie');
+
+  // 7. Valid Bearer token session check
+  const validToken = resLoginSuccess.json?.token || generateSessionToken(testEmail);
   const res6 = await invoke(sessionHandler, {
     method: 'GET',
     url: '/api/admin/session',
     headers: { authorization: `Bearer ${validToken}` },
   });
   assert(res6.status === 200, 'Valid Bearer token /api/admin/session returns 200');
-  assert(res6.json?.authenticated === true && res6.json?.user?.email === 'admin@samplinghub.world', 'Returns authenticated user object');
+  assert(res6.json?.authenticated === true && res6.json?.user?.email === testEmail, 'Returns authenticated user object');
 
-  // 7. Valid Bearer token RFQ retrieval
+  // 8. Valid Bearer token RFQ retrieval
   const res7 = await invoke(rfqsHandler, {
     method: 'GET',
     url: '/api/admin/rfqs',
@@ -136,7 +167,7 @@ async function run() {
   assert(res7.status === 200, 'Valid Bearer token /api/admin/rfqs returns 200');
   assert(Array.isArray(res7.json?.rfqs) && res7.json?.rfqs.length > 0, 'Returns RFQ list array');
 
-  // 8. Valid Cookie token RFQ retrieval
+  // 9. Valid Cookie token RFQ retrieval
   const res8 = await invoke(rfqsHandler, {
     method: 'GET',
     url: '/api/admin/rfqs',
@@ -144,12 +175,12 @@ async function run() {
   });
   assert(res8.status === 200, 'Valid HttpOnly Cookie token /api/admin/rfqs returns 200');
 
-  // 9. Logout handler
+  // 10. Logout handler
   const res9 = await invoke(logoutHandler, { method: 'POST', url: '/api/admin/logout' });
   assert(res9.status === 200, 'POST /api/admin/logout returns 200');
   assert(res9.headers['set-cookie']?.includes('Max-Age=0'), 'Logout clears cookie with Max-Age=0');
 
-  // 10. Rate limiting blocks after 5 failed attempts
+  // 11. Rate limiting blocks after 5 failed attempts
   resetLoginRateLimit('127.0.0.1');
   for (let i = 0; i < 5; i++) {
     await invoke(loginHandler, {
@@ -169,7 +200,7 @@ async function run() {
   assert(Boolean(res10.headers['retry-after']), 'Includes Retry-After response header');
   resetLoginRateLimit('127.0.0.1');
 
-  // 11. Public RFQ submission
+  // 12. Public RFQ submission
   const res11 = await invoke(submitHandler, {
     method: 'POST',
     url: '/api/rfq/submit',
@@ -186,7 +217,7 @@ async function run() {
   assert(res11.status === 201, 'POST /api/rfq/submit valid payload returns 201');
   assert(res11.json?.rfq?.id?.startsWith('RFQ-'), 'Created RFQ ID returned in response');
 
-  // 12. Public RFQ submission with invalid/missing fields
+  // 13. Public RFQ submission with invalid/missing fields
   const res12 = await invoke(submitHandler, {
     method: 'POST',
     url: '/api/rfq/submit',

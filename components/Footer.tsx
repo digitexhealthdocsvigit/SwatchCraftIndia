@@ -31,6 +31,15 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <li><button onClick={() => onNavigate('blog-hub')} className="hover:text-white transition-colors text-left">Resources & Blog</button></li>
             <li><button onClick={() => onNavigate('export-markets-page')} className="hover:text-white transition-colors text-left">Export Markets</button></li>
             <li><button onClick={() => onNavigate('pricing')} className="hover:text-white transition-colors text-left">Pricing Guide</button></li>
+            <li className="pt-2 border-t border-gray-800/80">
+              <button 
+                onClick={() => onNavigate('admin-login')} 
+                className="text-[#c9a86a] hover:text-white transition-colors text-left font-bold flex items-center text-xs tracking-wider uppercase group"
+                title="Staff & Management Access"
+              >
+                <span className="mr-2 group-hover:scale-110 transition-transform">🔒</span> Admin Login
+              </button>
+            </li>
           </ul>
         </div>
 
@@ -61,10 +70,17 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
       <div className="max-w-7xl mx-auto px-4 pt-12 flex flex-col md:flex-row justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em] text-gray-300">
         <p>© 2026 SamplingHub (Digitex Studio). All rights reserved.</p>
-        <div className="flex space-x-8 mt-6 md:mt-0 items-center">
+        <div className="flex flex-wrap justify-center gap-6 mt-6 md:mt-0 items-center">
           <button onClick={() => onNavigate('privacy')} className="hover:text-white transition-colors">Privacy Policy</button>
+          <span className="text-gray-700 hidden sm:inline">•</span>
           <button onClick={() => onNavigate('terms')} className="hover:text-white transition-colors">Terms of Service</button>
-          <button onClick={() => onNavigate('admin-login')} className="hover:text-white transition-colors text-gray-400">Staff Portal</button>
+          <span className="text-gray-700 hidden sm:inline">•</span>
+          <button 
+            onClick={() => onNavigate('admin-login')} 
+            className="text-gray-300 hover:text-[#c9a86a] transition-colors border-b border-dotted border-gray-600 pb-0.5 tracking-wider"
+          >
+            Staff Portal
+          </button>
         </div>
       </div>
     </footer>

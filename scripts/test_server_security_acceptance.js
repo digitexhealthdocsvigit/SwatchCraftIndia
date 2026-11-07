@@ -1,6 +1,6 @@
-import http from 'node:http';
 import crypto from 'node:crypto';
 import {
+  isAuthConfigured,
   verifyCredentials,
   generateSessionToken,
   verifySessionToken,
@@ -25,22 +25,43 @@ async function runTests() {
     }
   }
 
+  // 0. Fail-safe unconfigured check
+  delete process.env.ADMIN_PASSWORD_HASH;
+  delete process.env.ADMIN_SESSION_SECRET;
+  assert(isAuthConfigured() === false, 'isAuthConfigured returns false when env vars are missing');
+  assert(verifyCredentials('any@user.com', 'pass') === false, 'verifyCredentials returns false when unconfigured');
+
+  // Now configure test secrets
+  const testEmail = 'digitex.studio@gmail.com';
+  const testPass = 'OwnerExportAccess2026!';
+  const testHash = crypto.createHash('sha256').update(`${testEmail}:${testPass}`).digest('hex');
+  const testSecret = 'samplinghub-test-session-secret-high-entropy-64-character-string';
+  process.env.ADMIN_PASSWORD_HASH = testHash;
+  process.env.ADMIN_SESSION_SECRET = testSecret;
+
+  assert(isAuthConfigured() === true, 'isAuthConfigured returns true when test secrets are set');
+
   // 1. Password verification on server with timing-safe comparison
-  const validUser = 'admin@samplinghub.com';
-  // Let's test arbitrary credentials
   const badCreds = verifyCredentials('attacker@fake.com', 'wrongpassword');
   assert(!badCreds, 'Rejects invalid credentials');
+
+  const goodCreds = verifyCredentials(testEmail, testPass);
+  assert(goodCreds === true, 'Accepts valid configured administrator credentials');
+
+  // Case insensitive email check
+  const mixedCaseCreds = verifyCredentials('DiGiTeX.StUdIo@gmail.com', testPass);
+  assert(mixedCaseCreds === true, 'Normalizes email case insensitively');
 
   // Test timingSafeEqual handles different lengths without throw
   const shortCreds = verifyCredentials('a', 'b');
   assert(!shortCreds, 'Handles short credentials safely');
 
   // 2. Token generation and verification
-  const token = generateSessionToken('admin@samplinghub.world');
+  const token = generateSessionToken(testEmail);
   assert(typeof token === 'string' && token.includes('.'), 'Generates valid signed session token');
 
   const verified = verifySessionToken(token);
-  assert(verified.valid === true && verified.email === 'admin@samplinghub.world', 'Verifies authentic token correctly');
+  assert(verified.valid === true && verified.email === testEmail, 'Verifies authentic token correctly');
 
   // 3. Forged token rejection
   const forgedToken = token.slice(0, -4) + 'abcd';
@@ -49,11 +70,10 @@ async function runTests() {
 
   // 4. Expired token rejection
   const expiredPayload = Buffer.from(JSON.stringify({
-    email: 'admin@samplinghub.world',
+    email: testEmail,
     expiry: Date.now() - 1000 * 60, // expired 1 min ago
   })).toString('base64url');
-  const SECRET_KEY = process.env.ADMIN_SESSION_SECRET || 'samplinghub-b2b-export-secret-key-mumbai-thane-2026';
-  const expiredSig = crypto.createHmac('sha256', SECRET_KEY).update(expiredPayload).digest('base64url');
+  const expiredSig = crypto.createHmac('sha256', testSecret).update(expiredPayload).digest('base64url');
   const expiredToken = `${expiredPayload}.${expiredSig}`;
 
   const expiredResult = verifySessionToken(expiredToken);
