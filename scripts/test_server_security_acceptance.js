@@ -48,9 +48,24 @@ async function runTests() {
   const scryptHash = hashPassword(testPass);
 
   assert(scryptHash.startsWith('$scrypt$N=16384,r=8,p=1$'), 'scrypt produces standard formatted hash with N=16384, r=8, p=1');
-  assert(verifyPassword(testPass, scryptHash) === true, 'verifyPassword accepts correct password with scrypt hash');
+  const scryptParts = scryptHash.split('$');
+  assert(scryptParts[3].length === 32, 'Salt length is exactly 16 bytes (32 hex characters)');
+  assert(scryptParts[4].length === 128, 'Derived key length is exactly 64 bytes (128 hex characters)');
+  assert(verifyPassword(testPass, scryptHash) === true, 'verifyPassword accepts correct password with scrypt Format A');
   assert(verifyPassword('WrongPass2026!', scryptHash) === false, 'verifyPassword rejects incorrect password with scrypt hash');
   assert(verifyPassword('', scryptHash) === false, 'verifyPassword rejects empty password');
+
+  // Verify Format B compatibility: scrypt:16384:8:1:<salt>:<hash>
+  const formatBHash = `scrypt:16384:8:1:${scryptParts[3]}:${scryptParts[4]}`;
+  assert(verifyPassword(testPass, formatBHash) === true, 'verifyPassword accepts colon-delimited scrypt Format B');
+  assert(verifyPassword('WrongPass2026!', formatBHash) === false, 'verifyPassword rejects wrong password with Format B');
+
+  // Verify rejection of malformed or invalid hash formats
+  assert(verifyPassword(testPass, '$scrypt$N=invalid$salt$hash') === false, 'Rejects malformed Format A scrypt string');
+  assert(verifyPassword(testPass, 'scrypt:invalid:8:1:salt:hash') === false, 'Rejects malformed Format B scrypt string');
+  assert(verifyPassword(testPass, 'plain:sha256:12345678') === false, 'Rejects non-scrypt hash formats');
+  assert(verifyPassword(testPass, null) === false, 'Rejects null hash safely');
+  assert(verifyPassword(testPass, '') === false, 'Rejects empty hash safely');
 
   // Configure server environment with scrypt hash
   const testSecret = 'samplinghub-test-session-secret-high-entropy-64-character-string';

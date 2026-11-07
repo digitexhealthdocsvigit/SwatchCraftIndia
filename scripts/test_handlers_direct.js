@@ -172,6 +172,18 @@ async function run() {
   assert(resLoginSuccess.json?.token === undefined, 'Login does NOT expose session token in response body');
   assert(resLoginSuccess.json?.user?.email === testEmail, 'Login returns authenticated user email');
 
+  // 6b. Valid login with Format B (colon-delimited scrypt hash)
+  const scParts = scryptHash.split('$');
+  process.env.ADMIN_PASSWORD_HASH = `scrypt:16384:8:1:${scParts[3]}:${scParts[4]}`;
+  const resLoginFormatB = await invoke(loginHandler, {
+    method: 'POST',
+    url: '/api/admin/login',
+    headers: { 'content-type': 'application/json' },
+    body: { email: testEmail, password: testPass },
+  });
+  assert(resLoginFormatB.status === 200, 'Valid login with Format B colon-delimited scrypt hash returns 200');
+  process.env.ADMIN_PASSWORD_HASH = scryptHash; // restore Format A
+
   // Check Set-Cookie flags
   const setCookie = resLoginSuccess.headers['set-cookie'];
   assert(Boolean(setCookie && setCookie.includes('HttpOnly')), 'Sets HttpOnly session cookie');

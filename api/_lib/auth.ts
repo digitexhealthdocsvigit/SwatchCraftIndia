@@ -118,8 +118,9 @@ export function hashPassword(password: string): string {
  * Fails safely on malformed or unsupported hash formats (e.g. legacy plain SHA-256).
  */
 export function verifyPassword(password: string, encodedHash: string): boolean {
-  if (!encodedHash || typeof encodedHash !== 'string') return false;
+  if (!encodedHash || typeof encodedHash !== 'string' || !password || typeof password !== 'string') return false;
 
+  // Format A: Modular Crypt Format ($scrypt$N=16384,r=8,p=1$<salt-hex>$<hash-hex>)
   if (encodedHash.startsWith('$scrypt$')) {
     const parts = encodedHash.split('$');
     // Format: $scrypt$N=16384,r=8,p=1$<salt>$<hash>
@@ -138,6 +139,33 @@ export function verifyPassword(password: string, encodedHash: string): boolean {
       if (k === 'r') r = parseInt(v, 10);
       if (k === 'p') p = parseInt(v, 10);
     });
+
+    if (isNaN(N) || isNaN(r) || isNaN(p) || !salt || !expectedHashHex) return false;
+
+    try {
+      const derivedKey = crypto.scryptSync(password, salt, 64, { N, r, p });
+      const bufDerived = Buffer.from(derivedKey.toString('hex'), 'utf8');
+      const bufExpected = Buffer.from(expectedHashHex, 'utf8');
+
+      if (bufDerived.length !== bufExpected.length) return false;
+      return crypto.timingSafeEqual(bufDerived, bufExpected);
+    } catch {
+      return false;
+    }
+  }
+
+  // Format B: Colon-delimited format (scrypt:16384:8:1:<salt-hex>:<hash-hex>)
+  if (encodedHash.startsWith('scrypt:')) {
+    const parts = encodedHash.split(':');
+    // Format: scrypt:16384:8:1:<salt>:<hash>
+    if (parts.length !== 6) return false;
+    const N = parseInt(parts[1], 10);
+    const r = parseInt(parts[2], 10);
+    const p = parseInt(parts[3], 10);
+    const salt = parts[4];
+    const expectedHashHex = parts[5];
+
+    if (isNaN(N) || isNaN(r) || isNaN(p) || !salt || !expectedHashHex) return false;
 
     try {
       const derivedKey = crypto.scryptSync(password, salt, 64, { N, r, p });
