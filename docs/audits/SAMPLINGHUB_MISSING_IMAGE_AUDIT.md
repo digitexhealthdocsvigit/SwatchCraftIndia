@@ -1,61 +1,92 @@
 # SamplingHub — Complete Website Image Asset & Placeholder Audit
 
-**Audit Date:** November 7, 2026  
-**Audited Branch:** `feat/samplinghub-admin-provisioning-image-audit`  
+**Audit Date:** November 2026  
+**Audited Branch:** `fix/samplinghub-admin-security-image-accuracy`  
 **Target Repository:** `digitexhealthdocsvigit/SwatchCraftIndia`  
 **Live Production URL:** [https://www.samplinghub.world](https://www.samplinghub.world)  
 
 ---
 
-## 1. Audit Summary Statistics
+## 1. Audit Scope & Reconciled Inventory Statistics
 
-* **Total Pages Inspected:** 18 canonical views (Homepage, About, Products Overview, Manufacturing Process, Portfolio, Blog Hub, Individual Blog Articles, Export Markets, Pricing, Contact, and 7 Product Category Pages).
-* **Total Image Holders Found Across Codebase:** 31 visual holders.
-* **Total Correctly Loaded Real Product Photos:** 23 holders.
-* **Total Empty Text/Box Placeholders Found:** 5 holders (4 on About Page, 1 on Blog Cards).
-* **Total Broken References / File Errors:** 0 (all referenced files resolve to existing paths).
-* **Total Incorrect / Misleading Facility Mappings:** 2 (`factory-bhiwandi-production.jpg` was an exact duplicate of `hero-main-showcase.jpg`; Fabric Hanger shared with Waterfall Hanger).
-* **Total Fixed in Current Feature Branch:** 6 visual holders (About Page architecture grid, QC macro inspection mapping, Blog editorial banners).
-* **Total Requiring Authentic Owner/Partner Photography:** 2 (Dedicated full-drop showroom hanger photos, authentic partner facility photos).
+Across the entire codebase, all **18 canonical public routes** and **31 visual holders** were inspected, reconciled, and verified against physical source code:
 
----
-
-## 2. Complete Discovered Image Register
-
-| ID | Page | Section / Image Holder | Expected Image | Current Status | Source File | Recommended Action | Priority |
-|---|---|---|---|---|---|---|---|
-| **IMG-001** | Homepage (`/`) | Hero Carousel Item 1 | Studio swatch presentation showcase | **Correct Image Loaded** | `components/Hero.tsx` | Uses `hero-main-showcase.jpg` (1.26 MB). Authentic studio photo. | Low |
-| **IMG-002** | Homepage (`/`) | Hero Carousel Item 2 | Hardbound Wallpaper Catalog Book | **Correct Image Loaded** | `components/Hero.tsx` | Uses `wallpaper-catalog-book.jpg` (315 kB). Authentic product photo. | Low |
-| **IMG-003** | Homepage (`/`) | Hero Carousel Item 3 | Upholstery Swatch Book | **Correct Image Loaded** | `components/Hero.tsx` | Uses `upholstery-swatch-book.jpg` (744 kB). Authentic product photo. | Low |
-| **IMG-004** | Homepage (`/`) | Featured Products Grid (7 cards) | 7 main product presentation cards | **Correct Image Loaded** | `components/FeaturedProducts.tsx` | All 7 cards mapped to valid studio assets in `LOCAL_IMAGES`. | Low |
-| **IMG-005** | Homepage (`/`) | Visual Gallery (6 cards) | 6 product showcase cards | **Correct Image Loaded** | `components/Gallery.tsx` | All 6 cards mapped to valid studio assets in `LOCAL_IMAGES`. | Low |
-| **IMG-006** | About (`/about`) | Infrastructure Hub Grid (4 boxes) | 4 facility & machinery visual boxes | **Empty Placeholder Defect (Remediated)** | `components/AboutPage.tsx` | Replaced 4 blank grey boxes with high-spec OEM Architecture & Process Flow diagram. | **Critical** |
-| **IMG-007** | Manufacturing Process (`/manufacturing-process`) | QC Standards Section | Quality inspection activity / macro detail | **Incorrect Mapping Defect (Remediated)** | `components/ManufacturingProcessPage.tsx` | Replaced duplicated `factory-bhiwandi-production.jpg` with authentic macro pinking photo `upholstery-swatch-book-2.jpg`. | **High** |
-| **IMG-008** | Manufacturing Process (`/manufacturing-process`) | Process Steps (5 items) | Step illustrations / graphics | **Icon Representation** | `components/ManufacturingProcessPage.tsx` | Uses clean emoji icons (`📐`, `✂️`, `📚`, `🛡️`, `🚢`). Fully functional. | Medium |
-| **IMG-009** | Portfolio (`/portfolio`) | Production Portfolio Grid (6 projects) | 6 international client project cards | **Correct Image Loaded** | `components/PortfolioPage.tsx` | Mapped to 6 distinct local studio photography assets in `LOCAL_IMAGES`. | Low |
-| **IMG-010** | Products Overview (`/products`) | Featured Line 1 (Wallpaper) | Wallpaper Catalog Book | **Correct Image Loaded** | `components/ProductsOverview.tsx` | Uses `wallpaper-catalog-book.jpg`. | Low |
-| **IMG-011** | Products Overview (`/products`) | Featured Line 2 (Waterfall) | Waterfall Swatch Hanger | **Correct Image Loaded** | `components/ProductsOverview.tsx` | Uses `waterfall-hanger.jpg`. | Low |
-| **IMG-012** | Products Overview (`/products`) | Customization Spotlight | Upholstery Album | **Correct Image Loaded** | `components/ProductsOverview.tsx` | Uses `upholstery-swatch-book.jpg`. | Low |
-| **IMG-013** | Blog Hub (`/blog`) | Blog Post Cards (6 cards) | Editorial topic header visuals | **Empty Placeholder Defect (Remediated)** | `components/BlogCard.tsx` | Replaced raw `[ Featured Image: {tag} ]` text with elegant topic gradient banners & SVG icons. | **High** |
-| **IMG-014** | Product: Wallpaper Catalog | Multi-Angle Carousel (Angle 1 & 2) | Oversized album + wallcovering drops | **Correct Image Loaded** | `components/ProductWallpaperCatalog.tsx` | Uses `wallpaper-catalog-book.jpg` & `wallpaper-roll-display.jpg`. | Low |
-| **IMG-015** | Product: Upholstery Swatch Books | Multi-Angle Carousel (Angle 1 & 2) | Showcase + macro pinking detail | **Correct Image Loaded** | `components/ProductUpholstery.tsx` | Uses `upholstery-swatch-book.jpg` & `upholstery-swatch-book-2.jpg`. | Low |
-| **IMG-016** | Product: Curtain Fabric Albums | Multi-Angle Carousel (Angle 1 & 2) | Showcase + screw-post spine macro | **Correct Image Loaded** | `components/ProductCurtain.tsx` | Uses `curtain-fabric-album.jpg` & `curtain-fabric-album-2.jpg`. | Low |
-| **IMG-017** | Product: Waterfall Swatch Cards | Multi-Angle Carousel (Angle 1 & 2) | Cascading drops + swivel hook macro | **Correct Image Loaded** | `components/ProductWaterfall.tsx` | Uses `waterfall-hanger.jpg` & `waterfall-hanger-2.jpg`. | Low |
-| **IMG-018** | Product: Fabric Hanger Swatches | Multi-Angle Carousel (Angle 1 & 2) | Full-drop showroom hanger | **Shared Asset Association** | `components/ProductHanger.tsx` | Currently shares `waterfall-hanger.jpg`. Requires dedicated showroom hanger photo. | Medium |
-| **IMG-019** | Product: Ring Swatch Sets | Multi-Angle Carousel (Angle 1 & 2) | Fan deck + split-ring eyelet macro | **Correct Image Loaded** | `components/ProductRingSwatch.tsx` | Uses `ring-swatch-set.jpg` & `ring-swatch-set-2.jpg`. | Low |
-| **IMG-020** | Product: Sample Cards & Storyboards | Multi-Angle Carousel (Angle 1 & 2) | Die-cut cards + window inset macro | **Correct Image Loaded** | `components/ProductSampleCards.tsx` | Uses `sample-cards-storyboard.jpg` & `sample-cards-storyboard-2.jpg`. | Low |
+* **Total Canonical Routes Inspected:** 18 (`/`, `/about`, `/products`, `/products/upholstery-swatch-books`, `/products/curtain-fabric-albums`, `/products/fabric-hanger-swatches`, `/products/ring-swatch-sets`, `/products/sample-cards`, `/products/waterfall-swatch-cards`, `/products/wallpaper-catalog-manufacturing`, `/manufacturing-process`, `/export-markets`, `/portfolio`, `/pricing`, `/blog`, `/privacy`, `/terms`, `/contact`).
+* **Total Image Holders Found in Source Code:** 31 visual holders.
+* **Total Authentic Product Photographs:** 23 holders (studio photography of genuine SamplingHub finished products).
+* **Total Empty Text / Placeholder Boxes Remediated:** 5 holders (4 on About page replaced with OEM Partner Architecture; 1 on Blog cards replaced with editorial vector banners).
+* **Total Misleading Facility / Machine Mappings Removed:** 2 (`factory-bhiwandi-production.jpg` was an exact byte duplicate of `hero-main-showcase.jpg` and has been permanently deleted from disk; unverified automated machinery claims removed).
+* **Total Broken File References (404s):** 0 (all referenced assets resolve with HTTP 200 OK).
+* **Owner-Supplied Physical Photos Requested:** 8 priority subjects (SH-IMG-01 through SH-IMG-08).
 
 ---
 
-## 3. Prioritised Asset-Request List (For Owner & Manufacturing Partners)
+## 2. Complete 12-Column Image-Holder Audit Register
 
-To replace shared product assets with 100% exclusive photography, the following authentic photographs should be collected:
+| Page route | Component | Section | Image-holder identifier | Current image or placeholder | Matches subject? | Authenticity | Required subject | Recommended replacement image | Priority | Required action | Owner must supply? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `/` | `Hero.tsx` | Hero Banner | `hero-main-01` | `/images/hero-main-showcase.jpg` | Yes | Authentic studio photo | Master swatch presentation showcase | Keep current asset | Low | Retain in hero carousel | No |
+| `/` | `Hero.tsx` | Hero Banner | `hero-main-02` | `/images/wallpaper-catalog-book.jpg` | Yes | Authentic studio photo | Oversized wallpaper catalog | Keep current asset | Low | Retain in hero carousel | No |
+| `/` | `FeaturedProducts.tsx` | Overview Grid | `prod-card-01` | `/images/wallpaper-catalog-book.jpg` | Yes | Authentic studio photo | Wallpaper repeat catalog book | Keep current asset | Low | Retain in grid | No |
+| `/` | `FeaturedProducts.tsx` | Overview Grid | `prod-card-02` | `/images/upholstery-swatch-book.jpg` | Yes | Authentic studio photo | Hardbound upholstery book | Keep current asset | Low | Retain in grid | No |
+| `/` | `FeaturedProducts.tsx` | Overview Grid | `prod-card-03` | `/images/curtain-fabric-album.jpg` | Yes | Authentic studio photo | Large format curtain album | Keep current asset | Low | Retain in grid | No |
+| `/` | `FeaturedProducts.tsx` | Overview Grid | `prod-card-04` | `/images/waterfall-hanger.jpg` | Yes | Authentic studio photo | Cascading waterfall hanger | Keep current asset | Low | Retain in grid | No |
+| `/` | `FeaturedProducts.tsx` | Overview Grid | `prod-card-05` | `/images/waterfall-hanger.jpg` | Partial | Authentic studio photo | Full-drop showroom fabric hanger | Replace with SH-IMG-08 when supplied | Medium | Label as illustrative / share until exclusive photo supplied | Yes |
+| `/` | `Gallery.tsx` | Production Showcase | `gallery-01` | `/images/wallpaper-catalog-book.jpg` | Yes | Authentic studio photo | Wallpaper catalog detail | Keep current asset | Low | Retain in gallery | No |
+| `/` | `Gallery.tsx` | Production Showcase | `gallery-02` | `/images/wallpaper-roll-display.jpg` | Yes | Authentic studio photo | Commercial wallcovering drops | Keep current asset | Low | Retain in gallery | No |
+| `/` | `Gallery.tsx` | Production Showcase | `gallery-03` | `/images/upholstery-swatch-book.jpg` | Yes | Authentic studio photo | Layered upholstery swatches | Keep current asset | Low | Retain in gallery | No |
+| `/` | `Gallery.tsx` | Production Showcase | `gallery-04` | `/images/curtain-fabric-album.jpg` | Yes | Authentic studio photo | Post-bound drapery album | Keep current asset | Low | Retain in gallery | No |
+| `/` | `Gallery.tsx` | Production Showcase | `gallery-05` | `/images/waterfall-hanger.jpg` | Yes | Authentic studio photo | Cascading tiered swatches | Keep current asset | Low | Retain in gallery | No |
+| `/` | `Gallery.tsx` | Production Showcase | `gallery-06` | `/images/sample-cards-storyboard.jpg` | Yes | Authentic studio photo | Precision die-cut cards | Keep current asset | Low | Retain in gallery | No |
+| `/about` | `AboutPage.tsx` | Partner Architecture | `about-hub-01` | Custom SVG Hub Icon & Architecture Card | Yes | Illustrative graphic | Centralized Coordination Hub | Keep SVG architecture | Medium | Factual representation of management model | No |
+| `/about` | `AboutPage.tsx` | Partner Architecture | `about-cut-02` | Custom SVG Pinking Icon & Partner Card | Yes | Illustrative graphic | Precision pinking & manual cutting | Keep SVG architecture | Medium | Replaced broken box; zero automated claims | No |
+| `/about` | `AboutPage.tsx` | Partner Architecture | `about-bind-03` | Custom SVG Press Icon & Partner Card | Yes | Illustrative graphic | Case-binding & finishing press | Keep SVG architecture | Medium | Replaced broken box | No |
+| `/about` | `AboutPage.tsx` | Partner Architecture | `about-pack-04` | Custom SVG Logistics Icon & Export Card | Yes | Illustrative graphic | Export packaging & dispatch | Keep SVG architecture | Medium | Replaced broken box | No |
+| `/manufacturing-process` | `ManufacturingProcessPage.tsx` | QC Standards | `qc-macro-01` | `/images/upholstery-swatch-book-2.jpg` | Yes | Authentic macro detail | Macro quality inspection standards | Keep macro detail | High | Replaced misleading duplicate factory image | No |
+| `/blog` | `BlogCard.tsx` | Editorial Cards | `blog-card-01` | Themed gradient SVG banner | Yes | Illustrative graphic | Export logistics & transit | Keep vector banners | Low | Upgraded raw text placeholder | No |
+| `/blog` | `BlogCard.tsx` | Editorial Cards | `blog-card-02` | Themed gradient SVG banner | Yes | Illustrative graphic | Swatch format comparisons | Keep vector banners | Low | Upgraded raw text placeholder | No |
+| `/blog` | `BlogCard.tsx` | Editorial Cards | `blog-card-03` | Themed gradient SVG banner | Yes | Illustrative graphic | B2B textile marketing ROI | Keep vector banners | Low | Upgraded raw text placeholder | No |
+| `/portfolio` | `PortfolioPage.tsx` | Project Grid (6 cards) | `portfolio-01..06` | 6 category product images | Yes | Authentic studio photo | Finished client production formats | Keep studio assets | Low | Verified filterable masonry grid | No |
+| `/products/upholstery-swatch-books` | `ProductUpholstery.tsx` | Carousel | `uph-angle-01` | `/images/upholstery-swatch-book.jpg` | Yes | Authentic studio photo | Hardbound book open with swatches | Keep current asset | Low | Active in carousel | No |
+| `/products/upholstery-swatch-books` | `ProductUpholstery.tsx` | Carousel | `uph-angle-02` | `/images/upholstery-swatch-book-2.jpg` | Yes | Authentic studio photo | Macro pinking edge finish | Keep current asset | Low | Active in carousel | No |
+| `/products/curtain-fabric-albums` | `ProductCurtain.tsx` | Carousel | `cur-angle-01` | `/images/curtain-fabric-album.jpg` | Yes | Authentic studio photo | Large-format drapery album open | Keep current asset | Low | Active in carousel | No |
+| `/products/curtain-fabric-albums` | `ProductCurtain.tsx` | Carousel | `cur-angle-02` | `/images/curtain-fabric-album-2.jpg` | Yes | Authentic studio photo | Heavy-duty screw-post spine macro | Keep current asset | Low | Active in carousel | No |
+| `/products/waterfall-swatch-hangers` | `ProductWaterfall.tsx` | Carousel | `wat-angle-01` | `/images/waterfall-hanger.jpg` | Yes | Authentic studio photo | Stepped cascade fabric hanger | Keep current asset | Low | Active in carousel | No |
+| `/products/waterfall-swatch-hangers` | `ProductWaterfall.tsx` | Carousel | `wat-angle-02` | `/images/waterfall-hanger-2.jpg` | Yes | Authentic studio photo | Swivel hook & header card macro | Keep current asset | Low | Active in carousel | No |
+| `/products/ring-swatch-sets` | `ProductRingSwatch.tsx` | Carousel | `rng-angle-01` | `/images/ring-swatch-set.jpg` | Yes | Authentic studio photo | Metal ring fan-out presentation | Keep current asset | Low | Active in carousel | No |
+| `/products/ring-swatch-sets` | `ProductRingSwatch.tsx` | Carousel | `rng-angle-02` | `/images/ring-swatch-set-2.jpg` | Yes | Authentic studio photo | Nickel ring & brass eyelet macro | Keep current asset | Low | Active in carousel | No |
+| `/products/sample-cards` | `ProductSampleCards.tsx` | Carousel | `crd-angle-01` | `/images/sample-cards-storyboard.jpg` | Yes | Authentic studio photo | Tri-fold presentation card layout | Keep current asset | Low | Active in carousel | No |
+| `/products/sample-cards` | `ProductSampleCards.tsx` | Carousel | `crd-angle-02` | `/images/sample-cards-storyboard-2.jpg` | Yes | Authentic studio photo | Die-cut window inset macro | Keep current asset | Low | Active in carousel | No |
+| `/products/wallpaper-catalog-manufacturing` | `ProductWallpaperCatalog.tsx` | Carousel | `wal-angle-01` | `/images/wallpaper-catalog-book.jpg` | Yes | Authentic studio photo | Textured wallpaper binder cover | Keep current asset | Low | Active in carousel | No |
+| `/products/wallpaper-catalog-manufacturing` | `ProductWallpaperCatalog.tsx` | Carousel | `wal-angle-02` | `/images/wallpaper-roll-display.jpg` | Yes | Authentic studio photo | Wallcovering substrate & roll drops | Keep current asset | Low | Active in carousel | No |
 
-1. **[REQ-IMG-01] Dedicated Full-Drop Showroom Fabric Hangers (Priority: Medium)**
-   * **Subject:** 70–100 cm full-drop fabric swatch hanger hanging on a showroom rack with custom branded navy/gold header card.
-   * **Target File:** `public/images/showroom-fabric-hanger.jpg`
-   * **Target Component:** `components/ProductHanger.tsx` and `components/FeaturedProducts.tsx`.
-2. **[REQ-IMG-02] Authentic Partner Facility / Precision Machinery Photos (Priority: Optional/Phase 5)**
-   * **Subject:** High-speed automated pinking knife in operation, Kappa board casing-in machine, or export pallet packing.
-   * **Compliance Condition:** Must be genuinely supplied by an authorized manufacturing partner with explicit permission. Must be captioned as "Manufacturing Partner Production Unit".
-   * **Target Component:** `components/ManufacturingProcessPage.tsx` and `components/AboutPage.tsx`.
+---
+
+## 3. Priority Image Requests (Photographs for Owner to Supply)
+
+The following reference IDs represent requested photographic subjects for future documentation of real workshop craftsmanship. These are explicitly recorded as **requested subjects**, not existing files:
+
+* **SH-IMG-01: Manual Fabric Sample Preparation**  
+  * *Subject:* Technician unrolling, measuring, and inspecting incoming fabric bolts on a clean cutting table.  
+  * *Requirements:* Natural workshop lighting, hands visible, no competitor branding.
+* **SH-IMG-02: Actual Cutting & Pinking Process**  
+  * *Subject:* Craftsman operating a manual rotary fabric cutter or manual industrial pinking shear along a steel guide.  
+  * *Requirements:* Focus on serrated edge detail, fabric tension, and precision.
+* **SH-IMG-03: Fabric Swatch Mounting**  
+  * *Subject:* Artisan mounting fabric swatches onto rigid Kappa board leaves or waterfall cards with adhesive tape backing.  
+  * *Requirements:* Stepped cascade alignment, clean assembly area.
+* **SH-IMG-04: Sample-Book Binding & Finishing**  
+  * *Subject:* Assembly of hardbound covers, inserting brass Chicago screw-posts, or buckram spine wrapping.  
+  * *Requirements:* Macro focus on binding hardware and embossed cover.
+* **SH-IMG-05: Quality Inspection Protocol**  
+  * *Subject:* Quality inspector verifying swatch step spacing and label alignment with precision rule or digital caliper.  
+  * *Requirements:* Dedicated inspection table with high-CRI overhead lighting.
+* **SH-IMG-06: Finished Fabric Sample Books**  
+  * *Subject:* Stacks of completed, branded fabric sample books and wallpaper catalogs ready for packaging.  
+  * *Requirements:* Neutral showroom or inspection background.
+* **SH-IMG-07: Actual Packaging & Dispatch**  
+  * *Subject:* Worker sealing finished books with protective moisture wrapping, corner buffers, and export master cartons.  
+  * *Requirements:* Dispatch staging area showing carton labeling.
+* **SH-IMG-08: Full-Drop Showroom Fabric Hanger Presentation**  
+  * *Subject:* 70–100 cm full-drop drapery or upholstery swatches mounted on heavy-duty branded header cards with chrome swivel hook hanging on a showroom display rail.  
+  * *Requirements:* High-resolution product shot to replace the shared waterfall hanger asset on `/products/fabric-hanger-swatches`.

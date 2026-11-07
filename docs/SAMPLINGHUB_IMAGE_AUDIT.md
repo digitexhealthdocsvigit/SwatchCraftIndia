@@ -4,7 +4,7 @@
 **Production Website:** [https://www.samplinghub.world](https://www.samplinghub.world)  
 **Date:** November 2026  
 **Auditor:** Antigravity Engineering & QA Suite  
-**Branch:** `fix/samplinghub-admin-image-audit`
+**Branch:** `fix/samplinghub-admin-security-image-accuracy`
 
 ---
 
@@ -73,7 +73,7 @@ To further elevate brand authority and completely phase out secondary stock imag
 | **SH-P04** | Metal Ring Swatch Fan | Full 360° circular fan-out of 30 colorway swatches with stainless steel binding ring and embossed leather strap. | Flat-lay 90° Overhead, Shadowless light-tent. | `/products/ring-swatch-sets` Primary | High | Scheduled |
 | **SH-P05** | Waterfall Hanger Cascade | Three waterfall hangers hung on an aluminum showroom rail displaying 15 cascading swatches per card. | 30° Front Perspective, Clean architectural showroom background. | `/products/waterfall-swatch-hangers` Primary | High | Scheduled |
 | **SH-P06** | Partner Craftsman Inspection | Technician measuring fabric swatch alignment with steel precision rule and digital caliper at a quality inspection table. | Environmental Portrait, Natural warm workshop lighting (no manufacturer logos). | `/manufacturing-process` Inspection | High | Scheduled |
-| **SH-P07** | Export Packaging Staging | Branded corrugated master cartons lined with heavy 100-micron poly moisture bags, edge protectors, and tamper-evident strapping. | 45° Wide Angle, Clean dispatch staging area. | `/about` Packaging Hub Card | Medium | Scheduled |
+| **SH-P07** | Export Packaging Staging | Branded corrugated master cartons lined with protective moisture wrapping, edge corner buffers, and strapping. | 45° Wide Angle, Clean dispatch staging area. | `/about` Packaging Hub Card | Medium | Scheduled |
 | **SH-P08** | Wallpaper Binder Detail | Thick 3-ring binder open displaying textured embossed wallcovering and metallic foil finish swatches. | 45° Isometric, High-contrast lighting showing surface embossing. | `/products/wallpaper-catalog-manufacturing` | Medium | Scheduled |
 
 ---

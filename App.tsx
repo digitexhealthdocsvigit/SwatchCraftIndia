@@ -116,8 +116,7 @@ const VIEW_TO_PATH: Partial<Record<ViewState, string>> = {
 const resolveViewFromPath = (pathname: string): ViewState => {
   const normalized = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
   if (normalized === '/admin' || normalized === '/admin/login') {
-    const hasToken = typeof window !== 'undefined' && !!localStorage.getItem('samplinghub_admin_token');
-    return hasToken ? 'admin-dashboard' : 'admin-login';
+    return 'admin-login';
   }
   return PATH_TO_VIEW[normalized] ?? 'not-found';
 };
@@ -126,33 +125,33 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>(() => resolveViewFromPath(window.location.pathname));
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
   const [activeAsset, setActiveAsset] = useState('Catalogue');
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return !!localStorage.getItem('samplinghub_admin_token');
-  });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentView]);
 
+  // Authenticate solely via server-issued HttpOnly session cookie
   useEffect(() => {
-    if (currentView === 'admin-dashboard') {
-      const token = localStorage.getItem('samplinghub_admin_token');
-      if (!token) {
-        setIsAuthenticated(false);
-        setCurrentView('admin-login');
-        return;
-      }
-      fetch('/api/admin/session', {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    if (currentView === 'admin-dashboard' || currentView === 'admin-login') {
+      fetch('/api/admin/session')
         .then((res) => {
-          if (!res.ok) {
+          if (res.ok) {
+            setIsAuthenticated(true);
+            setCurrentView('admin-dashboard');
+          } else {
             setIsAuthenticated(false);
-            localStorage.removeItem('samplinghub_admin_token');
-            setCurrentView('admin-login');
+            if (currentView === 'admin-dashboard') {
+              setCurrentView('admin-login');
+            }
           }
         })
-        .catch(() => {});
+        .catch(() => {
+          setIsAuthenticated(false);
+          if (currentView === 'admin-dashboard') {
+            setCurrentView('admin-login');
+          }
+        });
     }
   }, [currentView]);
 
@@ -191,7 +190,6 @@ const App: React.FC = () => {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    localStorage.removeItem('samplinghub_admin_token');
     fetch('/api/admin/logout', { method: 'POST' }).catch(() => {});
     setCurrentView('admin-login');
     if (window.location.pathname !== '/admin') {
@@ -215,7 +213,7 @@ const App: React.FC = () => {
               </h2>
               <div className="prose prose-lg text-gray-700 leading-relaxed font-medium space-y-6">
                 <p>
-                  SamplingHub (Digitex Studio) is an India-based OEM fabric sampling solutions provider specialising in customised fabric sample books, swatch cards, waterfall hangers, sample headers, and textile presentation systems. Established in 2011, we operate through a dedicated network of specialised manufacturing partners with centralised product development, structural engineering, quality inspection, and international export dispatch coordinated from Thane Bhiwandi, PIN: 421302, Maharashtra, India.
+                  SamplingHub (Digitex Studio) is an India-based managed OEM fabric sampling solutions provider specialising in customised fabric sample books, swatch cards, waterfall hangers, sample headers and textile presentation systems. We manage customer orders through specialised manufacturing partners, with centralised product development, production coordination, quality inspection and finished-product supply. Established in 2011.
                 </p>
                 <p>
                   As an experienced export partner, we understand the technical demands of international fabric editors, mills, and interior furnishings brands. We provide end-to-end support including technical consultation on bookbinding mechanics, custom branding through foil stamping and blind debossing, and secure international air/sea freight logistics. Our standard 21-day express production timeline ensures that your sales teams across Europe, North America, the UK, and the Middle East receive seasonal collections on schedule.

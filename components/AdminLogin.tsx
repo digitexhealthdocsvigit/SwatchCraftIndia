@@ -26,11 +26,6 @@ const AdminLogin: React.FC<Props> = ({ onLogin, onNavigate }) => {
       });
 
       if (response.ok) {
-        const json = await response.json();
-        if (json.token) {
-          localStorage.setItem('samplinghub_admin_token', json.token);
-          localStorage.setItem('samplinghub_admin_session', 'true');
-        }
         onLogin();
         return;
       }

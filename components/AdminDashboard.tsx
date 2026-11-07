@@ -231,10 +231,8 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
 
     // 1. Try serverless endpoint
     try {
-      const token = localStorage.getItem('samplinghub_admin_token');
-      const res = await fetch('/api/admin/rfqs', {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-      });
+
+      const res = await fetch('/api/admin/rfqs');
       if (res.status === 401) {
         onLogout();
         return;
@@ -303,13 +301,10 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
     }
 
     try {
-      const token = localStorage.getItem('samplinghub_admin_token');
+
       await fetch('/api/admin/rfqs', {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, status: newStatus }),
       });
     } catch {
@@ -339,13 +334,10 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
     setNewNote('');
 
     try {
-      const token = localStorage.getItem('samplinghub_admin_token');
+
       await fetch('/api/admin/rfqs', {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, internalNote: noteText }),
       });
     } catch {
@@ -363,13 +355,10 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
     }
 
     try {
-      const token = localStorage.getItem('samplinghub_admin_token');
+
       await fetch('/api/admin/rfqs', {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, partnerAssigned: partner }),
       });
     } catch {

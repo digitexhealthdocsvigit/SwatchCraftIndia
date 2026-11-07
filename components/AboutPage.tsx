@@ -36,7 +36,7 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
         <div className="max-w-4xl mx-auto">
           <div className="prose prose-lg text-gray-700 leading-relaxed font-medium space-y-10">
             <p>
-              SamplingHub (Digitex Studio) is an India-based OEM fabric sampling solutions provider specialising in customised fabric sample books, swatch cards, waterfall hangers, sample headers, and wallpaper catalogs. Operating through a dedicated network of specialised manufacturing partners, we provide centralised product development, structural engineering, quality inspection, and international export dispatch from Thane Bhiwandi, PIN: 421302, Maharashtra, India.
+              SamplingHub (Digitex Studio) is an India-based managed OEM fabric sampling solutions provider specialising in customised fabric sample books, swatch cards, waterfall hangers, sample headers and textile presentation systems. We manage customer orders through specialised manufacturing partners, with centralised product development, production coordination, quality inspection and finished-product supply.
             </p>
             <p>
               Established in 2011, SamplingHub was founded to bridge the gap between Indian textile capabilities and international export sampling standards. As an OEM partner, we combine specialized fabrication capacities with strict centralized quality control. We recognize that for a textile exporter, the swatch book is the most vital sales asset—the silent ambassador of their brand on an international buyer's desk in Frankfurt, High Point, or Dubai.

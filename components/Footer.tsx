@@ -15,7 +15,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <span className="text-[10px] uppercase tracking-[0.2em] font-medium text-gray-300">Premium Sample Manufacturing</span>
           </div>
           <p className="text-gray-300 text-sm leading-relaxed mb-8 font-medium">
-            Established in 2011, SamplingHub (Digitex Studio) is an OEM fabric sampling solutions provider operating through a network of specialised manufacturing partners with centralised engineering, quality inspection, and export coordination from Thane Bhiwandi, PIN: 421302, Maharashtra, India.
+            SamplingHub (Digitex Studio) is an India-based managed OEM fabric sampling solutions provider specialising in customised fabric sample books, swatch cards, waterfall hangers, sample headers and textile presentation systems. We manage customer orders through specialised manufacturing partners, with centralised product development, production coordination, quality inspection and finished-product supply. Established in 2011.
           </p>
           <div className="flex space-x-4">
              {['linkedin', 'instagram', 'facebook'].map(s => <div key={s} className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[#8B6F47] transition-all cursor-pointer"><span className="text-[10px] font-black uppercase tracking-tighter text-gray-300">{s.slice(0,2)}</span></div>)}

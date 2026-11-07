@@ -4,7 +4,7 @@
 **Production Website:** [https://www.samplinghub.world](https://www.samplinghub.world)  
 **Date:** November 2026  
 **Auditor:** Antigravity Engineering & Quality Assurance Suite  
-**Branch:** `fix/samplinghub-machinery-image-accuracy-audit`  
+**Branch:** `fix/samplinghub-admin-security-image-accuracy`  
 **Status:** Audit Complete — 100% Remediated & Compliant  
 
 ---
@@ -45,7 +45,7 @@ Every visual asset across all public pages, media registries, and component tree
 | **About Page** (`/about`) Infrastructure Section | Placeholder Box 1 | Empty grey placeholder box labeled "Thane-Bhiwandi Registered Hub" | Generic broken frame | **UNVERIFIED / BROKEN** | **REPLACED** | Yes | Replaced with high-contrast OEM Partner Architecture card featuring custom SVG coordination hub iconography and authentic text. |
 | **About Page** (`/about`) Infrastructure Section | Placeholder Box 2 | Empty grey placeholder box labeled "Automated Cutting Machine" | Generic broken frame | **MISLEADING / BROKEN** | **REPLACED** | Yes | Replaced with "Precision Pinking & Manual Cutting" partner unit card; all automated claims removed. |
 | **About Page** (`/about`) Infrastructure Section | Placeholder Box 3 | Empty grey placeholder box labeled "Binding Station" | Generic broken frame | **UNVERIFIED / BROKEN** | **REPLACED** | Yes | Replaced with "Precision Case-Binding Press" partner unit card detailing 3mm–4mm rigid Kappa board casing. |
-| **About Page** (`/about`) Infrastructure Section | Placeholder Box 4 | Empty grey placeholder box labeled "Export Packaging Zone" | Generic broken frame | **UNVERIFIED / BROKEN** | **REPLACED** | Yes | Replaced with "Export QC & Moisture Barrier Packaging" card detailing 100-micron poly shrink-wrapping and corner buffers. |
+| **About Page** (`/about`) Infrastructure Section | Placeholder Box 4 | Empty grey placeholder box labeled "Export Packaging Zone" | Generic broken frame | **UNVERIFIED / BROKEN** | **REPLACED** | Yes | Replaced with "Export QC & Moisture Barrier Packaging" card detailing protective shrink-wrapping, corner buffers, and export cartons. |
 | **Blog Hub** (`/blog`) Article Grid | Placeholder Card 1 | Raw text placeholder `[ Featured Image: export ]` | Developer mockup | **MISSING** | **REPLACED** | Yes | Upgraded with category-tailored gradient editorial header banner with international freight SVG vector graphics. |
 | **Blog Hub** (`/blog`) Article Grid | Placeholder Card 2 | Raw text placeholder `[ Featured Image: swatches ]` | Developer mockup | **MISSING** | **REPLACED** | Yes | Upgraded with category-tailored gradient editorial header banner with fabric swatch format comparison SVG vector graphics. |
 | **Blog Hub** (`/blog`) Article Grid | Placeholder Card 3 | Raw text placeholder `[ Featured Image: roi ]` | Developer mockup | **MISSING** | **REPLACED** | Yes | Upgraded with category-tailored gradient editorial header banner with commercial B2B marketing ROI SVG vector graphics. |
@@ -105,7 +105,7 @@ While all placeholders have been replaced with genuine product photography or cl
 | **GEN-01** | `/about` | Partner Craftsman Hand-Cutting | Actual technician using rotary cutter with heavy steel ruler on woven jacquard fabric. Natural workshop lighting; no competitor or third-party machinery branding. | High |
 | **GEN-02** | `/about` | Manual Screw-Post Assembly | Artisan installing brass Chicago screw-posts into a 3mm rigid Kappa board cover. Focus on hands, hardware, and fabric alignment. | High |
 | **GEN-03** | `/manufacturing-process` | Multi-Point Quality Inspection | QC inspector verifying swatch step spacing with digital vernier caliper under high-CRI inspection lamp. | High |
-| **GEN-04** | `/about` | Export Staging & Packing | Worker sealing master carton with heavy 100-micron moisture-barrier inner poly liner and applying international export dispatch labels. | Medium |
+| **GEN-04** | `/about` | Export Staging & Packing | Worker sealing master carton with protective moisture-barrier inner wrapping, corner buffers, and applying international export dispatch labels. | Medium |
 
 ---
 

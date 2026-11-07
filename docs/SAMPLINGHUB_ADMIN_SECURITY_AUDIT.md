@@ -4,126 +4,129 @@
 **Production Website:** [https://www.samplinghub.world](https://www.samplinghub.world)  
 **Date:** November 2026  
 **Auditor:** Antigravity Engineering & QA Suite  
-**Branch:** `fix/samplinghub-admin-image-audit`
+**Branch:** `fix/samplinghub-admin-security-image-accuracy`  
+**Status:** Audit Complete — Hardened & Verified  
 
 ---
 
 ## 1. Executive Summary
 
-This document presents the comprehensive security evaluation and architectural audit of the SamplingHub administrative portal (`/admin` and `/admin/login`) and backend API routes under `api/admin/*`.
+This document presents the security evaluation and architectural audit of the SamplingHub administrative portal (`/admin` and `/admin/login`) and backend API routes under `api/admin/*`.
 
-Previous iterations relied on hardcoded fallback secrets in source code (`ADMIN_SESSION_SECRET` and `ADMIN_PASSWORD_HASH`). This vulnerability has been completely resolved. All fallback credentials have been permanently removed. A zero-trust, fail-safe environment configuration architecture has been implemented, validated by 45 automated unit and acceptance tests with zero failures and zero secret leaks into the client-side bundle.
+All previously identified security shortcomings have been resolved:
+1. **Plain SHA-256 password hashing replaced:** Implemented standard RFC 7914 / NIST SP 800-132 **scrypt** key derivation function using work factors $N=16384$, $r=8$, $p=1$, derived key length of 64 bytes, and cryptographically random 16-byte salts.
+2. **Token exposure in response body eliminated:** `/api/admin/login` no longer returns the session token in the response JSON. The `HttpOnly; SameSite=Lax; Secure` cookie is the **sole** browser session credential.
+3. **`localStorage` token storage completely purged:** Removed all storage of tokens, booleans, or authentication flags in `localStorage` across all frontend components (`AdminLogin.tsx`, `AdminDashboard.tsx`, `App.tsx`). Zero authentication credentials exist in browser storage.
+4. **Strict, consistent 24-hour session expiry:** Session tokens and cookies strictly enforce an explicit 24-hour time-to-live (`SESSION_EXPIRY_MS = 86400000`, cookie `Max-Age=86400`).
+5. **Server-side token revocation on logout:** Calling `/api/admin/logout` invalidates the active session token's `jti` in server memory and clears the client cookie (`Max-Age=0`). Revoked tokens are immediately rejected with HTTP 401.
+6. **Strict CORS policy:** Wildcard CORS (`*`) has been replaced with an explicit origin whitelist restricting access to production origins (`https://www.samplinghub.world`, `https://samplinghub.world`, `https://swatch-craft-india.vercel.app`) and local development ports.
+7. **Transparent serverless rate-limiting disclosure:** Rate limiting tracks failed attempts per IP with exponential retry headers; documentation clearly delineates instance-local tracking from distributed KV stores.
 
 ---
 
-## 2. 14-Point Security Evaluation & Acceptance Matrix
+## 2. Security Evaluation & Acceptance Matrix
 
-| # | Security Verification Criterion | Implementation Mechanism | Test Method & Script | Status |
+| # | Verification Criterion | Implementation Mechanism | Test Method & Script | Status |
 | :- | :--- | :--- | :--- | :--- |
-| **01** | **Elimination of Hardcoded Fallback Secrets** | `api/_lib/auth.ts` has had all static fallback hashes, default passwords, and mock tokens purged. `isAuthConfigured()` returns `false` if any of the three required environment variables are unset. | Automated test asserting `isAuthConfigured() === false` when environment is blank. | **PASS** |
-| **02** | **Fail-Safe Server Behavior (HTTP 503)** | `/api/admin/login` immediately halts and responds with HTTP 503 `AUTH_NOT_CONFIGURED` if environment variables are missing, preventing any unauthorized default access. | `test_handlers_direct.js` Test 0 verifies HTTP 503 response. | **PASS** |
-| **03** | **Zero-Leak Local Credential Provisioning** | Interactive generator `scripts/setup_admin_credentials.js` prompts the business owner for their private email and password, masks inputs with asterisks (`*`), computes SHA-256 digests in volatile memory, generates a 64-char crypto session secret, and never writes secrets to disk or Git. | Manually tested in terminal and validated via code inspection. | **PASS** |
-| **04** | **3-Variable Configuration Model** | Requires three explicit environment variables in Vercel: `ADMIN_EMAIL` (authorized administrator), `ADMIN_PASSWORD_HASH` (SHA-256 hex digest), and `ADMIN_SESSION_SECRET` (64-character entropy key). | Validated across `auth.ts`, `login.ts`, `session.ts`, `rfqs.ts`. | **PASS** |
-| **05** | **Timing-Safe Password Verification** | Authentication verifies password digest using Node.js `crypto.timingSafeEqual` over fixed-length buffer comparisons, preventing side-channel timing attacks. | `verifyCredentials()` unit tests in `test_server_security_acceptance.js`. | **PASS** |
-| **06** | **Cryptographically Signed Session Tokens** | Session tokens are generated as base64-encoded JSON payloads containing `{ email, issuedAt, expiresAt }` signed with an HMAC-SHA256 signature using `ADMIN_SESSION_SECRET`. Tokens have a 24-hour time-to-live. | Unit tests verify tampering with payload or signature causes immediate token rejection. | **PASS** |
-| **07** | **Hardened HttpOnly Session Cookies** | Upon successful login, the session token is set via `Set-Cookie` with `HttpOnly; Path=/; SameSite=Lax; Max-Age=86400`, plus `Secure` flag enabled in production (`NODE_ENV === 'production'`). JavaScript cannot read the token. | Verified in `api/admin/login.ts` and automated handler test suite. | **PASS** |
-| **08** | **Brute-Force Rate Limiting** | In-memory sliding-window rate limiter tracks failed login attempts by client IP address. After 5 failed attempts within a 15-minute window, subsequent requests are rejected with HTTP 429 Too Many Requests. | Automated brute-force test executes 6 failed attempts and verifies HTTP 429 on attempt #6. | **PASS** |
-| **09** | **Session Verification API (`/api/admin/session`)** | Reads session cookie from request headers, parses and verifies HMAC signature, checks expiration timestamp against current wall clock time, and returns `{ authenticated: true, user: { email, role: 'admin' } }`. | Tested for valid tokens, expired tokens, tampered tokens, and missing tokens. | **PASS** |
-| **10** | **Server-Side Authorization on RFQ Store** | `/api/admin/rfqs` enforces server-side authentication check prior to returning lead records. Unauthenticated requests receive HTTP 401 Unauthorized. | Tested via unauthenticated GET request verifying 401 response. | **PASS** |
-| **11** | **Clean Session Revocation (`/api/admin/logout`)** | Endpoint overwrites `samplinghub_admin_session` cookie with empty value, `Expires=Thu, 01 Jan 1970 00:00:00 GMT`, and `Max-Age=0`. | Verified response headers in `test_handlers_direct.js`. | **PASS** |
-| **12** | **Zero Bundle Secret Leaks** | Full AST and regex scan of all 38 production JavaScript chunks output by Vite build. Zero environment variable names (`ADMIN_PASSWORD_HASH`, `ADMIN_SESSION_SECRET`), zero hashes, and zero credentials exist in client bundles. | Automated bundle scan script scans `dist/assets/*.js` and asserts 0 matches. | **PASS** |
-| **13** | **Direct Handler Unit Test Suite** | 23 isolated unit tests covering request parsing, cookie parsing, timing comparisons, signature validation, rate limiting, and status codes. | `node_modules/.bin/jiti scripts/test_handlers_direct.js` (23 passed, 0 failed). | **PASS** |
-| **14** | **End-to-End Server Acceptance Suite** | 22 integration tests verifying complete login -> session -> rfq fetch -> logout lifecycle under valid and invalid conditions. | `node scripts/test_server_security_acceptance.js` (22 passed, 0 failed). | **PASS** |
+| **01** | **Standard scrypt Password Hashing** | Uses standard `crypto.scryptSync(password, salt, 64, { N: 16384, r: 8, p: 1 })` with random 16-byte hex salt. Encoded format: `$scrypt$N=16384,r=8,p=1$<salt>$<hash>`. | `test_server_security_acceptance.js` verifies valid/invalid scrypt hashes and work factors. | **PASS** |
+| **02** | **Fail-Safe Server Behavior (HTTP 503)** | `/api/admin/login` halts immediately and responds with HTTP 503 `AUTH_NOT_CONFIGURED` if `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH`, or `ADMIN_SESSION_SECRET` are unset. | `test_handlers_direct.js` Test 0 verifies 503 response. | **PASS** |
+| **03** | **Zero-Leak Local Credential CLI** | `scripts/setup_admin_credentials.js` prompts for email and password, masks input with asterisks (`*`), computes scrypt hash with random salt, and never writes secrets to disk or Git. | Tested in terminal, verified zero disk writes. | **PASS** |
+| **04** | **3-Variable Configuration Model** | Requires three explicit server-only environment variables: `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH`, `ADMIN_SESSION_SECRET`. | Enforced across `auth.ts`, `login.ts`, `session.ts`, `rfqs.ts`. | **PASS** |
+| **05** | **Timing-Safe Credential Verification** | Compares email identifiers and scrypt derived keys using `crypto.timingSafeEqual` over fixed-length buffers. | Validated in `verifyCredentials()` unit tests. | **PASS** |
+| **06** | **24-Hour Cryptographic Session Tokens** | Session tokens are HMAC-SHA256 signed JSON payloads containing `{ email, jti, expiry }` where `expiry = now + 86400000`. | Unit tests verify signature integrity and 24-hr expiry. | **PASS** |
+| **07** | **HttpOnly Cookie Sole Credential** | Session token is delivered exclusively via `Set-Cookie: samplinghub_admin_token=...; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400`. Response JSON contains zero tokens. | Verified in `api/admin/login.ts` and direct handler tests. | **PASS** |
+| **08** | **Zero `localStorage` Token Storage** | Frontend never stores session tokens, booleans, or flags in `localStorage`. Authentication state is verified dynamically via `/api/admin/session`. | Bundle scan and AST check confirm zero storage. | **PASS** |
+| **09** | **Server-Side Token Revocation on Logout** | `/api/admin/logout` marks the token's `jti` in `revokedTokenJtis` and clears cookie with `Max-Age=0`. Revoked tokens return 401 immediately. | Tested in `test_server_security_acceptance.js` and `test_handlers_direct.js`. | **PASS** |
+| **10** | **Strict Origin CORS Policy** | Restricts CORS to `https://www.samplinghub.world`, `https://samplinghub.world`, `https://swatch-craft-india.vercel.app`, and local dev hosts. No wildcard `*`. | Implemented in `handleCors()` in `auth.ts`. | **PASS** |
+| **11** | **Payload Size & Input Validation** | `/api/admin/login` enforces a 10 KB body limit, validates string types, string lengths, and returns generic `"Invalid administrator credentials."` on failure. | Tested for empty, invalid, and malformed inputs. | **PASS** |
+| **12** | **Serverless Rate Limiting** | Tracks failed attempts per IP (max 5 per 15 min). Exceeding limit returns HTTP 429 with `Retry-After`. Instance-local scope transparently documented. | Automated brute-force test executes 6 failed attempts and asserts 429. | **PASS** |
+| **13** | **Protected API Access Guard** | `/api/admin/rfqs` independently verifies the session cookie. Unauthenticated requests return HTTP 401 Unauthorized. | Tested via unauthenticated GET and PATCH requests. | **PASS** |
+| **14** | **Zero Client Bundle Leaks** | Full AST scan of all 38 production JavaScript chunks. Zero secrets, zero configuration keys, and zero token storage flags found in `dist/assets/*.js`. | Automated bundle scan script confirms 0 leaks across 38 chunks. | **PASS** |
 
 ---
 
-## 3. Threat Model & Mitigations
+## 3. Rate-Limiting Implementation & Architecture Notes
 
-### 3.1 Threat: Credential Brute-Forcing & Dictionary Attacks
-- **Risk:** Automated bots attempting thousands of password permutations against `/api/admin/login`.
-- **Mitigation:**
-  1. Rate limiting throttles to 5 attempts per 15 minutes per IP address.
-  2. SHA-256 with constant-time comparison prevents timing side-channels.
-  3. No error differentiation between invalid email vs. invalid password; server returns generic `"Invalid administrator credentials"` error.
-
-### 3.2 Threat: Token Forgery & Session Hijacking
-- **Risk:** Malicious actor crafting arbitrary session cookies to impersonate the administrator.
-- **Mitigation:**
-  1. Tokens are HMAC-SHA256 signed using a server-only 64-character entropy secret (`ADMIN_SESSION_SECRET`).
-  2. Modification of a single bit in the base64 payload invalidates the signature.
-  3. Tokens expire automatically after 24 hours (`expiresAt: now + 86400000`).
-  4. Cookies use `HttpOnly`, preventing XSS attacks from extracting tokens.
-
-### 3.3 Threat: Replay Attacks & Stale Sessions
-- **Risk:** Old session cookies reused indefinitely.
-- **Mitigation:**
-  1. Server checks `payload.expiresAt < Date.now()` on every protected API call.
-  2. Logging out invalidates the cookie in the client browser immediately.
-
-### 3.4 Threat: Default Credential Exploitation in Staging / New Deployments
-- **Risk:** An unconfigured server falling back to insecure defaults like `admin / admin123`.
-- **Mitigation:**
-  1. All fallback credentials were purged from the repository.
-  2. The server strictly requires environment variables to be set in Vercel.
-  3. If unconfigured, the login endpoint responds with HTTP 503 and displays a clear setup instruction screen rather than opening unauthenticated access.
+### Current Scope & Architecture:
+- Rate limiting is enforced via `checkLoginRateLimit(ip)` in `api/_lib/auth.ts`, maintaining a sliding window of failed attempts per client IP address.
+- When an IP accumulates 5 failed login attempts within 15 minutes, subsequent requests are throttled with HTTP 429 and a `Retry-After: <seconds>` header.
+- **Serverless Instance Limitation Notice:** In serverless execution environments (such as Vercel Edge / Serverless Functions), in-memory Map state is scoped to the warm lifetime of the active function container. Cold starts or requests routed to different regions maintain independent local maps.
+- **Recommended Production Scaling:** For distributed, multi-region rate limiting that persists across serverless instances, a shared Redis store (such as Vercel KV or Upstash Redis) should be connected using standard REST API calls.
 
 ---
 
-## 4. Test Suite Execution Logs
+## 4. Test Execution Results
 
-### Direct Handler Tests (`scripts/test_handlers_direct.js`):
+All 60 automated unit and integration tests executed cleanly:
+
+### 4.1 Server Security Acceptance Suite (`scripts/test_server_security_acceptance.js`):
 ```text
-=== SAMPLINGHUB DIRECT API HANDLER TEST SUITE ===
+[PASS] isAuthConfigured returns false when env vars are missing
+[PASS] verifyCredentials returns false when unconfigured
+[PASS] scrypt produces standard formatted hash with N=16384, r=8, p=1
+[PASS] verifyPassword accepts correct password with scrypt hash
+[PASS] verifyPassword rejects incorrect password with scrypt hash
+[PASS] verifyPassword rejects empty password
+[PASS] isAuthConfigured returns true when test secrets are set
+[PASS] Rejects invalid credentials
+[PASS] Accepts valid configured administrator credentials
+[PASS] Normalizes email case insensitively
+[PASS] Handles short credentials safely
+[PASS] Session expiry is explicitly set to 24 hours (86,400,000 ms)
+[PASS] Generates valid signed session token
+[PASS] Verifies authentic token correctly
+[PASS] Rejects forged HMAC signature token
+[PASS] Rejects expired session token
+[PASS] Token is not revoked initially
+[PASS] Token is marked revoked after logout
+[PASS] verifySessionToken rejects server-revoked token
+[PASS] Rate limit attempt #1 is allowed
+[PASS] Rate limit attempt #2 is allowed
+[PASS] Rate limit attempt #3 is allowed
+[PASS] Rate limit attempt #4 is allowed
+[PASS] Rate limit attempt #5 is allowed
+[PASS] 6th attempt is blocked with 429 Retry-After
+[PASS] Returns retryAfterSeconds integer
+[PASS] Parses session token from Cookie header correctly
+[PASS] Initial RFQs present (11 records)
+[PASS] Creates new RFQ record with valid ID
+[PASS] RFQ count increased by 1 in storage
+[PASS] Updates RFQ status and estimated value
 
-1. Testing Unconfigured Fail-Safe State...
-   [PASS] Login returns HTTP 503 when environment variables are not configured
-   [PASS] Login returns AUTH_NOT_CONFIGURED error code
-
-2. Testing Configured Authentication Handler...
-   [PASS] Login rejects GET method with HTTP 405
-   [PASS] Login rejects missing body with HTTP 400
-   [PASS] Login rejects incorrect password with HTTP 401
-   [PASS] Login rejects incorrect email with HTTP 401
-   [PASS] Login accepts valid credentials with HTTP 200
-   [PASS] Login response includes user email and role: admin
-   [PASS] Login sets HttpOnly session cookie
-   [PASS] Login rate limiter blocks after 5 failed attempts (HTTP 429)
-
-3. Testing Session Verification Handler (/api/admin/session)...
-   [PASS] Session rejects unauthenticated request with HTTP 401
-   [PASS] Session validates valid session cookie with HTTP 200
-   [PASS] Session rejects tampered session signature with HTTP 401
-   [PASS] Session rejects expired session token with HTTP 401
-
-4. Testing Protected RFQ Store Handler (/api/admin/rfqs)...
-   [PASS] RFQ endpoint rejects unauthenticated request with HTTP 401
-   [PASS] RFQ endpoint allows authenticated administrator with HTTP 200
-   [PASS] RFQ endpoint returns list of stored inquiries
-
-5. Testing Admin Logout Handler (/api/admin/logout)...
-   [PASS] Logout returns HTTP 200
-   [PASS] Logout clears session cookie with Max-Age=0
-
-ALL 23 DIRECT API HANDLER TESTS PASSED! (0 failed)
+--- RESULTS: 31 PASSED, 0 FAILED ---
 ```
 
-### Server Acceptance Tests (`scripts/test_server_security_acceptance.js`):
+### 4.2 Direct Serverless Handler Suite (`scripts/test_handlers_direct.js`):
 ```text
-=== SAMPLINGHUB SERVER SECURITY & AUTH ACCEPTANCE SUITE ===
+[PASS] Unconfigured environment variables return 503 Service Unavailable
+[PASS] Returns code AUTH_NOT_CONFIGURED
+[PASS] Unauthenticated /api/admin/session returns 401
+[PASS] Session response payload indicates authenticated: false
+[PASS] Unauthenticated /api/admin/rfqs returns 401
+[PASS] Forged Bearer token returns 401
+[PASS] Invalid credentials returns 401
+[PASS] Returns generic error message
+[PASS] Empty login payload returns 400
+[PASS] Valid login with configured credentials returns 200
+[PASS] Login returns success: true
+[PASS] Login does NOT expose session token in response body
+[PASS] Login returns authenticated user email
+[PASS] Sets HttpOnly session cookie
+[PASS] Sets 24-hour cookie Max-Age=86400
+[PASS] Sets SameSite=Lax flag
+[PASS] Extracted cookie session token
+[PASS] Valid Cookie /api/admin/session returns 200
+[PASS] Returns authenticated user object
+[PASS] Valid Cookie /api/admin/rfqs returns 200
+[PASS] Returns RFQ list array
+[PASS] POST /api/admin/logout returns 200
+[PASS] Logout clears cookie with Max-Age=0
+[PASS] Revoked session token is rejected with 401 on server
+[PASS] 6th failed login attempt blocked with 429 Too Many Requests
+[PASS] Includes Retry-After response header
+[PASS] POST /api/rfq/submit valid payload returns 201
+[PASS] Created RFQ ID returned in response
+[PASS] POST /api/rfq/submit missing required fields returns 400
 
-[PASS] isAuthConfigured returns false when env vars are missing
-[PASS] isAuthConfigured returns true when env vars are present
-[PASS] verifyCredentials accepts correct password digest
-[PASS] verifyCredentials rejects incorrect password
-[PASS] verifyCredentials rejects empty password
-[PASS] verifyCredentials timingSafeEqual protects against length mismatches
-[PASS] generateSessionToken produces signature with proper separator
-[PASS] verifySessionToken validates authentic token
-[PASS] verifySessionToken rejects tampered signature
-[PASS] verifySessionToken rejects expired token
-[PASS] parseCookies extracts cookie from header string
-[PASS] rateLimitLogin correctly counts attempts
-[PASS] rateLimitLogin blocks IP after 5 failed attempts
-
-ALL 22 ACCEPTANCE TESTS PASSED! (0 failed)
+--- SERVERLESS HANDLER RESULTS: 29 PASSED, 0 FAILED ---
 ```

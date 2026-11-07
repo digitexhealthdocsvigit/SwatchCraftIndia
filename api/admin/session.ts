@@ -1,14 +1,8 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { parseCookies, verifySessionToken } from '../_lib/auth.js';
+import { parseCookies, verifySessionToken, handleCors } from '../_lib/auth.js';
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-  if (req.method === 'OPTIONS') {
-    res.statusCode = 204;
-    res.end();
+  if (handleCors(req, res)) {
     return;
   }
 
@@ -33,7 +27,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       authenticated: true,
       user: {
         email: result.email,
-        role: 'superadmin',
+        role: 'admin',
       },
     })
   );

@@ -5,13 +5,14 @@
  * 
  * This tool allows the business owner to choose an administrator email address
  * they control, create their private superadministrator password locally, and
- * generate the required Vercel environment variables.
+ * generate the required Vercel environment variables using RFC 7914 scrypt.
  * 
  * SECURITY GUARANTEES:
  * 1. The plaintext password is NEVER stored on disk, logged, or committed to Git.
  * 2. Inputs are masked in the terminal with asterisks.
- * 3. A cryptographically strong HMAC-SHA256 session secret is generated on the fly.
- * 4. The resulting configuration keys are output directly to the terminal for the owner
+ * 3. A standard scrypt password hash is computed using a 16-byte random salt.
+ * 4. A cryptographically strong HMAC-SHA256 session secret is generated on the fly.
+ * 5. The resulting configuration keys are output directly to the terminal for the owner
  *    to paste into their Vercel Environment Variables dashboard.
  */
 
@@ -113,9 +114,14 @@ async function main() {
     process.exit(1);
   }
 
-  // Step 3: Compute SHA-256 Digest matching server implementation
-  const normalized = `${adminEmail}:${pass1}`;
-  const passwordHash = crypto.createHash('sha256').update(normalized).digest('hex');
+  // Step 3: Compute standard RFC 7914 scrypt password hash with 16-byte random salt
+  const salt = crypto.randomBytes(16).toString('hex');
+  const N = 16384;
+  const r = 8;
+  const p = 1;
+  const keylen = 64;
+  const derivedKey = crypto.scryptSync(pass1, salt, keylen, { N, r, p });
+  const passwordHash = `$scrypt$N=${N},r=${r},p=${p}$${salt}$${derivedKey.toString('hex')}`;
 
   // Step 4: Generate a high-entropy 64-character hex session secret
   const sessionSecret = crypto.randomBytes(32).toString('hex');
@@ -147,10 +153,9 @@ async function main() {
   console.log('2. Redeploy the latest commit in Vercel to activate the new environment variables.');
   console.log(`3. Navigate to https://www.samplinghub.world/admin and log in with ${adminEmail}`);
   console.log('   using the private password you just created.\n');
-  console.log('================================================================\n');
 }
 
 main().catch((err) => {
-  console.error('Fatal error:', err);
+  console.error('\nFatal error generating credentials:', err);
   process.exit(1);
 });
