@@ -10,6 +10,7 @@ import {
   RFQ_INDEX_KEY,
   RFQ_LEGACY_KEY,
   RFQ_MIGRATION_LOCK,
+  RFQ_MIGRATION_STATUS_KEY,
 } from '../api/_lib/store.ts';
 
 async function runFailureInjectionTests() {
@@ -129,6 +130,7 @@ async function runFailureInjectionTests() {
   let initialIndex = remoteZSetStore.get(RFQ_INDEX_KEY) || [];
   initialIndex.push({ member: orphanId, score: Date.now() });
   remoteZSetStore.set(RFQ_INDEX_KEY, initialIndex);
+  remoteKvStore.set(RFQ_MIGRATION_STATUS_KEY, 'done');
   assert(remoteKvStore.has(`samplinghub:rfq:${orphanId}`) === false, 'Orphan entity key is missing');
 
   const rfqsAfterOrphan = await getAllRFQsAsync();
@@ -155,7 +157,6 @@ async function runFailureInjectionTests() {
   // -------------------------------------------------------------------------
   // Test 3: Atomic Fail-Closed on Lua Failure (No Silent Non-Atomic Fallback)
   // -------------------------------------------------------------------------
-  // Simulate Redis rejecting EVAL
   setMockKvHandler((commands) => {
     return Promise.resolve(
       commands.map(([cmd]) => {
@@ -174,7 +175,7 @@ async function runFailureInjectionTests() {
       productType: 'Sample Card',
       quantity: '500 Units',
     });
-  } catch (err) {
+  } catch {
     threwOnEvalFailure = true;
   }
   assert(threwOnEvalFailure, 'CRIT: addRFQAsync fails closed when Lua transaction fails (no silent non-atomic fallback)');
@@ -244,7 +245,7 @@ async function runFailureInjectionTests() {
   assert(matchingRecords.length === 1, 'Idempotent retry: Retrying identical submission does not duplicate RFQ in index or list');
 
   // -------------------------------------------------------------------------
-  // Test 7: Distributed Migration Lock with Unique Token
+  // Test 7: Distributed Migration Lock with Unique Token and Completion Marker
   // -------------------------------------------------------------------------
   remoteKvStore.clear();
   remoteZSetStore.clear();
@@ -283,15 +284,14 @@ async function runFailureInjectionTests() {
   assert(migrationRes2.length >= 2, 'Instance 2 successfully received migrated records');
   assert(remoteKvStore.has('samplinghub:rfq:RFQ-LEGACY-A'), 'Record A migrated to individual key');
   assert(remoteKvStore.has('samplinghub:rfq:RFQ-LEGACY-B'), 'Record B migrated to individual key');
+  assert(remoteKvStore.get(RFQ_MIGRATION_STATUS_KEY) === 'done', 'CRIT: Migration status marker set to done');
   assert(remoteKvStore.has(RFQ_LEGACY_KEY), 'Legacy data preserved intact (never deleted)');
   assert(!remoteKvStore.has(RFQ_MIGRATION_LOCK), 'Distributed migration lock released cleanly');
 
   // -------------------------------------------------------------------------
   // Test 8: Safe Unlock - Expired Lock Cannot Be Removed by Former Owner
   // -------------------------------------------------------------------------
-  // Instance 1 held a lock that expired. Instance 2 now holds the lock with token 'TOKEN_B'
   remoteKvStore.set(RFQ_MIGRATION_LOCK, 'TOKEN_B');
-  // Instance 1 tries to release with old token 'TOKEN_A'
   const unlockResult = await mockKvPipeline([
     ['EVAL', "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end", 1, RFQ_MIGRATION_LOCK, 'TOKEN_A'],
   ]);
@@ -299,12 +299,22 @@ async function runFailureInjectionTests() {
   assert(remoteKvStore.get(RFQ_MIGRATION_LOCK) === 'TOKEN_B', 'CRIT: Another process lock was NOT deleted by stale unlock');
 
   // -------------------------------------------------------------------------
-  // Test 9: Interrupted Migration Recovery
+  // Test 9: Interrupted Migration Recovery (Resumes and Completes)
   // -------------------------------------------------------------------------
-  remoteKvStore.delete('samplinghub:rfq:RFQ-LEGACY-B');
-  const partialRecovered = await getAllRFQsAsync();
-  assert(partialRecovered.some((r) => r.id === 'RFQ-LEGACY-A'), 'Valid migrated Record A remains intact');
-  assert(!partialRecovered.some((r) => r.id === 'RFQ-LEGACY-B'), 'Incomplete Record B safely excluded');
+  // Simulate migration crash midway: Record A was written, but B was not, and migration status is NOT done
+  remoteKvStore.clear();
+  remoteZSetStore.clear();
+  remoteKvStore.set(RFQ_LEGACY_KEY, JSON.stringify(legacyBatch));
+  // Record A written into index partially
+  let partialZSet = [{ member: 'RFQ-LEGACY-A', score: Date.now() }];
+  remoteZSetStore.set(RFQ_INDEX_KEY, partialZSet);
+  remoteKvStore.set('samplinghub:rfq:RFQ-LEGACY-A', JSON.stringify(legacyBatch[0]));
+  // Notice: RFQ_MIGRATION_STATUS_KEY is NOT set, simulating crash before completion!
+
+  const resumedMigration = await getAllRFQsAsync();
+  assert(resumedMigration.length === 2, 'Interrupted migration safely resumed and completed both records');
+  assert(remoteKvStore.has('samplinghub:rfq:RFQ-LEGACY-B'), 'Previously unmigrated Record B successfully written');
+  assert(remoteKvStore.get(RFQ_MIGRATION_STATUS_KEY) === 'done', 'Migration status marked done after recovery');
 
   // -------------------------------------------------------------------------
   // Test 10: Deduplication of Duplicate Legacy IDs
@@ -323,9 +333,47 @@ async function runFailureInjectionTests() {
   assert(dupEntries[0].quantity === '20', 'Latest version retained during deduplication');
 
   // -------------------------------------------------------------------------
-  // Test 11: Atomic Deletion Fail-Closed
+  // Test 11: Migration Polling Coordination (>150ms Delay)
   // -------------------------------------------------------------------------
-  // Add a test RFQ
+  remoteKvStore.clear();
+  remoteZSetStore.clear();
+  remoteKvStore.set(RFQ_LEGACY_KEY, JSON.stringify(legacyBatch));
+  // Instance 1 holds the lock
+  remoteKvStore.set(RFQ_MIGRATION_LOCK, 'MIGRATING_INSTANCE_TOKEN');
+
+  // Simulate Instance 1 finishing migration asynchronously after 180ms
+  setTimeout(() => {
+    legacyBatch.forEach((r) => {
+      remoteKvStore.set(`samplinghub:rfq:${r.id}`, JSON.stringify(r));
+    });
+    let list = legacyBatch.map((r, i) => ({ member: r.id, score: Date.now() + i }));
+    remoteZSetStore.set(RFQ_INDEX_KEY, list);
+    remoteKvStore.set(RFQ_MIGRATION_STATUS_KEY, 'done');
+    remoteKvStore.delete(RFQ_MIGRATION_LOCK);
+  }, 180);
+
+  // Instance 2 encounters the lock, polls with backoff (>150ms), and receives full migrated records
+  const coordinatedRead = await getAllRFQsAsync();
+  assert(coordinatedRead.length === 2, 'Polling instance waited >150ms and received full migrated records');
+  assert(coordinatedRead.some((r) => r.id === 'RFQ-LEGACY-A'), 'Polled read contains Record A');
+  assert(coordinatedRead.some((r) => r.id === 'RFQ-LEGACY-B'), 'Polled read contains Record B');
+
+  // -------------------------------------------------------------------------
+  // Test 12: Concurrent Submission during Migration
+  // -------------------------------------------------------------------------
+  const concurrentNew = await addRFQAsync({
+    fullName: 'Concurrent Submitter',
+    companyName: 'Realtime Textiles',
+    email: 'realtime@textiles.com',
+    productType: 'Curtain Album',
+    quantity: '300 Units',
+  });
+  assert(Boolean(concurrentNew.id), 'Submission during migration succeeded with unique ID');
+  assert(remoteKvStore.has(`samplinghub:rfq:${concurrentNew.id}`), 'Concurrent submission entity exists in Redis');
+
+  // -------------------------------------------------------------------------
+  // Test 13: Atomic Deletion Fail-Closed
+  // -------------------------------------------------------------------------
   const toDelete = await addRFQAsync({
     fullName: 'Delete Test',
     companyName: 'Delete Corp',
@@ -335,7 +383,6 @@ async function runFailureInjectionTests() {
   });
   assert(remoteKvStore.has(`samplinghub:rfq:${toDelete.id}`), 'Record to delete exists in Redis');
 
-  // Test successful deletion
   const delSuccess = await deleteRFQAsync(toDelete.id);
   assert(delSuccess === true, 'Atomic delete succeeded');
   assert(!remoteKvStore.has(`samplinghub:rfq:${toDelete.id}`), 'Deleted record removed from Redis');
@@ -343,7 +390,7 @@ async function runFailureInjectionTests() {
   assert(!indexAfterDel.some((e) => e.member === toDelete.id), 'Deleted record removed from index');
 
   // -------------------------------------------------------------------------
-  // Test 12: Redis Outage and Recovery
+  // Test 14: Redis Outage and Recovery
   // -------------------------------------------------------------------------
   setMockKvHandler(() => Promise.resolve(null));
   const outageRead = await getAllRFQsAsync();

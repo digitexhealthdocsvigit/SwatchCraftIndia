@@ -76,6 +76,7 @@ const TMP_FILE = path.join(os.tmpdir(), 'samplinghub_rfqs.json');
 export const RFQ_INDEX_KEY = 'samplinghub:rfqs_index';
 export const RFQ_LEGACY_KEY = 'samplinghub:rfqs';
 export const RFQ_MIGRATION_LOCK = 'samplinghub:rfqs_migration_lock';
+export const RFQ_MIGRATION_STATUS_KEY = 'samplinghub:rfqs_migrated_v1';
 
 // In-memory cache across serverless warm starts
 let memoryStore: StoredRFQ[] = [...SEED_RFQS];
@@ -106,70 +107,109 @@ function saveToFile() {
 loadFromFile();
 
 /**
+ * Helper to fetch and validate RFQ entities by IDs with self-healing orphan pruning.
+ */
+async function fetchAndReconcileRFQs(ids: string[]): Promise<StoredRFQ[]> {
+  if (ids.length === 0) return [];
+  const getCmds = ids.map((id) => ['GET', `samplinghub:rfq:${id}`]);
+  const recordsRes = await sendKvPipeline(getCmds);
+
+  if (!recordsRes || !Array.isArray(recordsRes)) return [];
+
+  const rfqs: StoredRFQ[] = [];
+  const orphanedIds: string[] = [];
+
+  for (let i = 0; i < ids.length; i++) {
+    const id = ids[i];
+    const raw = recordsRes[i];
+    if (!raw) {
+      orphanedIds.push(id);
+      continue;
+    }
+    try {
+      const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+      if (parsed && typeof parsed.id === 'string' && typeof parsed.fullName === 'string') {
+        rfqs.push(parsed);
+      } else {
+        orphanedIds.push(id);
+      }
+    } catch {
+      orphanedIds.push(id);
+    }
+  }
+
+  // Asynchronously prune orphaned index entries in the background
+  if (orphanedIds.length > 0) {
+    const pruneCmds = orphanedIds.map((oid) => ['ZREM', RFQ_INDEX_KEY, oid]);
+    sendKvPipeline(pruneCmds).catch(() => {});
+  }
+
+  return rfqs;
+}
+
+/**
  * Fetches all RFQs using the atomic sorted set index (samplinghub:rfqs_index).
- * Performs automatic forward-migration from legacy monolithic key (samplinghub:rfqs) if index is uninitialized.
+ * Performs coordinated forward-migration from legacy monolithic key (samplinghub:rfqs) with
+ * distributed locking, active polling with exponential backoff, and idempotent recovery.
  * Features self-healing reconciliation: automatically detects and prunes orphaned index entries.
  */
 export async function getAllRFQsAsync(): Promise<StoredRFQ[]> {
   if (isSharedStorageConfigured()) {
     try {
-      // 1. Fetch all RFQ IDs from the atomic sorted set index (ordered newest first)
-      const indexRes = await sendKvPipeline([['ZREVRANGE', RFQ_INDEX_KEY, 0, -1]]);
-      let ids: string[] = [];
+      // 1. Check if forward-migration has been authoritatively marked complete
+      const checkRes = await sendKvPipeline([
+        ['GET', RFQ_MIGRATION_STATUS_KEY],
+        ['ZREVRANGE', RFQ_INDEX_KEY, 0, -1],
+      ]);
+      const isMigrationDone = Boolean(checkRes && checkRes[0] === 'done');
+      const indexedIds: string[] = checkRes && Array.isArray(checkRes[1]) ? checkRes[1].map(String) : [];
 
-      if (indexRes && Array.isArray(indexRes[0])) {
-        ids = indexRes[0].map(String);
+      // If migration is already complete, read directly from the sorted set index
+      if (isMigrationDone && indexedIds.length > 0) {
+        const rfqs = await fetchAndReconcileRFQs(indexedIds);
+        if (rfqs.length > 0) {
+          memoryStore = rfqs;
+          saveToFile();
+          return memoryStore;
+        }
       }
 
-      // 2. If index has records, fetch all entities in parallel pipeline
-      if (ids.length > 0) {
-        const getCmds = ids.map((id) => ['GET', `samplinghub:rfq:${id}`]);
-        const recordsRes = await sendKvPipeline(getCmds);
+      // 2. Migration or recovery needed: coordinate via distributed concurrency lock
+      const lockToken = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now().toString(36);
+      const lockRes = await sendKvPipeline([['SET', RFQ_MIGRATION_LOCK, lockToken, 'EX', 30, 'NX']]);
+      let lockAcquired = Boolean(lockRes && lockRes[0] === 'OK');
 
-        if (recordsRes && Array.isArray(recordsRes)) {
-          const rfqs: StoredRFQ[] = [];
-          const orphanedIds: string[] = [];
-
-          for (let i = 0; i < ids.length; i++) {
-            const id = ids[i];
-            const raw = recordsRes[i];
-            if (!raw) {
-              // Orphaned index entry without record
-              orphanedIds.push(id);
-              continue;
-            }
-            try {
-              const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
-              if (parsed && typeof parsed.id === 'string' && typeof parsed.fullName === 'string') {
-                rfqs.push(parsed);
-              } else {
-                orphanedIds.push(id);
-              }
-            } catch {
-              // Corrupted JSON
-              orphanedIds.push(id);
+      // If lock was not acquired, another instance is migrating: poll with backoff
+      if (!lockAcquired) {
+        const pollDelays = [50, 100, 150, 200, 250];
+        for (const delay of pollDelays) {
+          await new Promise((resolve) => setTimeout(resolve, delay));
+          const pollRes = await sendKvPipeline([
+            ['GET', RFQ_MIGRATION_STATUS_KEY],
+            ['GET', RFQ_MIGRATION_LOCK],
+            ['ZREVRANGE', RFQ_INDEX_KEY, 0, -1],
+          ]);
+          if (pollRes && pollRes[0] === 'done' && Array.isArray(pollRes[2]) && pollRes[2].length > 0) {
+            const completedIds = pollRes[2].map(String);
+            const rfqs = await fetchAndReconcileRFQs(completedIds);
+            if (rfqs.length > 0) {
+              memoryStore = rfqs;
+              saveToFile();
+              return memoryStore;
             }
           }
-
-          // Asynchronously prune orphaned index entries in the background
-          if (orphanedIds.length > 0) {
-            const pruneCmds = orphanedIds.map((oid) => ['ZREM', RFQ_INDEX_KEY, oid]);
-            sendKvPipeline(pruneCmds).catch(() => {});
-          }
-
-          if (rfqs.length > 0) {
-            memoryStore = rfqs;
-            saveToFile();
-            return memoryStore;
+          // If lock is freed or expired before completion, attempt to acquire lock and finish
+          if (pollRes && pollRes[1] === null && pollRes[0] !== 'done') {
+            const reLock = await sendKvPipeline([['SET', RFQ_MIGRATION_LOCK, lockToken, 'EX', 30, 'NX']]);
+            if (reLock && reLock[0] === 'OK') {
+              lockAcquired = true;
+              break;
+            }
           }
         }
       }
 
-      // 3. Migration / Seeding check with distributed concurrency lock
-      const lockToken = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now().toString(36);
-      const lockRes = await sendKvPipeline([['SET', RFQ_MIGRATION_LOCK, lockToken, 'EX', 30, 'NX']]);
-      const lockAcquired = Boolean(lockRes && lockRes[0] === 'OK');
-
+      // If this instance holds the lock, execute or complete forward migration
       if (lockAcquired) {
         try {
           const legacyRes = await sendKvPipeline([['GET', RFQ_LEGACY_KEY]]);
@@ -192,12 +232,14 @@ export async function getAllRFQsAsync(): Promise<StoredRFQ[]> {
                   migratePipeline.push(['SET', `samplinghub:rfq:${r.id}`, JSON.stringify(r)]);
                   migratePipeline.push(['ZADD', RFQ_INDEX_KEY, score, r.id]);
                 }
-                if (migratePipeline.length > 0) {
-                  const mRes = await sendKvPipeline(migratePipeline);
-                  if (!mRes || mRes.some((x) => x === undefined || x === null)) {
-                    throw new Error('Partial migration pipeline write failure');
-                  }
+                // Mark migration completed in the same execution
+                migratePipeline.push(['SET', RFQ_MIGRATION_STATUS_KEY, 'done']);
+
+                const mRes = await sendKvPipeline(migratePipeline);
+                if (!mRes || mRes.some((x) => x === undefined || x === null)) {
+                  throw new Error('Partial migration pipeline write failure');
                 }
+
                 memoryStore = dedupedList;
                 saveToFile();
                 return memoryStore;
@@ -207,8 +249,8 @@ export async function getAllRFQsAsync(): Promise<StoredRFQ[]> {
             }
           }
 
-          // 4. Initial Seed if storage is completely empty
-          if (legacyRes && legacyRes[0] === null && ids.length === 0) {
+          // Initial Seed if storage is completely empty
+          if (legacyRes && legacyRes[0] === null && indexedIds.length === 0) {
             const seedPipeline: any[][] = [];
             for (const r of SEED_RFQS) {
               const score = new Date(r.submittedAt).getTime() || Date.now();
@@ -217,6 +259,8 @@ export async function getAllRFQsAsync(): Promise<StoredRFQ[]> {
             }
             // Preserve legacy key for rollback compatibility
             seedPipeline.push(['SET', RFQ_LEGACY_KEY, JSON.stringify(SEED_RFQS)]);
+            seedPipeline.push(['SET', RFQ_MIGRATION_STATUS_KEY, 'done']);
+
             const sRes = await sendKvPipeline(seedPipeline);
             if (sRes && !sRes.some((x) => x === undefined || x === null)) {
               memoryStore = [...SEED_RFQS];
@@ -229,28 +273,18 @@ export async function getAllRFQsAsync(): Promise<StoredRFQ[]> {
           const unlockLua = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
           await sendKvPipeline([['EVAL', unlockLua, 1, RFQ_MIGRATION_LOCK, lockToken]]).catch(() => {});
         }
-      } else if (ids.length === 0) {
-        // Another instance holds the migration lock; wait briefly for migration to complete
-        await new Promise((resolve) => setTimeout(resolve, 150));
-        const retryIndexRes = await sendKvPipeline([['ZREVRANGE', RFQ_INDEX_KEY, 0, -1]]);
-        if (retryIndexRes && Array.isArray(retryIndexRes[0]) && retryIndexRes[0].length > 0) {
-          const retryIds = retryIndexRes[0].map(String);
-          const retryRecordsRes = await sendKvPipeline(retryIds.map((id) => ['GET', `samplinghub:rfq:${id}`]));
-          if (retryRecordsRes && Array.isArray(retryRecordsRes)) {
-            const retryRfqs: StoredRFQ[] = [];
-            for (const raw of retryRecordsRes) {
-              if (!raw) continue;
-              try {
-                const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
-                if (parsed && typeof parsed.id === 'string') retryRfqs.push(parsed);
-              } catch {}
-            }
-            if (retryRfqs.length > 0) {
-              memoryStore = retryRfqs;
+      } else {
+        // If lock is still held across all retries, fall back to reading intact legacy key directly
+        const fallbackRes = await sendKvPipeline([['GET', RFQ_LEGACY_KEY]]);
+        if (fallbackRes && fallbackRes[0]) {
+          try {
+            const fallbackParsed = typeof fallbackRes[0] === 'string' ? JSON.parse(fallbackRes[0]) : fallbackRes[0];
+            if (Array.isArray(fallbackParsed) && fallbackParsed.length > 0) {
+              memoryStore = fallbackParsed;
               saveToFile();
               return memoryStore;
             }
-          }
+          } catch {}
         }
       }
     } catch {
