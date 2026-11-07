@@ -14,10 +14,10 @@ const Hero: React.FC<Props> = ({ onNavigate }) => {
         <div className="z-10 text-center lg:text-left">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#1e3a5f] leading-tight mb-6">
             Custom Fabric Swatch Book &amp; Wallpaper Catalog{' '}
-            <span className="text-[#8B6F47]">Manufacturer in Thane-Bhiwandi, Maharashtra</span>
+            <span className="text-[#8B6F47]">OEM Sampling Solutions</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-700 mb-10 max-w-xl mx-auto lg:mx-0 font-medium">
-            Maharashtra-based manufacturer of export-ready wallpaper catalog books, upholstery fabric sample albums, waterfall hangers, and rigid swatch cards with white-label branding and 21–28 day export delivery.
+            India-based OEM fabric sampling solutions provider specialising in customised wallpaper catalog books, upholstery sample albums, waterfall hangers, and rigid swatch cards with 21–28 day export delivery coordinated from Thane Bhiwandi, PIN: 421302, Maharashtra, India.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
             <button

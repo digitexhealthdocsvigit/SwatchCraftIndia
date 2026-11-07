@@ -1,5 +1,10 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { verifyCredentials, generateSessionToken } from '../_lib/auth.js';
+import {
+  verifyCredentials,
+  generateSessionToken,
+  checkLoginRateLimit,
+  resetLoginRateLimit,
+} from '../_lib/auth.js';
 
 interface RequestWithBody extends IncomingMessage {
   body?: any;
@@ -40,6 +45,25 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
     return;
   }
 
+  // Rate limit check
+  const ip =
+    (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() ||
+    req.socket.remoteAddress ||
+    'unknown';
+
+  const rateCheck = checkLoginRateLimit(ip);
+  if (!rateCheck.allowed) {
+    res.statusCode = 429;
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Retry-After', String(rateCheck.retryAfterSeconds || 900));
+    res.end(
+      JSON.stringify({
+        error: `Too many login attempts. Please wait ${rateCheck.retryAfterSeconds} seconds before retrying.`,
+      })
+    );
+    return;
+  }
+
   const payload = req.body || (await parseJsonBody(req));
   const { email, password } = payload || {};
 
@@ -57,6 +81,9 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
     res.end(JSON.stringify({ error: 'Invalid credentials. Access Denied.' }));
     return;
   }
+
+  // Successful login: reset rate limiter
+  resetLoginRateLimit(ip);
 
   const token = generateSessionToken(String(email));
 

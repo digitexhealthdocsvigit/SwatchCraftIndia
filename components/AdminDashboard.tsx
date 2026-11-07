@@ -128,7 +128,7 @@ const OEM_PARTNERS = [
     specialty: '3mm–4mm Kappa Board Hardbound Books, Buckram Wrapping, Chicago Screw Binding',
     capacity: '4,000 Hardbound Books / Month',
     leadTime: '14–18 Days',
-    status: 'Active & Verified',
+    status: 'Sample Benchmark (Pending Verification)',
   },
   {
     id: 'PARTNER-02',
@@ -137,7 +137,7 @@ const OEM_PARTNERS = [
     specialty: 'High-Speed Automated Pinking, Straight Cutting, Fabric Serialization & Labeling',
     capacity: '80,000 Swatch Leaves / Month',
     leadTime: '7–10 Days',
-    status: 'Active & Verified',
+    status: 'Sample Benchmark (Pending Verification)',
   },
   {
     id: 'PARTNER-03',
@@ -146,7 +146,7 @@ const OEM_PARTNERS = [
     specialty: 'Hot Foil Metallic Stamping, Precision Blind Debossing, Silk Screen Header Printing',
     capacity: '15,000 Header Cards / Month',
     leadTime: '5–7 Days',
-    status: 'Active & Verified',
+    status: 'Sample Benchmark (Pending Verification)',
   },
   {
     id: 'PARTNER-04',
@@ -155,7 +155,7 @@ const OEM_PARTNERS = [
     specialty: 'Guillotine Sheeting with Pattern Repeat Registration, EN 233 Label Stamping',
     capacity: '2,500 Oversized Wallpaper Albums / Month',
     leadTime: '18–21 Days',
-    status: 'Active & Verified',
+    status: 'Sample Benchmark (Pending Verification)',
   },
 ];
 
@@ -235,6 +235,10 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
       const res = await fetch('/api/admin/rfqs', {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
+      if (res.status === 401) {
+        onLogout();
+        return;
+      }
       if (res.ok) {
         const json = await res.json();
         if (Array.isArray(json.rfqs) && json.rfqs.length > 0) {
@@ -728,7 +732,7 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
                     International Textile &amp; Wallcovering Accounts
                   </h3>
                   <p className="text-xs text-gray-500 mt-1">
-                    Direct commercial accounts across Milan, High Point, Dubai, Amsterdam, and London
+                    [DEMONSTRATION DIRECTORY] Indicative accounts across Milan, High Point, Dubai, Amsterdam, and London (Pending Business Verification)
                   </p>
                 </div>
                 <button
@@ -897,7 +901,7 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
                 <div className="flex justify-between items-start border-b border-white/10 pb-4">
                   <div>
                     <span className="text-[10px] font-bold uppercase tracking-widest text-[#c9a86a]">
-                      Official Pro-Forma Estimate
+                      Indicative Benchmark Estimate (Non-Binding)
                     </span>
                     <h4 className="text-2xl font-black mt-1">{calcProduct}</h4>
                   </div>
@@ -933,7 +937,7 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
                   </div>
                   <div className="flex justify-between py-3 pt-4 border-t border-white/20 text-sm">
                     <span className="font-bold text-white uppercase tracking-wider">
-                      Est. Total Landed (DDP):
+                      Est. CIF Benchmark (Excludes Local Tariffs &amp; Taxes):
                     </span>
                     <span className="font-mono font-black text-xl text-[#c9a86a]">
                       ${quoteCalculation.grandTotalUsd.toLocaleString()}
@@ -943,7 +947,10 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
 
                 <div className="p-4 bg-white/5 rounded-xl border border-white/10 text-[11px] text-gray-300 leading-relaxed">
                   ✓ Dispatch from central coordination office: Thane Bhiwandi, PIN: 421302, Maharashtra, India.
-                  Includes individual moisture shrink-wrap and fumigated export palletization.
+                  Includes individual moisture shrink-wrap and export packaging.
+                </div>
+                <div className="p-4 bg-amber-500/10 rounded-xl border border-amber-400/20 text-[10px] text-amber-200/90 leading-relaxed">
+                  ⚠️ <strong>Indicative Pricing Notice:</strong> Landed totals are engineering benchmarks ($7.50/kg air / $2.20/kg sea LCL). They do not constitute confirmed carrier quotes or binding customs declarations. Final pricing is subject to fabric weight measurement, carrier fuel surcharges, destination customs tariffs (e.g., EU TARIC 630790 / US HTS 6307), and destination VAT.
                 </div>
               </div>
             </div>

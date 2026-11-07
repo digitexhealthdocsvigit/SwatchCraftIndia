@@ -119,11 +119,33 @@ const App: React.FC = () => {
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
   const [activeAsset, setActiveAsset] = useState('Catalogue');
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem('samplinghub_admin_session') === 'true';
+    return !!localStorage.getItem('samplinghub_admin_token');
   });
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentView]);
+
+  useEffect(() => {
+    if (currentView === 'admin-dashboard') {
+      const token = localStorage.getItem('samplinghub_admin_token');
+      if (!token) {
+        setIsAuthenticated(false);
+        setCurrentView('admin-login');
+        return;
+      }
+      fetch('/api/admin/session', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            setIsAuthenticated(false);
+            localStorage.removeItem('samplinghub_admin_token');
+            setCurrentView('admin-login');
+          }
+        })
+        .catch(() => {});
+    }
   }, [currentView]);
 
   useEffect(() => {
@@ -156,7 +178,8 @@ const App: React.FC = () => {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    localStorage.removeItem('samplinghub_admin_session');
+    localStorage.removeItem('samplinghub_admin_token');
+    fetch('/api/admin/logout', { method: 'POST' }).catch(() => {});
     setCurrentView('home');
   };
 

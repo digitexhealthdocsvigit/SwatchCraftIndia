@@ -6,18 +6,6 @@ interface Props {
   onNavigate: (view: ViewState) => void;
 }
 
-// SHA-256 digest of normalized "email:password" — no plaintext credentials in bundle
-const EXPECTED_CREDENTIAL_DIGEST =
-  '3732f1f3631cc628d9e17e5486db110ab515c09d458280f82cc2cc6a29252fd2';
-
-async function sha256Hex(input: string): Promise<string> {
-  const bytes = new TextEncoder().encode(input);
-  const digest = await crypto.subtle.digest('SHA-256', bytes);
-  return Array.from(new Uint8Array(digest))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
-}
-
 const AdminLogin: React.FC<Props> = ({ onLogin, onNavigate }) => {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
@@ -28,42 +16,35 @@ const AdminLogin: React.FC<Props> = ({ onLogin, onNavigate }) => {
     e.preventDefault();
     setLoading(true);
     setErrorMsg(null);
-    try {
-      // 1. Attempt secure serverless authentication
-      try {
-        const response = await fetch('/api/admin/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email.trim().toLowerCase(), password: pass }),
-        });
 
-        if (response.ok) {
-          const json = await response.json();
-          if (json.token) {
-            localStorage.setItem('samplinghub_admin_token', json.token);
-          }
-          onLogin();
-          return;
-        } else if (response.status === 401) {
-          setErrorMsg('Access Denied: Invalid technical credentials.');
-          setLoading(false);
-          return;
+    try {
+      // Server-side authentication only — no credentials or hashes stored in client bundle
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim().toLowerCase(), password: pass }),
+      });
+
+      if (response.ok) {
+        const json = await response.json();
+        if (json.token) {
+          localStorage.setItem('samplinghub_admin_token', json.token);
+          localStorage.setItem('samplinghub_admin_session', 'true');
         }
-      } catch {
-        // Fall back to client-side digest verification if API is unreachable
+        onLogin();
+        return;
       }
 
-      // 2. Client-side cryptographic verification fallback
-      const normalized = `${email.trim().toLowerCase()}:${pass}`;
-      const hash = await sha256Hex(normalized);
-      if (hash === EXPECTED_CREDENTIAL_DIGEST) {
-        onLogin();
-      } else {
+      if (response.status === 401) {
         setErrorMsg('Access Denied: Invalid technical credentials.');
-        setLoading(false);
+      } else if (response.status === 429) {
+        setErrorMsg('Too many login attempts. Please wait 15 minutes before retrying.');
+      } else {
+        setErrorMsg('Authentication service unavailable. Please check server status.');
       }
     } catch {
-      setErrorMsg('Authentication error. Please try again.');
+      setErrorMsg('Connection error. Unable to reach authentication server.');
+    } finally {
       setLoading(false);
     }
   };
@@ -113,7 +94,7 @@ const AdminLogin: React.FC<Props> = ({ onLogin, onNavigate }) => {
               disabled={loading}
               className="w-full bg-[#1a2849] text-white font-black py-6 rounded-2xl shadow-xl hover:opacity-95 transition-all uppercase tracking-[0.2em] text-[13px] disabled:opacity-50"
             >
-              {loading ? 'Authenticating...' : 'Enter Dashboard'}
+              {loading ? 'Verifying Credentials...' : 'Authenticate & Enter'}
             </button>
           </form>
         </div>

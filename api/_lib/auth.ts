@@ -4,15 +4,45 @@ const SECRET_KEY =
   process.env.ADMIN_SESSION_SECRET ||
   'samplinghub-b2b-export-secret-key-mumbai-thane-2026';
 
-// Expected admin credentials
+// Expected admin credentials (SHA-256 digest of "email:password")
 const EXPECTED_DIGEST =
   process.env.ADMIN_PASSWORD_HASH ||
   '3732f1f3631cc628d9e17e5486db110ab515c09d458280f82cc2cc6a29252fd2';
 
+// Rate limiting in-memory map: IP -> { attempts: number, resetAt: number }
+const loginRateLimitMap = new Map<string, { attempts: number; resetAt: number }>();
+
+export function checkLoginRateLimit(ip: string): { allowed: boolean; retryAfterSeconds?: number } {
+  const now = Date.now();
+  const record = loginRateLimitMap.get(ip);
+
+  if (!record || now > record.resetAt) {
+    loginRateLimitMap.set(ip, { attempts: 1, resetAt: now + 15 * 60 * 1000 }); // 15 minute window
+    return { allowed: true };
+  }
+
+  if (record.attempts >= 5) {
+    const retryAfterSeconds = Math.ceil((record.resetAt - now) / 1000);
+    return { allowed: false, retryAfterSeconds };
+  }
+
+  record.attempts += 1;
+  return { allowed: true };
+}
+
+export function resetLoginRateLimit(ip: string): void {
+  loginRateLimitMap.delete(ip);
+}
+
 export function verifyCredentials(identifier: string, pass: string): boolean {
   const normalized = `${identifier.trim().toLowerCase()}:${pass}`;
   const hash = crypto.createHash('sha256').update(normalized).digest('hex');
-  return hash === EXPECTED_DIGEST;
+
+  const bufA = Buffer.from(hash, 'utf8');
+  const bufB = Buffer.from(EXPECTED_DIGEST, 'utf8');
+
+  if (bufA.length !== bufB.length) return false;
+  return crypto.timingSafeEqual(bufA, bufB);
 }
 
 export function generateSessionToken(email: string): string {
@@ -29,7 +59,12 @@ export function verifySessionToken(token: string | undefined): { valid: boolean;
 
   const [payload, signature] = parts;
   const expectedSig = crypto.createHmac('sha256', SECRET_KEY).update(payload).digest('base64url');
-  if (signature !== expectedSig) return { valid: false };
+
+  const bufSig = Buffer.from(signature, 'utf8');
+  const bufExpected = Buffer.from(expectedSig, 'utf8');
+
+  if (bufSig.length !== bufExpected.length) return { valid: false };
+  if (!crypto.timingSafeEqual(bufSig, bufExpected)) return { valid: false };
 
   try {
     const data = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8'));
