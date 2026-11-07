@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import crypto from 'node:crypto';
 import { isSharedStorageConfigured, sendKvPipeline } from './auth.ts';
 
 export interface StoredRFQ {
@@ -165,10 +166,11 @@ export async function getAllRFQsAsync(): Promise<StoredRFQ[]> {
       }
 
       // 3. Migration / Seeding check with distributed concurrency lock
-      const lockRes = await sendKvPipeline([['SET', RFQ_MIGRATION_LOCK, '1', 'EX', 30, 'NX']]);
+      const lockToken = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now().toString(36);
+      const lockRes = await sendKvPipeline([['SET', RFQ_MIGRATION_LOCK, lockToken, 'EX', 30, 'NX']]);
       const lockAcquired = Boolean(lockRes && lockRes[0] === 'OK');
 
-      if (lockAcquired || ids.length === 0) {
+      if (lockAcquired) {
         try {
           const legacyRes = await sendKvPipeline([['GET', RFQ_LEGACY_KEY]]);
           if (legacyRes && legacyRes[0]) {
@@ -191,7 +193,10 @@ export async function getAllRFQsAsync(): Promise<StoredRFQ[]> {
                   migratePipeline.push(['ZADD', RFQ_INDEX_KEY, score, r.id]);
                 }
                 if (migratePipeline.length > 0) {
-                  await sendKvPipeline(migratePipeline);
+                  const mRes = await sendKvPipeline(migratePipeline);
+                  if (!mRes || mRes.some((x) => x === undefined || x === null)) {
+                    throw new Error('Partial migration pipeline write failure');
+                  }
                 }
                 memoryStore = dedupedList;
                 saveToFile();
@@ -212,14 +217,39 @@ export async function getAllRFQsAsync(): Promise<StoredRFQ[]> {
             }
             // Preserve legacy key for rollback compatibility
             seedPipeline.push(['SET', RFQ_LEGACY_KEY, JSON.stringify(SEED_RFQS)]);
-            await sendKvPipeline(seedPipeline);
-            memoryStore = [...SEED_RFQS];
-            saveToFile();
-            return memoryStore;
+            const sRes = await sendKvPipeline(seedPipeline);
+            if (sRes && !sRes.some((x) => x === undefined || x === null)) {
+              memoryStore = [...SEED_RFQS];
+              saveToFile();
+              return memoryStore;
+            }
           }
         } finally {
-          if (lockAcquired) {
-            await sendKvPipeline([['DEL', RFQ_MIGRATION_LOCK]]).catch(() => {});
+          // Token-verified atomic unlock: guarantees a process cannot delete another instance's expired lock
+          const unlockLua = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+          await sendKvPipeline([['EVAL', unlockLua, 1, RFQ_MIGRATION_LOCK, lockToken]]).catch(() => {});
+        }
+      } else if (ids.length === 0) {
+        // Another instance holds the migration lock; wait briefly for migration to complete
+        await new Promise((resolve) => setTimeout(resolve, 150));
+        const retryIndexRes = await sendKvPipeline([['ZREVRANGE', RFQ_INDEX_KEY, 0, -1]]);
+        if (retryIndexRes && Array.isArray(retryIndexRes[0]) && retryIndexRes[0].length > 0) {
+          const retryIds = retryIndexRes[0].map(String);
+          const retryRecordsRes = await sendKvPipeline(retryIds.map((id) => ['GET', `samplinghub:rfq:${id}`]));
+          if (retryRecordsRes && Array.isArray(retryRecordsRes)) {
+            const retryRfqs: StoredRFQ[] = [];
+            for (const raw of retryRecordsRes) {
+              if (!raw) continue;
+              try {
+                const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+                if (parsed && typeof parsed.id === 'string') retryRfqs.push(parsed);
+              } catch {}
+            }
+            if (retryRfqs.length > 0) {
+              memoryStore = retryRfqs;
+              saveToFile();
+              return memoryStore;
+            }
           }
         }
       }
@@ -236,13 +266,14 @@ export async function getAllRFQsAsync(): Promise<StoredRFQ[]> {
  * Creates and persists a new RFQ.
  * Uses atomic Redis Lua script (EVAL) to guarantee simultaneous SET and ZADD execution.
  * Eliminates partial failure windows where a record key is created without an index entry.
+ * Fails closed if shared Redis storage is configured and atomic write fails.
  */
 export async function addRFQAsync(
-  rfqData: Omit<StoredRFQ, 'id' | 'submittedAt' | 'status'>
+  rfqData: Omit<StoredRFQ, 'id' | 'submittedAt' | 'status'> & { id?: string }
 ): Promise<StoredRFQ> {
   const timestamp = Date.now();
   const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-  const id = `RFQ-${new Date().getFullYear()}-${timestamp.toString().slice(-4)}${randomSuffix}`;
+  const id = rfqData.id || `RFQ-${new Date().getFullYear()}-${timestamp.toString().slice(-4)}${randomSuffix}`;
   const record: StoredRFQ = {
     ...rfqData,
     id,
@@ -251,28 +282,22 @@ export async function addRFQAsync(
     internalNotes: [],
   };
 
-  memoryStore = [record, ...memoryStore];
-  saveToFile();
-
   if (isSharedStorageConfigured()) {
-    try {
-      // Atomic Lua transaction: guarantees SET and ZADD happen in a single Redis engine operation
-      const luaScript = "redis.call('SET', KEYS[1], ARGV[1]); redis.call('ZADD', KEYS[2], ARGV[2], ARGV[3]); return 1;";
-      const evalRes = await sendKvPipeline([
-        ['EVAL', luaScript, 2, `samplinghub:rfq:${id}`, RFQ_INDEX_KEY, JSON.stringify(record), timestamp, id],
-      ]);
+    // Atomic Lua transaction: guarantees SET and ZADD happen in a single atomic Redis engine operation
+    const luaScript = "redis.call('SET', KEYS[1], ARGV[1]); redis.call('ZADD', KEYS[2], ARGV[2], ARGV[3]); return 1;";
+    const evalRes = await sendKvPipeline([
+      ['EVAL', luaScript, 2, `samplinghub:rfq:${id}`, RFQ_INDEX_KEY, JSON.stringify(record), timestamp, id],
+    ]);
 
-      if (!evalRes || evalRes[0] !== 1) {
-        // Fallback pipeline if EVAL is restricted
-        await sendKvPipeline([
-          ['SET', `samplinghub:rfq:${id}`, JSON.stringify(record)],
-          ['ZADD', RFQ_INDEX_KEY, timestamp, id],
-        ]);
-      }
-    } catch {
-      // Non-fatal fallback
+    if (!evalRes || evalRes[0] !== 1) {
+      // FAIL CLOSED: Never perform an unsafe, non-atomic fallback pipeline that risks partial writes or orphaned records.
+      throw new Error(`Failed to atomically persist RFQ ${id} to shared Redis storage. Write aborted.`);
     }
   }
+
+  // Update memory store only after confirmed persistence (or in local dev mode)
+  memoryStore = [record, ...memoryStore];
+  saveToFile();
 
   return record;
 }
@@ -332,32 +357,22 @@ export async function updateRFQStatusAsync(
  * Deletes an RFQ atomically from its isolated key and removes its ID from the index via Lua transaction.
  */
 export async function deleteRFQAsync(id: string): Promise<boolean> {
+  if (isSharedStorageConfigured()) {
+    const luaDelScript = "redis.call('DEL', KEYS[1]); redis.call('ZREM', KEYS[2], ARGV[1]); return 1;";
+    const evalRes = await sendKvPipeline([
+      ['EVAL', luaDelScript, 2, `samplinghub:rfq:${id}`, RFQ_INDEX_KEY, id],
+    ]);
+
+    if (!evalRes || evalRes[0] !== 1) {
+      throw new Error(`Failed to atomically delete RFQ ${id} from shared Redis storage.`);
+    }
+  }
+
   loadFromFile();
   const initialLen = memoryStore.length;
   memoryStore = memoryStore.filter((r) => r.id !== id);
   saveToFile();
-
-  if (isSharedStorageConfigured()) {
-    try {
-      const luaDelScript = "redis.call('DEL', KEYS[1]); redis.call('ZREM', KEYS[2], ARGV[1]); return 1;";
-      const evalRes = await sendKvPipeline([
-        ['EVAL', luaDelScript, 2, `samplinghub:rfq:${id}`, RFQ_INDEX_KEY, id],
-      ]);
-
-      if (!evalRes || evalRes[0] !== 1) {
-        const delRes = await sendKvPipeline([
-          ['DEL', `samplinghub:rfq:${id}`],
-          ['ZREM', RFQ_INDEX_KEY, id],
-        ]);
-        return Boolean(delRes && delRes[0]);
-      }
-      return true;
-    } catch {
-      // Non-fatal fallback
-    }
-  }
-
-  return memoryStore.length !== initialLen;
+  return true;
 }
 
 // Synchronous exports for local backwards compatibility

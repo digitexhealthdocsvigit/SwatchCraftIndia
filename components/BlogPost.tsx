@@ -79,7 +79,7 @@ const BlogPost: React.FC<Props> = ({ postId, onNavigate }) => {
               <tbody className="divide-y divide-gray-100 font-bold text-navy">
                 <tr><td className="p-6">Portability</td><td className="p-6 text-gray-500">Medium (Bulky)</td><td className="p-6 text-teal">Excellent (Flat)</td></tr>
                 <tr><td className="p-6">Cost per unit</td><td className="p-6 text-gray-500">₹85 - ₹110</td><td className="p-6 text-teal">₹60 - ₹80</td></tr>
-                <tr><td className="p-6">Production Time</td><td className="p-6 text-gray-500">24-30 Days</td><td className="p-6 text-teal">15-21 Days</td></tr>
+                <tr><td className="p-6">Production Schedule</td><td className="p-6 text-gray-500">Scheduled Milestones</td><td className="p-6 text-teal">Agile Streamlined Workflow</td></tr>
                 <tr><td className="p-6">Samples Shown</td><td className="p-6 text-gray-500">20-40 (Page-based)</td><td className="p-6 text-teal">40-60 (Instant view)</td></tr>
               </tbody>
             </table>

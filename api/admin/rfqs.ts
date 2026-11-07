@@ -96,22 +96,28 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
         ? [internalNote.trim()]
         : undefined;
 
-    const updated = await updateRFQStatusAsync(id, {
-      status,
-      estimatedValueUsd: typeof estimatedValueUsd === 'number' ? estimatedValueUsd : undefined,
-      internalNotes: resolvedNotes,
-      partnerAssigned: typeof partnerAssigned === 'string' ? partnerAssigned : undefined,
-    });
+    try {
+      const updated = await updateRFQStatusAsync(id, {
+        status,
+        estimatedValueUsd: typeof estimatedValueUsd === 'number' ? estimatedValueUsd : undefined,
+        internalNotes: resolvedNotes,
+        partnerAssigned: typeof partnerAssigned === 'string' ? partnerAssigned : undefined,
+      });
 
-    if (!updated) {
-      res.statusCode = 404;
-      res.end(JSON.stringify({ error: 'RFQ not found' }));
+      if (!updated) {
+        res.statusCode = 404;
+        res.end(JSON.stringify({ error: 'RFQ not found' }));
+        return;
+      }
+
+      res.statusCode = 200;
+      res.end(JSON.stringify({ success: true, rfq: updated }));
+      return;
+    } catch {
+      res.statusCode = 500;
+      res.end(JSON.stringify({ error: 'Failed to update RFQ in shared storage' }));
       return;
     }
-
-    res.statusCode = 200;
-    res.end(JSON.stringify({ success: true, rfq: updated }));
-    return;
   }
 
   if (req.method === 'DELETE') {
@@ -131,16 +137,22 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
       return;
     }
 
-    const deleted = await deleteRFQAsync(id);
-    if (!deleted) {
-      res.statusCode = 404;
-      res.end(JSON.stringify({ error: 'RFQ not found' }));
+    try {
+      const deleted = await deleteRFQAsync(id);
+      if (!deleted) {
+        res.statusCode = 404;
+        res.end(JSON.stringify({ error: 'RFQ not found' }));
+        return;
+      }
+
+      res.statusCode = 200;
+      res.end(JSON.stringify({ success: true, message: `RFQ ${id} deleted` }));
+      return;
+    } catch {
+      res.statusCode = 500;
+      res.end(JSON.stringify({ error: 'Failed to delete RFQ from shared storage' }));
       return;
     }
-
-    res.statusCode = 200;
-    res.end(JSON.stringify({ success: true, message: `RFQ ${id} deleted` }));
-    return;
   }
 
   res.statusCode = 405;

@@ -1084,9 +1084,9 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
                 <p className="text-xs text-gray-600">Oversized 45x45 cm &amp; 50x50 cm albums</p>
               </div>
               <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm space-y-2">
-                <span className="text-[11px] font-bold text-gray-500 uppercase">Average Turnaround</span>
-                <p className="text-2xl font-black text-teal-700">21 Days</p>
-                <p className="text-xs text-gray-600">Door-to-door delivery via DHL/FedEx</p>
+                <span className="text-[11px] font-bold text-gray-500 uppercase">Average Lead Time</span>
+                <p className="text-2xl font-black text-teal-700">Project-Based</p>
+                <p className="text-xs text-gray-600">Door-to-door dispatch via DHL/FedEx</p>
               </div>
             </div>
           </div>

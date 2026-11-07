@@ -221,7 +221,7 @@ const AdminLaunchCenter: React.FC = () => {
               <h3 className="text-lg font-black text-navy mb-4">Business Description (750 Chars)</h3>
               <textarea 
                 className="w-full h-40 bg-gray-50 border border-gray-200 rounded-2xl p-6 text-sm text-gray-600 font-medium"
-                defaultValue="SamplingHub (Digitex Studio) is an India-based OEM fabric sampling solutions provider operating from Thane Bhiwandi, PIN: 421302, Maharashtra, India. Established in 2011, we coordinate specialised OEM manufacturing partners with centralised product development, quality inspection, and international export dispatch. We offer 21-day production turnarounds for global textile and wallcovering brands."
+                defaultValue="SamplingHub (Digitex Studio) is an India-based OEM fabric sampling solutions provider operating from Thane Bhiwandi, PIN: 421302, Maharashtra, India. Established in 2011, we coordinate specialised OEM manufacturing partners with centralised product development, quality inspection, and international export dispatch. We provide structured OEM sampling production coordination and export dispatch for global textile and wallcovering brands, with lead times confirmed upon technical review."
               />
               <button onClick={() => copyToClipboard("SamplingHub Business Description...")} className="mt-4 bg-navy text-white px-6 py-2 rounded-lg text-[10px] font-black uppercase">Copy Description</button>
             </section>

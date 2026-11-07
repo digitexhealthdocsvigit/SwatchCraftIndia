@@ -216,7 +216,7 @@ const App: React.FC = () => {
                   SamplingHub (Digitex Studio) is an India-based OEM fabric sampling solutions provider specialising in customised fabric sample books, swatch cards, waterfall hangers, sample headers and textile presentation systems. We manage the complete customer order through specialised manufacturing partners, with centralised product development, production coordination, quality inspection and finished-product supply. Established in 2011.
                 </p>
                 <p>
-                  As an experienced export partner, we understand the technical demands of international fabric editors, mills, and interior furnishings brands. We provide end-to-end support including technical consultation on bookbinding mechanics, custom branding through foil stamping and blind debossing, and secure international air/sea freight logistics. Our standard 21-day express production timeline ensures that your sales teams across Europe, North America, the UK, and the Middle East receive seasonal collections on schedule.
+                  As an experienced export partner, we understand the technical demands of international fabric editors, mills, and interior furnishings brands. We provide end-to-end support including technical consultation on bookbinding mechanics, custom branding through foil stamping and blind debossing, and secure international air/sea freight logistics. Our managed production coordination and structured milestones ensure that your sales teams across Europe, North America, the UK, and the Middle East receive seasonal collections on schedule, with timelines confirmed upon technical review.
                 </p>
               </div>
 

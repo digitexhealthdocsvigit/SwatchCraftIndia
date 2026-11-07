@@ -60,11 +60,11 @@ export function isSharedStorageConfigured(): boolean {
  * against insecure instance-local or temporary filesystem fallbacks.
  */
 export function isAuthConfigured(): boolean {
-  const hasAuthVars = Boolean(
-    process.env.ADMIN_EMAIL &&
-    process.env.ADMIN_PASSWORD_HASH &&
-    process.env.ADMIN_SESSION_SECRET
-  );
+  const adminEmail = process.env.ADMIN_EMAIL?.trim() || process.env.ADMIN_USERNAME?.trim();
+  const passwordHash = process.env.ADMIN_PASSWORD_HASH?.trim();
+  const sessionSecret = process.env.ADMIN_SESSION_SECRET?.trim() || process.env.SESSION_SECRET?.trim();
+
+  const hasAuthVars = Boolean(adminEmail && passwordHash && sessionSecret);
   if (!hasAuthVars) return false;
 
   // In production, shared KV storage is strictly mandatory to guarantee cross-instance revocation and rate limiting
@@ -82,9 +82,13 @@ export function getAuthConfigStatus(): {
   missingVars: string[];
 } {
   const missing: string[] = [];
-  if (!process.env.ADMIN_EMAIL) missing.push('ADMIN_EMAIL');
-  if (!process.env.ADMIN_PASSWORD_HASH) missing.push('ADMIN_PASSWORD_HASH');
-  if (!process.env.ADMIN_SESSION_SECRET) missing.push('ADMIN_SESSION_SECRET');
+  const adminEmail = process.env.ADMIN_EMAIL?.trim() || process.env.ADMIN_USERNAME?.trim();
+  const passwordHash = process.env.ADMIN_PASSWORD_HASH?.trim();
+  const sessionSecret = process.env.ADMIN_SESSION_SECRET?.trim() || process.env.SESSION_SECRET?.trim();
+
+  if (!adminEmail) missing.push('ADMIN_EMAIL (or ADMIN_USERNAME)');
+  if (!passwordHash) missing.push('ADMIN_PASSWORD_HASH');
+  if (!sessionSecret) missing.push('ADMIN_SESSION_SECRET (or SESSION_SECRET)');
 
   const sharedStorage = isSharedStorageConfigured();
   if (isProduction() && !sharedStorage) {
@@ -100,23 +104,23 @@ export function getAuthConfigStatus(): {
 }
 
 export function getConfiguredAdminEmail(): string {
-  const email = process.env.ADMIN_EMAIL;
+  const email = process.env.ADMIN_EMAIL?.trim() || process.env.ADMIN_USERNAME?.trim();
   if (!email) {
-    throw new Error('ADMIN_EMAIL environment variable is not configured on the server.');
+    throw new Error('ADMIN_EMAIL (or ADMIN_USERNAME) environment variable is not configured on the server.');
   }
-  return email.trim().toLowerCase();
+  return email.toLowerCase();
 }
 
 export function getSessionSecret(): string {
-  const secret = process.env.ADMIN_SESSION_SECRET;
+  const secret = process.env.ADMIN_SESSION_SECRET?.trim() || process.env.SESSION_SECRET?.trim();
   if (!secret) {
-    throw new Error('ADMIN_SESSION_SECRET environment variable is not configured on the server.');
+    throw new Error('ADMIN_SESSION_SECRET (or SESSION_SECRET) environment variable is not configured on the server.');
   }
   return secret;
 }
 
 export function getExpectedPasswordDigest(): string {
-  const digest = process.env.ADMIN_PASSWORD_HASH;
+  const digest = process.env.ADMIN_PASSWORD_HASH?.trim();
   if (!digest) {
     throw new Error('ADMIN_PASSWORD_HASH environment variable is not configured on the server.');
   }

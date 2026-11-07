@@ -26,7 +26,7 @@ const BlogHub: React.FC<Props> = ({ onNavigate }) => {
         });
         const text = response.text || "";
         const lines = text.split('\n').filter(l => l.trim().length > 10).slice(0, 3);
-        setTrends(lines.length > 0 ? lines : ["Sustainable materials in swatch books see 40% growth in EU markets.", "Digital QR integration becomes standard for fabric inventory tracking in 2025.", "Indian textile exports stabilize with 15-day rapid sampling turnarounds."]);
+        setTrends(lines.length > 0 ? lines : ["Sustainable materials in swatch books see 40% growth in EU markets.", "Digital QR integration becomes standard for fabric inventory tracking in 2025.", "Indian textile sampling adopts managed partner workflows for predictable export turnarounds."]);
       } catch (e) {
         setTrends(["Demand for eco-friendly recycled fabric swatch books is rising.", "B2B brands prioritize portability in sample kits for trade show efficiency.", "Indian manufacturing remains the 'Sweet Spot' for price and quality balance."]);
       } finally {

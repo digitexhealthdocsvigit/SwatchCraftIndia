@@ -79,25 +79,35 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
     return;
   }
 
-  const rfqRecord = await addRFQAsync({
-    fullName,
-    companyName: companyName || fullName,
-    email,
-    phone,
-    productType,
-    quantity,
-    exportMarket: exportMarket || 'International Export',
-    specifications,
-    attachments,
-  });
+  try {
+    const rfqRecord = await addRFQAsync({
+      fullName,
+      companyName: companyName || fullName,
+      email,
+      phone,
+      productType,
+      quantity,
+      exportMarket: exportMarket || 'International Export',
+      specifications,
+      attachments,
+    });
 
-  res.statusCode = 201;
-  res.setHeader('Content-Type', 'application/json');
-  res.end(
-    JSON.stringify({
-      success: true,
-      message: 'RFQ received and logged with export engineering team.',
-      rfq: rfqRecord,
-    })
-  );
+    res.statusCode = 201;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(
+      JSON.stringify({
+        success: true,
+        message: 'RFQ received and logged with export engineering team.',
+        rfq: rfqRecord,
+      })
+    );
+  } catch (err: any) {
+    res.statusCode = 500;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(
+      JSON.stringify({
+        error: 'Failed to securely persist RFQ to shared storage. Please retry your submission.',
+      })
+    );
+  }
 }

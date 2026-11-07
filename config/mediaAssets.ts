@@ -244,7 +244,7 @@ export const FACTORY_MEDIA: MediaItem[] = [
     alt: 'Macro Inspection: Anti-Fray Pinking Cuts & Swatch Registration - SamplingHub',
     caption: 'Macro Inspection & Finishing Quality Control — Precision Pinking, Board Alignment & Export Packing',
     fallbackTitle: 'OEM Partner Production & Quality Inspection',
-    fallbackSubtitle: 'MANAGED OEM NETWORK • 21-DAY EXPORT DISPATCH',
+    fallbackSubtitle: 'MANAGED OEM NETWORK • STRUCTURED EXPORT DISPATCH',
   },
 ];
 

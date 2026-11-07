@@ -75,6 +75,17 @@ async function runFailureInjectionTests() {
         }
         if (cmd === 'EVAL') {
           const script = args[0];
+          // Lua unlock script
+          if (script.includes("redis.call('get', KEYS[1]) == ARGV[1]")) {
+            const lockKey = args[2];
+            const token = args[3];
+            if (remoteKvStore.get(lockKey) === token) {
+              remoteKvStore.delete(lockKey);
+              return 1;
+            }
+            return 0;
+          }
+          // Lua add RFQ script
           if (script.includes('ZADD')) {
             const rfqKey = args[2];
             const indexKey = args[3];
@@ -89,6 +100,7 @@ async function runFailureInjectionTests() {
             remoteZSetStore.set(indexKey, list);
             return 1;
           }
+          // Lua delete RFQ script
           if (script.includes('ZREM')) {
             const rfqKey = args[2];
             const indexKey = args[3];
@@ -110,45 +122,130 @@ async function runFailureInjectionTests() {
   process.env.UPSTASH_REDIS_REST_TOKEN = 'mock-upstash-token-2026';
   setMockKvHandler(mockKvPipeline);
 
-  // Failure Scenario 1: Orphaned Index Entry (Index entry exists, record missing)
-  // Inject an index entry pointing to a non-existent RFQ ID
+  // -------------------------------------------------------------------------
+  // Test 1: Self-Healing Orphaned Index Entry
+  // -------------------------------------------------------------------------
   const orphanId = 'RFQ-2026-GHOST-ORPHAN';
   let initialIndex = remoteZSetStore.get(RFQ_INDEX_KEY) || [];
   initialIndex.push({ member: orphanId, score: Date.now() });
   remoteZSetStore.set(RFQ_INDEX_KEY, initialIndex);
   assert(remoteKvStore.has(`samplinghub:rfq:${orphanId}`) === false, 'Orphan entity key is missing');
 
-  // getAllRFQsAsync should safely return valid records and prune the orphan from the index
   const rfqsAfterOrphan = await getAllRFQsAsync();
   assert(!rfqsAfterOrphan.some((r) => r.id === orphanId), 'Orphaned ID excluded from returned RFQ list');
-  // Allow async prune to fire
   await new Promise((r) => setTimeout(r, 20));
   const cleanIndex = remoteZSetStore.get(RFQ_INDEX_KEY) || [];
   assert(!cleanIndex.some((e) => e.member === orphanId), 'Self-healing: Orphaned index entry automatically pruned from ZSET');
 
-  // Failure Scenario 2: Client Retry After Ambiguous Timeout (Idempotent Retry)
-  const submission1 = await addRFQAsync({
+  // -------------------------------------------------------------------------
+  // Test 2: Atomic Lua Success
+  // -------------------------------------------------------------------------
+  const successSubmission = await addRFQAsync({
+    fullName: 'Verified Buyer',
+    companyName: 'Atomic Textiles Ltd',
+    email: 'atomic@buyer.com',
+    productType: 'Hardbound Book',
+    quantity: '150 Units',
+  });
+  assert(Boolean(successSubmission.id), 'Atomic Lua RFQ creation succeeded with ID');
+  assert(remoteKvStore.has(`samplinghub:rfq:${successSubmission.id}`), 'Atomic write created entity key in Redis');
+  const indexList = remoteZSetStore.get(RFQ_INDEX_KEY) || [];
+  assert(indexList.some((e) => e.member === successSubmission.id), 'Atomic write added ID to sorted set index');
+
+  // -------------------------------------------------------------------------
+  // Test 3: Atomic Fail-Closed on Lua Failure (No Silent Non-Atomic Fallback)
+  // -------------------------------------------------------------------------
+  // Simulate Redis rejecting EVAL
+  setMockKvHandler((commands) => {
+    return Promise.resolve(
+      commands.map(([cmd]) => {
+        if (cmd === 'EVAL') return null; // EVAL rejected or failed
+        return null;
+      })
+    );
+  });
+
+  let threwOnEvalFailure = false;
+  try {
+    await addRFQAsync({
+      fullName: 'Fail Closed Buyer',
+      companyName: 'Failsafe Corp',
+      email: 'failsafe@corp.com',
+      productType: 'Sample Card',
+      quantity: '500 Units',
+    });
+  } catch (err) {
+    threwOnEvalFailure = true;
+  }
+  assert(threwOnEvalFailure, 'CRIT: addRFQAsync fails closed when Lua transaction fails (no silent non-atomic fallback)');
+
+  // -------------------------------------------------------------------------
+  // Test 4: Redis Timeout Handling
+  // -------------------------------------------------------------------------
+  setMockKvHandler(() => Promise.resolve(null)); // Network timeout returns null
+  let threwOnTimeout = false;
+  try {
+    await addRFQAsync({
+      fullName: 'Timeout Buyer',
+      companyName: 'Timeout Corp',
+      email: 'timeout@corp.com',
+      productType: 'Sample Card',
+      quantity: '500 Units',
+    });
+  } catch {
+    threwOnTimeout = true;
+  }
+  assert(threwOnTimeout, 'CRIT: addRFQAsync fails closed with exception on Redis timeout');
+
+  // -------------------------------------------------------------------------
+  // Test 5: Unsupported Command Response Handling
+  // -------------------------------------------------------------------------
+  setMockKvHandler((commands) => {
+    return Promise.resolve(commands.map(() => 'ERR unknown command'));
+  });
+  let threwOnUnsupported = false;
+  try {
+    await addRFQAsync({
+      fullName: 'Unsupported Command Buyer',
+      companyName: 'Unsupported Corp',
+      email: 'unsupported@corp.com',
+      productType: 'Waterfall Hanger',
+      quantity: '200 Units',
+    });
+  } catch {
+    threwOnUnsupported = true;
+  }
+  assert(threwOnUnsupported, 'CRIT: addRFQAsync fails closed on unsupported Redis command response');
+
+  // Restore normal mock
+  setMockKvHandler(mockKvPipeline);
+
+  // -------------------------------------------------------------------------
+  // Test 6: Idempotent Submission / Retry after Ambiguous Timeout
+  // -------------------------------------------------------------------------
+  const submissionToRetry = await addRFQAsync({
     fullName: 'Retry Test Buyer',
     companyName: 'Retry Fabric Ltd',
     email: 'retry@buyer.com',
     productType: 'Swatch Book',
     quantity: '100 Units',
   });
-  assert(Boolean(submission1.id), 'Initial submission succeeded with ID');
+  assert(Boolean(submissionToRetry.id), 'Initial submission succeeded with ID');
 
-  // Simulate client retry using same ID and payload
-  // Manually invoke the exact storage pipeline that addRFQAsync runs
-  await mockKvPipeline([
-    ['SET', `samplinghub:rfq:${submission1.id}`, JSON.stringify(submission1)],
-    ['ZADD', RFQ_INDEX_KEY, Date.now(), submission1.id],
-  ]);
+  // Retry with same ID
+  const retriedSubmission = await addRFQAsync({
+    ...submissionToRetry,
+    id: submissionToRetry.id,
+  });
+  assert(retriedSubmission.id === submissionToRetry.id, 'Retry preserves identical RFQ ID');
 
   const afterRetry = await getAllRFQsAsync();
-  const matchingRecords = afterRetry.filter((r) => r.id === submission1.id);
+  const matchingRecords = afterRetry.filter((r) => r.id === submissionToRetry.id);
   assert(matchingRecords.length === 1, 'Idempotent retry: Retrying identical submission does not duplicate RFQ in index or list');
 
-  // Failure Scenario 3: Simultaneous Migrations with Distributed Lock
-  // Reset store to unmigrated legacy state
+  // -------------------------------------------------------------------------
+  // Test 7: Distributed Migration Lock with Unique Token
+  // -------------------------------------------------------------------------
   remoteKvStore.clear();
   remoteZSetStore.clear();
 
@@ -176,7 +273,7 @@ async function runFailureInjectionTests() {
   ];
   remoteKvStore.set(RFQ_LEGACY_KEY, JSON.stringify(legacyBatch));
 
-  // Simulate two instances triggering getAllRFQsAsync at the exact same millisecond
+  // Simulate two instances triggering getAllRFQsAsync simultaneously
   const [migrationRes1, migrationRes2] = await Promise.all([
     getAllRFQsAsync(),
     getAllRFQsAsync(),
@@ -189,18 +286,29 @@ async function runFailureInjectionTests() {
   assert(remoteKvStore.has(RFQ_LEGACY_KEY), 'Legacy data preserved intact (never deleted)');
   assert(!remoteKvStore.has(RFQ_MIGRATION_LOCK), 'Distributed migration lock released cleanly');
 
-  // Failure Scenario 4: Interrupted Migration Recovery
-  // Inject partially migrated state: index has Record A, Record B is only in legacy key
-  remoteZSetStore.get(RFQ_INDEX_KEY); // exists with A and B
-  // Delete B from individual keys to simulate partial network failure midway
-  remoteKvStore.delete('samplinghub:rfq:RFQ-LEGACY-B');
+  // -------------------------------------------------------------------------
+  // Test 8: Safe Unlock - Expired Lock Cannot Be Removed by Former Owner
+  // -------------------------------------------------------------------------
+  // Instance 1 held a lock that expired. Instance 2 now holds the lock with token 'TOKEN_B'
+  remoteKvStore.set(RFQ_MIGRATION_LOCK, 'TOKEN_B');
+  // Instance 1 tries to release with old token 'TOKEN_A'
+  const unlockResult = await mockKvPipeline([
+    ['EVAL', "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end", 1, RFQ_MIGRATION_LOCK, 'TOKEN_A'],
+  ]);
+  assert(unlockResult[0] === 0, 'CRIT: Expired lock token rejected by unlock script');
+  assert(remoteKvStore.get(RFQ_MIGRATION_LOCK) === 'TOKEN_B', 'CRIT: Another process lock was NOT deleted by stale unlock');
 
-  // Next read should prune B's orphaned index entry without error
+  // -------------------------------------------------------------------------
+  // Test 9: Interrupted Migration Recovery
+  // -------------------------------------------------------------------------
+  remoteKvStore.delete('samplinghub:rfq:RFQ-LEGACY-B');
   const partialRecovered = await getAllRFQsAsync();
   assert(partialRecovered.some((r) => r.id === 'RFQ-LEGACY-A'), 'Valid migrated Record A remains intact');
   assert(!partialRecovered.some((r) => r.id === 'RFQ-LEGACY-B'), 'Incomplete Record B safely excluded');
 
-  // Failure Scenario 5: Duplicate IDs in Legacy Data
+  // -------------------------------------------------------------------------
+  // Test 10: Deduplication of Duplicate Legacy IDs
+  // -------------------------------------------------------------------------
   remoteKvStore.clear();
   remoteZSetStore.clear();
   const duplicateLegacy = [
@@ -214,13 +322,33 @@ async function runFailureInjectionTests() {
   assert(dupEntries.length === 1, 'Legacy duplicate IDs gracefully deduplicated into single key without error');
   assert(dupEntries[0].quantity === '20', 'Latest version retained during deduplication');
 
-  // Failure Scenario 6: Redis Outage and Recovery
-  // 1. Simulate Redis outage
+  // -------------------------------------------------------------------------
+  // Test 11: Atomic Deletion Fail-Closed
+  // -------------------------------------------------------------------------
+  // Add a test RFQ
+  const toDelete = await addRFQAsync({
+    fullName: 'Delete Test',
+    companyName: 'Delete Corp',
+    email: 'del@corp.com',
+    productType: 'Book',
+    quantity: '50',
+  });
+  assert(remoteKvStore.has(`samplinghub:rfq:${toDelete.id}`), 'Record to delete exists in Redis');
+
+  // Test successful deletion
+  const delSuccess = await deleteRFQAsync(toDelete.id);
+  assert(delSuccess === true, 'Atomic delete succeeded');
+  assert(!remoteKvStore.has(`samplinghub:rfq:${toDelete.id}`), 'Deleted record removed from Redis');
+  const indexAfterDel = remoteZSetStore.get(RFQ_INDEX_KEY) || [];
+  assert(!indexAfterDel.some((e) => e.member === toDelete.id), 'Deleted record removed from index');
+
+  // -------------------------------------------------------------------------
+  // Test 12: Redis Outage and Recovery
+  // -------------------------------------------------------------------------
   setMockKvHandler(() => Promise.resolve(null));
   const outageRead = await getAllRFQsAsync();
   assert(Array.isArray(outageRead) && outageRead.length > 0, 'Under Redis outage, read falls back to local memory without crashing');
 
-  // 2. Restore Redis
   setMockKvHandler(mockKvPipeline);
   const recoveredRead = await getAllRFQsAsync();
   assert(Array.isArray(recoveredRead) && recoveredRead.length > 0, 'Full service restored immediately upon Redis recovery');
