@@ -360,7 +360,7 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
               <h4 className="text-xl font-bold text-navy">Transparent Timelines</h4>
               <ul className="space-y-3 text-sm text-gray-500 font-medium">
                 <li className="flex justify-between"><span>Production</span> <span className="text-navy font-bold">21-28 days</span></li>
-                <li className="flex justify-between"><span>Europe</span> <span className="text-navy font-bold">+15-20 days</span></li>
+                <li className="flex justify-between"><span>Europe</span> <span className="text-navy font-bold">+18-25 days (Indicative Sea)</span></li>
                 <li className="flex justify-between"><span>USA</span> <span className="text-navy font-bold">+25-35 days</span></li>
                 <li className="flex justify-between"><span>Middle East</span> <span className="text-navy font-bold">+12-18 days</span></li>
                 <li className="flex justify-between"><span>Express Air</span> <span className="text-navy font-bold">+3-7 days</span></li>
@@ -386,7 +386,7 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
             </thead>
             <tbody className="divide-y divide-gray-100 font-medium text-navy">
               {[
-                { d: "Europe (EU)", s: "$150-300/CBM", e: "$5-8/kg", l: "15-20 days", p: "40% vs USA suppliers" },
+                { d: "Europe (EU)", s: "$150-300/CBM", e: "$5-8/kg", l: "18-25 days (Est. Sea)", p: "40% vs USA suppliers" },
                 { d: "USA", s: "$200-350/CBM", e: "$6-9/kg", l: "25-35 days", p: "45% vs domestic" },
                 { d: "UAE/GCC", s: "$100-200/CBM", e: "$4-6/kg", l: "12-18 days", p: "30% vs Europe" },
                 { d: "Asia-Pacific", s: "$80-150/CBM", e: "$3-5/kg", l: "10-15 days", p: "35% vs regional" }

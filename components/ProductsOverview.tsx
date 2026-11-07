@@ -56,7 +56,7 @@ const productCategories: Array<{
       {
         name: 'Ring Swatch Sets',
         moq: '75 Sets',
-        lead: '15-20 Days',
+        lead: '18-24 Days',
         use: 'Field Sales Representative Kits',
         target: 'product-ring',
       },

@@ -70,7 +70,7 @@ const products = [
     desc: 'Portable metal-ring feeler sets and swatch fan decks engineered for field sales representatives and showroom consultations.',
     specs: ['Nickel/Brass Ring Sets', 'Brass Eyelet Reinforced', 'Mailable & Portable', 'Barcode Back Labels'],
     moq: '75 Sets',
-    leadTime: '15-20 days',
+    leadTime: '18-24 days',
     image: LOCAL_IMAGES.ringSwatchSet,
     alt: 'Portable Ring-Bound Fabric Swatch Set - SamplingHub',
     target: 'product-ring',
