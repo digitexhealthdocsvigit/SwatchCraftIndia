@@ -101,16 +101,16 @@ async function runTests() {
 
   // 4. Server-side session revocation on logout
   const initialRevoked = await isTokenRevoked(token);
-  assert(initialRevoked === false, 'Token is not revoked initially');
+  assert(initialRevoked.revoked === false, 'Token is not revoked initially');
   await revokeSessionToken(token);
   const postLogoutRevoked = await isTokenRevoked(token);
-  assert(postLogoutRevoked === true, 'Token is marked revoked after logout');
+  assert(postLogoutRevoked.revoked === true, 'Token is marked revoked after logout');
   const verifyPostLogout = await verifySessionToken(token);
   assert(verifyPostLogout.valid === false, 'verifySessionToken rejects server-revoked token');
 
   // 4.1 Cross-instance session revocation persistence test
   // Verify that revocation survives by reading from the durable store file
-  const revocationFile = path.join(os.tmpdir(), 'samplinghub_revocations.json');
+  const revocationFile = path.join(os.tmpdir(), 'samplinghub_dev_revocations.json');
   assert(fs.existsSync(revocationFile), 'Durable revocation store file exists on disk');
   const fileContent = JSON.parse(fs.readFileSync(revocationFile, 'utf8'));
   const tokenData = JSON.parse(Buffer.from(p, 'base64url').toString('utf8'));

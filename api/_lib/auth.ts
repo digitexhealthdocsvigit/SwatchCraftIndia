@@ -4,17 +4,70 @@ import os from 'node:os';
 import crypto from 'node:crypto';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
+/* -------------------------------------------------------------------------- */
+/*                       ENVIRONMENT & CONFIGURATION                          */
+/* -------------------------------------------------------------------------- */
+
+export function isProduction(): boolean {
+  return (
+    process.env.NODE_ENV === 'production' ||
+    process.env.VERCEL_ENV === 'production' ||
+    process.env.VERCEL === '1'
+  );
+}
+
 /**
- * Returns true if all three required environment variables are set:
- * ADMIN_EMAIL, ADMIN_PASSWORD_HASH, ADMIN_SESSION_SECRET.
- * Fails safely: does NOT activate hardcoded default credentials in production.
+ * Returns true if managed shared KV storage (Vercel KV or Upstash Redis) is configured.
+ */
+export function isSharedStorageConfigured(): boolean {
+  const hasKv = Boolean(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
+  const hasUpstash = Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+  return hasKv || hasUpstash;
+}
+
+/**
+ * Returns true if all three required credential variables are configured.
+ * In production, also requires shared storage (Vercel KV / Upstash Redis) to fail closed
+ * against insecure instance-local or temporary filesystem fallbacks.
  */
 export function isAuthConfigured(): boolean {
-  return Boolean(
+  const hasAuthVars = Boolean(
     process.env.ADMIN_EMAIL &&
     process.env.ADMIN_PASSWORD_HASH &&
     process.env.ADMIN_SESSION_SECRET
   );
+  if (!hasAuthVars) return false;
+
+  // In production, shared KV storage is strictly mandatory to guarantee cross-instance revocation and rate limiting
+  if (isProduction() && !isSharedStorageConfigured()) {
+    return false;
+  }
+
+  return true;
+}
+
+export function getAuthConfigStatus(): {
+  configured: boolean;
+  isProduction: boolean;
+  sharedStorageConfigured: boolean;
+  missingVars: string[];
+} {
+  const missing: string[] = [];
+  if (!process.env.ADMIN_EMAIL) missing.push('ADMIN_EMAIL');
+  if (!process.env.ADMIN_PASSWORD_HASH) missing.push('ADMIN_PASSWORD_HASH');
+  if (!process.env.ADMIN_SESSION_SECRET) missing.push('ADMIN_SESSION_SECRET');
+
+  const sharedStorage = isSharedStorageConfigured();
+  if (isProduction() && !sharedStorage) {
+    missing.push('KV_REST_API_URL / KV_REST_API_TOKEN (or UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN)');
+  }
+
+  return {
+    configured: missing.length === 0,
+    isProduction: isProduction(),
+    sharedStorageConfigured: sharedStorage,
+    missingVars: missing,
+  };
 }
 
 export function getConfiguredAdminEmail(): string {
@@ -41,6 +94,10 @@ export function getExpectedPasswordDigest(): string {
   return digest;
 }
 
+/* -------------------------------------------------------------------------- */
+/*                       PASSWORD HASHING (SCRYPT)                            */
+/* -------------------------------------------------------------------------- */
+
 /**
  * Standard scrypt password hashing (RFC 7914 / NIST SP 800-132).
  * Uses work factors N=16384, r=8, p=1, keylen=64, and a 16-byte random salt.
@@ -58,7 +115,7 @@ export function hashPassword(password: string): string {
 
 /**
  * Verifies a password against an encoded scrypt hash using timing-safe buffer comparison.
- * Fails safely on malformed or unsupported hash formats.
+ * Fails safely on malformed or unsupported hash formats (e.g. legacy plain SHA-256).
  */
 export function verifyPassword(password: string, encodedHash: string): boolean {
   if (!encodedHash || typeof encodedHash !== 'string') return false;
@@ -126,14 +183,28 @@ export function getClientIp(req: IncomingMessage): string {
 /*                 DISTRIBUTED STORAGE & SERVERLESS KV ENGINE                 */
 /* -------------------------------------------------------------------------- */
 
-const REVOCATION_FILE = path.join(os.tmpdir(), 'samplinghub_revocations.json');
-const RATELIMIT_FILE = path.join(os.tmpdir(), 'samplinghub_ratelimit.json');
+export interface KvResponse<T = any> {
+  success: boolean;
+  data: T | null;
+  error?: string;
+}
+
+// Optional mock for testing independent instances without live internet
+let mockKvHandler: ((commands: any[][]) => Promise<any[] | null>) | null = null;
+
+export function setMockKvHandler(handler: ((commands: any[][]) => Promise<any[] | null>) | null): void {
+  mockKvHandler = handler;
+}
 
 /**
- * Optional managed cloud KV helper (Vercel KV / Upstash Redis REST API).
+ * Managed cloud KV helper (Vercel KV / Upstash Redis REST API).
  * Enables multi-region distributed synchronization with zero added dependencies.
  */
-async function sendKvPipeline(commands: any[][]): Promise<any[] | null> {
+export async function sendKvPipeline(commands: any[][]): Promise<any[] | null> {
+  if (mockKvHandler) {
+    return mockKvHandler(commands);
+  }
+
   const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
   if (!url || !token) return null;
@@ -168,12 +239,14 @@ interface RateLimitRecord {
   resetAt: number;
 }
 
-const memoryRateLimitMap = new Map<string, RateLimitRecord>();
+// Development/testing-only local stores (never authoritative in production)
+const devMemoryRateLimitMap = new Map<string, RateLimitRecord>();
+const DEV_RATELIMIT_FILE = path.join(os.tmpdir(), 'samplinghub_dev_ratelimit.json');
 
-function loadDurableRateLimits(): Map<string, RateLimitRecord> {
+function loadDevRateLimits(): Map<string, RateLimitRecord> {
   try {
-    if (fs.existsSync(RATELIMIT_FILE)) {
-      const content = fs.readFileSync(RATELIMIT_FILE, 'utf8');
+    if (fs.existsSync(DEV_RATELIMIT_FILE)) {
+      const content = fs.readFileSync(DEV_RATELIMIT_FILE, 'utf8');
       const data = JSON.parse(content) as Record<string, RateLimitRecord>;
       const now = Date.now();
       const map = new Map<string, RateLimitRecord>();
@@ -185,12 +258,12 @@ function loadDurableRateLimits(): Map<string, RateLimitRecord> {
       return map;
     }
   } catch {
-    // Ignore fallback
+    // Ignore dev fallback
   }
   return new Map<string, RateLimitRecord>();
 }
 
-function saveDurableRateLimits(map: Map<string, RateLimitRecord>): void {
+function saveDevRateLimits(map: Map<string, RateLimitRecord>): void {
   try {
     const obj: Record<string, RateLimitRecord> = {};
     const now = Date.now();
@@ -199,41 +272,56 @@ function saveDurableRateLimits(map: Map<string, RateLimitRecord>): void {
         obj[key] = val;
       }
     }
-    fs.writeFileSync(RATELIMIT_FILE, JSON.stringify(obj), 'utf8');
+    fs.writeFileSync(DEV_RATELIMIT_FILE, JSON.stringify(obj), 'utf8');
   } catch {
-    // Ignore fallback
+    // Ignore dev fallback
   }
 }
 
 /**
- * Rate Limits:
- * - IP Limit: Max 5 attempts per 15-minute window
- * - Account Limit: Max 10 attempts across all IPs per 15-minute window (prevents distributed botnet brute force)
+ * Checks whether an IP or Account has exceeded its rate limit.
+ * Uses atomic Redis pipeline operations [INCR, TTL] so concurrent requests cannot bypass limits,
+ * and expiration is set only on initial failure (never reset accidentally on subsequent attempts).
+ * In production, fails closed if shared KV is unavailable.
  */
 export async function checkLoginRateLimit(
   targetKey: string,
   type: 'ip' | 'account' = 'ip'
-): Promise<{ allowed: boolean; retryAfterSeconds?: number; limitType?: 'ip' | 'account' }> {
+): Promise<{ allowed: boolean; retryAfterSeconds?: number; limitType?: 'ip' | 'account'; error?: string }> {
   const maxAttempts = type === 'ip' ? 5 : 10;
-  const windowMs = 15 * 60 * 1000;
-  const now = Date.now();
   const key = `rate:${type}:${targetKey}`;
 
-  // 1. Check Cloud KV if available
-  const cloudRes = await sendKvPipeline([['GET', key]]);
-  if (cloudRes && cloudRes[0] !== null) {
-    const attempts = parseInt(cloudRes[0], 10);
-    if (attempts >= maxAttempts) {
-      // Query TTL
-      const ttlRes = await sendKvPipeline([['TTL', key]]);
-      const remainingSeconds = ttlRes && typeof ttlRes[0] === 'number' && ttlRes[0] > 0 ? ttlRes[0] : 900;
-      return { allowed: false, retryAfterSeconds: remainingSeconds, limitType: type };
+  // 1. Shared Cloud KV Check (Production & Configured Environments)
+  if (isSharedStorageConfigured()) {
+    // Fetch current count and TTL
+    const cloudRes = await sendKvPipeline([['GET', key], ['TTL', key]]);
+    if (cloudRes === null) {
+      // In production, if shared store fails, fail closed!
+      if (isProduction()) {
+        return { allowed: false, retryAfterSeconds: 900, limitType: type, error: 'RATE_LIMIT_STORE_UNAVAILABLE' };
+      }
+    } else {
+      const countVal = cloudRes[0];
+      const ttlVal = cloudRes[1];
+      const attempts = countVal !== null ? parseInt(countVal, 10) : 0;
+      const ttlSeconds = typeof ttlVal === 'number' && ttlVal > 0 ? ttlVal : 900;
+
+      if (attempts >= maxAttempts) {
+        return { allowed: false, retryAfterSeconds: ttlSeconds, limitType: type };
+      }
+      return { allowed: true };
     }
   }
 
-  // 2. Check local durable file & memory cache
-  const durableMap = loadDurableRateLimits();
-  const record = durableMap.get(key) || memoryRateLimitMap.get(key);
+  // 2. Production check: If in production without shared storage, fail closed
+  if (isProduction()) {
+    return { allowed: false, retryAfterSeconds: 900, limitType: type, error: 'RATE_LIMIT_STORE_UNAVAILABLE' };
+  }
+
+  // 3. Development / Test Mode fallback
+  const now = Date.now();
+  const devMap = loadDevRateLimits();
+  const record = devMap.get(key) || devMemoryRateLimitMap.get(key);
 
   if (!record || now > record.resetAt) {
     return { allowed: true };
@@ -247,51 +335,73 @@ export async function checkLoginRateLimit(
   return { allowed: true };
 }
 
-export async function recordFailedLogin(targetKey: string, type: 'ip' | 'account' = 'ip'): Promise<void> {
-  const windowMs = 15 * 60 * 1000;
-  const now = Date.now();
+/**
+ * Atomically increments failed attempts and sets fixed 900s TTL only on the first attempt.
+ */
+export async function recordFailedLogin(
+  targetKey: string,
+  type: 'ip' | 'account' = 'ip'
+): Promise<{ success: boolean; attempts: number }> {
   const key = `rate:${type}:${targetKey}`;
 
-  // 1. Cloud KV increment with TTL
-  await sendKvPipeline([
-    ['INCR', key],
-    ['EXPIRE', key, 900],
-  ]);
+  if (isSharedStorageConfigured()) {
+    // Atomic INCR + TTL check
+    const incrRes = await sendKvPipeline([['INCR', key], ['TTL', key]]);
+    if (incrRes && typeof incrRes[0] === 'number') {
+      const attempts = incrRes[0];
+      const currentTtl = incrRes[1];
+      // If key is new (attempts === 1) or has no expiration (-1), set 15-minute fixed TTL
+      if (attempts === 1 || currentTtl === -1) {
+        await sendKvPipeline([['EXPIRE', key, 900]]);
+      }
+      return { success: true, attempts };
+    }
 
-  // 2. Local durable file & memory store
-  const durableMap = loadDurableRateLimits();
-  const existing = durableMap.get(key) || memoryRateLimitMap.get(key);
-
-  if (!existing || now > existing.resetAt) {
-    const newRecord: RateLimitRecord = { attempts: 1, resetAt: now + windowMs };
-    durableMap.set(key, newRecord);
-    memoryRateLimitMap.set(key, newRecord);
-  } else {
-    existing.attempts += 1;
-    durableMap.set(key, existing);
-    memoryRateLimitMap.set(key, existing);
+    if (isProduction()) {
+      return { success: false, attempts: 0 };
+    }
   }
 
-  saveDurableRateLimits(durableMap);
+  if (isProduction()) {
+    return { success: false, attempts: 0 };
+  }
+
+  // Development fallback
+  const now = Date.now();
+  const devMap = loadDevRateLimits();
+  const existing = devMap.get(key) || devMemoryRateLimitMap.get(key);
+
+  let newAttempts = 1;
+  if (!existing || now > existing.resetAt) {
+    const newRecord: RateLimitRecord = { attempts: 1, resetAt: now + 15 * 60 * 1000 };
+    devMap.set(key, newRecord);
+    devMemoryRateLimitMap.set(key, newRecord);
+  } else {
+    existing.attempts += 1;
+    newAttempts = existing.attempts;
+    devMap.set(key, existing);
+    devMemoryRateLimitMap.set(key, existing);
+  }
+
+  saveDevRateLimits(devMap);
+  return { success: true, attempts: newAttempts };
 }
 
 export async function resetLoginRateLimit(targetKey: string, type: 'ip' | 'account' = 'ip'): Promise<void> {
   const key = `rate:${type}:${targetKey}`;
-  await sendKvPipeline([['DEL', key]]);
-  const durableMap = loadDurableRateLimits();
-  durableMap.delete(key);
-  memoryRateLimitMap.delete(key);
-  saveDurableRateLimits(durableMap);
+  if (isSharedStorageConfigured()) {
+    await sendKvPipeline([['DEL', key]]);
+  }
+  const devMap = loadDevRateLimits();
+  devMap.delete(key);
+  devMemoryRateLimitMap.delete(key);
+  saveDevRateLimits(devMap);
 }
 
 /* -------------------------------------------------------------------------- */
 /*             SESSION CREDENTIAL VERIFICATION & LIFECYCLE                   */
 /* -------------------------------------------------------------------------- */
 
-/**
- * Verifies email and password against server configuration.
- * Uses timing-safe comparisons for both identifier and hash verification.
- */
 export function verifyCredentials(identifier: string, pass: string): boolean {
   if (!isAuthConfigured()) {
     return false;
@@ -313,10 +423,6 @@ export function verifyCredentials(identifier: string, pass: string): boolean {
   return verifyPassword(pass, expectedHash);
 }
 
-/**
- * Session Expiry Policy:
- * Exactly 24 hours (86,400,000 ms), synchronized with cookie Max-Age=86400.
- */
 export const SESSION_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 export function generateSessionToken(email: string): string {
@@ -332,12 +438,16 @@ export function generateSessionToken(email: string): string {
 /*                 DISTRIBUTED SERVERLESS SESSION REVOCATION                  */
 /* -------------------------------------------------------------------------- */
 
-const memoryRevokedJtis = new Map<string, number>();
+// Positive-only L1 memory cache (caches ONLY revoked tokens, never valid ones)
+const memoryPositiveRevokedJtis = new Map<string, number>();
 
-function loadDurableRevocations(): Map<string, number> {
+// Development/testing-only local file (never authoritative in production)
+const DEV_REVOCATION_FILE = path.join(os.tmpdir(), 'samplinghub_dev_revocations.json');
+
+function loadDevRevocations(): Map<string, number> {
   try {
-    if (fs.existsSync(REVOCATION_FILE)) {
-      const data = fs.readFileSync(REVOCATION_FILE, 'utf8');
+    if (fs.existsSync(DEV_REVOCATION_FILE)) {
+      const data = fs.readFileSync(DEV_REVOCATION_FILE, 'utf8');
       const parsed = JSON.parse(data) as Record<string, number>;
       const now = Date.now();
       const map = new Map<string, number>();
@@ -349,12 +459,12 @@ function loadDurableRevocations(): Map<string, number> {
       return map;
     }
   } catch {
-    // Ignore fallback
+    // Ignore dev fallback
   }
   return new Map<string, number>();
 }
 
-function saveDurableRevocations(map: Map<string, number>): void {
+function saveDevRevocations(map: Map<string, number>): void {
   try {
     const obj: Record<string, number> = {};
     const now = Date.now();
@@ -363,90 +473,130 @@ function saveDurableRevocations(map: Map<string, number>): void {
         obj[jti] = exp;
       }
     }
-    fs.writeFileSync(REVOCATION_FILE, JSON.stringify(obj), 'utf8');
+    fs.writeFileSync(DEV_REVOCATION_FILE, JSON.stringify(obj), 'utf8');
   } catch {
-    // Ignore fallback
+    // Ignore dev fallback
   }
 }
 
 /**
  * Revokes a session token across serverless instances and persistent storage.
+ * In production, writes to Cloud KV and returns { success: false } if the shared store fails,
+ * ensuring logout never falsely reports revocation.
  */
-export async function revokeSessionToken(token: string | undefined): Promise<void> {
-  if (!token || typeof token !== 'string') return;
+export async function revokeSessionToken(
+  token: string | undefined
+): Promise<{ success: boolean; error?: string }> {
+  if (!token || typeof token !== 'string') return { success: false, error: 'Invalid token' };
   const parts = token.split('.');
-  if (parts.length !== 2) return;
+  if (parts.length !== 2) return { success: false, error: 'Malformed token' };
 
   try {
     const data = JSON.parse(Buffer.from(parts[0], 'base64url').toString('utf8'));
-    if (data.jti && data.expiry) {
-      const jti = data.jti;
-      const expiry = data.expiry;
-      const remainingSeconds = Math.max(1, Math.ceil((expiry - Date.now()) / 1000));
+    if (!data.jti || !data.expiry) return { success: false, error: 'Missing token metadata' };
 
-      // 1. Cloud KV Revocation Entry with TTL
-      await sendKvPipeline([['SETEX', `revoked:${jti}`, remainingSeconds, '1']]);
+    const jti = data.jti;
+    const now = Date.now();
+    // Revocation TTL is strictly capped to remaining token lifetime (never exceeds SESSION_EXPIRY_MS)
+    const remainingSeconds = Math.max(1, Math.min(
+      Math.ceil(SESSION_EXPIRY_MS / 1000),
+      Math.ceil((data.expiry - now) / 1000)
+    ));
 
-      // 2. Local durable file persistence
-      const durableMap = loadDurableRevocations();
-      durableMap.set(jti, expiry);
-      saveDurableRevocations(durableMap);
-
-      // 3. Fast memory cache
-      memoryRevokedJtis.set(jti, expiry);
+    // 1. Shared Cloud KV Persistence
+    if (isSharedStorageConfigured()) {
+      const kvRes = await sendKvPipeline([['SETEX', `revoked:${jti}`, remainingSeconds, '1']]);
+      if (kvRes === null) {
+        if (isProduction()) {
+          return { success: false, error: 'Failed to write revocation to shared KV store' };
+        }
+      } else {
+        // Cache positive revocation in L1 memory
+        memoryPositiveRevokedJtis.set(jti, data.expiry);
+        return { success: true };
+      }
     }
+
+    // 2. Production check: If in production without shared storage, fail closed
+    if (isProduction()) {
+      return { success: false, error: 'Shared KV storage is required in production' };
+    }
+
+    // 3. Development / Test Mode fallback
+    const devMap = loadDevRevocations();
+    devMap.set(jti, data.expiry);
+    saveDevRevocations(devMap);
+    memoryPositiveRevokedJtis.set(jti, data.expiry);
+    return { success: true };
   } catch {
-    // Ignore invalid JSON payload
+    return { success: false, error: 'Invalid token payload' };
   }
 }
 
 /**
- * Checks if a session token has been revoked across Cloud KV, durable file store, or memory.
+ * Checks if a session token has been revoked across Cloud KV, durable dev store, or memory.
+ * Uses positive-only caching so a valid token is NEVER cached as valid across instances.
+ * In production, fails closed if the shared KV store is unreachable.
  */
-export async function isTokenRevoked(token: string): Promise<boolean> {
+export async function isTokenRevoked(token: string): Promise<{ revoked: boolean; error?: string }> {
   try {
     const parts = token.split('.');
-    if (parts.length !== 2) return true;
+    if (parts.length !== 2) return { revoked: true, error: 'Malformed token' };
     const data = JSON.parse(Buffer.from(parts[0], 'base64url').toString('utf8'));
-    if (!data.jti) return true;
+    if (!data.jti) return { revoked: true, error: 'Missing token jti' };
     const jti = data.jti;
     const now = Date.now();
 
-    // 1. Check in-memory L1 cache
-    const memExp = memoryRevokedJtis.get(jti);
+    // 1. Check positive-only L1 memory cache (fast microsecond rejection of known revoked tokens)
+    const memExp = memoryPositiveRevokedJtis.get(jti);
     if (memExp && memExp > now) {
-      return true;
+      return { revoked: true };
     }
 
-    // 2. Check durable file store
-    const durableMap = loadDurableRevocations();
-    const fileExp = durableMap.get(jti);
+    // 2. Query Shared Cloud KV (Authoritative in Production)
+    if (isSharedStorageConfigured()) {
+      const cloudRes = await sendKvPipeline([['GET', `revoked:${jti}`]]);
+      if (cloudRes === null) {
+        if (isProduction()) {
+          // Fail closed in production if KV is down
+          return { revoked: true, error: 'SHARED_STORE_UNAVAILABLE' };
+        }
+      } else if (cloudRes[0] !== null) {
+        // Token was found in shared revocation registry: cache positively in L1
+        memoryPositiveRevokedJtis.set(jti, data.expiry || now + 86400000);
+        return { revoked: true };
+      } else {
+        return { revoked: false };
+      }
+    }
+
+    // 3. Production check: fail closed if production lacks shared store
+    if (isProduction()) {
+      return { revoked: true, error: 'SHARED_STORE_UNAVAILABLE' };
+    }
+
+    // 4. Development / Test Mode fallback
+    const devMap = loadDevRevocations();
+    const fileExp = devMap.get(jti);
     if (fileExp && fileExp > now) {
-      memoryRevokedJtis.set(jti, fileExp);
-      return true;
+      memoryPositiveRevokedJtis.set(jti, fileExp);
+      return { revoked: true };
     }
 
-    // 3. Check Cloud KV
-    const cloudRes = await sendKvPipeline([['GET', `revoked:${jti}`]]);
-    if (cloudRes && cloudRes[0] !== null) {
-      memoryRevokedJtis.set(jti, data.expiry || now + 86400000);
-      return true;
-    }
-
-    return false;
+    return { revoked: false };
   } catch {
-    return true;
+    return { revoked: true, error: 'Invalid token payload' };
   }
 }
 
 export async function verifySessionToken(
   token: string | undefined
-): Promise<{ valid: boolean; email?: string }> {
-  if (!token || typeof token !== 'string') return { valid: false };
-  if (!isAuthConfigured()) return { valid: false };
+): Promise<{ valid: boolean; email?: string; error?: string }> {
+  if (!token || typeof token !== 'string') return { valid: false, error: 'Missing token' };
+  if (!isAuthConfigured()) return { valid: false, error: 'Authentication unconfigured' };
 
   const parts = token.split('.');
-  if (parts.length !== 2) return { valid: false };
+  if (parts.length !== 2) return { valid: false, error: 'Malformed token' };
 
   const [payload, signature] = parts;
   try {
@@ -456,24 +606,24 @@ export async function verifySessionToken(
     const bufSig = Buffer.from(signature, 'utf8');
     const bufExpected = Buffer.from(expectedSig, 'utf8');
 
-    if (bufSig.length !== bufExpected.length) return { valid: false };
-    if (!crypto.timingSafeEqual(bufSig, bufExpected)) return { valid: false };
+    if (bufSig.length !== bufExpected.length) return { valid: false, error: 'Invalid signature length' };
+    if (!crypto.timingSafeEqual(bufSig, bufExpected)) return { valid: false, error: 'Invalid signature' };
 
     // Check expiration before checking revocation store
     const data = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8'));
     if (!data.expiry || Date.now() > data.expiry) {
-      return { valid: false };
+      return { valid: false, error: 'Session expired' };
     }
 
-    // Check distributed revocation
-    const revoked = await isTokenRevoked(token);
-    if (revoked) {
-      return { valid: false };
+    // Check distributed revocation across shared store
+    const revocationStatus = await isTokenRevoked(token);
+    if (revocationStatus.revoked) {
+      return { valid: false, error: revocationStatus.error || 'Token has been revoked' };
     }
 
     return { valid: true, email: data.email };
   } catch {
-    return { valid: false };
+    return { valid: false, error: 'Invalid token payload' };
   }
 }
 
@@ -492,10 +642,10 @@ export function parseCookies(cookieHeader: string | undefined): Record<string, s
   return list;
 }
 
-/**
- * Strict same-origin & authorised origin CORS validator.
- * Replaces wildcard CORS with authorized whitelist.
- */
+/* -------------------------------------------------------------------------- */
+/*                                    CORS                                    */
+/* -------------------------------------------------------------------------- */
+
 const ALLOWED_ORIGINS = [
   'https://www.samplinghub.world',
   'https://samplinghub.world',
@@ -504,7 +654,7 @@ const ALLOWED_ORIGINS = [
 
 export function handleCors(req: IncomingMessage, res: ServerResponse): boolean {
   const origin = req.headers.origin;
-  const isDev = process.env.NODE_ENV !== 'production' && process.env.VERCEL_ENV !== 'production';
+  const isDev = !isProduction();
 
   let isAllowed = false;
   if (origin) {

@@ -50,7 +50,11 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
   if (!authResult.valid) {
     res.statusCode = 401;
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({ error: 'Unauthorized: Admin session required' }));
+    res.end(
+      JSON.stringify({
+        error: authResult.error ? `Unauthorized: ${authResult.error}` : 'Unauthorized: Admin session required',
+      })
+    );
     return;
   }
 

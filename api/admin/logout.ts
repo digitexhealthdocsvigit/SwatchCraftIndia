@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { parseCookies, revokeSessionToken, handleCors } from '../_lib/auth.js';
+import { parseCookies, revokeSessionToken, handleCors, isProduction } from '../_lib/auth.js';
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   if (handleCors(req, res)) {
@@ -14,7 +14,19 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
   const tokenToRevoke = cookieToken || bearerToken;
   if (tokenToRevoke) {
-    await revokeSessionToken(tokenToRevoke);
+    const revokeResult = await revokeSessionToken(tokenToRevoke);
+    if (!revokeResult.success && isProduction()) {
+      // In production, if shared store persistence failed, fail closed!
+      res.statusCode = 503;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(
+        JSON.stringify({
+          error: 'Unable to persist session revocation to shared store. Logout incomplete.',
+          code: 'REVOCATION_STORAGE_FAILED',
+        })
+      );
+      return;
+    }
   }
 
   // Clear HttpOnly cookie

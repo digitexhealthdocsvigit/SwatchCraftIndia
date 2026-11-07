@@ -17,7 +17,12 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   res.setHeader('Content-Type', 'application/json');
   if (!result.valid) {
     res.statusCode = 401;
-    res.end(JSON.stringify({ authenticated: false, error: 'Unauthorized or expired session' }));
+    res.end(
+      JSON.stringify({
+        authenticated: false,
+        error: result.error || 'Unauthorized or expired session',
+      })
+    );
     return;
   }
 

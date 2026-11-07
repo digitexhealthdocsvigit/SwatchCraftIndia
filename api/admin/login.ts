@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import {
   isAuthConfigured,
+  getAuthConfigStatus,
   verifyCredentials,
   generateSessionToken,
   getClientIp,
@@ -56,24 +57,26 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
     return;
   }
 
-  // Failsafe configuration check: reject if environment variables are missing
+  // Failsafe configuration check: fail closed if required environment variables or shared storage are missing
   if (!isAuthConfigured()) {
+    const configStatus = getAuthConfigStatus();
     res.statusCode = 503;
     res.setHeader('Content-Type', 'application/json');
     res.end(
       JSON.stringify({
         error:
-          'Admin authentication is not configured on the server. Please configure ADMIN_EMAIL, ADMIN_PASSWORD_HASH, and ADMIN_SESSION_SECRET in Vercel project environment variables.',
+          'Admin authentication is not configured on the server. In production, ADMIN_EMAIL, ADMIN_PASSWORD_HASH, ADMIN_SESSION_SECRET, and shared KV storage are strictly required.',
         code: 'AUTH_NOT_CONFIGURED',
+        missing: configStatus.missingVars,
       })
     );
     return;
   }
 
-  // Anti-spoofing client IP resolution
+  // Anti-spoofing client IP resolution (platform-verified Vercel edge IP)
   const ip = getClientIp(req);
 
-  // 1. Check IP-based distributed rate limit
+  // 1. Hard IP-based distributed rate limit (max 5 failed attempts per IP)
   const ipRateCheck = await checkLoginRateLimit(ip, 'ip');
   if (!ipRateCheck.allowed) {
     res.statusCode = 429;
@@ -116,25 +119,29 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
 
   const normalizedEmail = email.trim().toLowerCase();
 
-  // 2. Check Account-based distributed rate limit (protects against distributed multi-IP botnet credential stuffing)
+  // 2. Account-based protection check & Anti-DoS Policy:
+  // If an attacker attempts to flood failed logins targeting the administrator email,
+  // we do NOT lock out the legitimate owner who possesses the correct password.
   const acctRateCheck = await checkLoginRateLimit(normalizedEmail, 'account');
-  if (!acctRateCheck.allowed) {
-    res.statusCode = 429;
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Retry-After', String(acctRateCheck.retryAfterSeconds || 900));
-    res.end(
-      JSON.stringify({
-        error: `Too many failed login attempts for this account. Please wait ${acctRateCheck.retryAfterSeconds} seconds before retrying.`,
-      })
-    );
-    return;
-  }
-
   const isValid = verifyCredentials(normalizedEmail, password);
+
   if (!isValid) {
-    // Record failure in both IP and Account distributed rate buckets
+    // Record failed attempt in both IP and Account shared buckets
     await recordFailedLogin(ip, 'ip');
     await recordFailedLogin(normalizedEmail, 'account');
+
+    // If account limit has already been exceeded by attacker traffic, return 429
+    if (!acctRateCheck.allowed) {
+      res.statusCode = 429;
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader('Retry-After', String(acctRateCheck.retryAfterSeconds || 900));
+      res.end(
+        JSON.stringify({
+          error: `Too many failed login attempts for this account. Please wait ${acctRateCheck.retryAfterSeconds} seconds before retrying.`,
+        })
+      );
+      return;
+    }
 
     res.statusCode = 401;
     res.setHeader('Content-Type', 'application/json');
@@ -143,7 +150,7 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
     return;
   }
 
-  // Successful login: reset rate limiters for both IP and Account
+  // Successful login: reset rate limiters for both IP and Account immediately
   await resetLoginRateLimit(ip, 'ip');
   await resetLoginRateLimit(normalizedEmail, 'account');
 
