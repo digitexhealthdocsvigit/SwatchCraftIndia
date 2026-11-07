@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { GoogleGenAI } from "@google/genai";
 
 type TabType = 'checklists' | 'blog' | 'google' | 'social' | 'outreach' | 'photography' | 'generator';
 
@@ -51,40 +50,13 @@ const AdminLaunchCenter: React.FC = () => {
     ]
   };
 
-  const generateImage = async (id: string, promptText: string) => {
+  const generateImage = async (id: string, _promptText: string) => {
     if (generating) return;
     setGenerating(id);
     try {
       // Gemini API key is no longer bundled into the public client (security fix).
       // Image generation requires a server-side proxy before it can be re-enabled.
-      const apiKey = '';
-      if (!apiKey) throw new Error('Gemini client calls disabled on public site');
-      const ai = new GoogleGenAI({ apiKey });
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash-image',
-        contents: [{ parts: [{ text: promptText }] }],
-        config: {
-          imageConfig: {
-            aspectRatio: "3:2"
-          }
-        }
-      });
-
-      let imageUrl = '';
-      if (response.candidates?.[0]?.content?.parts) {
-        for (const part of response.candidates[0].content.parts) {
-          if (part.inlineData) {
-            imageUrl = `data:image/png;base64,${part.inlineData.data}`;
-            break;
-          }
-        }
-      }
-
-      if (imageUrl) {
-        setGeneratedImages(prev => ({ ...prev, [id]: imageUrl }));
-      } else {
-        alert("Image generation failed. Ensure your API key supports Gemini 2.5 Flash Image.");
-      }
+      throw new Error('Gemini client calls disabled on public site');
     } catch (e) {
       console.error(e);
       alert("Error generating image. Check console for details.");
@@ -177,7 +149,7 @@ const AdminLaunchCenter: React.FC = () => {
                             onClick={() => {
                               const link = document.createElement('a');
                               link.href = generatedImages[shot.id];
-                              link.download = `swatchcraft-${shot.id}.png`;
+                              link.download = `samplinghub-${shot.id}.png`;
                               link.click();
                             }}
                             className="bg-teal text-white px-3 py-2 rounded-lg text-[9px] font-black uppercase"
@@ -204,7 +176,7 @@ const AdminLaunchCenter: React.FC = () => {
                 <p><strong>Step 2:</strong> Initialize a GitHub repo and push the code.</p>
                 <p><strong>Step 3:</strong> In Vercel, select "New Project" and import your repo.</p>
                 <p><strong>Step 4:</strong> Set Environment Variable: <code>API_KEY</code> = [Your Gemini Key].</p>
-                <p><strong>Step 5:</strong> Vercel will auto-assign <code>swatchcraftindia.vercel.app</code>.</p>
+                <p><strong>Step 5:</strong> Vercel will auto-assign <code>samplinghub.world</code>.</p>
               </div>
             </section>
             <section>

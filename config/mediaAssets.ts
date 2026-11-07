@@ -38,18 +38,15 @@ export function createStudioPlaceholderSvg(
     <rect width="1200" height="900" fill="url(#bg)"/>
     <rect width="1200" height="900" fill="url(#grid)"/>
     <rect x="60" y="60" width="1080" height="780" rx="18" fill="none" stroke="url(#gold)" stroke-width="2" stroke-opacity="0.55"/>
-    <!-- Architectural Swatch Book Mockup Graphic -->
     <g transform="translate(360, 175)">
       <rect x="0" y="20" width="230" height="310" rx="8" fill="#102136" stroke="#c9a86a" stroke-width="2.5"/>
       <rect x="18" y="40" width="194" height="270" rx="4" fill="#1e3a5f" stroke="#c9a86a" stroke-width="1" stroke-opacity="0.4"/>
       <rect x="230" y="20" width="250" height="310" rx="8" fill="#f8f6f2" stroke="#c9a86a" stroke-width="2.5"/>
-      <!-- Cascading Swatch Drops -->
       <rect x="255" y="48" width="200" height="42" rx="3" fill="#d9cfc1" stroke="#8B6F47" stroke-width="1"/>
       <rect x="255" y="98" width="200" height="42" rx="3" fill="#b7a68e" stroke="#8B6F47" stroke-width="1"/>
       <rect x="255" y="148" width="200" height="42" rx="3" fill="#8B6F47" stroke="#1e3a5f" stroke-width="1"/>
       <rect x="255" y="198" width="200" height="42" rx="3" fill="#0d7377" stroke="#1e3a5f" stroke-width="1"/>
       <rect x="255" y="248" width="200" height="42" rx="3" fill="#1e3a5f" stroke="#c9a86a" stroke-width="1"/>
-      <!-- Spine -->
       <rect x="222" y="16" width="16" height="318" rx="4" fill="url(#gold)"/>
     </g>
     <text x="600" y="590" text-anchor="middle" fill="#c9a86a" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="4">${safeSub}</text>
@@ -77,7 +74,7 @@ export const WALLPAPER_CATALOG_MEDIA: MediaItem[] = [
   {
     type: 'image',
     src: LOCAL_IMAGES.wallpaperBook,
-    alt: 'Custom Hardbound Wallpaper Catalog Book with Room-Scene Separator Pages - SamplingHub Thane-Bhiwandi',
+    alt: 'Custom Hardbound Wallpaper Catalog Book with Room-Scene Visualizer Sheet - SamplingHub Thane-Bhiwandi',
     caption: 'Oversized 45×45 cm Hardbound Wallpaper Catalog with Full-Color Room-Scene Visualizer Sheet & Stepped Coordinate Swatches',
     fallbackTitle: 'Hardbound Wallpaper Catalog Book',
     fallbackSubtitle: 'OVERSIZED 45×45 CM & 50×50 CM REPEAT BOOKS',
@@ -205,3 +202,16 @@ export const SAMPLE_CARDS_MEDIA: MediaItem[] = [
     fallbackSubtitle: 'MATTE/VELVET LAMINATION • METALLIC FOIL STAMPING',
   },
 ];
+
+export const MEDIA_ASSETS = {
+  hero: WALLPAPER_CATALOG_MEDIA,
+  wallpaperCatalog: WALLPAPER_CATALOG_MEDIA,
+  upholstery: UPHOLSTERY_MEDIA,
+  curtain: CURTAIN_MEDIA,
+  waterfall: WATERFALL_MEDIA,
+  hanger: HANGER_MEDIA,
+  ringSwatch: RING_SWATCH_MEDIA,
+  sampleCards: SAMPLE_CARDS_MEDIA,
+  portfolio: WALLPAPER_CATALOG_MEDIA,
+  factory: WALLPAPER_CATALOG_MEDIA,
+} as const;

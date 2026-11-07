@@ -38,11 +38,11 @@ export const ProductWallpaperCatalog: React.FC<ProductWallpaperCatalogProps> = (
   const specs = [
     {
       label: 'Standard Catalog Sizes',
-      value: '45×45 cm, 50×50 cm, 40×50 cm, 53×53 cm (Full Roll-Width Repeat Books), or Custom Dimensions',
+      value: 'Oversized 45x45 cm, 50x50 cm, and custom wide-width repeat albums with full-color printed interior room-scene visualizer sheets and die-cut window frames',
     },
     {
       label: 'Cover Board Construction',
-      value: '3mm – 4mm Imported High-Density Rigid Kappa Board (Zero-Warp Archival Core)',
+      value: '3mm–4mm imported rigid kappa board wrapped in washable buckram, linen, or PU leatherette with gold/silver hot-foil stamping, blind debossing, and metal corner protectors',
     },
     {
       label: 'Cover Wrap Materials',
@@ -50,7 +50,7 @@ export const ProductWallpaperCatalog: React.FC<ProductWallpaperCatalogProps> = (
     },
     {
       label: 'Binding Systems',
-      value: 'Heavy-Duty Screw-Post (Post-Bound), Hardbound Buckram Bookbinding, & Concealed Chicago Rivet Spine',
+      value: 'Heavy-Duty Screw-Post (Post-Bound), Hardbound Buckram Bookbinding, & Concealed Rivet Systems engineered for 300–500+ GSM vinyl, non-woven, grasscloth, and embossed wallcoverings',
     },
     {
       label: 'Supported Wallcovering Weights',

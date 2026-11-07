@@ -9,12 +9,12 @@ import ExportMarkets from './components/ExportMarkets.tsx';
 import Gallery from './components/Gallery.tsx';
 import Testimonials from './components/Testimonials.tsx';
 import QualityCertifications from './components/QualityCertifications.tsx';
-import Contact from './components/Contact.tsx';
 import Footer from './components/Footer.tsx';
 import LeadCaptureModal from './components/LeadCaptureModal.tsx';
 import WhatsAppFloatingCTA from './components/WhatsAppFloatingCTA.tsx';
 
-// Code-split secondary routes to keep initial homepage bundle fast and lightweight
+// Code-split secondary routes and heavy below-the-fold RFQ form to keep initial homepage bundle fast (<300 kB)
+const Contact = lazy(() => import('./components/Contact.tsx'));
 const AboutPage = lazy(() => import('./components/AboutPage.tsx'));
 const ProductsOverview = lazy(() => import('./components/ProductsOverview.tsx'));
 const ManufacturingProcessPage = lazy(() => import('./components/ManufacturingProcessPage.tsx'));
@@ -119,7 +119,7 @@ const App: React.FC = () => {
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
   const [activeAsset, setActiveAsset] = useState('Catalogue');
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem('swatchcraft_admin_session') === 'true';
+    return localStorage.getItem('samplinghub_admin_session') === 'true';
   });
 
   useEffect(() => {
@@ -150,13 +150,13 @@ const App: React.FC = () => {
 
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
-    localStorage.setItem('swatchcraft_admin_session', 'true');
+    localStorage.setItem('samplinghub_admin_session', 'true');
     setCurrentView('admin-dashboard');
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    localStorage.removeItem('swatchcraft_admin_session');
+    localStorage.removeItem('samplinghub_admin_session');
     setCurrentView('home');
   };
 
