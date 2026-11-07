@@ -24,6 +24,7 @@ const ProductHanger = lazy(() => import('./components/ProductHanger.tsx'));
 const ProductRingSwatch = lazy(() => import('./components/ProductRingSwatch.tsx'));
 const ProductSampleCards = lazy(() => import('./components/ProductSampleCards.tsx'));
 const ProductWaterfall = lazy(() => import('./components/ProductWaterfall.tsx'));
+const ProductWallpaperCatalog = lazy(() => import('./components/ProductWallpaperCatalog.tsx'));
 const ExportMarketsPage = lazy(() => import('./components/ExportMarketsPage.tsx'));
 const BlogHub = lazy(() => import('./components/BlogHub.tsx'));
 const BlogPost = lazy(() => import('./components/BlogPost.tsx'));
@@ -48,6 +49,7 @@ export type ViewState =
   | 'product-ring' 
   | 'product-cards'
   | 'product-waterfall'
+  | 'product-wallpaper-catalog'
   | 'export-markets-page'
   | 'blog-hub'
   | 'blog-post-1'
@@ -75,6 +77,7 @@ const PATH_TO_VIEW: Record<string, ViewState> = {
   '/products/ring-swatch-sets': 'product-ring',
   '/products/sample-cards': 'product-cards',
   '/products/waterfall-swatch-cards': 'product-waterfall',
+  '/products/wallpaper-catalog-manufacturing': 'product-wallpaper-catalog',
   '/manufacturing-process': 'process-detail',
   '/export-markets': 'export-markets-page',
   '/portfolio': 'portfolio',
@@ -95,6 +98,7 @@ const VIEW_TO_PATH: Partial<Record<ViewState, string>> = {
   'product-ring': '/products/ring-swatch-sets',
   'product-cards': '/products/sample-cards',
   'product-waterfall': '/products/waterfall-swatch-cards',
+  'product-wallpaper-catalog': '/products/wallpaper-catalog-manufacturing',
   'process-detail': '/manufacturing-process',
   'export-markets-page': '/export-markets',
   portfolio: '/portfolio',
@@ -230,6 +234,7 @@ const App: React.FC = () => {
       case 'product-ring': return <ProductRingSwatch onNavigate={navigateTo} onDownload={(a) => { setActiveAsset(a); setIsLeadModalOpen(true); }} />;
       case 'product-cards': return <ProductSampleCards onNavigate={navigateTo} onDownload={(a) => { setActiveAsset(a); setIsLeadModalOpen(true); }} />;
       case 'product-waterfall': return <ProductWaterfall onNavigate={navigateTo} onDownload={(a) => { setActiveAsset(a); setIsLeadModalOpen(true); }} />;
+      case 'product-wallpaper-catalog': return <ProductWallpaperCatalog onNavigate={navigateTo} onDownload={(a) => { setActiveAsset(a); setIsLeadModalOpen(true); }} />;
       case 'export-markets-page': return <ExportMarketsPage onNavigate={navigateTo} />;
       case 'blog-hub': return <BlogHub onNavigate={navigateTo} />;
       case 'blog-post-1': return <BlogPost postId={1} onNavigate={navigateTo} />;

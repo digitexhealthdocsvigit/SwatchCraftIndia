@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { ViewState } from '../App.tsx';
 import { Star, CheckCircle2, Factory, Globe, Layout, Store, ChevronRight, Download, MessageCircle, X, HelpCircle } from 'lucide-react';
 import { useGlobalSettings } from './GlobalSettingsContext.tsx';
+import { ProductMediaCarousel } from './ProductMediaCarousel';
+import { CURTAIN_MEDIA } from '../config/mediaAssets';
 
 interface Props {
   onNavigate: (view: ViewState) => void;
@@ -10,17 +12,8 @@ interface Props {
 
 const ProductCurtain: React.FC<Props> = ({ onNavigate, onDownload }) => {
   const { formatPrice } = useGlobalSettings();
-  const [activeImg, setActiveImg] = useState(0);
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
-
-  const images = [
-    { src: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80", alt: "Large-format curtain album open showing sheer fabrics" },
-    { src: "https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=800&q=80", alt: "Close-up of detachable page mechanism" },
-    { src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80", alt: "Various curtain textures - sheer, blackout, embroidered" },
-    { src: "https://images.unsplash.com/photo-1551033406-611cf9a28f67?auto=format&fit=crop&w=800&q=80", alt: "Album with branded cover" },
-    { src: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80", alt: "Multiple albums for different collections" }
-  ];
 
   const faqs = [
     { q: "Can you handle very delicate sheer fabrics?", a: "Yes, we use anti-static sleeves and gentle handling processes specifically for sheers and voiles" },
@@ -48,23 +41,7 @@ const ProductCurtain: React.FC<Props> = ({ onNavigate, onDownload }) => {
       <section className="py-12 px-4 lg:py-20 max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Product Gallery */}
-          <div className="space-y-6">
-            <div className="aspect-[4/3] bg-gray-100 rounded-[3rem] overflow-hidden border border-gray-200 shadow-2xl relative group cursor-zoom-in">
-              <img src={images[activeImg].src} alt={images[activeImg].alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-              <div className="absolute top-8 left-8 bg-gold text-white text-[9px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg">Large Format Premium</div>
-            </div>
-            <div className="grid grid-cols-5 gap-3">
-              {images.map((img, idx) => (
-                <button 
-                  key={idx} 
-                  onClick={() => setActiveImg(idx)} 
-                  className={`aspect-square rounded-2xl border-2 overflow-hidden transition-all ${activeImg === idx ? 'border-gold ring-4 ring-gold/10' : 'border-transparent opacity-60 hover:opacity-100'}`}
-                >
-                  <img src={img.src} alt={img.alt} className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
-          </div>
+          <ProductMediaCarousel items={CURTAIN_MEDIA} badge="Large Format Premium" />
 
           {/* Product Details */}
           <div>

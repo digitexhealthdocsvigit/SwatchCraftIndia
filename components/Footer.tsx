@@ -38,6 +38,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <h3 className="text-[#c9a86a] font-bold uppercase tracking-widest text-[11px] mb-8">Products</h3>
           <ul className="space-y-4 text-sm text-gray-300 font-medium">
             <li><button onClick={() => onNavigate('products-overview')} className="hover:text-white transition-colors text-left font-black">View All Products</button></li>
+            <li><button onClick={() => onNavigate('product-wallpaper-catalog')} className="hover:text-white transition-colors text-left font-black text-[#c9a86a]">Wallpaper Catalog Books</button></li>
             <li><button onClick={() => onNavigate('product-waterfall')} className="hover:text-white transition-colors text-left font-black text-[#149297]">Waterfall Swatch Cards</button></li>
             <li><button onClick={() => onNavigate('product-upholstery')} className="hover:text-white transition-colors text-left">Upholstery Swatch Books</button></li>
             <li><button onClick={() => onNavigate('product-curtain')} className="hover:text-white transition-colors text-left">Curtain Fabric Albums</button></li>

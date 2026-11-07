@@ -11,6 +11,8 @@ import {
   History
 } from 'lucide-react';
 import { useGlobalSettings } from './GlobalSettingsContext.tsx';
+import { ProductMediaCarousel } from './ProductMediaCarousel';
+import { RING_SWATCH_MEDIA } from '../config/mediaAssets';
 
 interface Props {
   onNavigate: (view: ViewState) => void;
@@ -19,18 +21,8 @@ interface Props {
 
 const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
   const { formatPrice } = useGlobalSettings();
-  const [activeThumb, setActiveThumb] = useState(0);
-  const [isZoomed, setIsZoomed] = useState(false);
   const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
-
-  const thumbnails = [
-    { label: "Main View", src: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80", placeholder: "Ring swatch set being flipped through by hand" },
-    { label: "Case Detail", src: "https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=800&q=80", placeholder: "Compact ring swatch set in protective case" },
-    { label: "Mechanism", src: "https://images.unsplash.com/photo-1520183802803-06f731a2059f?auto=format&fit=crop&w=800&q=80", placeholder: "Close-up of metal ring binding mechanism" },
-    { label: "Fanned Swatches", src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80", placeholder: "Multiple fabric swatches fanned out" },
-    { label: "Presentation", src: "https://images.unsplash.com/photo-1551033406-611cf9a28f67?auto=format&fit=crop&w=800&q=80", placeholder: "Sales rep presenting swatches to client" }
-  ];
 
   const pricingTiers = [
     { q: "5-10 (sample)", p: 80, i: 800, best: "Testing quality" },
@@ -70,35 +62,7 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
       <section className="py-12 px-4 lg:py-20 max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* LEFT: Product Gallery */}
-          <div className="space-y-6">
-            <div 
-              className="aspect-[4/3] bg-gray-100 rounded-[2.5rem] overflow-hidden border border-gray-200 shadow-2xl relative cursor-zoom-in group"
-              onClick={() => setIsZoomed(!isZoomed)}
-            >
-              <img 
-                src={thumbnails[activeThumb].src} 
-                alt={thumbnails[activeThumb].placeholder} 
-                className={`w-full h-full object-cover transition-transform duration-500 ${isZoomed ? 'scale-150' : 'scale-100'}`}
-              />
-              <div className="absolute top-8 left-8 bg-[#8B6F47] text-white text-[9px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg">Perfect for Sales Teams</div>
-              {!isZoomed && (
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/10">
-                  <Maximize2 className="w-8 h-8 text-white drop-shadow-lg" />
-                </div>
-              )}
-            </div>
-            <div className="grid grid-cols-5 gap-3">
-              {thumbnails.map((thumb, idx) => (
-                <button 
-                  key={idx} 
-                  onClick={() => setActiveThumb(idx)} 
-                  className={`aspect-square rounded-2xl border-2 overflow-hidden transition-all ${activeThumb === idx ? 'border-[#8B6F47] ring-4 ring-gold/10 scale-95' : 'border-transparent opacity-60 hover:opacity-100'}`}
-                >
-                  <img src={thumb.src} alt={thumb.label} className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
-          </div>
+          <ProductMediaCarousel items={RING_SWATCH_MEDIA} badge="Perfect for Sales Teams" />
 
           {/* RIGHT: Product Details */}
           <div>

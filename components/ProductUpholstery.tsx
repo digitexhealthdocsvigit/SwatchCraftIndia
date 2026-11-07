@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { ViewState } from '../App.tsx';
 import { Star, CheckCircle2, Sofa, Ruler, Warehouse, Globe, Zap, Download, MessageCircle, ChevronRight, X } from 'lucide-react';
 import { useGlobalSettings } from './GlobalSettingsContext.tsx';
+import { ProductMediaCarousel } from './ProductMediaCarousel';
+import { UPHOLSTERY_MEDIA, LOCAL_IMAGES } from '../config/mediaAssets';
 
 interface Props {
   onNavigate: (view: ViewState) => void;
@@ -10,17 +12,7 @@ interface Props {
 
 const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
   const { formatPrice } = useGlobalSettings();
-  const [activeImg, setActiveImg] = useState(0);
   const [showPricingModal, setShowPricingModal] = useState(false);
-  const [isZoomed, setIsZoomed] = useState(false);
-
-  const images = [
-    { src: "https://images.unsplash.com/photo-1558383409-ab7ef8db3e01?auto=format&fit=crop&w=800&q=80", alt: "Custom Upholstery Swatch Book Open on Desk with Cascading Fabrics" },
-    { src: "https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=800&q=80", alt: "Close-up of Hardbound Book Spine and Gold Foil Stamping" },
-    { src: "https://images.unsplash.com/photo-1520183802803-06f731a2059f?auto=format&fit=crop&w=800&q=80", alt: "Fabric Swatch Labeling Detail and Care Instruction Tags" },
-    { src: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80", alt: "Multiple Custom Swatch Albums Stacked in Showroom" },
-    { src: "https://images.unsplash.com/photo-1551033406-611cf9a28f67?auto=format&fit=crop&w=800&q=80", alt: "Embossed Brand Cover and Custom Fabric Header Sample" }
-  ];
 
   return (
     <div className="bg-white min-h-screen">
@@ -39,30 +31,7 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
       <section className="py-12 px-4 lg:py-20 max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* LEFT: Product Gallery */}
-          <div className="space-y-6">
-            <div 
-              className="aspect-[4/3] bg-gray-100 rounded-[2.5rem] overflow-hidden border border-gray-200 shadow-2xl relative cursor-zoom-in"
-              onClick={() => setIsZoomed(!isZoomed)}
-            >
-              <img 
-                src={images[activeImg].src} 
-                alt={images[activeImg].alt} 
-                className={`w-full h-full object-cover transition-transform duration-500 ${isZoomed ? 'scale-150' : 'scale-100'}`}
-              />
-              <div className="absolute top-6 left-6 bg-gold text-white text-[9px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg">Most Popular Product</div>
-            </div>
-            <div className="grid grid-cols-5 gap-3">
-              {images.map((img, idx) => (
-                <button 
-                  key={idx} 
-                  onClick={() => setActiveImg(idx)} 
-                  className={`aspect-square rounded-2xl border-2 overflow-hidden transition-all ${activeImg === idx ? 'border-gold ring-4 ring-gold/10' : 'border-transparent opacity-60 hover:opacity-100'}`}
-                >
-                  <img src={img.src} alt={img.alt} className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
-          </div>
+          <ProductMediaCarousel items={UPHOLSTERY_MEDIA} badge="Most Popular Product" />
 
           {/* RIGHT: Product Details */}
           <div className="flex flex-col">
@@ -320,12 +289,14 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
           <h2 className="text-3xl font-black text-navy text-center mb-16 uppercase tracking-tighter">Complete Your Fabric Presentation</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { t: "Curtain Fabric Albums", p: "100", target: 'product-curtain' },
-              { t: "Fabric Hanger Swatches", p: "18", target: 'product-hanger' },
-              { t: "Sample Cards & Storyboards", p: "15", target: 'product-cards' }
+              { t: "Wallpaper Catalog Books", p: "120", target: 'product-wallpaper-catalog', img: LOCAL_IMAGES.wallpaperBook },
+              { t: "Curtain Fabric Albums", p: "100", target: 'product-curtain', img: LOCAL_IMAGES.wallpaperRollDisplay },
+              { t: "Fabric Hanger Swatches", p: "18", target: 'product-hanger', img: LOCAL_IMAGES.wallpaperRollDisplay }
             ].map((prod, i) => (
               <div key={i} className="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 group">
-                <div className="aspect-video bg-white rounded-2xl mb-6 flex items-center justify-center text-gray-400 font-black text-[9px] uppercase tracking-widest text-center px-6">Product Visual</div>
+                <div className="aspect-video bg-white rounded-2xl mb-6 overflow-hidden">
+                  <img src={prod.img} alt={prod.t} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy" />
+                </div>
                 <h3 className="text-lg font-black text-navy mb-4 uppercase tracking-tight group-hover:text-gold transition-colors">{prod.t}</h3>
                 <div className="flex justify-between items-center pt-4 border-t border-gray-200">
                    <span className="text-[10px] font-black text-gray-500 uppercase">From {formatPrice(Number(prod.p))}</span>

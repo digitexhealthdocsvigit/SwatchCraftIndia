@@ -35,6 +35,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
   }, []);
 
   const productLinks = [
+    { name: 'Wallpaper Catalog Books', id: 'product-wallpaper-catalog', icon: <Box className="w-4 h-4" /> },
     { name: 'Upholstery Swatch Books', id: 'product-upholstery', icon: <Box className="w-4 h-4" /> },
     { name: 'Curtain Fabric Albums', id: 'product-curtain', icon: <Layout className="w-4 h-4" /> },
     { name: 'Waterfall Swatch Cards', id: 'product-waterfall', icon: <Layers className="w-4 h-4" /> },

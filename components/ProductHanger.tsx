@@ -6,6 +6,8 @@ import {
   ChevronRight, ArrowRight, HelpCircle, X, Factory, Layers, Trash2
 } from 'lucide-react';
 import { useGlobalSettings } from './GlobalSettingsContext.tsx';
+import { ProductMediaCarousel } from './ProductMediaCarousel';
+import { HANGER_MEDIA } from '../config/mediaAssets';
 
 interface Props {
   onNavigate: (view: ViewState) => void;
@@ -14,18 +16,8 @@ interface Props {
 
 const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
   const { formatPrice } = useGlobalSettings();
-  const [activeImg, setActiveImg] = useState(0);
-  const [isZoomed, setIsZoomed] = useState(false);
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
-
-  const images = [
-    { src: "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=800&q=80", alt: "Fabric hangers displayed on showroom wall" },
-    { src: "https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=800&q=80", alt: "Close-up of metal chrome hanger with branded header" },
-    { src: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80", alt: "Wooden hanger with fabric swatch" },
-    { src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80", alt: "Multiple hangers showing color coordination" },
-    { src: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80", alt: "Retail display setup with hangers" }
-  ];
 
   const pricingTiers = [
     { qty: "5-10 (sample)", price: 80, invest: 800, ideal: "Display testing" },
@@ -63,30 +55,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
       <section className="py-12 px-4 lg:py-20 max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* LEFT: Product Gallery */}
-          <div className="space-y-6">
-            <div 
-              className="aspect-[4/3] bg-gray-100 rounded-[3rem] overflow-hidden border border-gray-200 shadow-2xl relative cursor-zoom-in group"
-              onClick={() => setIsZoomed(!isZoomed)}
-            >
-              <img 
-                src={images[activeImg].src} 
-                alt={images[activeImg].alt} 
-                className={`w-full h-full object-cover transition-transform duration-500 ${isZoomed ? 'scale-150' : 'scale-100'}`}
-              />
-              <div className="absolute top-8 left-8 bg-gold text-white text-[9px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg">Best for Showrooms</div>
-            </div>
-            <div className="grid grid-cols-5 gap-3">
-              {images.map((img, idx) => (
-                <button 
-                  key={idx} 
-                  onClick={() => setActiveImg(idx)} 
-                  className={`aspect-square rounded-2xl border-2 overflow-hidden transition-all ${activeImg === idx ? 'border-gold ring-4 ring-gold/10 scale-95' : 'border-transparent opacity-60 hover:opacity-100'}`}
-                >
-                  <img src={img.src} alt={img.alt} className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
-          </div>
+          <ProductMediaCarousel items={HANGER_MEDIA} badge="Best for Showrooms" />
 
           {/* RIGHT: Product Details */}
           <div>

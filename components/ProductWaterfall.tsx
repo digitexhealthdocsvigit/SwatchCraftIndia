@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ViewState } from '../App.tsx';
-import { Download, Layers, TrendingUp, Zap } from 'lucide-react';
+import { Download } from 'lucide-react';
+import { ProductMediaCarousel } from './ProductMediaCarousel';
+import { WATERFALL_MEDIA } from '../config/mediaAssets';
 
 interface Props {
   onNavigate: (view: ViewState) => void;
@@ -8,31 +10,6 @@ interface Props {
 }
 
 const ProductWaterfall: React.FC<Props> = ({ onNavigate, onDownload }) => {
-  const [activeThumb, setActiveThumb] = useState(0);
-
-  const thumbnails = [
-    { 
-      label: "Main View", 
-      src: "https://images.unsplash.com/photo-1558383409-ab7ef8db3e01?auto=format&fit=crop&w=800&q=80",
-      alt: "Custom Cascading Waterfall Fabric Swatch Card Manufacturer Thane-Bhiwandi, Maharashtra"
-    },
-    { 
-      label: "Bi-Fold", 
-      src: "https://images.unsplash.com/photo-1520183802803-06f731a2059f?auto=format&fit=crop&w=800&q=80",
-      alt: "Bi-Fold Waterfall Swatch Presentation Card with Fabric Codes"
-    },
-    { 
-      label: "Tri-Fold", 
-      src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80",
-      alt: "Tri-Fold Textile Swatch Storyboard with Coordinated Colors"
-    },
-    { 
-      label: "Palette", 
-      src: "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?auto=format&fit=crop&w=800&q=80",
-      alt: "Cascading Tiered Fabric Palette on High GSM Cardstock"
-    }
-  ];
-
   const waterfallSpecs = [
     { s: "Format", d: "Cascading Tiered (Waterfall)" },
     { s: "Standard Width", d: "150mm, 200mm, 250mm" },
@@ -56,32 +33,7 @@ const ProductWaterfall: React.FC<Props> = ({ onNavigate, onDownload }) => {
       </nav>
 
       <section className="py-12 px-4 lg:py-20 max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
-        <div className="space-y-6">
-          <div className="aspect-[4/3] bg-gray-50 rounded-[3rem] overflow-hidden border border-gray-100 shadow-2xl relative group">
-            <img 
-              src={thumbnails[activeThumb].src} 
-              alt={thumbnails[activeThumb].alt} 
-              loading="lazy" 
-              className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" 
-            />
-            <div className="absolute top-8 left-8 bg-teal text-white text-[11px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
-              #1 Exporter Choice
-            </div>
-          </div>
-          <div className="grid grid-cols-4 gap-4">
-            {thumbnails.map((thumb, idx) => (
-              <button 
-                key={idx} 
-                onClick={() => setActiveThumb(idx)} 
-                className={`aspect-square rounded-2xl border-2 overflow-hidden transition-all ${
-                  activeThumb === idx ? 'border-[#8B6F47] scale-95 shadow-inner ring-2 ring-[#8B6F47]/20' : 'border-transparent opacity-60 hover:opacity-100'
-                }`}
-              >
-                <img src={thumb.src} alt={thumb.alt} loading="lazy" className="w-full h-full object-cover" />
-              </button>
-            ))}
-          </div>
-        </div>
+        <ProductMediaCarousel items={WATERFALL_MEDIA} badge="#1 Exporter Choice" />
 
         <div>
           <h1 className="text-4xl md:text-6xl font-black text-navy mb-6 tracking-tighter uppercase leading-tight">
