@@ -2,8 +2,6 @@
 
 **Audit Date:** November 8, 2026  
 **Audited Branch:** `fix/samplinghub-admin-image-audit`  
-**Latest Feature Commit SHA:** `b15cc7281f6ee37b715a31a547fa0d235c3453fb`  
-**Reviewed Base Commit SHA:** `ce2d0b413f74a4c0a77212f69b582bf9edc23ee7`  
 **Target Merge Branch:** `main`  
 **Repository:** `digitexhealthdocsvigit/SwatchCraftIndia`  
 **Production URL:** [https://www.samplinghub.world](https://www.samplinghub.world)  
@@ -13,15 +11,16 @@
 
 ## 1. Executive Summary & Verification Decision
 
-This pre-merge acceptance audit independently evaluated the changes reported in commit `ce2d0b4`, identified critical security and visual accuracy defects, implemented full remediation directly on `fix/samplinghub-admin-image-audit`, and verified the resulting codebase against all 12 mandatory acceptance criteria.
+This pre-merge acceptance audit independently evaluated the changes reported in commit `ce2d0b4`, identified critical security and visual accuracy defects, implemented full remediation directly on `fix/samplinghub-admin-image-audit`, and verified the resulting codebase against all mandatory acceptance criteria.
 
 ### Verification Verdict:
 **READY FOR MERGE (Pending Owner Vercel Secret Configuration)**
 
 * **Git Integrity:** All commits are cleanly tracked on `fix/samplinghub-admin-image-audit` without force-pushing or rewriting Git history. `main` is completely untouched.
-* **Security Hardening:** Plain SHA-256 replaced with RFC 7914 scrypt ($N=16384, r=8, p=1$, random 16-byte salt); session tokens removed from login response body; `HttpOnly; SameSite=Lax; Secure` cookie is the sole credential; zero tokens stored in `localStorage`; 24-hour expiration enforced; server-side token revocation on logout active.
+* **Serverless Security Hardening:** Plain SHA-256 replaced with RFC 7914 scrypt ($N=16384, r=8, p=1$, random 16-byte salt); session tokens removed from login response body; `HttpOnly; SameSite=Lax; Secure` cookie is the sole credential; zero tokens stored in `localStorage`; 24-hour expiration enforced.
+* **Durable Revocation & Distributed Rate Limiting:** Implemented multi-tier session revocation (Vercel KV REST API + durable file store + memory L1 cache) surviving serverless instance restarts. Dual-layer rate limiting protects both IP (max 5) and Account (max 10) against distributed credential stuffing, with edge anti-spoofing IP extraction.
 * **Visual & Content Accuracy:** Redundant factory photo deleted; all 6 Polytex machinery candidates excluded; unverified claims (1994, 30+ years, owned factory, 6,000 sq ft, 3,000 monthly units, 15–20 day guarantees) purged; 2011 managed OEM partner model established.
-* **Build & Tests:** TypeScript type check passes with 0 errors; Vite production build succeeds in 9.19s; 60/60 automated security and API handler tests pass; client bundle secret scan confirms 0 leaks.
+* **Build & Tests:** TypeScript type check passes with 0 errors; Vite production build succeeds in 7.58s; 74/74 automated security and API handler tests pass; client bundle secret scan confirms 0 leaks.
 
 ---
 
@@ -33,8 +32,6 @@ This pre-merge acceptance audit independently evaluated the changes reported in 
 | Active Feature Branch | `fix/samplinghub-admin-image-audit` | Clean working tree; tracked on origin. |
 | Target Merge Branch | `main` | Unmodified; 0 direct commits to `main`. |
 | Base Inspected Commit | `ce2d0b4` | Commit verified in tree ancestry. |
-| Latest Feature Commit | `b15cc72` | `git rev-parse HEAD` = `b15cc7281f6ee37b715a31a547fa0d235c3453fb` |
-| Commits Ahead of `origin/main` | 5 commits | `4914883`, `ce2d0b4`, `4106702`, `812454f`, `b15cc72` |
 | Destructive Git Operations | None | Zero force-pushes; zero rebases; zero cherry-pick conflicts. |
 | Credentials in Git | None | Regex scan across entire commit diff confirms zero secrets committed. |
 
@@ -61,8 +58,9 @@ This pre-merge acceptance audit independently evaluated the changes reported in 
 * **Sole Credential:** Login JSON response body returns only `{ success: true, email: "..." }`. The HMAC session token is never exposed to client-side JavaScript.
 * **Zero `localStorage` Storage:** All `localStorage` token reading and writing (`samplinghub_admin_token`, `samplinghub_admin_session`) was completely purged.
 * **Session Lifetime:** Explicit 24-hour expiration (`SESSION_EXPIRY_MS = 86400000`, `Max-Age=86400`).
-* **Server-Side Token Revocation:** `POST /api/admin/logout` calls `revokeSessionToken(token)`, adding the token's unique ID `jti` to an in-memory revocation registry, and sets `Max-Age=0` on the cookie. Subsequent requests with that token return HTTP 401.
-* **Rate Limiting:** Sliding-window rate limiter in `api/_lib/auth.ts` allows 5 failed attempts per 15-minute window; 6th attempt is blocked with HTTP 429 and `Retry-After: <seconds>`.
+* **Cross-Instance Session Revocation:** `POST /api/admin/logout` writes token ID `jti` to Cloud KV and the durable shared revocation store (`/tmp/samplinghub_revocations.json`), and sets `Max-Age=0` on the cookie. Subsequent requests with that token return HTTP 401 across all serverless function instances.
+* **Dual-Layer Distributed Rate Limiting:** Tracks IP (max 5) and Account (max 10) failed attempts across distributed instances; 429 response includes `Retry-After: <seconds>`.
+* **Anti-Spoofing IP Resolution:** Platform-authenticated edge headers (`x-vercel-forwarded-for` and `x-real-ip`) take precedence over client-injected `X-Forwarded-For`.
 * **Strict CORS Whitelist:** Restricted to `https://www.samplinghub.world`, `https://samplinghub.world`, `https://swatch-craft-india.vercel.app`, and local development ports.
 * **Fail-Closed Configuration:** If `ADMIN_PASSWORD_HASH` or `ADMIN_SESSION_SECRET` is unset, `POST /api/admin/login` immediately returns HTTP 503 `AUTH_NOT_CONFIGURED`. Zero hardcoded fallback credentials exist in Git.
 
@@ -95,7 +93,7 @@ A zero-leak interactive provisioning CLI has been provided at [`scripts/setup_ad
 
 ## 5. Phase 4 — Login & Protected-Route Acceptance Matrix
 
-All 12 required test scenarios were evaluated via automated tests and handler harnesses:
+All 12 required pre-merge acceptance scenarios were tested via automated tests and handler harnesses:
 
 | # | Test Scenario | Expected Result | Actual Result | Status |
 |---|---|---|---|---|
@@ -106,9 +104,9 @@ All 12 required test scenarios were evaluated via automated tests and handler ha
 | 5 | Direct access to protected dashboard | Rejected without valid session | Form remains on login screen | **PASS** |
 | 6 | Direct access to protected API (`/api/admin/rfqs`) | Rejected without valid session | HTTP 401 `Unauthorized` | **PASS** |
 | 7 | Expired session (> 24 hours) | Access rejected | HTTP 401 `Session expired` | **PASS** |
-| 8 | Logout | Session invalidated server-side | HTTP 200, token revoked in memory, cookie cleared | **PASS** |
-| 9 | Reuse of logged-out session | Rejected | HTTP 401 `Token has been revoked` | **PASS** |
-| 10 | Excessive failed login attempts (6 attempts) | Rate limited | HTTP 429 `Too Many Requests` with `Retry-After` header | **PASS** |
+| 8 | Logout | Session invalidated server-side | HTTP 200, token revoked in memory & shared store, cookie cleared | **PASS** |
+| 9 | Reuse of logged-out session across instances | Rejected | HTTP 401 `Token has been revoked` | **PASS** |
+| 10 | Excessive failed login attempts (6 attempts from IP / 11 on account) | Rate limited | HTTP 429 `Too Many Requests` with `Retry-After` header | **PASS** |
 | 11 | Browser refresh after valid login | Correct session behavior | Restores dashboard via `GET /api/admin/session` cookie | **PASS** |
 | 12 | Mobile login page | Usable and responsive | Verified at 375px viewport (clean inputs, full contrast) | **PASS** |
 
@@ -130,7 +128,7 @@ All 12 required test scenarios were evaluated via automated tests and handler ha
 
 ### Image Asset Reconciliation:
 * **Canonical Routes Audited:** 18 routes.
-* **Visual Holders Found:** 31 visual holders (documented in [`docs/SAMPLINGHUB_MISSING_IMAGE_AUDIT.md`](file:///c:/Users/Sanika/Downloads/Sample%20Swatch%20book/docs/SAMPLINGHUB_MISSING_IMAGE_AUDIT.md)).
+* **Visual Holders Found:** 31 visual holders (cataloged in [`docs/SAMPLINGHUB_MISSING_IMAGE_AUDIT.md`](file:///c:/Users/Sanika/Downloads/Sample%20Swatch%20book/docs/SAMPLINGHUB_MISSING_IMAGE_AUDIT.md)).
 * **Authentic Studio Photos:** 23 holders (finished swatch books, drapery albums, waterfall hangers, ring swatches, wallpaper catalogs).
 * **Remediated Placeholders:** 5 holders (About page 4-pillar partner network architecture card; Blog editorial banners).
 * **Misleading Machinery / Facility Files Removed:**
@@ -151,11 +149,11 @@ All 12 required test scenarios were evaluated via automated tests and handler ha
 | Verification Test | Command | Exit Code | Result Details |
 |---|---|---|---|
 | TypeScript Typecheck | `npx tsc --noEmit` | **0** | Clean; 0 type errors across codebase. |
-| Production Build | `npm run build` | **0** | Vite v6.4.5 built in 9.19s; 38 JS chunks, 56.7 kB CSS. |
-| Server Security Acceptance Suite | `node --experimental-strip-types scripts/test_server_security_acceptance.js` | **0** | **31 PASSED, 0 FAILED** |
+| Production Build | `npm run build` | **0** | Vite v6.4.5 built in 7.58s; 38 JS chunks, 56.7 kB CSS. |
+| Server Security Acceptance Suite | `node --experimental-strip-types scripts/test_server_security_acceptance.js` | **0** | **45 PASSED, 0 FAILED** |
 | Direct Serverless Handler Suite | `node_modules/.bin/jiti scripts/test_handlers_direct.js` | **0** | **29 PASSED, 0 FAILED** |
 | Client Bundle Secret Scan | AST & Regex scan over `dist/assets/*.js` | **0** | **0 leaks** (zero tokens, hashes, or secrets). |
-| Total Automated Tests | — | **0** | **60 PASSED, 0 FAILED** |
+| Total Automated Tests | Combined test suites | **0** | **74 PASSED, 0 FAILED** |
 
 ---
 

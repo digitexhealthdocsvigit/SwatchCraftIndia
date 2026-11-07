@@ -3,7 +3,9 @@ import {
   isAuthConfigured,
   verifyCredentials,
   generateSessionToken,
+  getClientIp,
   checkLoginRateLimit,
+  recordFailedLogin,
   resetLoginRateLimit,
   handleCors,
 } from '../_lib/auth.js';
@@ -68,20 +70,18 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
     return;
   }
 
-  // Rate limit check
-  const ip =
-    (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() ||
-    req.socket.remoteAddress ||
-    'unknown';
+  // Anti-spoofing client IP resolution
+  const ip = getClientIp(req);
 
-  const rateCheck = checkLoginRateLimit(ip);
-  if (!rateCheck.allowed) {
+  // 1. Check IP-based distributed rate limit
+  const ipRateCheck = await checkLoginRateLimit(ip, 'ip');
+  if (!ipRateCheck.allowed) {
     res.statusCode = 429;
     res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Retry-After', String(rateCheck.retryAfterSeconds || 900));
+    res.setHeader('Retry-After', String(ipRateCheck.retryAfterSeconds || 900));
     res.end(
       JSON.stringify({
-        error: `Too many login attempts. Please wait ${rateCheck.retryAfterSeconds} seconds before retrying.`,
+        error: `Too many login attempts from this network. Please wait ${ipRateCheck.retryAfterSeconds} seconds before retrying.`,
       })
     );
     return;
@@ -114,8 +114,28 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
     return;
   }
 
-  const isValid = verifyCredentials(email, password);
+  const normalizedEmail = email.trim().toLowerCase();
+
+  // 2. Check Account-based distributed rate limit (protects against distributed multi-IP botnet credential stuffing)
+  const acctRateCheck = await checkLoginRateLimit(normalizedEmail, 'account');
+  if (!acctRateCheck.allowed) {
+    res.statusCode = 429;
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Retry-After', String(acctRateCheck.retryAfterSeconds || 900));
+    res.end(
+      JSON.stringify({
+        error: `Too many failed login attempts for this account. Please wait ${acctRateCheck.retryAfterSeconds} seconds before retrying.`,
+      })
+    );
+    return;
+  }
+
+  const isValid = verifyCredentials(normalizedEmail, password);
   if (!isValid) {
+    // Record failure in both IP and Account distributed rate buckets
+    await recordFailedLogin(ip, 'ip');
+    await recordFailedLogin(normalizedEmail, 'account');
+
     res.statusCode = 401;
     res.setHeader('Content-Type', 'application/json');
     // Generic error message to prevent account enumeration
@@ -123,11 +143,12 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
     return;
   }
 
-  // Successful login: reset rate limiter for this IP
-  resetLoginRateLimit(ip);
+  // Successful login: reset rate limiters for both IP and Account
+  await resetLoginRateLimit(ip, 'ip');
+  await resetLoginRateLimit(normalizedEmail, 'account');
 
   // Generate 24-hour cryptographically signed session token
-  const token = generateSessionToken(email.trim().toLowerCase());
+  const token = generateSessionToken(normalizedEmail);
 
   // Set HttpOnly, Secure session cookie as the SOLE browser credential
   const isProd =
@@ -154,7 +175,7 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
     JSON.stringify({
       success: true,
       user: {
-        email: email.trim().toLowerCase(),
+        email: normalizedEmail,
         role: 'admin',
       },
     })

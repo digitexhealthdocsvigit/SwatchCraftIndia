@@ -12,7 +12,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   const bearerToken = authHeader?.startsWith('Bearer ') ? authHeader.slice(7).trim() : undefined;
 
   const tokenToVerify = cookieToken || bearerToken;
-  const result = verifySessionToken(tokenToVerify);
+  const result = await verifySessionToken(tokenToVerify);
 
   res.setHeader('Content-Type', 'application/json');
   if (!result.valid) {

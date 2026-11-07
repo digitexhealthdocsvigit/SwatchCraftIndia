@@ -1,4 +1,7 @@
 import crypto from 'node:crypto';
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
 import {
   isAuthConfigured,
   verifyCredentials,
@@ -9,7 +12,9 @@ import {
   revokeSessionToken,
   isTokenRevoked,
   checkLoginRateLimit,
+  recordFailedLogin,
   resetLoginRateLimit,
+  getClientIp,
   parseCookies,
   SESSION_EXPIRY_MS,
 } from '../api/_lib/auth.ts';
@@ -75,14 +80,14 @@ async function runTests() {
   const token = generateSessionToken(testEmail);
   assert(typeof token === 'string' && token.includes('.'), 'Generates valid signed session token');
 
-  const verified = verifySessionToken(token);
+  const verified = await verifySessionToken(token);
   assert(verified.valid === true && verified.email === testEmail, 'Verifies authentic token correctly');
 
   // Tampered signature rejection
   const [p, s] = token.split('.');
   const tamperedSig = s.slice(0, -4) + 'abcd';
   const forgedToken = `${p}.${tamperedSig}`;
-  const verifyForged = verifySessionToken(forgedToken);
+  const verifyForged = await verifySessionToken(forgedToken);
   assert(verifyForged.valid === false, 'Rejects forged HMAC signature token');
 
   // Expired token rejection
@@ -91,24 +96,59 @@ async function runTests() {
   ).toString('base64url');
   const expiredSig = crypto.createHmac('sha256', testSecret).update(expiredPayload).digest('base64url');
   const expiredToken = `${expiredPayload}.${expiredSig}`;
-  assert(verifySessionToken(expiredToken).valid === false, 'Rejects expired session token');
+  const verifyExpired = await verifySessionToken(expiredToken);
+  assert(verifyExpired.valid === false, 'Rejects expired session token');
 
   // 4. Server-side session revocation on logout
-  assert(isTokenRevoked(token) === false, 'Token is not revoked initially');
-  revokeSessionToken(token);
-  assert(isTokenRevoked(token) === true, 'Token is marked revoked after logout');
-  assert(verifySessionToken(token).valid === false, 'verifySessionToken rejects server-revoked token');
+  const initialRevoked = await isTokenRevoked(token);
+  assert(initialRevoked === false, 'Token is not revoked initially');
+  await revokeSessionToken(token);
+  const postLogoutRevoked = await isTokenRevoked(token);
+  assert(postLogoutRevoked === true, 'Token is marked revoked after logout');
+  const verifyPostLogout = await verifySessionToken(token);
+  assert(verifyPostLogout.valid === false, 'verifySessionToken rejects server-revoked token');
 
-  // 5. Rate limiting tests
+  // 4.1 Cross-instance session revocation persistence test
+  // Verify that revocation survives by reading from the durable store file
+  const revocationFile = path.join(os.tmpdir(), 'samplinghub_revocations.json');
+  assert(fs.existsSync(revocationFile), 'Durable revocation store file exists on disk');
+  const fileContent = JSON.parse(fs.readFileSync(revocationFile, 'utf8'));
+  const tokenData = JSON.parse(Buffer.from(p, 'base64url').toString('utf8'));
+  assert(Boolean(fileContent[tokenData.jti]), 'Token jti is durably persisted in shared revocation store');
+
+  // 5. Distributed IP Rate limiting tests
   const testIp = '198.51.100.42';
-  resetLoginRateLimit(testIp);
+  await resetLoginRateLimit(testIp, 'ip');
   for (let i = 1; i <= 5; i++) {
-    const res = checkLoginRateLimit(testIp);
-    assert(res.allowed === true, `Rate limit attempt #${i} is allowed`);
+    const res = await checkLoginRateLimit(testIp, 'ip');
+    assert(res.allowed === true, `Rate limit attempt #${i} is allowed for IP`);
+    await recordFailedLogin(testIp, 'ip');
   }
-  const blocked = checkLoginRateLimit(testIp);
-  assert(blocked.allowed === false, '6th attempt is blocked with 429 Retry-After');
+  const blocked = await checkLoginRateLimit(testIp, 'ip');
+  assert(blocked.allowed === false, '6th attempt is blocked with 429 Retry-After for IP');
   assert(typeof blocked.retryAfterSeconds === 'number', 'Returns retryAfterSeconds integer');
+
+  // 5.1 Distributed Account-based Rate limiting test (protects against multi-IP botnet credential stuffing)
+  const targetAccount = 'victim.admin@samplinghub.world';
+  await resetLoginRateLimit(targetAccount, 'account');
+  for (let i = 1; i <= 10; i++) {
+    const res = await checkLoginRateLimit(targetAccount, 'account');
+    assert(res.allowed === true, `Account rate limit attempt #${i} allowed`);
+    await recordFailedLogin(targetAccount, 'account');
+  }
+  const accountBlocked = await checkLoginRateLimit(targetAccount, 'account');
+  assert(accountBlocked.allowed === false, '11th attempt on target account is blocked across all IPs');
+
+  // 5.2 Anti-spoofing client IP resolution test
+  const mockReqVercel = {
+    headers: {
+      'x-vercel-forwarded-for': '203.0.113.195, 10.0.0.1',
+      'x-forwarded-for': '1.2.3.4, 5.6.7.8',
+    },
+    socket: { remoteAddress: '127.0.0.1' },
+  };
+  const resolvedIp = getClientIp(mockReqVercel);
+  assert(resolvedIp === '203.0.113.195', 'getClientIp prioritizes platform-verified Vercel edge IP over client header');
 
   // 6. Cookie parsing
   const cookieStr = 'other=xyz; samplinghub_admin_token=abc123token; session_id=987';

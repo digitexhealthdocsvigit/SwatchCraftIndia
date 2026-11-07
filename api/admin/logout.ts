@@ -14,7 +14,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
   const tokenToRevoke = cookieToken || bearerToken;
   if (tokenToRevoke) {
-    revokeSessionToken(tokenToRevoke);
+    await revokeSessionToken(tokenToRevoke);
   }
 
   // Clear HttpOnly cookie

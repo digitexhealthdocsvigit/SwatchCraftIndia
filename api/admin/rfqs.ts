@@ -45,7 +45,7 @@ export default async function handler(req: RequestWithBody, res: ServerResponse)
   const cookieToken = cookies.samplinghub_admin_token;
   const authHeader = req.headers.authorization;
   const bearerToken = authHeader?.startsWith('Bearer ') ? authHeader.slice(7).trim() : undefined;
-  const authResult = verifySessionToken(cookieToken || bearerToken);
+  const authResult = await verifySessionToken(cookieToken || bearerToken);
 
   if (!authResult.valid) {
     res.statusCode = 401;

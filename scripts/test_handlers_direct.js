@@ -140,7 +140,8 @@ async function run() {
   assert(res3.status === 401, 'Forged Bearer token returns 401');
 
   // 4. Bad credentials on login
-  resetLoginRateLimit('127.0.0.1');
+  await resetLoginRateLimit('127.0.0.1', 'ip');
+  await resetLoginRateLimit('wrong@admin.com', 'account');
   const res4 = await invoke(loginHandler, {
     method: 'POST',
     url: '/api/admin/login',
@@ -216,8 +217,9 @@ async function run() {
   });
   assert(resRevoked.status === 401, 'Revoked session token is rejected with 401 on server');
 
-  // 11. Rate limiting blocks after 5 failed attempts
-  resetLoginRateLimit('127.0.0.1');
+  // 11. Rate limiting blocks after 5 failed attempts from an IP
+  await resetLoginRateLimit('127.0.0.1', 'ip');
+  await resetLoginRateLimit('test@admin.com', 'account');
   for (let i = 0; i < 5; i++) {
     await invoke(loginHandler, {
       method: 'POST',
@@ -234,7 +236,8 @@ async function run() {
   });
   assert(res10.status === 429, '6th failed login attempt blocked with 429 Too Many Requests');
   assert(Boolean(res10.headers['retry-after']), 'Includes Retry-After response header');
-  resetLoginRateLimit('127.0.0.1');
+  await resetLoginRateLimit('127.0.0.1', 'ip');
+  await resetLoginRateLimit('test@admin.com', 'account');
 
   // 12. Public RFQ submission
   const res11 = await invoke(submitHandler, {
