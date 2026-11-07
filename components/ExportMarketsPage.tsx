@@ -53,7 +53,7 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
 
   const faqs = [
     { q: "What is your export MOQ?", a: "Standard 50-100 pieces, flexible for samples." },
-    { q: "How do I send my fabrics for manufacturing?", a: "We arrange courier pickup or you ship directly to our Thane-Bhiwandi facility." },
+    { q: "How do I send my fabrics for manufacturing?", a: "We arrange courier pickup or you ship directly to our Thane-Bhiwandi coordination hub." },
     { q: "What export documentation do you provide?", a: "Complete set: commercial invoice, packing list, COO, quality certificate." },
     { q: "Can you handle customs clearance?", a: "We provide all documents; you handle import customs (or we can recommend freight forwarder)." },
     { q: "What if I need urgent delivery?", a: "Express air freight available: 3-7 days to most countries." },

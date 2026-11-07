@@ -18,7 +18,7 @@ const galleryItems = [
     title: 'Upholstery Book Binding',
     category: 'Upholstery',
     src: LOCAL_IMAGES.upholsteryBook,
-    alt: 'Custom Hardbound Fabric Swatch Book with Layered Upholstery Swatches - SamplingHub Plant',
+    alt: 'Custom Hardbound Fabric Swatch Book with Layered Upholstery Swatches - SamplingHub OEM Production',
   },
   {
     title: 'Curtain Presentation Albums',
@@ -53,7 +53,7 @@ const Gallery: React.FC = () => {
           </h2>
           <div className="w-16 h-1 bg-[#8B6F47] mx-auto mb-8"></div>
           <p className="text-gray-700 max-w-2xl mx-auto font-medium text-lg">
-            A glimpse into our 6,000 sq ft manufacturing facility in Thane-Bhiwandi, Maharashtra, where precision bookbinding meets world-class textile and wallcovering presentation.
+            A showcase of our managed OEM sampling solutions, where precision bookbinding, structural engineering, and rigorous multi-stage quality inspection meet world-class textile and wallcovering presentation.
           </p>
         </div>
 

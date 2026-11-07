@@ -65,10 +65,31 @@ export const useRFQ = () => {
         });
       }
 
-      // 2. Persist locally so no inquiry is ever lost
-      const record = saveRFQLocally(data);
+      // 2. Persist to serverless API endpoint
+      let serverId = '';
+      try {
+        const apiRes = await fetch('/api/rfq/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (apiRes.ok) {
+          const apiJson = await apiRes.json();
+          if (apiJson?.rfq?.id) {
+            serverId = apiJson.rfq.id;
+          }
+        }
+      } catch {
+        // Non-blocking: continue to local storage and email notification
+      }
 
-      // 3. Dispatch email notification via FormSubmit AJAX endpoint to factory inbox
+      // 3. Persist locally so no inquiry is ever lost
+      const record = saveRFQLocally({
+        ...data,
+        ...(serverId ? { id: serverId } : {}),
+      } as any);
+
+      // 4. Dispatch email notification via FormSubmit AJAX endpoint
       const attachmentSummary =
         data.attachments && data.attachments.length > 0
           ? data.attachments.map((a) => `${a.name} (${a.type}, ${a.sizeFormatted})`).join(', ')
@@ -93,7 +114,7 @@ export const useRFQ = () => {
             destination_market: data.exportMarket || 'Not specified',
             specifications: data.specifications || 'Standard export specifications',
             attached_media_files: attachmentSummary,
-            factory_location: 'Thane Bhiwandi, PIN: 421302, Maharashtra, India',
+            registered_office: 'Thane Bhiwandi, PIN: 421302, Maharashtra, India',
           }),
         });
       } catch {

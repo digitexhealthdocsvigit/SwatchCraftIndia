@@ -50,7 +50,7 @@ digitex.studio@gmail.com | +91 9004962871`
 SamplingHub (Digitex Studio) is a premium B2B fabric swatch and sample book manufacturer based in Thane-Bhiwandi, Maharashtra, India. We're reaching out to request a featured listing in your [Directory Name] under the "Fabric Manufacturing" or "Export Services" category.
 
 ABOUT US:
-- Founded: 1994
+- Founded: 2011
 - Service: Custom fabric swatch books, sample albums, and waterfall format cards
 - Market: B2B exporters, interior designers, wholesale buyers in Europe, USA, and Asia
 - Competitive Advantage: 15-20 day delivery (vs China's 45 days), premium quality, competitive MOQ pricing

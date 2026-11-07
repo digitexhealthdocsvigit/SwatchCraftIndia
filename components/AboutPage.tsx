@@ -11,12 +11,12 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 bg-[#f9fafb] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
-          <span className="text-[#8B6F47] font-black uppercase tracking-[0.3em] text-[11px] mb-4 inline-block bg-white px-4 py-2 rounded-full shadow-sm">Established 1994</span>
+          <span className="text-[#8B6F47] font-black uppercase tracking-[0.3em] text-[11px] mb-4 inline-block bg-white px-4 py-2 rounded-full shadow-sm">Established 2011</span>
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-[#1e3a5f] mb-6 tracking-tighter leading-none uppercase">
             Heritage Meets <br/> Fabric Innovation
           </h1>
           <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto font-medium">
-            From a precision workshop in Thane-Bhiwandi to India’s leading export-quality manufacturer, we redefine fabric presentation.
+            Centralised engineering, specialized OEM manufacturing partner network, and rigorous quality inspection coordinated from Thane Bhiwandi, PIN: 421302, Maharashtra, India.
           </p>
         </div>
         <div className="absolute top-0 right-0 w-full h-full opacity-5 pointer-events-none flex items-center justify-center">
@@ -36,10 +36,10 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
         <div className="max-w-4xl mx-auto">
           <div className="prose prose-lg text-gray-700 leading-relaxed font-medium space-y-10">
             <p>
-              SamplingHub (Digitex Studio) is a premium fabric swatch manufacturer based in Thane-Bhiwandi, Maharashtra, serving B2B exporters, interior designers, and wholesale buyers globally. We specialize in elevating the presentation of upholstery and curtain fabrics through world-class craftsmanship and innovative design.
+              SamplingHub (Digitex Studio) is an India-based OEM fabric sampling solutions provider specialising in customised fabric sample books, swatch cards, waterfall hangers, sample headers, and wallpaper catalogs. Operating through a dedicated network of specialised manufacturing partners, we provide centralised product development, structural engineering, quality inspection, and international export dispatch from Thane Bhiwandi, PIN: 421302, Maharashtra, India.
             </p>
             <p>
-              Our heritage spans over 30 years of manufacturing excellence. Founded to address the critical gap in the Indian market for high-quality, export-standard fabric samples, SamplingHub has grown into a trusted partner for global textile brands. We recognized early on that for a textile exporter, the swatch book is the most vital sales tool—it is the silent ambassador of their brand on a buyer's desk in Milan, Paris, or New York.
+              Established in 2011, SamplingHub was founded to bridge the gap between Indian textile capabilities and international export sampling standards. As an OEM partner, we combine specialized fabrication capacities with strict centralized quality control. We recognize that for a textile exporter, the swatch book is the most vital sales asset—the silent ambassador of their brand on an international buyer's desk in Frankfurt, High Point, or Dubai.
             </p>
           </div>
 
@@ -63,15 +63,15 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
       {/* Infrastructure Section */}
       <section className="py-24 px-4 bg-gray-50 border-y border-gray-100">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-black text-navy text-center mb-16 uppercase tracking-tighter">Manufacturing Infrastructure</h2>
+          <h2 className="text-3xl font-black text-navy text-center mb-16 uppercase tracking-tighter">Managed OEM Infrastructure &amp; Quality Control</h2>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="bg-white p-10 rounded-[3rem] shadow-sm border border-gray-100">
-               <h3 className="text-xl font-bold text-navy mb-6 uppercase tracking-widest border-b border-gray-100 pb-4">Our Thane-Bhiwandi Facility</h3>
+               <h3 className="text-xl font-bold text-navy mb-6 uppercase tracking-widest border-b border-gray-100 pb-4">Centralised Project &amp; Quality Hub</h3>
                <ul className="space-y-6">
                  {[
                    { t: "Precision Cutting Suite", d: "Equipped with high-speed automated fabric cutters for 100% fray-free pinking and straight cuts." },
                    { t: "Climate-Controlled Storage", d: "Ensures fabric integrity and prevents moisture damage for sensitive European silks and velvets." },
-                   { t: "In-House Printing & Embossing", d: "Custom branding executed on-site for immediate quality control and logo accuracy." },
+                   { t: "Precision Branding & Debossing", d: "Custom branding executed under strict quality control for foil registration and logo accuracy." },
                    { t: "Triple-Layer QC Station", d: "Every book passes through three stages of manual inspection before export packaging." }
                  ].map((inf, i) => (
                    <li key={i} className="flex gap-4">
@@ -86,7 +86,7 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
             </div>
             <div className="grid grid-cols-2 gap-4">
                {[
-                 "Facility Exterior - Thane-Bhiwandi Hub",
+                 "Thane-Bhiwandi Registered Hub",
                  "Automated Cutting Machine",
                  "Binding Station (Hardbound)",
                  "Export Packaging Zone"
@@ -109,11 +109,11 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
           </div>
           <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-6">
              {[
-               { year: '1994', event: 'Founded in Thane-Bhiwandi workshop' },
-               { year: '2005', event: 'First EU Export Order' },
-               { year: '2010', event: 'Formal QC Process Introduced' },
-               { year: '2018', event: 'Waterfall Format Innovation' },
-               { year: '2023', event: 'Facility Expansion to 6000 SQ FT' },
+               { year: '2011', event: 'Founded in Thane-Bhiwandi' },
+               { year: '2014', event: 'First EU Export Partnership' },
+               { year: '2017', event: 'OEM Partner Network Formed' },
+               { year: '2020', event: 'Multi-Tier Quality Inspection Protocol' },
+               { year: '2023', event: 'Oversized Wallpaper Line Introduced' },
                { year: '2025', event: 'Global Hub Strategy Launch' }
              ].map((m, i) => (
                <div key={i} className="bg-gray-50 p-6 rounded-3xl border border-gray-100 text-center shadow-sm hover:scale-105 transition-transform group">

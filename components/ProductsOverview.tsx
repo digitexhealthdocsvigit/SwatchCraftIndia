@@ -81,7 +81,7 @@ const ProductsOverview: React.FC<Props> = ({ onNavigate }) => {
             Fabric &amp; Wallpaper Presentation Solutions
           </h1>
           <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-            Compare our full range of custom wallpaper catalogs, upholstery swatch books, waterfall hangers, and shade cards manufactured at our Thane-Bhiwandi facility.
+            Compare our full range of custom wallpaper catalogs, upholstery swatch books, waterfall hangers, and shade cards delivered through our managed OEM network coordinated from Thane Bhiwandi, PIN: 421302, Maharashtra, India.
           </p>
         </div>
       </section>

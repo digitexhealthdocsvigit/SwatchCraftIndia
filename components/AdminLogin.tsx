@@ -29,6 +29,31 @@ const AdminLogin: React.FC<Props> = ({ onLogin, onNavigate }) => {
     setLoading(true);
     setErrorMsg(null);
     try {
+      // 1. Attempt secure serverless authentication
+      try {
+        const response = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email.trim().toLowerCase(), password: pass }),
+        });
+
+        if (response.ok) {
+          const json = await response.json();
+          if (json.token) {
+            localStorage.setItem('samplinghub_admin_token', json.token);
+          }
+          onLogin();
+          return;
+        } else if (response.status === 401) {
+          setErrorMsg('Access Denied: Invalid technical credentials.');
+          setLoading(false);
+          return;
+        }
+      } catch {
+        // Fall back to client-side digest verification if API is unreachable
+      }
+
+      // 2. Client-side cryptographic verification fallback
       const normalized = `${email.trim().toLowerCase()}:${pass}`;
       const hash = await sha256Hex(normalized);
       if (hash === EXPECTED_CREDENTIAL_DIGEST) {

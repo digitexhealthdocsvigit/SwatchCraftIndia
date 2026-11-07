@@ -80,9 +80,9 @@ export const HERO_MEDIA: MediaItem[] = [
   {
     type: 'image',
     src: LOCAL_IMAGES.heroShowcase,
-    alt: 'SamplingHub Manufacturing Plant - Thane Bhiwandi, Maharashtra Swatch Book Factory',
-    caption: 'SamplingHub Thane-Bhiwandi 6,000 Sq Ft Precision Manufacturing Plant & Automated Bookbinding Lines',
-    fallbackTitle: 'SamplingHub Manufacturing Facility',
+    alt: 'SamplingHub OEM Production Coordination - Thane Bhiwandi, Maharashtra Swatch Book Operations',
+    caption: 'SamplingHub Thane-Bhiwandi Central Coordination Hub & OEM Precision Bookbinding Operations',
+    fallbackTitle: 'SamplingHub OEM Coordination Hub',
     fallbackSubtitle: 'THANE-BHIWANDI, MAHARASHTRA • EXPORT PRODUCTION',
   },
   {
@@ -240,10 +240,10 @@ export const FACTORY_MEDIA: MediaItem[] = [
   {
     type: 'image',
     src: LOCAL_IMAGES.factoryBhiwandi,
-    alt: 'SamplingHub Thane-Bhiwandi Manufacturing Plant & Assembly Lines',
-    caption: 'SamplingHub 6,000 Sq Ft Precision Manufacturing Plant in Thane-Bhiwandi, Maharashtra',
-    fallbackTitle: 'Thane-Bhiwandi Manufacturing Facility',
-    fallbackSubtitle: '6,000 SQ FT • 21-DAY EXPORT PRODUCTION',
+    alt: 'SamplingHub OEM Partner Production Coordination & Finishing Inspection',
+    caption: 'OEM Partner Production Coordination & Finishing Inspection — Managed by SamplingHub Thane-Bhiwandi',
+    fallbackTitle: 'OEM Partner Production & Quality Inspection',
+    fallbackSubtitle: 'MANAGED OEM NETWORK • 21-DAY EXPORT DISPATCH',
   },
 ];
 

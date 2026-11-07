@@ -130,7 +130,7 @@ const Contact: React.FC = () => {
           <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm mb-4 border border-gray-100">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
             <span className="text-[#8B6F47] font-black uppercase tracking-[0.25em] text-[10px]">
-              Direct From Thane Bhiwandi Facility • Export-Grade Quality
+              Registered Office &amp; Export Dispatch: Thane Bhiwandi • Managed OEM Solutions
             </span>
           </div>
           <h1 className="text-4xl md:text-6xl font-black text-[#1e3a5f] mb-4 tracking-tighter uppercase leading-none">
@@ -409,12 +409,12 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-[#8B6F47] font-black text-[10px] uppercase tracking-wider mb-0.5">
-                      Manufacturing Facility
+                      Registered Office &amp; Export Dispatch Hub
                     </p>
                     <p className="font-bold text-sm text-white">
                       Thane Bhiwandi, PIN: 421302, Maharashtra, India
                     </p>
-                    <p className="text-[10px] text-gray-300">6,000 sq ft Bookbinding & Die-Cutting Plant</p>
+                    <p className="text-[10px] text-gray-300">Registered Business Office &amp; Export Logistics Coordinator</p>
                   </div>
                 </div>
               </div>

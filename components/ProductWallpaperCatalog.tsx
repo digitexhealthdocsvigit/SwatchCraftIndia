@@ -78,7 +78,7 @@ export const ProductWallpaperCatalog: React.FC<ProductWallpaperCatalogProps> = (
     },
     {
       label: 'Production Lead Time',
-      value: '21–28 Business Days from Thane Bhiwandi, PIN: 421302, Maharashtra, India Facility',
+      value: '21–28 Business Days from Thane Bhiwandi, PIN: 421302, Maharashtra, India Central Hub',
     },
     {
       label: 'Export Packaging',
@@ -101,7 +101,7 @@ export const ProductWallpaperCatalog: React.FC<ProductWallpaperCatalogProps> = (
     },
     {
       q: 'Do you handle precision cutting, pinking, and international wallpaper symbol back-labeling?',
-      a: 'Absolutely. You can ship roll stock directly to our Thane-Bhiwandi facility. We guillotine-cut rolls to exact repeat registration, apply custom printed specification labels on the reverse of every sheet (including EN 233 / ASTM washability, peelability, lightfastness, pattern match icons, and barcode), and assemble the complete catalog ready for global distribution.',
+      a: 'Absolutely. You can ship roll stock directly to our central Thane-Bhiwandi coordination hub. Through our specialised OEM finishing network, we guillotine-cut rolls to exact repeat registration, apply custom printed specification labels on the reverse of every sheet (including EN 233 / ASTM washability, peelability, lightfastness, pattern match icons, and barcode), and assemble the complete catalog ready for global distribution.',
     },
   ];
 
@@ -228,7 +228,7 @@ export const ProductWallpaperCatalog: React.FC<ProductWallpaperCatalogProps> = (
           </h2>
           <div className="prose prose-lg text-charcoal/80 space-y-6 leading-relaxed">
             <p>
-              Unlike standard textile folders, a wallpaper catalog must showcase wide-scale architectural repeats, delicate embossed reliefs, and metallic inks while enduring thousands of showroom flips. At our <strong>Thane Bhiwandi, PIN: 421302, Maharashtra, India</strong> production facility, we manufacture oversized hardbound wallpaper books designed specifically for residential wallpaper editors, hospitality wallcovering specifiers, and international home decor distributors.
+              Unlike standard textile folders, a wallpaper catalog must showcase wide-scale architectural repeats, delicate embossed reliefs, and metallic inks while enduring thousands of showroom flips. Through our centralised engineering and specialised OEM partner network coordinated from <strong>Thane Bhiwandi, PIN: 421302, Maharashtra, India</strong>, we manufacture oversized hardbound wallpaper books designed specifically for residential wallpaper editors, hospitality wallcovering specifiers, and international home decor distributors.
             </p>
             <p>
               Our binding lines process everything from <strong>300–500+ GSM commercial Type II vinyl and acoustic non-wovens</strong> to delicate natural sisal, grasscloth, and flocked damask wallcoverings. Every sheet is guillotine-cut in strict pattern repeat registration so vertical drops and horizontal matches align cleanly from leaf to leaf.
@@ -349,7 +349,7 @@ export const ProductWallpaperCatalog: React.FC<ProductWallpaperCatalogProps> = (
               },
               {
                 title: 'Wallcovering Roll Mills & Export Converters',
-                desc: 'Ship bulk master rolls to our Thane-Bhiwandi plant for turnkey repeat-registration sheeting, back-label printing, and export-ready bookbinding.',
+                desc: 'Ship bulk master rolls to our central Thane-Bhiwandi hub for turnkey repeat-registration sheeting, back-label printing, and export-ready bookbinding across our specialised OEM network.',
               },
               {
                 title: 'Home Decor Retail Chains & Design Franchises',

@@ -63,7 +63,7 @@ const PortfolioPage: React.FC<Props> = ({ onNavigate }) => {
             Our Production Portfolio
           </h1>
           <p className="text-gray-300 max-w-2xl mx-auto text-lg font-medium">
-            Over 500 fabric and wallpaper swatch collections manufactured in our Thane-Bhiwandi plant for premier international brands across USA, EU, UK, and UAE.
+            Over 500 fabric and wallpaper swatch collections delivered through our managed OEM manufacturing network for premier international brands across USA, EU, UK, and UAE.
           </p>
         </div>
       </section>

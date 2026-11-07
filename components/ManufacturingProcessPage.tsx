@@ -21,7 +21,7 @@ const detailedSteps = [
   {
     title: "3. Precision Production",
     duration: "12-18 Days",
-    details: "Fabrics are precision-cut, labeled, and bound in our Thane-Bhiwandi facility using high-end automation.",
+    details: "Fabrics are precision-cut, labeled, and bound across our specialised OEM partner facilities under central technical supervision.",
     icon: "🏭"
   },
   {
@@ -73,12 +73,16 @@ const ManufacturingProcessPage: React.FC<Props> = ({ onNavigate }) => {
       <section className="py-20 px-4 bg-white">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <div className="order-2 md:order-1">
-             <div className="bg-gray-100 aspect-square rounded-3xl flex items-center justify-center border-2 border-dashed border-gray-300">
-               <p className="text-gray-400">Quality Inspection Facility Photos Placeholder</p>
+             <div className="overflow-hidden rounded-3xl shadow-lg border border-gray-100">
+               <img
+                 src="/images/factory-bhiwandi-production.jpg"
+                 alt="OEM Partner Production Coordination & Finishing Inspection"
+                 className="w-full h-full object-cover aspect-square"
+               />
              </div>
           </div>
           <div className="order-1 md:order-2">
-            <h2 className="text-3xl font-extrabold text-[#1a2849] mb-6">Our Zero-Defect Quality Standards</h2>
+            <h2 className="text-3xl font-extrabold text-[#1a2849] mb-6">Our High-Specification Quality Standards</h2>
             <div className="space-y-6">
               {[
                 { t: "Swatch Alignment", d: "Precise vertical and horizontal alignment for a clean professional look." },
