@@ -61,13 +61,19 @@ export function createStudioPlaceholderSvg(
 
 export const LOCAL_IMAGES = {
   heroShowcase: '/images/hero-main-showcase.jpg',
+  factoryBhiwandi: '/images/factory-bhiwandi-production.jpg',
   wallpaperBook: '/images/wallpaper-catalog-book.jpg',
   wallpaperRollDisplay: '/images/wallpaper-roll-display.jpg',
   upholsteryBook: '/images/upholstery-swatch-book.jpg',
+  upholsteryBookAngle2: '/images/upholstery-swatch-book-2.jpg',
   curtainAlbum: '/images/curtain-fabric-album.jpg',
+  curtainAlbumAngle2: '/images/curtain-fabric-album-2.jpg',
   waterfallHanger: '/images/waterfall-hanger.jpg',
+  waterfallHangerAngle2: '/images/waterfall-hanger-2.jpg',
   ringSwatchSet: '/images/ring-swatch-set.jpg',
+  ringSwatchSetAngle2: '/images/ring-swatch-set-2.jpg',
   sampleCardsStoryboard: '/images/sample-cards-storyboard.jpg',
+  sampleCardsStoryboardAngle2: '/images/sample-cards-storyboard-2.jpg',
 } as const;
 
 export const HERO_MEDIA: MediaItem[] = [
@@ -87,6 +93,14 @@ export const HERO_MEDIA: MediaItem[] = [
     fallbackTitle: 'Hardbound Wallpaper Catalog Book',
     fallbackSubtitle: 'OVERSIZED 45×45 CM & 50×50 CM REPEAT BOOKS',
   },
+  {
+    type: 'image',
+    src: LOCAL_IMAGES.upholsteryBook,
+    alt: 'Custom Hardbound Upholstery Swatch Book with Layered Boucle & Velvet Swatches - SamplingHub',
+    caption: 'Luxury Hardbound Upholstery Album with Cascading Multi-Color Swatches & Gold Foil Stamping',
+    fallbackTitle: 'Hardbound Upholstery Swatch Book',
+    fallbackSubtitle: '3MM KAPPA BOARD • SCREW-POST & BUCKRAM BINDING',
+  },
 ];
 
 export const WALLPAPER_CATALOG_MEDIA: MediaItem[] = [
@@ -94,7 +108,7 @@ export const WALLPAPER_CATALOG_MEDIA: MediaItem[] = [
     type: 'image',
     src: LOCAL_IMAGES.wallpaperBook,
     alt: 'Custom Hardbound Wallpaper Catalog Book with Room-Scene Visualizer Sheet - SamplingHub Thane-Bhiwandi',
-    caption: 'Oversized 45×45 cm Hardbound Wallpaper Catalog with Full-Color Room-Scene Visualizer Sheet & Stepped Coordinate Swatches',
+    caption: 'Angle #1: Oversized 45×45 cm Hardbound Wallpaper Catalog with Full-Color Room-Scene Visualizer Sheet & Stepped Coordinate Swatches',
     fallbackTitle: 'Hardbound Wallpaper Catalog Book',
     fallbackSubtitle: 'OVERSIZED 45×45 CM & 50×50 CM REPEAT BOOKS',
   },
@@ -102,7 +116,7 @@ export const WALLPAPER_CATALOG_MEDIA: MediaItem[] = [
     type: 'image',
     src: LOCAL_IMAGES.wallpaperRollDisplay,
     alt: 'Commercial Wallcovering & Textured Wallpaper Sample Drops Display',
-    caption: 'Heavy-Duty 300–500+ GSM Textured Vinyl, Damask, Botanical & Geometric Wallcovering Sample Drops',
+    caption: 'Angle #2: Heavy-Duty 300–500+ GSM Textured Vinyl, Damask, Botanical & Geometric Wallcovering Sample Drops',
     fallbackTitle: 'Commercial Wallcovering Sample Drops',
     fallbackSubtitle: '300–500+ GSM VINYL, NON-WOVEN & EMBOSSED WALLCOVERINGS',
   },
@@ -112,18 +126,18 @@ export const UPHOLSTERY_MEDIA: MediaItem[] = [
   {
     type: 'image',
     src: LOCAL_IMAGES.upholsteryBook,
-    alt: 'Custom Hardbound Upholstery Swatch Book with Layered Boucle & Velvet Swatches - SamplingHub',
-    caption: '3mm Rigid Kappa Board Upholstery Album with Cascading Multi-Color Boucle, Chenille & Velvet Leaves',
-    fallbackTitle: 'Hardbound Upholstery Swatch Book',
+    alt: 'Angle #1: Custom Hardbound Upholstery Swatch Book with Layered Boucle & Velvet Swatches - SamplingHub',
+    caption: 'Angle #1: 3mm Rigid Kappa Board Upholstery Album with Cascading Multi-Color Boucle, Chenille & Velvet Leaves',
+    fallbackTitle: 'Hardbound Upholstery Swatch Book (Showcase)',
     fallbackSubtitle: '3MM KAPPA BOARD • SCREW-POST & BUCKRAM BINDING',
   },
   {
     type: 'image',
-    src: LOCAL_IMAGES.heroShowcase,
-    alt: 'Precision Cutting & Bookbinding Assembly for Upholstery Books at SamplingHub Thane-Bhiwandi',
-    caption: 'High-Volume Precision Cutting, Anti-Fray Pinking & Artisan Bookbinding at Thane-Bhiwandi Plant',
-    fallbackTitle: 'Factory Assembly & Inspection',
-    fallbackSubtitle: 'THANE-BHIWANDI • 21-DAY EXPORT PRODUCTION',
+    src: LOCAL_IMAGES.upholsteryBookAngle2,
+    alt: 'Angle #2: Macro Construction Detail - Upholstery Book Spine & Pinking Finish',
+    caption: 'Angle #2: Macro Construction & Binding Detail Showing Precision Anti-Fray Pinking Cuts & Gold Border Finish',
+    fallbackTitle: 'Upholstery Book Binding Detail (Macro)',
+    fallbackSubtitle: 'PRECISION PINKING • RIGID SPINES',
   },
 ];
 
@@ -131,17 +145,17 @@ export const CURTAIN_MEDIA: MediaItem[] = [
   {
     type: 'image',
     src: LOCAL_IMAGES.curtainAlbum,
-    alt: 'Large-Format Post-Bound Curtain Fabric Album with Full-Drop Sheer & Drapery Swatches - SamplingHub',
-    caption: 'Oversized A3+ Post-Bound Album with Full-Drop Sheers, Jacquards & Blackout Drapery Leaves',
-    fallbackTitle: 'Curtain & Drapery Catalog Album',
+    alt: 'Angle #1: Large-Format Post-Bound Curtain Fabric Album with Full-Drop Sheer & Drapery Swatches - SamplingHub',
+    caption: 'Angle #1: Oversized A3+ Post-Bound Album with Full-Drop Sheers, Jacquards & Blackout Drapery Leaves',
+    fallbackTitle: 'Curtain & Drapery Catalog Album (Showcase)',
     fallbackSubtitle: 'SHEER, BLACKOUT & JACQUARD DRAPERY COLLECTIONS',
   },
   {
     type: 'image',
-    src: LOCAL_IMAGES.heroShowcase,
-    alt: 'Commercial Drapery Album Assembly Line - SamplingHub Thane-Bhiwandi',
-    caption: 'Artisan Bookbinding & Hardware Attachment for Heavy Commercial Drapery Collections',
-    fallbackTitle: 'Showroom Drapery Portfolio Album',
+    src: LOCAL_IMAGES.curtainAlbumAngle2,
+    alt: 'Angle #2: Macro Detail - Curtain Album Heavy-Duty Chicago Screw-Post Spine',
+    caption: 'Angle #2: Macro Detail Showing Heavy-Duty Concealed Brass Chicago Screw-Posts & Reinforced Buckram Spine',
+    fallbackTitle: 'Curtain Album Screw-Post Binding (Macro)',
     fallbackSubtitle: 'HEAVY-DUTY BRASS SCREW-POST ARCHITECTURE',
   },
 ];
@@ -150,17 +164,17 @@ export const WATERFALL_MEDIA: MediaItem[] = [
   {
     type: 'image',
     src: LOCAL_IMAGES.waterfallHanger,
-    alt: 'SamplingHub Custom Waterfall Swatch Hanger with Metal Hook and Header Card',
-    caption: 'Cascading Tiered Waterfall Hanger with Custom Foil-Stamped Header Card & Pinned Swatches',
-    fallbackTitle: 'Waterfall Hanger & Cascade System',
+    alt: 'Angle #1: SamplingHub Custom Waterfall Swatch Hanger with Metal Hook and Header Card',
+    caption: 'Angle #1: Cascading Tiered Waterfall Hanger with Custom Foil-Stamped Header Card & Pinned Swatches',
+    fallbackTitle: 'Waterfall Hanger & Cascade System (Showcase)',
     fallbackSubtitle: '25MM–35MM STEPPED DROPS • REINFORCED HEADER CARD',
   },
   {
     type: 'image',
-    src: LOCAL_IMAGES.heroShowcase,
-    alt: 'Multi-Colorway Waterfall Assembly at SamplingHub Maharashtra Plant',
-    caption: 'Automated Guillotine Repeat Cutting & Multi-Drop Waterfall Mounting Lines',
-    fallbackTitle: 'Waterfall Showroom Display System',
+    src: LOCAL_IMAGES.waterfallHangerAngle2,
+    alt: 'Angle #2: Macro Detail - Chrome Swivel Hook & Header Card Fastening',
+    caption: 'Angle #2: Macro Detail of Chrome Swivel Hook Fastening, Custom Foil Branding & 3mm Rigid Header Board',
+    fallbackTitle: 'Waterfall Header Construction Detail (Macro)',
     fallbackSubtitle: 'CHROME SWIVEL HOOK • EXPORT FINISH',
   },
 ];
@@ -169,17 +183,17 @@ export const HANGER_MEDIA: MediaItem[] = [
   {
     type: 'image',
     src: LOCAL_IMAGES.waterfallHanger,
-    alt: 'Chrome Swivel Hook Fabric Hanger with Branded Navy & Gold Header - SamplingHub',
-    caption: 'Full-Drop Showroom Hanger with Branded 3mm Kappa Header Card and Anti-Fray Pinked Swatches',
-    fallbackTitle: 'Commercial Fabric Hanger Headers',
+    alt: 'Angle #1: Chrome Swivel Hook Fabric Hanger with Branded Navy & Gold Header - SamplingHub',
+    caption: 'Angle #1: Full-Drop Showroom Hanger with Branded 3mm Kappa Header Card and Anti-Fray Pinked Swatches',
+    fallbackTitle: 'Commercial Fabric Hanger Headers (Showcase)',
     fallbackSubtitle: 'CHROME SWIVEL HOOKS • CONCEALED SCREW-POST CLAMP',
   },
   {
     type: 'image',
-    src: LOCAL_IMAGES.heroShowcase,
-    alt: 'Hanger Sample Header Production at Thane-Bhiwandi Facility',
-    caption: 'Custom Header Board Lamination, Die-Cutting & Rivet Fastening for Global Textile Showrooms',
-    fallbackTitle: 'Branded Header Card & Hook System',
+    src: LOCAL_IMAGES.waterfallHangerAngle2,
+    alt: 'Angle #2: Macro Construction - Hanger Clamp & Swivel Mechanism',
+    caption: 'Angle #2: Macro Detail of Heavy-Gauge Chrome Hook, Riveted Clamp & Showroom Hardware',
+    fallbackTitle: 'Hanger Clamp & Swivel Mechanism (Macro)',
     fallbackSubtitle: '3MM KAPPA BOARD HEADER • FOIL-STAMPED BRANDING',
   },
 ];
@@ -188,17 +202,17 @@ export const RING_SWATCH_MEDIA: MediaItem[] = [
   {
     type: 'image',
     src: LOCAL_IMAGES.ringSwatchSet,
-    alt: 'Portable Heavy-Duty Chrome Ring Swatch Set with Printed Spec Label - SamplingHub',
-    caption: 'Chrome Split-Ring Swatch Fan Deck with Brass Eyelet Reinforcement and Technical Specification Labels',
-    fallbackTitle: 'Heavy-Duty Ring Swatch Sets',
+    alt: 'Angle #1: Portable Heavy-Duty Chrome Ring Swatch Set with Printed Spec Label - SamplingHub',
+    caption: 'Angle #1: Chrome Split-Ring Swatch Fan Deck with Brass Eyelet Reinforcement and Technical Specification Labels',
+    fallbackTitle: 'Heavy-Duty Ring Swatch Sets (Showcase)',
     fallbackSubtitle: '25MM–75MM NICKEL & BRASS RINGS • BRASS EYELETS',
   },
   {
     type: 'image',
-    src: LOCAL_IMAGES.sampleCardsStoryboard,
-    alt: 'Portable Swatch Kits & Marketing Storyboard Set - SamplingHub',
-    caption: 'Coordinated Sales Representative Travel Kits & Die-Cut Swatch Folders',
-    fallbackTitle: 'Indexed Feelers & Ring Fans',
+    src: LOCAL_IMAGES.ringSwatchSetAngle2,
+    alt: 'Angle #2: Macro Detail - Nickel Split-Ring Mechanism & Brass Eyelet Punch',
+    caption: 'Angle #2: Macro Detail of Split-Ring Mechanism, Clean Eyelet Fastening & Fabric Labeling Registration',
+    fallbackTitle: 'Ring Binding Mechanism Detail (Macro)',
     fallbackSubtitle: 'PINKED OR OVERLOCKED EDGES • BARCODE BACK-LABELS',
   },
 ];
@@ -207,18 +221,29 @@ export const SAMPLE_CARDS_MEDIA: MediaItem[] = [
   {
     type: 'image',
     src: LOCAL_IMAGES.sampleCardsStoryboard,
-    alt: 'SamplingHub Die-Cut Swatch Cards & Multi-Fold Sample Storyboards',
-    caption: 'Rigid 400 GSM Art Card Swatch Cards with Precision Die-Cut Windows and Collection Storytelling',
-    fallbackTitle: 'Custom Swatch Cards & Shade Cards',
+    alt: 'Angle #1: SamplingHub Die-Cut Swatch Cards & Multi-Fold Sample Storyboards',
+    caption: 'Angle #1: Rigid 400 GSM Art Card Swatch Cards with Precision Die-Cut Windows and Collection Storytelling',
+    fallbackTitle: 'Custom Swatch Cards & Shade Cards (Showcase)',
     fallbackSubtitle: '350–400 GSM ART CARD • BI-FOLD & TRI-FOLD FOLDERS',
   },
   {
     type: 'image',
-    src: LOCAL_IMAGES.ringSwatchSet,
-    alt: 'Portable Fabric Swatch Cards & Ring Kit Presentation - SamplingHub',
-    caption: 'High-Converting Trade Mailer Cards and Field Rep Presentation Kits Manufactured in Thane-Bhiwandi',
-    fallbackTitle: 'Die-Cut Window & Waterfall Shade Cards',
+    src: LOCAL_IMAGES.sampleCardsStoryboardAngle2,
+    alt: 'Angle #2: Macro Detail - Precision Die-Cut Windows & Swatch Mounting Alignment',
+    caption: 'Angle #2: Macro Detail of Die-Cut Beveled Windows, Flush Fabric Insets & Hot-Foil Brand Lettering',
+    fallbackTitle: 'Die-Cut Window & Finishing Detail (Macro)',
     fallbackSubtitle: 'MATTE/VELVET LAMINATION • METALLIC FOIL STAMPING',
+  },
+];
+
+export const FACTORY_MEDIA: MediaItem[] = [
+  {
+    type: 'image',
+    src: LOCAL_IMAGES.factoryBhiwandi,
+    alt: 'SamplingHub Thane-Bhiwandi Manufacturing Plant & Assembly Lines',
+    caption: 'SamplingHub 6,000 Sq Ft Precision Manufacturing Plant in Thane-Bhiwandi, Maharashtra',
+    fallbackTitle: 'Thane-Bhiwandi Manufacturing Facility',
+    fallbackSubtitle: '6,000 SQ FT • 21-DAY EXPORT PRODUCTION',
   },
 ];
 
@@ -231,6 +256,6 @@ export const MEDIA_ASSETS = {
   hanger: HANGER_MEDIA,
   ringSwatch: RING_SWATCH_MEDIA,
   sampleCards: SAMPLE_CARDS_MEDIA,
+  factory: FACTORY_MEDIA,
   portfolio: HERO_MEDIA,
-  factory: HERO_MEDIA,
 } as const;
