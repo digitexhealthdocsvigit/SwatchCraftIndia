@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ViewState } from '../App.tsx';
 import { useGlobalSettings, Currency } from './GlobalSettingsContext.tsx';
-import { ChevronDown, Box, Layout, Ruler, Scissors, ClipboardList, Menu, X, Plus, Minus } from 'lucide-react';
+import { ChevronDown, Box, Layout, Ruler, Scissors, ClipboardList, Layers, Menu, X, Plus, Minus } from 'lucide-react';
 
 interface HeaderProps {
   onNavigate: (view: ViewState) => void;
   currentView: ViewState;
 }
+
+const CURRENCIES: Currency[] = ['INR', 'USD', 'EUR', 'AED'];
 
 const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,6 +37,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
   const productLinks = [
     { name: 'Upholstery Swatch Books', id: 'product-upholstery', icon: <Box className="w-4 h-4" /> },
     { name: 'Curtain Fabric Albums', id: 'product-curtain', icon: <Layout className="w-4 h-4" /> },
+    { name: 'Waterfall Swatch Cards', id: 'product-waterfall', icon: <Layers className="w-4 h-4" /> },
     { name: 'Fabric Hanger Swatches', id: 'product-hanger', icon: <Ruler className="w-4 h-4" /> },
     { name: 'Ring Swatch Sample Sets', id: 'product-ring', icon: <Scissors className="w-4 h-4" /> },
     { name: 'Sample Cards & Storyboards', id: 'product-cards', icon: <ClipboardList className="w-4 h-4" /> }
@@ -129,18 +132,31 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-2 xl:gap-4 shrink-0">
+        <div className="flex items-center gap-2 xl:gap-3 shrink-0">
+          <label className="sr-only" htmlFor="currency-selector">Select Currency</label>
+          <select
+            id="currency-selector"
+            aria-label="Select Currency"
+            value={currency}
+            onChange={(e) => setCurrency(e.target.value as Currency)}
+            className="bg-gray-100 hover:bg-gray-200 text-[#1e3a5f] text-[10px] font-black uppercase tracking-widest py-2.5 px-2.5 rounded-xl border border-gray-200 outline-none cursor-pointer transition-colors"
+          >
+            {CURRENCIES.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+
           <a 
             href="https://wa.me/919004962871" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="hidden md:flex bg-[#25D366] text-white text-[10px] font-black uppercase tracking-widest py-3 px-5 rounded-xl hover:opacity-90 transition-all shadow-md items-center gap-2"
+            className="hidden md:flex bg-[#25D366] text-white text-[10px] font-black uppercase tracking-widest py-3 px-4 rounded-xl hover:opacity-90 transition-all shadow-md items-center gap-2"
           >
             WhatsApp Quote
           </a>
           <button 
             onClick={() => handleNav('contact-page')} 
-            className="hidden sm:flex bg-[#0d7377] text-white text-[10px] font-black uppercase tracking-widest py-3 px-5 rounded-xl hover:bg-[#1e3a5f] transition-all shadow-md"
+            className="hidden sm:flex bg-[#0d7377] text-white text-[10px] font-black uppercase tracking-widest py-3 px-4 rounded-xl hover:bg-[#1e3a5f] transition-all shadow-md"
           >
             Email RFQ
           </button>
@@ -174,7 +190,23 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentView }) => {
             <button onClick={() => handleNav('export-markets-page')} className="block w-full text-left py-4 text-[14px] font-bold uppercase tracking-widest border-b border-gray-50 text-[#1e3a5f]">Export Markets</button>
             <button onClick={() => handleNav('portfolio')} className="block w-full text-left py-4 text-[14px] font-bold uppercase tracking-widest border-b border-gray-50 text-[#1e3a5f]">Gallery</button>
             <button onClick={() => handleNav('contact-page')} className="block w-full text-left py-4 text-[14px] font-bold uppercase tracking-widest border-b border-gray-50 text-[#1e3a5f]">Contact</button>
-            <div className="pt-8 flex flex-col space-y-4">
+            <div className="pt-4 flex items-center justify-between border-b border-gray-50 pb-4">
+              <span className="text-[12px] font-bold uppercase tracking-widest text-gray-600">Currency</span>
+              <div className="flex gap-2">
+                {CURRENCIES.map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => setCurrency(c)}
+                    className={`px-3 py-1.5 rounded-lg text-[11px] font-black uppercase ${
+                      currency === c ? 'bg-[#0d7377] text-white' : 'bg-gray-100 text-[#1e3a5f]'
+                    }`}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="pt-6 flex flex-col space-y-4">
               <a href="https://wa.me/919004962871" className="bg-[#25D366] text-white text-center font-black py-5 rounded-2xl text-[10px] uppercase tracking-widest">WhatsApp Quote</a>
               <button onClick={() => handleNav('contact-page')} className="bg-[#0d7377] text-white font-black py-5 rounded-2xl text-[10px] uppercase tracking-widest">Email RFQ Now</button>
             </div>

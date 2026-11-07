@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ViewState } from '../App.tsx';
 import AdminLaunchCenter from './AdminLaunchCenter.tsx';
 import GoogleBusinessProfile from './GoogleBusinessProfile.tsx';
 import OutreachTemplates from './OutreachTemplates.tsx';
+import { getStoredRFQs } from '../hooks/useRFQ.ts';
 
 interface Props {
   onLogout: () => void;
@@ -14,15 +15,29 @@ type TabType = 'leads' | 'analytics' | 'launch' | 'strategy' | 'outreach' | 'set
 const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
   const [activeTab, setActiveTab] = useState<TabType>('leads');
 
-  const leads = [
+  const storedRFQs = useMemo(() => getStoredRFQs(), [activeTab]);
+
+  const defaultLeads = [
     { id: 'RFQ-901', company: 'Milan Velvet Co.', type: 'Waterfall Cards', qty: 500, date: '2 hours ago', status: 'New' },
     { id: 'LD-402', company: 'HighPoint USA', type: 'Upholstery Books', qty: 100, date: '5 hours ago', status: 'Contacted' },
     { id: 'RFQ-882', company: 'Dubai Curtains', type: 'A3+ Albums', qty: 50, date: '1 day ago', status: 'Quoted' },
     { id: 'LD-398', company: 'Berlin Sofa Ltd.', type: 'Waterfall Cards', qty: 1000, date: '2 days ago', status: 'Export Dispatched' },
   ];
 
+  const leads = [
+    ...storedRFQs.map((r) => ({
+      id: r.id,
+      company: `${r.companyName} (${r.email})`,
+      type: r.productType,
+      qty: parseInt(r.quantity, 10) || 100,
+      date: new Date(r.submittedAt).toLocaleString(),
+      status: r.status,
+    })),
+    ...defaultLeads,
+  ];
+
   const stats = [
-    { label: 'Active Leads', val: '24', trend: '+12%' },
+    { label: 'Active Leads', val: String(24 + storedRFQs.length), trend: '+12%' },
     { label: 'Conversion Rate', val: '18.4%', trend: '+2.1%' },
     { label: 'Top Region', val: 'Europe', trend: 'Italy' },
     { label: 'Monthly Rev', val: '₹4.2M', trend: 'Target Met' }
@@ -42,17 +57,17 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
       <div className="w-72 bg-navy text-white flex flex-col fixed inset-y-0 shadow-2xl z-20">
         <div className="p-8 border-b border-white/10">
           <span className="text-xl font-black uppercase tracking-tighter">SamplingHub <span className="text-gold">Ops</span></span>
-          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Management Console</p>
+          <p className="text-[10px] text-gray-300 font-bold uppercase tracking-widest mt-1">Management Console</p>
         </div>
         
         <div className="p-8 border-b border-white/5 bg-white/5">
           <div className="flex items-center gap-4">
-             <div className="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-navy font-black">AD</div>
+             <div className="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-white font-black">AD</div>
              <div>
                 <p className="text-xs font-bold">Lead Admin</p>
                 <div className="flex items-center gap-1.5 mt-1">
                    <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
-                   <span className="text-[9px] font-black text-gray-400 uppercase">Active Session</span>
+                   <span className="text-[9px] font-black text-gray-300 uppercase">Active Session</span>
                 </div>
              </div>
           </div>
@@ -63,7 +78,7 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
             <button 
               key={item.id}
               onClick={() => setActiveTab(item.id as TabType)} 
-              className={`w-full text-left px-6 py-4 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all ${activeTab === item.id ? 'bg-gold text-navy shadow-lg' : 'text-gray-400 hover:bg-white/5'}`}
+              className={`w-full text-left px-6 py-4 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all ${activeTab === item.id ? 'bg-gold text-white shadow-lg' : 'text-gray-300 hover:bg-white/5'}`}
             >
               {item.label}
             </button>
@@ -84,21 +99,21 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
             <h2 className="text-3xl font-black text-navy uppercase tracking-tighter">
               {navItems.find(n => n.id === activeTab)?.label}
             </h2>
-            <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mt-1">
+            <p className="text-gray-600 text-xs font-bold uppercase tracking-widest mt-1">
                Operational Hub Status: <span className="text-teal">System Nominal</span>
             </p>
           </div>
           <div className="flex gap-4">
              <div className="bg-white px-6 py-3 rounded-2xl shadow-sm border border-gray-100 text-right">
-                <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Server Heartbeat</p>
+                <p className="text-[9px] font-black text-gray-600 uppercase tracking-widest">Server Heartbeat</p>
                 <div className="flex items-center gap-2 mt-1">
                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                    <p className="text-xs font-black text-navy">12ms Response</p>
                 </div>
              </div>
              <div className="bg-white px-6 py-3 rounded-2xl shadow-sm border border-gray-100 text-right">
-                <p className="text-[9px] font-black text-gray-400 uppercase">System Date</p>
-                <p className="text-xs font-bold text-navy">JAN 24, 2025</p>
+                <p className="text-[9px] font-black text-gray-600 uppercase">Factory Location</p>
+                <p className="text-xs font-bold text-navy">THANE BHIWANDI • 421302</p>
              </div>
           </div>
         </header>
@@ -122,7 +137,7 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                {stats.map((s, i) => (
                  <div key={i} className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
-                    <p className="text-[10px] font-black text-gray-400 uppercase mb-2">{s.label}</p>
+                    <p className="text-[10px] font-black text-gray-600 uppercase mb-2">{s.label}</p>
                     <p className="text-2xl font-black text-navy mb-1">{s.val}</p>
                     <p className="text-[9px] font-bold text-teal uppercase tracking-widest">{s.trend}</p>
                  </div>
@@ -147,7 +162,7 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
                         <td className="p-8 text-xs font-black text-gold">{l.id}</td>
                         <td className="p-8">
                            <p className="text-sm font-bold text-navy">{l.company}</p>
-                           <p className="text-[10px] text-gray-400 font-medium uppercase mt-1">{l.date}</p>
+                           <p className="text-[10px] text-gray-600 font-medium uppercase mt-1">{l.date}</p>
                         </td>
                         <td className="p-8 text-sm font-medium text-gray-600">{l.type}</td>
                         <td className="p-8 text-sm font-black text-navy">{l.qty}u</td>
@@ -169,7 +184,7 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
 
         {(activeTab === 'analytics' || activeTab === 'settings') && (
           <div className="bg-white p-20 rounded-[3rem] border border-dashed border-gray-200 text-center">
-             <p className="text-gray-400 font-bold uppercase tracking-[0.2em]">Module {activeTab} is currently being initialized.</p>
+             <p className="text-gray-600 font-bold uppercase tracking-[0.2em]">Module {activeTab} is currently being initialized.</p>
           </div>
         )}
       </div>

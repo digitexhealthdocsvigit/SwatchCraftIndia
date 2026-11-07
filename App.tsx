@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Header from './components/Header.tsx';
 import Hero from './components/Hero.tsx';
 import TrustBar from './components/TrustBar.tsx';
@@ -11,28 +11,30 @@ import Testimonials from './components/Testimonials.tsx';
 import QualityCertifications from './components/QualityCertifications.tsx';
 import Contact from './components/Contact.tsx';
 import Footer from './components/Footer.tsx';
-import AboutPage from './components/AboutPage.tsx';
-import ProductsOverview from './components/ProductsOverview.tsx';
-import ManufacturingProcessPage from './components/ManufacturingProcessPage.tsx';
-import ProductUpholstery from './components/ProductUpholstery.tsx';
-import ProductCurtain from './components/ProductCurtain.tsx';
-import ProductHanger from './components/ProductHanger.tsx';
-import ProductRingSwatch from './components/ProductRingSwatch.tsx';
-import ProductSampleCards from './components/ProductSampleCards.tsx';
-import ProductWaterfall from './components/ProductWaterfall.tsx';
-import ExportMarketsPage from './components/ExportMarketsPage.tsx';
-import BlogHub from './components/BlogHub.tsx';
-import BlogPost from './components/BlogPost.tsx';
-import PortfolioPage from './components/PortfolioPage.tsx';
-import LegalPage from './components/LegalPage.tsx';
-import PricingPage from './components/PricingPage.tsx';
-import GoogleBusinessProfile from './components/GoogleBusinessProfile.tsx';
-import OutreachTemplates from './components/OutreachTemplates.tsx';
 import LeadCaptureModal from './components/LeadCaptureModal.tsx';
-import NotFound from './components/NotFound.tsx';
-import AdminLogin from './components/AdminLogin.tsx';
-import AdminDashboard from './components/AdminDashboard.tsx';
 import WhatsAppFloatingCTA from './components/WhatsAppFloatingCTA.tsx';
+
+// Code-split secondary routes to keep initial homepage bundle fast and lightweight
+const AboutPage = lazy(() => import('./components/AboutPage.tsx'));
+const ProductsOverview = lazy(() => import('./components/ProductsOverview.tsx'));
+const ManufacturingProcessPage = lazy(() => import('./components/ManufacturingProcessPage.tsx'));
+const ProductUpholstery = lazy(() => import('./components/ProductUpholstery.tsx'));
+const ProductCurtain = lazy(() => import('./components/ProductCurtain.tsx'));
+const ProductHanger = lazy(() => import('./components/ProductHanger.tsx'));
+const ProductRingSwatch = lazy(() => import('./components/ProductRingSwatch.tsx'));
+const ProductSampleCards = lazy(() => import('./components/ProductSampleCards.tsx'));
+const ProductWaterfall = lazy(() => import('./components/ProductWaterfall.tsx'));
+const ExportMarketsPage = lazy(() => import('./components/ExportMarketsPage.tsx'));
+const BlogHub = lazy(() => import('./components/BlogHub.tsx'));
+const BlogPost = lazy(() => import('./components/BlogPost.tsx'));
+const PortfolioPage = lazy(() => import('./components/PortfolioPage.tsx'));
+const LegalPage = lazy(() => import('./components/LegalPage.tsx'));
+const PricingPage = lazy(() => import('./components/PricingPage.tsx'));
+const GoogleBusinessProfile = lazy(() => import('./components/GoogleBusinessProfile.tsx'));
+const OutreachTemplates = lazy(() => import('./components/OutreachTemplates.tsx'));
+const NotFound = lazy(() => import('./components/NotFound.tsx'));
+const AdminLogin = lazy(() => import('./components/AdminLogin.tsx'));
+const AdminDashboard = lazy(() => import('./components/AdminDashboard.tsx'));
 
 export type ViewState = 
   | 'home' 
@@ -62,13 +64,24 @@ export type ViewState =
   | 'admin-login'
   | 'admin-dashboard';
 
-// Canonical URL routing: only these views are bound to a real, crawlable URL.
-// Every other ViewState remains reachable via in-app navigation only (no path change),
-// matching the app's existing behavior.
+// Canonical URL routing for all public B2B pages & product lines
 const PATH_TO_VIEW: Record<string, ViewState> = {
   '/': 'home',
   '/about': 'about',
   '/products': 'products-overview',
+  '/products/upholstery-swatch-books': 'product-upholstery',
+  '/products/curtain-fabric-albums': 'product-curtain',
+  '/products/fabric-hanger-swatches': 'product-hanger',
+  '/products/ring-swatch-sets': 'product-ring',
+  '/products/sample-cards': 'product-cards',
+  '/products/waterfall-swatch-cards': 'product-waterfall',
+  '/manufacturing-process': 'process-detail',
+  '/export-markets': 'export-markets-page',
+  '/portfolio': 'portfolio',
+  '/pricing': 'pricing',
+  '/blog': 'blog-hub',
+  '/privacy': 'privacy',
+  '/terms': 'terms',
   '/contact': 'contact-page',
 };
 
@@ -76,6 +89,19 @@ const VIEW_TO_PATH: Partial<Record<ViewState, string>> = {
   home: '/',
   about: '/about',
   'products-overview': '/products',
+  'product-upholstery': '/products/upholstery-swatch-books',
+  'product-curtain': '/products/curtain-fabric-albums',
+  'product-hanger': '/products/fabric-hanger-swatches',
+  'product-ring': '/products/ring-swatch-sets',
+  'product-cards': '/products/sample-cards',
+  'product-waterfall': '/products/waterfall-swatch-cards',
+  'process-detail': '/manufacturing-process',
+  'export-markets-page': '/export-markets',
+  portfolio: '/portfolio',
+  pricing: '/pricing',
+  'blog-hub': '/blog',
+  privacy: '/privacy',
+  terms: '/terms',
   'contact-page': '/contact',
 };
 
@@ -229,7 +255,17 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {!isAdminView && <Header onNavigate={navigateTo} currentView={currentView} />}
-      <main className="flex-grow">{renderContent()}</main>
+      <main className="flex-grow">
+        <Suspense
+          fallback={
+            <div className="min-h-[60vh] flex items-center justify-center">
+              <div className="w-10 h-10 border-4 border-[#1e3a5f] border-t-transparent rounded-full animate-spin" />
+            </div>
+          }
+        >
+          {renderContent()}
+        </Suspense>
+      </main>
       {!isAdminView && <Footer onNavigate={navigateTo} />}
       
       <LeadCaptureModal 
