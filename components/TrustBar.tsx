@@ -2,7 +2,7 @@ import React from 'react';
 
 const TrustBar: React.FC = () => {
   const items = [
-    { icon: '⏱️', text: '21-28 Day Production' },
+    { icon: '⏱️', text: 'Managed OEM Schedule' },
     { icon: '🌍', text: 'Export to 15+ Countries' },
     { icon: '🏆', text: '10+ Years Experience' },
     { icon: '🏭', text: 'MOQ: 50 Books' },

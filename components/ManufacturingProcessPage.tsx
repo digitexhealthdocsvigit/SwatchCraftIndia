@@ -9,31 +9,31 @@ interface Props {
 const detailedSteps = [
   {
     title: "1. Specification & CAD Prototyping",
-    duration: "2-3 Days",
+    duration: "Stage 1 • Engineering",
     details: "We analyze fabric weights, repeat dimensions, and cover requirements to build technical CAD prototypes and digital layouts.",
     icon: "📐"
   },
   {
     title: "2. Manual Cutting & Anti-Fray Pinking",
-    duration: "3-5 Days",
+    duration: "Stage 2 • Swatch Prep",
     details: "Bulk fabric rolls are measured, sheeted, and edge-finished using specialized serrated pinking shears and precision cutters to eliminate fraying.",
     icon: "✂️"
   },
   {
     title: "3. Rigid Board Casing & Screw-Post Binding",
-    duration: "5-7 Days",
+    duration: "Stage 3 • Assembly",
     details: "3mm–4mm European Kappa board covers are wrapped in premium buckram or laminated paper with custom metallic foil stamping.",
     icon: "📚"
   },
   {
     title: "4. Multi-Stage Quality Inspection (QC)",
-    duration: "2-3 Days",
+    duration: "Stage 1 • Engineering",
     details: "Each sample book is individually verified for swatch alignment, label serialisation, screw tension, and edge finish.",
     icon: "🛡️"
   },
   {
     title: "5. Export Packaging & Global Dispatch",
-    duration: "1-2 Days (Dispatch)",
+    duration: "Stage 5 • Export Dispatch",
     details: "Books are moisture-sealed in protective shrink-wrap with reinforced corner guards and packed for global air or sea freight.",
     icon: "🚢"
   }

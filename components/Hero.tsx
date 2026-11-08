@@ -17,7 +17,7 @@ const Hero: React.FC<Props> = ({ onNavigate }) => {
             <span className="text-[#8B6F47]">OEM Sampling Solutions</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-700 mb-10 max-w-xl mx-auto lg:mx-0 font-medium">
-            India-based OEM fabric sampling solutions provider specialising in customised wallpaper catalog books, upholstery sample albums, waterfall hangers, and rigid swatch cards with 21–28 day export delivery coordinated from Thane Bhiwandi, PIN: 421302, Maharashtra, India.
+            India-based OEM fabric sampling solutions provider specialising in customised wallpaper catalog books, upholstery sample albums, waterfall hangers, and rigid swatch cards with structured export dispatch coordinated from Thane Bhiwandi, PIN: 421302, Maharashtra, India.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
             <button

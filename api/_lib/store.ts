@@ -164,14 +164,17 @@ export async function getAllRFQsAsync(): Promise<StoredRFQ[]> {
       const isMigrationDone = Boolean(checkRes && checkRes[0] === 'done');
       const indexedIds: string[] = checkRes && Array.isArray(checkRes[1]) ? checkRes[1].map(String) : [];
 
-      // If migration is already complete, read directly from the sorted set index
-      if (isMigrationDone && indexedIds.length > 0) {
-        const rfqs = await fetchAndReconcileRFQs(indexedIds);
-        if (rfqs.length > 0) {
-          memoryStore = rfqs;
+      // If migration is already complete, the sorted-set index is authoritative
+      if (isMigrationDone) {
+        if (indexedIds.length === 0) {
+          memoryStore = [];
           saveToFile();
           return memoryStore;
         }
+        const rfqs = await fetchAndReconcileRFQs(indexedIds);
+        memoryStore = rfqs;
+        saveToFile();
+        return memoryStore;
       }
 
       // 2. Migration or recovery needed: coordinate via distributed concurrency lock
@@ -337,7 +340,8 @@ export async function addRFQAsync(
 }
 
 /**
- * Updates a single RFQ atomically by its isolated key without affecting other RFQ entries.
+ * Updates a single RFQ atomically by its isolated key and sorted-set index via Lua transaction.
+ * Fails closed when shared Redis storage is configured and read or write fails.
  */
 export async function updateRFQStatusAsync(
   id: string,
@@ -346,27 +350,40 @@ export async function updateRFQStatusAsync(
   let existing: StoredRFQ | null = null;
 
   if (isSharedStorageConfigured()) {
-    try {
-      const res = await sendKvPipeline([['GET', `samplinghub:rfq:${id}`]]);
-      if (res && res[0]) {
-        existing = typeof res[0] === 'string' ? JSON.parse(res[0]) : res[0];
-      }
-    } catch {
-      // Fall back to memory
+    const res = await sendKvPipeline([['GET', `samplinghub:rfq:${id}`]]);
+    if (!res) {
+      throw new Error(`Failed to read RFQ ${id} from shared Redis storage prior to update.`);
     }
-  }
-
-  if (!existing) {
+    if (!res[0]) {
+      return null;
+    }
+    existing = typeof res[0] === 'string' ? JSON.parse(res[0]) : res[0];
+  } else {
     loadFromFile();
     const found = memoryStore.find((r) => r.id === id);
     if (!found) return null;
     existing = found;
   }
 
+  if (!existing) return null;
+
   const updatedRecord: StoredRFQ = {
     ...existing,
     ...updates,
   };
+
+  if (isSharedStorageConfigured()) {
+    const score = new Date(updatedRecord.submittedAt).getTime() || Date.now();
+    const luaUpdateScript =
+      "if redis.call('EXISTS', KEYS[1]) == 0 then return 0 end; redis.call('SET', KEYS[1], ARGV[1]); redis.call('ZADD', KEYS[2], ARGV[2], ARGV[3]); return 1;";
+    const evalRes = await sendKvPipeline([
+      ['EVAL', luaUpdateScript, 2, `samplinghub:rfq:${id}`, RFQ_INDEX_KEY, JSON.stringify(updatedRecord), score, id],
+    ]);
+
+    if (!evalRes || evalRes[0] !== 1) {
+      throw new Error(`Failed to atomically update RFQ ${id} in shared Redis storage.`);
+    }
+  }
 
   const idx = memoryStore.findIndex((r) => r.id === id);
   if (idx !== -1) {
@@ -375,14 +392,6 @@ export async function updateRFQStatusAsync(
     memoryStore = [updatedRecord, ...memoryStore];
   }
   saveToFile();
-
-  if (isSharedStorageConfigured()) {
-    try {
-      await sendKvPipeline([['SET', `samplinghub:rfq:${id}`, JSON.stringify(updatedRecord)]]);
-    } catch {
-      // Non-fatal fallback
-    }
-  }
 
   return updatedRecord;
 }

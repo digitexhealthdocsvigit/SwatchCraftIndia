@@ -60,7 +60,7 @@ export function createStudioPlaceholderSvg(
 }
 
 export const LOCAL_IMAGES = {
-  heroShowcase: '/images/hero-main-showcase.jpg',
+  heroShowcase: '/images/wallpaper-catalog-book.jpg',
   inspectionQC: '/images/upholstery-swatch-book-2.jpg',
   factoryBhiwandi: '/images/upholstery-swatch-book-2.jpg',
   wallpaperBook: '/images/wallpaper-catalog-book.jpg',
@@ -82,7 +82,7 @@ export const HERO_MEDIA: MediaItem[] = [
     type: 'image',
     src: LOCAL_IMAGES.heroShowcase,
     alt: 'SamplingHub OEM Production Coordination - Thane Bhiwandi, Maharashtra Swatch Book Operations',
-    caption: 'SamplingHub Thane-Bhiwandi Central Coordination Hub & OEM Precision Bookbinding Operations',
+    caption: 'Custom Hardbound Wallpaper & Fabric Swatch Books — SamplingHub (Digitex Studio) OEM Presentation Systems',
     fallbackTitle: 'SamplingHub OEM Coordination Hub',
     fallbackSubtitle: 'THANE-BHIWANDI, MAHARASHTRA • EXPORT PRODUCTION',
   },

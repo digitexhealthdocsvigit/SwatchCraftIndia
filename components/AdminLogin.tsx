@@ -78,7 +78,7 @@ const AdminLogin: React.FC<Props> = ({ onLogin, onNavigate }) => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="e.g., digitex.studio@gmail.com"
+                  placeholder="e.g., admin@yourdomain.com"
                   required
                   className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-6 py-4 text-sm font-semibold focus:outline-none focus:border-teal"
                 />

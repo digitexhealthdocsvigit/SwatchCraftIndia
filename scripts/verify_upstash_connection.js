@@ -78,35 +78,91 @@ async function main() {
       ['ZADD', testZSetKey, 100, 'member_1'],
       ['ZADD', testZSetKey, 200, 'member_2'],
       ['ZREVRANGE', testZSetKey, 0, -1],
+      ['ZREM', testZSetKey, 'member_1'],
+      ['ZREVRANGE', testZSetKey, 0, -1],
     ]);
 
-    if (!p2 || !Array.isArray(p2[2]) || p2[2][0] !== 'member_2') {
-      console.error('[FAIL] Sorted set operations failed. Response:', p2);
+    if (
+      !p2 ||
+      !Array.isArray(p2[2]) ||
+      p2[2][0] !== 'member_2' ||
+      p2[3] !== 1 ||
+      !Array.isArray(p2[4]) ||
+      p2[4].length !== 1 ||
+      p2[4][0] !== 'member_2'
+    ) {
+      console.error('[FAIL] Sorted set (ZADD / ZREVRANGE / ZREM) operations failed. Response:', p2);
       process.exit(1);
     }
-    console.log('[PASS] Sorted set (ZADD, ZREVRANGE) operations succeeded');
+    console.log('[PASS] Sorted set (ZADD, ZREVRANGE, ZREM) operations succeeded');
 
     // 4. Atomic Lua script execution (EVAL)
     const luaScript = "local c = redis.call('GET', KEYS[1]); return c;";
     const p3 = await sendKvPipeline([['EVAL', luaScript, 1, testKey]]);
 
     if (!p3 || p3[0] !== 'connection_ok') {
-      console.log('[WARN] Lua EVAL returned unexpected result:', p3);
-    } else {
-      console.log('[PASS] Lua script (EVAL) execution succeeded');
+      console.error('[FAIL] Lua EVAL returned unexpected result:', p3);
+      process.exit(1);
     }
+    console.log('[PASS] Lua script (EVAL) execution succeeded');
 
     // 5. Token-verified Lua Lock Release
     const unlockLua = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
-    const pUnlock = await sendKvPipeline([
+    const pUnlockWrong = await sendKvPipeline([
+      ['EVAL', unlockLua, 1, testLockKey, 'wrong_token'],
+    ]);
+    const pUnlockRight = await sendKvPipeline([
       ['EVAL', unlockLua, 1, testLockKey, testToken],
     ]);
 
-    if (!pUnlock || pUnlock[0] !== 1) {
-      console.error('[FAIL] Token-verified Lua lock release failed. Response:', pUnlock);
+    if (!pUnlockWrong || pUnlockWrong[0] !== 0 || !pUnlockRight || pUnlockRight[0] !== 1) {
+      console.error('[FAIL] Token-verified Lua lock release failed. Responses:', pUnlockWrong, pUnlockRight);
       process.exit(1);
     }
-    console.log('[PASS] Token-verified Lua unlock succeeded');
+    console.log('[PASS] Token-verified Lua unlock succeeded (rejected mismatched token, released owner token)');
+
+    // 6. End-to-End Atomic RFQ Create / Update / Delete Consistency
+    const testRfqId = `RFQ-LIVE-VERIFY-${timestamp}`;
+    const testRfqKey = `samplinghub:live_rfq_test:${testRfqId}`;
+    const testRfqIndexKey = `samplinghub:live_rfqs_index_test:${timestamp}`;
+    const createLua = "redis.call('SET', KEYS[1], ARGV[1]); redis.call('ZADD', KEYS[2], ARGV[2], ARGV[3]); return 1;";
+    const deleteLua = "redis.call('DEL', KEYS[1]); redis.call('ZREM', KEYS[2], ARGV[1]); return 1;";
+    const samplePayload = JSON.stringify({ id: testRfqId, status: 'New', submittedAt: new Date(timestamp).toISOString() });
+
+    const pRfqCreate = await sendKvPipeline([
+      ['EVAL', createLua, 2, testRfqKey, testRfqIndexKey, samplePayload, timestamp, testRfqId],
+      ['GET', testRfqKey],
+      ['ZREVRANGE', testRfqIndexKey, 0, -1],
+    ]);
+
+    if (
+      !pRfqCreate ||
+      pRfqCreate[0] !== 1 ||
+      pRfqCreate[1] !== samplePayload ||
+      !Array.isArray(pRfqCreate[2]) ||
+      pRfqCreate[2][0] !== testRfqId
+    ) {
+      console.error('[FAIL] Atomic RFQ create consistency test failed. Response:', pRfqCreate);
+      process.exit(1);
+    }
+
+    const pRfqDelete = await sendKvPipeline([
+      ['EVAL', deleteLua, 2, testRfqKey, testRfqIndexKey, testRfqId],
+      ['GET', testRfqKey],
+      ['ZREVRANGE', testRfqIndexKey, 0, -1],
+    ]);
+
+    if (
+      !pRfqDelete ||
+      pRfqDelete[0] !== 1 ||
+      pRfqDelete[1] !== null ||
+      !Array.isArray(pRfqDelete[2]) ||
+      pRfqDelete[2].length !== 0
+    ) {
+      console.error('[FAIL] Atomic RFQ delete consistency test failed. Response:', pRfqDelete);
+      process.exit(1);
+    }
+    console.log('[PASS] Atomic RFQ create/delete consistency (Lua SET+ZADD & DEL+ZREM) succeeded');
 
     // 6. Cleanup remaining test keys
     await sendKvPipeline([

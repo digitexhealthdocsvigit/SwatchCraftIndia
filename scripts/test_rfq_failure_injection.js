@@ -400,6 +400,51 @@ async function runFailureInjectionTests() {
   const recoveredRead = await getAllRFQsAsync();
   assert(Array.isArray(recoveredRead) && recoveredRead.length > 0, 'Full service restored immediately upon Redis recovery');
 
+  // -------------------------------------------------------------------------
+  // Test 15: Atomic Update (Lua EVAL) & Fail-Closed on Redis Write Failure
+  // -------------------------------------------------------------------------
+  const toUpdate = await addRFQAsync({
+    fullName: 'Update Test',
+    companyName: 'Update Corp',
+    email: 'upd@corp.com',
+    productType: 'Book',
+    quantity: '75',
+  });
+  const updatedOk = await updateRFQStatusAsync(toUpdate.id, { status: 'Won', estimatedValueUsd: 12500 });
+  assert(updatedOk && updatedOk.status === 'Won' && updatedOk.estimatedValueUsd === 12500, 'Atomic Lua update succeeded');
+
+  // Simulate Redis EVAL failure during update
+  setMockKvHandler((commands) =>
+    Promise.resolve(
+      commands.map(([cmd, ...args]) => {
+        if (cmd === 'GET') return remoteKvStore.get(args[0]) ?? null;
+        if (cmd === 'EVAL') return 0; // Simulate Lua transaction failure
+        return 'OK';
+      })
+    )
+  );
+  let updateFailedClosed = false;
+  try {
+    await updateRFQStatusAsync(toUpdate.id, { status: 'Lost' });
+  } catch {
+    updateFailedClosed = true;
+  }
+  assert(updateFailedClosed, 'CRIT: updateRFQStatusAsync failed closed when Redis Lua EVAL returned 0');
+
+  setMockKvHandler(mockKvPipeline);
+  const verifyUnchanged = JSON.parse(remoteKvStore.get(`samplinghub:rfq:${toUpdate.id}`));
+  assert(verifyUnchanged.status === 'Won', 'CRIT: Record status remained Won after failed update');
+
+  // -------------------------------------------------------------------------
+  // Test 16: Empty Index After Deleting All RFQs Does Not Re-Migrate Legacy Key
+  // -------------------------------------------------------------------------
+  const allCurrent = await getAllRFQsAsync();
+  for (const r of allCurrent) {
+    await deleteRFQAsync(r.id);
+  }
+  const afterDeletingAll = await getAllRFQsAsync();
+  assert(afterDeletingAll.length === 0, 'CRIT: Deleting all RFQs when migration is done returns [] without re-migrating legacy key');
+
   // Cleanup
   process.env.NODE_ENV = 'test';
   delete process.env.UPSTASH_REDIS_REST_URL;

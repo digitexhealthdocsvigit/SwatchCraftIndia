@@ -239,7 +239,7 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
       }
       if (res.ok) {
         const json = await res.json();
-        if (Array.isArray(json.rfqs) && json.rfqs.length > 0) {
+        if (Array.isArray(json.rfqs)) {
           combined = json.rfqs;
         }
       }
@@ -658,7 +658,7 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
                           className="hover:bg-gray-50/60 transition cursor-pointer"
                           onClick={() => setSelectedRfq(rfq)}
                         >
-                          <td className="p-4 font-mono font-bold text-[#8B6F47]">{rfq.id}</td>
+                          <td className="p-4 font-mono font-bold text-[#8B6F47]">{rfq.id} <span className={`ml-1.5 px-1.5 py-0.5 rounded text-[9px] font-sans font-black uppercase ${['RFQ-2026-9041', 'RFQ-2026-8874', 'RFQ-2026-7612'].includes(rfq.id) ? 'bg-amber-100 text-amber-800' : 'bg-teal-100 text-teal-800'}`}>{['RFQ-2026-9041', 'RFQ-2026-8874', 'RFQ-2026-7612'].includes(rfq.id) ? 'DEMO SEED' : 'LIVE RFQ'}</span></td>
                           <td className="p-4">
                             <p className="font-bold text-[#1e3a5f] text-sm">{rfq.companyName}</p>
                             <p className="text-gray-500 text-[11px]">
@@ -955,7 +955,7 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
                   Managed OEM Manufacturing Partner Register
                 </h3>
                 <p className="text-xs text-gray-500 mt-1">
-                  Specialised manufacturing partners coordinated by SamplingHub (Digitex Studio)
+                  [DEMONSTRATION PARTNER REGISTER] Illustrative OEM partner profiles coordinated by SamplingHub (Digitex Studio) (Pending Business Verification)
                 </p>
               </div>
 
@@ -1074,7 +1074,7 @@ const AdminDashboard: React.FC<Props> = ({ onLogout, onNavigate }) => {
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm space-y-2">
-                <span className="text-[11px] font-bold text-gray-500 uppercase">Top Export Market</span>
+                <span className="text-[11px] font-bold text-gray-500 uppercase">Top Export Market [STATIC BENCHMARK]</span>
                 <p className="text-2xl font-black text-[#1e3a5f]">European Union (42%)</p>
                 <p className="text-xs text-gray-600">Italy, Germany, France, Netherlands</p>
               </div>
