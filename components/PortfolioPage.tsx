@@ -23,28 +23,28 @@ const projects = [
   },
   {
     title: 'Italian Luxury Velvet & Jacquard Series',
-    client: 'Premium Furniture Italy',
+    client: 'Upholstery & Furniture Editor (EU)',
     category: 'Upholstery Swatch Books',
     image: LOCAL_IMAGES.upholsteryBook,
     alt: 'Custom Hardbound Velvet & Boucle Upholstery Swatch Book - SamplingHub',
   },
   {
     title: 'Dubai Hotel Drapery & Curtain Range',
-    client: 'Urban Textiles LLC',
+    client: 'Hospitality Drapery Distributor (UAE)',
     category: 'Curtain Fabric Albums',
     image: LOCAL_IMAGES.curtainAlbum,
     alt: 'Large Format Post-Bound Curtain Fabric Album for Hospitality Projects',
   },
   {
     title: 'Showroom Multi-Drop Cascade System',
-    client: 'Delhi Design Studio',
+    client: 'Architectural Textile Showroom',
     category: 'Waterfall Hangers',
     image: LOCAL_IMAGES.waterfallHanger,
     alt: 'Chrome Swivel Waterfall Swatch Hangers for Textile Showrooms',
   },
   {
     title: 'Precision Sample Cards & Storyboards',
-    client: 'Boutique Interiors UK',
+    client: 'Commercial Interior Specifier (UK)',
     category: 'Sample Cards',
     image: LOCAL_IMAGES.sampleCardsStoryboard,
     alt: 'Precision Die-Cut Fabric Sample Storyboards and Presentation Cards',
@@ -63,7 +63,7 @@ const PortfolioPage: React.FC<Props> = ({ onNavigate }) => {
             Our Production Portfolio
           </h1>
           <p className="text-gray-200 max-w-3xl mx-auto text-base sm:text-lg font-medium leading-relaxed">
-            Over 500 fabric and wallpaper swatch collections delivered through our managed OEM manufacturing network for premier international brands across USA, EU, UK, and UAE.
+            Custom fabric and wallpaper swatch presentation systems coordinated through our managed OEM partner network for international textile brands across USA, EU, UK, and UAE.
           </p>
         </div>
       </section>

@@ -387,11 +387,11 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
              <div className="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 -translate-y-1/2 z-0"></div>
              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 relative z-10">
                {[
-                 { t: "Design & Approval", d: "Days 1-3", i: <Settings className="w-6 h-6" /> },
-                 { t: "Materials Prep", d: "Days 4-7", i: <Layout className="w-6 h-6" /> },
-                 { t: "Fabric Processing", d: "Days 8-12", i: <Zap className="w-6 h-6" /> },
-                 { t: "Final Assembly", d: "Days 13-17", i: <ShieldCheck className="w-6 h-6" /> },
-                 { t: "QC & Dispatch", d: "Days 18-20", i: <Package className="w-6 h-6" /> }
+                 { t: "Design & Approval", d: "Stage 1", i: <Settings className="w-6 h-6" /> },
+                 { t: "Materials Prep", d: "Stage 2", i: <Layout className="w-6 h-6" /> },
+                 { t: "Fabric Processing", d: "Stage 3", i: <Zap className="w-6 h-6" /> },
+                 { t: "Final Assembly", d: "Stage 4", i: <ShieldCheck className="w-6 h-6" /> },
+                 { t: "QC & Dispatch", d: "Stage 5", i: <Package className="w-6 h-6" /> }
                ].map((step, i) => (
                  <div key={i} className="flex flex-col items-center group">
                    <div className="w-16 h-16 bg-white border border-gray-200 rounded-full flex items-center justify-center text-[#0d7377] mb-6 group-hover:bg-[#8B6F47] group-hover:text-white transition-all shadow-sm">
@@ -468,25 +468,25 @@ const ProductRingSwatch: React.FC<Props> = ({ onNavigate, onDownload }) => {
       {/* Success Stories */}
       <section className="py-24 px-4 bg-white">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-black text-[#1e3a5f] mb-16 uppercase tracking-tighter">Customer Success Stories</h2>
+          <h2 className="text-3xl md:text-5xl font-black text-[#1e3a5f] mb-16 uppercase tracking-tighter">Commercial Field Applications</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { 
                 c: "National Furniture Chain", 
-                q: "Ring sets transformed our sales process. Reps love the portability and clients love the organized presentation.", 
-                r: ["Sales cycle cut by 25%", "Costs reduced 60%"],
+                q: "Portable ring sets allow field representatives to carry organised fabric colourways to client consultations and site visits.", 
+                r: ["Compact travel format", "Modular swatch replacement"],
                 n: "Premium Home Furnishings"
               },
               { 
                 c: "Export Trading Company", 
-                q: "Perfect for export. Lightweight shipping saves thousands annually. Professional brand perception boost.", 
-                r: ["Shipping costs -70%", "+45% repeat orders"],
+                q: "Compact dimensions help reduce volumetric courier parcel weight when dispatching sample sets to international buyers.", 
+                r: ["Reduced parcel volume", "Export-ready packaging"],
                 n: "Global Textile Exports"
               },
               { 
                 c: "Interior Design Firm", 
-                q: "Clients are impressed with our organization. Ring sets make us look like pros in every home meeting.", 
-                r: ["Meeting time -30%", "+28% closing rate"],
+                q: "Indexed shade cards and detachable metal rings allow interior specifiers to compare fabric textures directly on site.", 
+                r: ["Organised shade indexing", "On-site material comparison"],
                 n: "Urban Spaces Design"
               }
             ].map((story, i) => (

@@ -95,7 +95,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
 
             <div className="flex flex-wrap gap-4 mb-10">
               <div className="bg-navy/5 px-4 py-2 rounded-xl text-[10px] font-black text-navy uppercase tracking-widest">MOQ: 100 Hangers</div>
-              <div className="bg-navy/5 px-4 py-2 rounded-xl text-[10px] font-black text-navy uppercase tracking-widest">Lead Time: 18-25 Days</div>
+              <div className="bg-navy/5 px-4 py-2 rounded-xl text-[10px] font-black text-navy uppercase tracking-widest">Schedule: Confirmed on Review</div>
               <div className="bg-navy/5 px-4 py-2 rounded-xl text-[10px] font-black text-navy uppercase tracking-widest">Sample: {formatPrice(80)}/set</div>
             </div>
 
@@ -129,7 +129,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
                   { s: "Hook Type", d: "Swivel hook for easy wall mounting" },
                   { s: "Label Options", d: "Fabric code, composition, care symbols, price tags" },
                   { s: "Best For", d: "Showrooms, retail displays, trade show booths, furniture stores" },
-                  { s: "Lead Time", d: "18-25 days after fabric receipt" },
+                  { s: "Lead Time", d: "Project-based schedule confirmed after fabric receipt" },
                   { s: "Packaging", d: "Individual poly bags, export cartons with dividers" }
                 ].map((row, i) => (
                   <tr key={i} className="hover:bg-gray-50 transition-colors">
@@ -350,12 +350,12 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
              <div className="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 -translate-y-1/2"></div>
              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-8 relative z-10">
                {[
-                 { s: "Step 1", t: "Design Approval", d: "Days 1-3", i: "🎨" },
-                 { s: "Step 2", t: "Hanger Prep", d: "Days 4-8", i: "🛠️" },
-                 { s: "Step 3", t: "Fabric Processing", d: "Days 9-15", i: "✂️" },
-                 { s: "Step 4", t: "Card Printing", d: "Days 10-14", i: "🖨️" },
-                 { s: "Step 5", t: "Final Assembly", d: "Days 16-22", i: "🧵" },
-                 { s: "Step 6", t: "Packaging", d: "Days 23-25", i: "📦" }
+                 { s: "Step 1", t: "Design Approval", d: "Stage 1", i: "🎨" },
+                 { s: "Step 2", t: "Hanger Prep", d: "Stage 2", i: "🛠️" },
+                 { s: "Step 3", t: "Fabric Processing", d: "Stage 3", i: "✂️" },
+                 { s: "Step 4", t: "Card Printing", d: "Stage 4", i: "🖨️" },
+                 { s: "Step 5", t: "Final Assembly", d: "Stage 5", i: "🧵" },
+                 { s: "Step 6", t: "Packaging", d: "Stage 6", i: "📦" }
                ].map((step, i) => (
                  <div key={i} className="bg-white p-6 rounded-3xl border border-gray-100 text-center shadow-sm hover:scale-105 transition-transform group">
                    <div className="w-12 h-12 bg-navy/5 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl group-hover:bg-gold transition-colors">{step.i}</div>
@@ -372,12 +372,12 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
       {/* Customer Examples */}
       <section className="py-24 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-black text-navy text-center mb-16 uppercase tracking-tighter">Real Showroom Transformations</h2>
+          <h2 className="text-3xl md:text-5xl font-black text-navy text-center mb-16 uppercase tracking-tighter">Showroom Display Configurations</h2>
           <div className="grid lg:grid-cols-3 gap-12">
             {[
-              { c: "Premium Furniture Store", b: "[Folders on counter]", a: "[Wall display w/ chrome]", s: "250 installed. Sales up 25%.", client: "Luxury Furnishings, Delhi" },
-              { c: "Curtain Retail Chain", b: "[Messy drawers]", a: "[Multi-tier matte black]", s: "400 units. Capacity up 400 fabrics.", client: "Window World, Bangalore" },
-              { c: "Trade Show Booth", b: "[Books on table]", a: "[Wooden hanger backdrop]", s: "80 units. Leads up 60% per show.", client: "Export Textiles India, Mumbai" }
+              { c: "Furniture & Fabric Showrooms", b: "[Loose counter folders]", a: "[Wall-mounted chrome hooks]", s: "Structured wall rack presentation for upholstery and drapery drops.", client: "Showroom Wall Systems" },
+              { c: "Multi-Store Retail Networks", b: "[Unindexed shelf stacks]", a: "[Multi-tier matte black headers]", s: "Standardised header cards with SKU barcodes and care specifications.", client: "Retail Merchandising" },
+              { c: "Trade Show Exhibition Booths", b: "[Tabletop sample stacks]", a: "[Branded hanger backdrop]", s: "High-visibility hanging fabric waterfalls for trade fair visitors.", client: "Exhibition Display Kits" }
             ].map((ex, i) => (
               <div key={i} className="space-y-6">
                 <div className="grid grid-cols-2 gap-2 aspect-[16/10]">
@@ -411,7 +411,7 @@ const ProductHanger: React.FC<Props> = ({ onNavigate, onDownload }) => {
             <tbody className="divide-y divide-gray-100 font-bold text-navy text-xs">
               {[
                 { f: "Cost per unit", s: "₹18-25", d: "₹30-40 (materials)", c: "₹15-20" },
-                { f: "Lead Time", s: "18-25 Days", d: "Immediate (high labor)", c: "35-50 Days" },
+                { f: "Lead Time", s: "Confirmed on Review", d: "Immediate (high labor)", c: "35-50 Days" },
                 { f: "Quality Control", s: "Professional QC", d: "Variable", c: "Inconsistent" },
                 { f: "Customization", s: "Full Branding", d: "Extremely Limited", c: "Basic/Limited" },
                 { f: "Attachment", s: "Industrial Stitch", d: "Manual/Amateur", c: "Variable/Weak" },

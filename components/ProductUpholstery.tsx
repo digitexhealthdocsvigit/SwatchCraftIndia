@@ -71,7 +71,7 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
 
             <div className="flex flex-wrap gap-4 mb-10">
               <div className="bg-navy/5 px-4 py-2 rounded-xl text-[10px] font-black text-navy uppercase tracking-widest">MOQ: 50 books</div>
-              <div className="bg-navy/5 px-4 py-2 rounded-xl text-[10px] font-black text-navy uppercase tracking-widest">Lead Time: 21-28 days</div>
+              <div className="bg-navy/5 px-4 py-2 rounded-xl text-[10px] font-black text-navy uppercase tracking-widest">Schedule: Confirmed on Review</div>
               <div className="bg-navy/5 px-4 py-2 rounded-xl text-[10px] font-black text-navy uppercase tracking-widest">Sample: {formatPrice(300)}/piece</div>
             </div>
 
@@ -106,7 +106,7 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
                   { s: "Fabric Types", d: "Velvet, linen, jacquard, chenille, polyester, cotton" },
                   { s: "MOQ", d: "50 books per collection" },
                   { s: "Sample MOQ", d: "1-5 pieces for testing" },
-                  { s: "Lead Time", d: "21-28 days after fabric receipt" },
+                  { s: "Lead Time", d: "Project-based schedule confirmed after fabric receipt and spec approval" },
                   { s: "Export Packaging", d: "Shrink-wrapped, corner protection, carton labeling" }
                 ].map((row, i) => (
                   <tr key={i} className="hover:bg-gray-50 transition-colors">
@@ -242,12 +242,12 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
              <div className="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-100 -translate-y-1/2"></div>
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 relative z-10">
                {[
-                 { s: "Step 1", t: "Fabric Receipt", d: "Day 0" },
-                 { s: "Step 2", t: "Design Approval", d: "Days 1-3" },
-                 { s: "Step 3", t: "Fabric Cutting", d: "Days 4-7" },
-                 { s: "Step 4", t: "Assembly", d: "Days 8-18" },
-                 { s: "Step 5", t: "Quality Control", d: "Days 19-21" },
-                 { s: "Step 6", t: "Dispatch", d: "Day 21-28" }
+                 { s: "Step 1", t: "Fabric Receipt", d: "Stage 1" },
+                 { s: "Step 2", t: "Design Approval", d: "Stage 2" },
+                 { s: "Step 3", t: "Fabric Cutting", d: "Stage 3" },
+                 { s: "Step 4", t: "Assembly", d: "Stage 4" },
+                 { s: "Step 5", t: "Quality Control", d: "Stage 5" },
+                 { s: "Step 6", t: "Dispatch", d: "Stage 6" }
                ].map((step, i) => (
                  <div key={i} className="bg-white p-6 rounded-3xl border border-gray-100 text-center shadow-sm hover:scale-105 transition-transform group">
                    <p className="text-gold font-black text-[9px] uppercase tracking-widest mb-1 group-hover:text-teal transition-colors">{step.s}</p>
@@ -263,12 +263,12 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
       {/* Testimonials */}
       <section className="py-24 px-4 bg-gray-50 border-y border-gray-100">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-black text-navy text-center mb-16 uppercase tracking-tighter">What Our Clients Say</h2>
+          <h2 className="text-3xl font-black text-navy text-center mb-16 uppercase tracking-tighter">Commercial B2B Applications</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { q: "SamplingHub's upholstery books transformed our sales presentations. The quality is exceptional and delivery was exactly on schedule.", n: "Rajesh Kapoor", c: "Premium Furniture Co., Delhi" },
-              { q: "We export to Europe and needed export-grade presentation. SamplingHub delivered perfectly—our buyers were impressed.", n: "Maria Santos", c: "Textile Exporter, Mumbai" },
-              { q: "Fast turnaround, excellent customization, and great pricing. We've reordered 3 times already.", n: "Interior Designer", c: "Design Studio, Bangalore" }
+              { q: "Structured hardbound upholstery books keep multi-weight chenille, boucle, and velvet collections organised for commercial showroom presentations.", n: "Furniture & Upholstery Brands", c: "Showroom & Distributor Kits" },
+              { q: "Export-ready packaging and shade-lot verification help textile exporters distribute coordinated fabric collections to international trade buyers.", n: "Home Textile Exporters", c: "International Trade & Sourcing" },
+              { q: "Custom spine branding, technical specification tables, and protective edge finishes support repeat seasonal collection launches.", n: "Interior Specification Studios", c: "Hospitality & Contract Projects" }
             ].map((test, i) => (
               <div key={i} className="bg-white p-10 rounded-[3rem] border border-gray-100 flex flex-col h-full shadow-sm">
                 <div className="flex text-gold mb-6">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-current" />)}</div>
@@ -312,7 +312,7 @@ const ProductUpholstery: React.FC<Props> = ({ onNavigate, onDownload }) => {
       <section className="bg-navy py-24 px-4 text-center text-white relative overflow-hidden">
         <div className="max-w-4xl mx-auto relative z-10">
           <h2 className="text-3xl md:text-6xl font-black mb-6 uppercase tracking-tighter leading-tight">Ready to Order Premium Upholstery Swatch Books?</h2>
-          <p className="text-gray-300 text-lg mb-12 font-medium">Get your custom quote within 24 hours. Export-ready direct from Thane-Bhiwandi, Maharashtra.</p>
+          <p className="text-gray-300 text-lg mb-12 font-medium">Request a custom technical quotation. Export coordination from Thane-Bhiwandi, Maharashtra.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-6">
             <button onClick={() => onNavigate('contact-page')} className="bg-teal text-white px-12 py-5 rounded-2xl font-black shadow-2xl hover:bg-gold transition-all uppercase tracking-widest text-xs">Request Technical Quote</button>
             <button onClick={() => onDownload('Full Upholstery Guide')} className="bg-white/10 text-white border border-white/20 px-12 py-5 rounded-2xl font-black hover:bg-white/20 transition-all uppercase tracking-widest text-xs">Download Catalog (PDF)</button>

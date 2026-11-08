@@ -92,7 +92,7 @@ const ProductSampleCards: React.FC<Props> = ({ onNavigate, onDownload }) => {
 
             <div className="flex flex-wrap gap-4 mb-10">
               <div className="bg-[#1e3a5f]/5 px-4 py-2 rounded-xl text-[10px] font-black text-[#1e3a5f] uppercase tracking-widest">MOQ: 200 Cards</div>
-              <div className="bg-[#1e3a5f]/5 px-4 py-2 rounded-xl text-[10px] font-black text-[#1e3a5f] uppercase tracking-widest">Lead Time: 12-18 Days</div>
+              <div className="bg-[#1e3a5f]/5 px-4 py-2 rounded-xl text-[10px] font-black text-[#1e3a5f] uppercase tracking-widest">Schedule: Confirmed on Review</div>
               <div className="bg-[#1e3a5f]/5 px-4 py-2 rounded-xl text-[10px] font-black text-[#1e3a5f] uppercase tracking-widest">Sample: {formatPrice(60)}/card</div>
             </div>
 
@@ -338,7 +338,7 @@ const ProductSampleCards: React.FC<Props> = ({ onNavigate, onDownload }) => {
           </div>
           <div className="mt-8 flex justify-center items-center gap-3">
              <span className="bg-[#8B6F47] text-[#1e3a5f] text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest">Global Shipping</span>
-             <p className="text-xs font-bold text-white/60 uppercase">Delivery to EU/USA in 15-18 days</p>
+             <p className="text-xs font-bold text-white/60 uppercase">Coordinated Air &amp; Sea Dispatch to EU / USA / UAE</p>
           </div>
         </div>
       </section>

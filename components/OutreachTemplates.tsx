@@ -165,7 +165,7 @@ SamplingHub (Digitex Studio) is an India-based managed OEM fabric sampling solut
 A profile would highlight:
 - Our 10+ year track record serving global clients
 - Innovation (first waterfall format in India)
-- Export impact (serving 12+ countries, supporting Indian textile industry)
+- Export impact (serving international markets, supporting Indian textile sampling)
 - Employment (8-12 team members, manufacturing jobs)
 - Competitive positioning (how Indian manufacturers can compete globally)
 

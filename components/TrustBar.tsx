@@ -3,9 +3,9 @@ import React from 'react';
 const TrustBar: React.FC = () => {
   const items = [
     { icon: '⏱️', text: 'Managed OEM Schedule' },
-    { icon: '🌍', text: 'Export to 15+ Countries' },
-    { icon: '🏆', text: '10+ Years Experience' },
-    { icon: '🏭', text: 'MOQ: 50 Books' },
+    { icon: '🌍', text: 'Global Export Logistics' },
+    { icon: '🏆', text: 'Established in 2011' },
+    { icon: '📦', text: 'MOQ: From 40–50 Books' },
   ];
 
   return (
@@ -13,7 +13,10 @@ const TrustBar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-center">
           {items.map((item, idx) => (
-            <div key={idx} className="flex items-center justify-center lg:justify-start space-x-4 group border-r border-gray-200 last:border-r-0 h-full">
+            <div
+              key={idx}
+              className="flex items-center justify-center lg:justify-start space-x-4 group border-r border-gray-200 last:border-r-0 h-full"
+            >
               <span className="text-3xl">{item.icon}</span>
               <span className="text-[#2c3e50] text-sm font-bold tracking-wide group-hover:text-[#c9a86a] transition-colors">
                 {item.text}

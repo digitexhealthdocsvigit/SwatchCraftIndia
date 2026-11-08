@@ -78,7 +78,7 @@ export const ProductWallpaperCatalog: React.FC<ProductWallpaperCatalogProps> = (
     },
     {
       label: 'Production Lead Time',
-      value: '21–28 Business Days from Thane Bhiwandi, PIN: 421302, Maharashtra, India Central Hub',
+      value: 'Project-Based Schedule (Confirmed Upon Technical Specification Review)',
     },
     {
       label: 'Export Packaging',
@@ -186,7 +186,7 @@ export const ProductWallpaperCatalog: React.FC<ProductWallpaperCatalogProps> = (
                     <strong>MOQ:</strong> 50 books
                   </span>
                   <span>
-                    <strong>Lead Time:</strong> 21–28 days (Thane-Bhiwandi)
+                    <strong>Schedule:</strong> Confirmed on Spec Review (Thane-Bhiwandi)
                   </span>
                 </div>
               </div>
@@ -399,7 +399,7 @@ export const ProductWallpaperCatalog: React.FC<ProductWallpaperCatalogProps> = (
                     <td className="p-4 font-mono font-bold text-charcoal">
                       {formatPrice(148)} – {formatPrice(165)} / book
                     </td>
-                    <td className="p-4 text-charcoal/80">21 business days</td>
+                    <td className="p-4 text-charcoal/80">Confirmed on Spec Review</td>
                   </tr>
                   <tr className="hover:bg-softgray/50 bg-gold/5">
                     <td className="p-4 font-medium text-navy flex items-center">
@@ -411,21 +411,21 @@ export const ProductWallpaperCatalog: React.FC<ProductWallpaperCatalogProps> = (
                     <td className="p-4 font-mono font-bold text-navy">
                       {formatPrice(125)} – {formatPrice(142)} / book
                     </td>
-                    <td className="p-4 text-charcoal/80">21–24 business days</td>
+                    <td className="p-4 text-charcoal/80">Confirmed on Spec Review</td>
                   </tr>
                   <tr className="hover:bg-softgray/50">
                     <td className="p-4 font-medium text-navy">250 – 499 books</td>
                     <td className="p-4 font-mono font-bold text-charcoal">
                       {formatPrice(112)} – {formatPrice(124)} / book
                     </td>
-                    <td className="p-4 text-charcoal/80">24–28 business days</td>
+                    <td className="p-4 text-charcoal/80">Confirmed on Spec Review</td>
                   </tr>
                   <tr className="hover:bg-softgray/50">
                     <td className="p-4 font-medium text-navy">500+ books</td>
                     <td className="p-4 font-mono font-bold text-teal">
                       Custom Export Enterprise Quote
                     </td>
-                    <td className="p-4 text-charcoal/80">28 business days (Staggered Dispatch Available)</td>
+                    <td className="p-4 text-charcoal/80">Project-Based (Staggered Dispatch Available)</td>
                   </tr>
                 </tbody>
               </table>

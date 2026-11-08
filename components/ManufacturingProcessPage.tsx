@@ -84,7 +84,7 @@ const ManufacturingProcessPage: React.FC<Props> = ({ onNavigate }) => {
                  <span className="text-[#c9a86a] font-black uppercase tracking-widest block text-[10px] mb-1">
                    Inspection Standard • Macro Verification
                  </span>
-                 Precision zig-zag pinking cuts, zero fabric fraying, and exact 3mm Kappa board casing alignment verified across 100% of finished collections.
+                 Precision zig-zag pinking cuts, anti-fray edge finishing, and exact 3mm Kappa board casing alignment verified across finished collections.
                </div>
              </div>
           </div>

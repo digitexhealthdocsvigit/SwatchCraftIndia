@@ -80,7 +80,7 @@ const ProductCurtain: React.FC<Props> = ({ onNavigate, onDownload }) => {
 
             <div className="flex flex-wrap gap-4 mb-10">
               <div className="bg-navy/5 px-4 py-2 rounded-xl text-[10px] font-black text-navy uppercase tracking-widest">MOQ: 40 albums</div>
-              <div className="bg-navy/5 px-4 py-2 rounded-xl text-[10px] font-black text-navy uppercase tracking-widest">Lead Time: 24-30 days</div>
+              <div className="bg-navy/5 px-4 py-2 rounded-xl text-[10px] font-black text-navy uppercase tracking-widest">Schedule: Confirmed on Review</div>
               <div className="bg-navy/5 px-4 py-2 rounded-xl text-[10px] font-black text-navy uppercase tracking-widest">Sample: {formatPrice(500)}/pc</div>
             </div>
 
@@ -113,7 +113,7 @@ const ProductCurtain: React.FC<Props> = ({ onNavigate, onDownload }) => {
                   { s: "Label Options", d: "Collection headers, fabric codes, care symbols" },
                   { s: "Fabric Types", d: "Sheer, voile, blackout, jacquard, embroidered, linen, polyester" },
                   { s: "MOQ", d: "40 albums per collection" },
-                  { s: "Lead Time", d: "24-30 days after fabric receipt" },
+                  { s: "Lead Time", d: "Project-based schedule confirmed after fabric receipt" },
                   { s: "Export Packaging", d: "Individual shrink wrap, protective cartons" }
                 ].map((row, i) => (
                   <tr key={i} className="hover:bg-gray-50 transition-colors">
@@ -271,7 +271,7 @@ const ProductCurtain: React.FC<Props> = ({ onNavigate, onDownload }) => {
                </thead>
                <tbody className="divide-y divide-gray-100 text-navy">
                   <tr><td className="p-6 bg-gray-50/50">Price (MOQ 500+)</td><td className="p-6 text-teal font-black">₹90-110 / $6-8</td><td className="p-6 text-gray-600">$5-7</td><td className="p-6 text-gray-600">$8-12</td></tr>
-                  <tr><td className="p-6 bg-gray-50/50">Lead Time</td><td className="p-6 text-teal font-black">24-30 days</td><td className="p-6 text-gray-600">35-50 days</td><td className="p-6 text-gray-600">25-35 days</td></tr>
+                  <tr><td className="p-6 bg-gray-50/50">Lead Time</td><td className="p-6 text-teal font-black">Project-Based</td><td className="p-6 text-gray-600">35-50 days</td><td className="p-6 text-gray-600">25-35 days</td></tr>
                   <tr><td className="p-6 bg-gray-50/50">Customization</td><td className="p-6 text-teal font-black">Full white-label</td><td className="p-6 text-gray-600">Limited</td><td className="p-6 text-gray-600">Full custom</td></tr>
                   <tr><td className="p-6 bg-gray-50/50">Fabric Handling</td><td className="p-6 text-teal font-black">Managed OEM Specialist (Since 2011)</td><td className="p-6 text-gray-600">Standard</td><td className="p-6 text-gray-600">Expert</td></tr>
                   <tr><td className="p-6 bg-gray-50/50">Communication</td><td className="p-6 text-teal font-black">English Fluent</td><td className="p-6 text-gray-600">Language Barrier</td><td className="p-6 text-gray-600">Native</td></tr>
@@ -284,12 +284,12 @@ const ProductCurtain: React.FC<Props> = ({ onNavigate, onDownload }) => {
       {/* Testimonials */}
       <section className="py-24 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-black text-navy text-center mb-16 uppercase tracking-tighter">Trusted by Leading Curtain Brands</h2>
+          <h2 className="text-3xl font-black text-navy text-center mb-16 uppercase tracking-tighter">Commercial Drapery Applications</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { q: "The large format makes a huge difference in our showroom. Customers can truly see the fabric drape and texture. Sales have increased 30% since we switched to SamplingHub albums.", n: "Priya Sharma", c: "Elite Window Fashions, Mumbai" },
-              { q: "We export to Dubai and needed premium presentation for luxury hotels. SamplingHub's albums with gold embossing perfectly matched our brand image.", n: "Ahmed Al-Mansouri", c: "Arabian Home Textiles, Sharjah" },
-              { q: "Detachable pages are genius! Customers take swatches home, and we don't lose the entire album. Lead time was exactly as promised.", n: "Interior Designer", c: "Design Studio, Bangalore" }
+              { q: "Large-format drapery albums allow showroom buyers and interior specifiers to evaluate full fabric drape, sheer transparency, and weave texture.", n: "Drapery & Window Fashion Brands", c: "Retail & Showroom Display" },
+              { q: "Custom foil-embossed covers and protective interleaf sheets present hospitality blackout and decorative curtain collections in a durable format.", n: "Hospitality Textile Suppliers", c: "Contract & Hotel Furnishing" },
+              { q: "Screw-post and ring-bound album architectures allow individual fabric leaves to be updated or reorganised as seasonal collections evolve.", n: "Interior Design Libraries", c: "Residential & Commercial Specifiers" }
             ].map((test, i) => (
               <div key={i} className="bg-gray-50 p-10 rounded-[3rem] border border-gray-100 flex flex-col h-full shadow-sm">
                 <div className="flex text-gold mb-6">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-current" />)}</div>

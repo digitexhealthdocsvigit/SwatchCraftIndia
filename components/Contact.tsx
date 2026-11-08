@@ -20,9 +20,9 @@ const Contact: React.FC = () => {
 
   const faqs = [
     { q: "What is your minimum order quantity (MOQ)?", a: "Our standard MOQ starts at 50 units for hardbound upholstery swatch books, 40 units for curtain albums, and 100 units for waterfall cards. Custom pilot batches can also be accommodated." },
-    { q: "How long does export production take?", a: "Standard lead time is 14-21 days for waterfall cards and hangers, and 21-28 days for hardbound upholstery and curtain albums after fabric swatch receipt." },
+    { q: "How are production and export timelines scheduled?", a: "Production schedules are project-based and confirmed upon technical specification review, prototype approval, and fabric receipt at our Thane-Bhiwandi coordination hub." },
     { q: "Do you offer white-label manufacturing with custom branding?", a: "Yes! Complete white-label manufacturing with your logo, metallic foil stamping (gold, silver, rose gold), custom debossing, silk-screen printing, and branded cover fabrics." },
-    { q: "Can you handle international shipping & customs clearance?", a: "Absolutely. We manage end-to-end export logistics: commercial invoices, certificates of origin, export pallet packaging, and air/sea express delivery to USA, EU, UK, and UAE." },
+    { q: "Can you handle international shipping & customs clearance?", a: "Absolutely. We manage end-to-end export logistics: commercial invoices, certificates of origin, export pallet packaging, and air/sea freight dispatch to USA, EU, UK, and UAE." },
     { q: "Can I send photos or videos of our current swatch books for an exact match?", a: "Yes! Use the Video & Photo RFQ tool below to attach reference photos or record a 30-second video of your existing sample books." }
   ];
 
@@ -91,7 +91,7 @@ const Contact: React.FC = () => {
 
           <div className="bg-white p-6 rounded-2xl border border-gray-100 max-w-md mx-auto mb-10 shadow-sm text-left text-xs space-y-2 text-gray-600">
             <div className="flex items-center gap-2 text-[#0d7377] font-bold">
-              <Clock className="w-4 h-4" /> Guaranteed B2B turnaround within 24 hours
+              <Clock className="w-4 h-4" /> Prompt B2B technical review and quotation response
             </div>
             <div className="flex items-center gap-2 text-[#1e3a5f] font-bold">
               <Globe2 className="w-4 h-4" /> Export destination: {exportMarket}
@@ -137,7 +137,7 @@ const Contact: React.FC = () => {
             Request Export Quote & Technical Specs
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto font-medium">
-            21-28 day international delivery to USA, European Union, UAE & UK. Attach sample references or record a video walk-through below.
+            Structured international export dispatch to USA, European Union, UAE &amp; UK. Attach sample references or record a video walk-through below.
           </p>
         </div>
       </section>
@@ -422,7 +422,7 @@ const Contact: React.FC = () => {
               <div className="pt-6 border-t border-white/10 space-y-3">
                 <div className="flex items-center gap-2 text-xs text-gray-200">
                   <ShieldCheck className="w-4 h-4 text-[#8B6F47]" />
-                  <span>100% Manual QC Inspection</span>
+                  <span>Multi-Stage Manual QC Inspection</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-gray-200">
                   <CheckCircle2 className="w-4 h-4 text-[#25D366]" />
@@ -439,19 +439,19 @@ const Contact: React.FC = () => {
               <div className="space-y-3 text-xs text-gray-600 font-medium">
                 <div className="flex justify-between pb-2 border-b border-gray-200">
                   <span>USA & Canada:</span>
-                  <span className="font-bold text-[#1e3a5f]">21-25 Days</span>
+                  <span className="font-bold text-[#1e3a5f]">Air &amp; Sea Freight</span>
                 </div>
                 <div className="flex justify-between pb-2 border-b border-gray-200">
                   <span>EU & United Kingdom:</span>
-                  <span className="font-bold text-[#1e3a5f]">21-28 Days</span>
+                  <span className="font-bold text-[#1e3a5f]">Air &amp; Sea Freight</span>
                 </div>
                 <div className="flex justify-between pb-2 border-b border-gray-200">
                   <span>UAE & Middle East:</span>
-                  <span className="font-bold text-[#1e3a5f]">14-18 Days</span>
+                  <span className="font-bold text-[#1e3a5f]">Direct Air &amp; Sea</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Sample Prototype:</span>
-                  <span className="font-bold text-[#8B6F47]">7-10 Days Express</span>
+                  <span className="font-bold text-[#8B6F47]">Confirmed on Review</span>
                 </div>
               </div>
             </div>

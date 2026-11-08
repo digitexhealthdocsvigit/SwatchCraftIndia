@@ -172,7 +172,7 @@ const AboutPage: React.FC<Props> = ({ onNavigate }) => {
       <section className="py-32 px-4 bg-gray-50 text-center relative overflow-hidden">
         <div className="max-w-3xl mx-auto relative z-10">
           <h2 className="text-4xl md:text-6xl font-black text-[#1e3a5f] mb-8 tracking-tighter uppercase leading-none">Ready to Export <span className="text-[#8B6F47]">Quality?</span></h2>
-          <p className="text-gray-700 text-lg mb-12 font-medium">Join 500+ global brands who trust SamplingHub (Digitex Studio) for their premium sample presentations.</p>
+          <p className="text-gray-700 text-lg mb-12 font-medium">Partner with SamplingHub (Digitex Studio) for coordinated B2B fabric and wallcovering sample presentations.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button onClick={() => onNavigate('contact-page')} className="bg-[#0d7377] text-white px-12 py-5 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-2xl hover:scale-105 transition-all">Request Export Quote</button>
             <button onClick={() => onNavigate('pricing')} className="border-2 border-[#1e3a5f] text-[#1e3a5f] px-12 py-5 rounded-2xl font-black uppercase tracking-widest text-[11px] hover:bg-[#1e3a5f] hover:text-white transition-all">View Volume Pricing</button>

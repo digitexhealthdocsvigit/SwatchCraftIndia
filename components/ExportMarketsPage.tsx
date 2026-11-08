@@ -9,30 +9,30 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   const stats = [
-    { label: "15+ Countries Served" },
-    { label: "1000+ Export Orders Fulfilled" },
-    { label: "10+ Years Export Experience" },
-    { label: "95% International Customer Retention" }
+    { label: "Global Export Markets" },
+    { label: "OEM Partner Network" },
+    { label: "2011 Established in India" },
+    { label: "Multi-Stage Quality Control" }
   ];
 
   const advantages = [
     {
       title: "Cost Advantage",
       icon: "🏷️",
-      stat: "40-50% Lower Costs",
+      stat: "Tiered B2B Pricing",
       desc: "Competitive manufacturing costs compared to USA/Europe while maintaining premium quality standards"
     },
     {
       title: "Quality Standards",
       icon: "📜",
-      stat: "100% QC",
+      stat: "Multi-Stage QC",
       desc: "Documented quality inspection and export-grade finishing that meets European and American standards"
     },
     {
       title: "Faster Delivery",
       icon: "🚢",
-      stat: "15-25 Days to Europe/USA",
-      desc: "Strategic Maharashtra location, near Mumbai's ports, enables faster shipping than China (30-45 days) to Western markets"
+      stat: "Air & Sea Freight",
+      desc: "Strategic Thane-Bhiwandi location near Mumbai's air and sea ports enables coordinated export logistics to Western markets"
     },
     {
       title: "English Communication",
@@ -76,10 +76,10 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
         
         <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
           <h1 className="text-4xl md:text-6xl font-black text-navy mb-6 leading-tight">
-            Exporting Quality Fabric <br /> Presentations Since 2005
+            Exporting Quality Fabric <br /> Presentations Since 2011
           </h1>
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-16 font-medium">
-            Serving furniture manufacturers and textile brands in 15+ countries with reliable delivery and complete export documentation.
+            Serving furniture manufacturers and textile brands across international export markets with coordinated delivery and complete export documentation.
           </p>
           
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 bg-white p-8 rounded-3xl shadow-xl border border-gray-100">
@@ -96,7 +96,7 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
       {/* Why Export from India Section */}
       <section className="py-24 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-black text-navy text-center mb-16">Why Global Brands Choose Indian Manufacturing</h2>
+                  <h2 className="text-3xl md:text-4xl font-black text-navy text-center mb-16">Why Global Brands Choose Our Managed OEM Model</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {advantages.map((adv, i) => (
               <div key={i} className="bg-gray-50 p-10 rounded-3xl border border-gray-100 hover:border-gold transition-all duration-300 group">
@@ -156,7 +156,7 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
                 <div className="mt-8 pt-6 border-t border-gray-50 grid grid-cols-2 gap-6">
                   <div>
                     <p className="text-[10px] text-gray-400 font-black uppercase mb-1">Lead Time</p>
-                    <p className="text-xs font-bold text-navy">21-28d Production + 15-20d Shipping</p>
+                    <p className="text-xs font-bold text-navy">Confirmed on Spec Review + Air/Sea Freight</p>
                   </div>
                   <div>
                     <p className="text-[10px] text-gray-400 font-black uppercase mb-1">Payment</p>
@@ -187,7 +187,7 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
               <div>
                 <h4 className="text-xl font-bold text-navy mb-4">Premium Quality at India Pricing</h4>
                 <p className="text-gray-600 mb-8 leading-relaxed">
-                  We help American furniture manufacturers and fabric wholesalers reduce sampling costs by 40-50% while maintaining quality standards comparable to domestic suppliers.
+                  We help American furniture manufacturers and fabric wholesalers optimize sampling budgets through tiered B2B pricing while maintaining export quality standards.
                 </p>
                 <ul className="grid sm:grid-cols-2 gap-4">
                   {[
@@ -211,7 +211,7 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
                 <ul className="space-y-6">
                   <li>
                     <p className="text-navy font-bold text-sm">Cost Savings</p>
-                    <p className="text-gray-500 text-xs italic">"$5,000-15,000 saved annually vs domestic manufacturing"</p>
+                    <p className="text-gray-500 text-xs italic">"Tiered volume pricing tailored for B2B collection launches"</p>
                   </li>
                   <li>
                     <p className="text-navy font-bold text-sm">Quality Match</p>
@@ -225,7 +225,7 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
                 <div className="mt-8 pt-6 border-t border-gray-200 grid grid-cols-2 gap-6">
                   <div>
                     <p className="text-[10px] text-gray-400 font-black uppercase mb-1">Shipping Timeline</p>
-                    <p className="text-xs font-bold text-navy">21-28d Production | 25-35d Ocean</p>
+                    <p className="text-xs font-bold text-navy">Confirmed on Spec Review | Air &amp; Ocean Options</p>
                   </div>
                   <div>
                     <p className="text-[10px] text-gray-400 font-black uppercase mb-1">Payment</p>
@@ -359,7 +359,7 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
               </div>
               <h4 className="text-xl font-bold text-navy">Transparent Timelines</h4>
               <ul className="space-y-3 text-sm text-gray-500 font-medium">
-                <li className="flex justify-between"><span>Production</span> <span className="text-navy font-bold">21-28 days</span></li>
+                <li className="flex justify-between"><span>Production</span> <span className="text-navy font-bold">Confirmed on Spec Review</span></li>
                 <li className="flex justify-between"><span>Europe</span> <span className="text-navy font-bold">+18-25 days (Indicative Sea)</span></li>
                 <li className="flex justify-between"><span>USA</span> <span className="text-navy font-bold">+25-35 days</span></li>
                 <li className="flex justify-between"><span>Middle East</span> <span className="text-navy font-bold">+12-18 days</span></li>
@@ -386,10 +386,10 @@ const ExportMarketsPage: React.FC<Props> = ({ onNavigate }) => {
             </thead>
             <tbody className="divide-y divide-gray-100 font-medium text-navy">
               {[
-                { d: "Europe (EU)", s: "$150-300/CBM", e: "$5-8/kg", l: "18-25 days (Est. Sea)", p: "40% vs USA suppliers" },
-                { d: "USA", s: "$200-350/CBM", e: "$6-9/kg", l: "25-35 days", p: "45% vs domestic" },
-                { d: "UAE/GCC", s: "$100-200/CBM", e: "$4-6/kg", l: "12-18 days", p: "30% vs Europe" },
-                { d: "Asia-Pacific", s: "$80-150/CBM", e: "$3-5/kg", l: "10-15 days", p: "35% vs regional" }
+                { d: "Europe (EU)", s: "$150-300/CBM (Ind.)", e: "$5-8/kg (Ind.)", l: "Project-Based", p: "Tiered EUR Pricing" },
+                { d: "USA", s: "$200-350/CBM (Ind.)", e: "$6-9/kg (Ind.)", l: "Project-Based", p: "Tiered USD Pricing" },
+                { d: "UAE/GCC", s: "$100-200/CBM (Ind.)", e: "$4-6/kg (Ind.)", l: "Project-Based", p: "Tiered AED Pricing" },
+                { d: "Asia-Pacific", s: "$80-150/CBM (Ind.)", e: "$3-5/kg (Ind.)", l: "Project-Based", p: "Volume Export Tiers" }
               ].map((row, i) => (
                 <tr key={i} className="hover:bg-gray-50 transition-colors">
                   <td className="p-6 font-black">{row.d}</td>

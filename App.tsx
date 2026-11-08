@@ -12,6 +12,7 @@ import QualityCertifications from './components/QualityCertifications.tsx';
 import Footer from './components/Footer.tsx';
 import LeadCaptureModal from './components/LeadCaptureModal.tsx';
 import WhatsAppFloatingCTA from './components/WhatsAppFloatingCTA.tsx';
+import { applyClientSeoMetadata } from './utils/seoMetadata.ts';
 
 // Code-split secondary routes and heavy below-the-fold RFQ form to keep initial homepage bundle fast (<300 kB)
 const Contact = lazy(() => import('./components/Contact.tsx'));
@@ -129,6 +130,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    applyClientSeoMetadata(VIEW_TO_PATH[currentView] || window.location.pathname, currentView);
   }, [currentView]);
 
   // Authenticate solely via server-issued HttpOnly session cookie

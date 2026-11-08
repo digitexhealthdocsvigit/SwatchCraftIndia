@@ -9,6 +9,24 @@
   ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/about", "destination": "/about/index.html" },
+    { "source": "/products", "destination": "/products/index.html" },
+    { "source": "/products/wallpaper-catalog-manufacturing", "destination": "/products/wallpaper-catalog-manufacturing/index.html" },
+    { "source": "/products/upholstery-swatch-books", "destination": "/products/upholstery-swatch-books/index.html" },
+    { "source": "/products/curtain-fabric-albums", "destination": "/products/curtain-fabric-albums/index.html" },
+    { "source": "/products/waterfall-swatch-cards", "destination": "/products/waterfall-swatch-cards/index.html" },
+    { "source": "/products/fabric-hanger-swatches", "destination": "/products/fabric-hanger-swatches/index.html" },
+    { "source": "/products/ring-swatch-sets", "destination": "/products/ring-swatch-sets/index.html" },
+    { "source": "/products/sample-cards", "destination": "/products/sample-cards/index.html" },
+    { "source": "/manufacturing-process", "destination": "/manufacturing-process/index.html" },
+    { "source": "/export-markets", "destination": "/export-markets/index.html" },
+    { "source": "/portfolio", "destination": "/portfolio/index.html" },
+    { "source": "/pricing", "destination": "/pricing/index.html" },
+    { "source": "/blog", "destination": "/blog/index.html" },
+    { "source": "/contact", "destination": "/contact/index.html" },
+    { "source": "/privacy", "destination": "/privacy/index.html" },
+    { "source": "/terms", "destination": "/terms/index.html" },
+    { "source": "/admin", "destination": "/admin/index.html" },
+    { "source": "/admin/login", "destination": "/admin/login/index.html" }
   ]
 }

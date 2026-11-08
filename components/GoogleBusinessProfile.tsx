@@ -30,7 +30,7 @@ const GoogleBusinessProfile: React.FC<Props> = ({ onNavigate }) => {
     "JUL: 📚 Blog Post: Complete MOQ Pricing Guide - India vs China vs USA. What you need to know for profitability.",
     "AUG: 🎨 Design Tip: Professional swatch presentation increases customer confidence by 40%. Waterfall format = instant upgrade.",
     "SEP: 📦 Packaging Excellence: Our export packaging optimized for moisture protection. International standards compliant.",
-    "OCT: 🌍 New Market: Now shipping to 12+ countries. Your fabric samples, professionally presented, on time, every time.",
+    "OCT: 🌍 New Market: Serving international export markets with professionally presented fabric and wallpaper samples.",
     "NOV: 💰 Bulk Discount Alert: Orders over 2000 units qualify for additional 15% discount. Contact sales team.",
     "DEC: 🤝 Partnership Opportunity: White-label manufacturing available. Custom branding, your logo, our excellence."
   ];
